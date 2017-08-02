@@ -1,0 +1,12 @@
+        $expected = {{ method.getArguments.0 is defined ? (method.getArguments.0.generateValue | raw) : '' }};
+
+{% if method.getParentClass.isTrait %}
+        $property = (new \ReflectionClass(get_class($this->instance)))->getProperty('{{ method.getName [3:] | lcfirst }}');
+{% else %}
+        $property = (new \ReflectionClass({{ method.getParentClass.getName }}::class))->getProperty('{{ method.getName [3:] | lcfirst }}');
+{% endif %}
+        $property->setAccessible(true);
+
+        {{ annotation.getCall | raw }}$expected);
+
+        $this->assertEquals($expected, $property->getValue({{ method.getObjectToUse | raw }}));

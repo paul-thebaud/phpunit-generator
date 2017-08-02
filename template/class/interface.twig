@@ -1,0 +1,18 @@
+    /**
+     * The trait/abstract class instance to test
+     * @var {{ class.getName }} $instance
+     */
+    protected $instance;
+
+    /**
+     * Build the instance of {{ class.getName }}
+     */
+    protected function setUp()
+    {
+{% if (class.isTrait) %}
+        // @todo: Create an instance of a class that use {{ class.getName }}
+{% else %}
+        // @todo: Create an instance of a class that implements {{ class.getName }}
+{% endif %}
+        // $this->instance = new ...
+    }

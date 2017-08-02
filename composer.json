@@ -1,0 +1,53 @@
+{
+  "name": "paulthebaud/phpunit-generator",
+  "description": "A PHPUnit6 tests skeletons generator",
+  "version": "1.0.0",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Paul Thébaud",
+      "email": "paul.thebaud29@gmail.com"
+    }
+  ],
+  "keywords": [
+    "php",
+    "phpunit",
+    "generator",
+    "unit",
+    "test",
+    "tests"
+  ],
+  "bin": [
+    "phpunitgen"
+  ],
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^7.0",
+    "twig/twig": "^2.0",
+    "nikic/php-parser": "^3.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.0.8",
+    "squizlabs/php_codesniffer": "^2.8.1",
+    "satooshi/php-coveralls": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "PHPUnitGenerator\\": "src/PHPUnitGenerator/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "PHPUnitGenerator\\": "test/PHPUnitGenerator/"
+    }
+  },
+  "scripts": {
+    "cs-check": "php ./vendor/bin/phpcs",
+    "cs-fix": "php ./vendor/bin/phpcbf",
+    "phpunit" : "php ./vendor/bin/phpunit",
+    "test" : [
+      "@cs-check",
+      "@phpunit"
+    ]
+  }
+}

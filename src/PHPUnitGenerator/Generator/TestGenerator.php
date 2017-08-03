@@ -113,11 +113,13 @@ class TestGenerator implements TestGeneratorInterface
             );
         }
 
+        $testCode = $this->generate($this->read($inFile));
+
         if (! $this->fileExists(dirname($outFile), true)) {
             $this->mkDir(dirname($outFile));
         }
 
-        $this->write($outFile, $this->generate($this->read($inFile)));
+        $this->write($outFile, $testCode);
 
         Application::getPrinter()->success('Tests generated from "%s" to "%s"', $inFile, $outFile);
 

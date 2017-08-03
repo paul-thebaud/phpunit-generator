@@ -255,7 +255,7 @@ class CodeParser implements CodeParserInterface
                 $returnType = $statement->getReturnType();
                 if ($returnType instanceof NullableType) {
                     $returnType = $returnType->type;
-                    $methodModel->setCanBeNullReturn(true);
+                    $methodModel->setReturnNullable(true);
                 }
                 $methodModel->setReturnType($this->parseType($methodModel->getParentClass(), $returnType));
 
@@ -294,7 +294,7 @@ class CodeParser implements CodeParserInterface
                 $type = $statement->type;
                 if ($type instanceof NullableType) {
                     $type = $type->type;
-                    $argumentModel->setCanBeNull(true);
+                    $argumentModel->setNullable(true);
                 }
                 $argumentModel->setType($this->parseType($methodModel->getParentClass(), $type));
 

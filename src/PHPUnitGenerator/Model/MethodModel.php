@@ -55,9 +55,9 @@ class MethodModel implements MethodModelInterface
     private $returnType = TypeInterface::TYPE_MIXED;
 
     /**
-     * @var bool $canBeNullReturn Tells if the method return value can be null
+     * @var bool $returnNullable Tells if the method return value can be null
      */
-    private $canBeNullReturn = false;
+    private $returnNullable = false;
 
     /**
      * @var string $documentation The method documentation
@@ -169,17 +169,17 @@ class MethodModel implements MethodModelInterface
     /**
      * {@inheritdoc}
      */
-    public function getCanBeNullReturn(): bool
+    public function getReturnNullable(): bool
     {
-        return $this->canBeNullReturn;
+        return $this->returnNullable;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setCanBeNullReturn(bool $canBeNullReturn)
+    public function setReturnNullable(bool $returnNullable)
     {
-        $this->canBeNullReturn = $canBeNullReturn;
+        $this->returnNullable = $returnNullable;
 
         return $this;
     }

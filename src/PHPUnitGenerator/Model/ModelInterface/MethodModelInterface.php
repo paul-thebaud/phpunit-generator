@@ -118,16 +118,16 @@ interface MethodModelInterface
      *
      * @return bool
      */
-    public function getCanBeNullReturn(): bool;
+    public function getReturnNullable(): bool;
 
     /**
-     * Set the $canBeNullReturn boolean
+     * Set the $returnNullable boolean
      *
-     * @param bool $canBeNullReturn
+     * @param bool $returnNullable
      *
      * @return MethodModelInterface
      */
-    public function setCanBeNullReturn(bool $canBeNullReturn);
+    public function setReturnNullable(bool $returnNullable);
 
     /**
      * Get the method documentation if exists, else return null

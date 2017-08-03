@@ -4,7 +4,6 @@ namespace Test\PHPUnitGenerator\CLI\ColoredPrinter;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnitGenerator\CLI\ColoredPrinter;
-use PHPUnitGenerator\Config\Config;
 use PHPUnitGenerator\Config\ConfigInterface\ConfigInterface;
 
 /**
@@ -34,7 +33,7 @@ class ColoredPrinterTest extends TestCase
      */
     protected function setUp()
     {
-        $this->config = $this->createMock(Config::class);
+        $this->config = $this->createMock(ConfigInterface::class);
 
         $this->instance = new ColoredPrinter($this->config);
 

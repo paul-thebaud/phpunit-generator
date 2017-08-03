@@ -56,8 +56,8 @@ try {
 In PHP code usage, you can also add options when constructing you TestGenerator instance:
 
 * __auto__: Add this option if you want to automaticaly generate tests for getter / setter method.
-* __template-folder__: The template folder for twig renderer (it will search "class.twig" in it).
-* __debug__: If you want some to allow debug information (only available for twig debug).
+* __template-folder__: The template folder for Twig renderer (it will search "class.twig" in it).
+* __debug__: If you want to allow debug on Twig renderer.
 
 ### Documentation parsing and annotations
 

@@ -55,7 +55,7 @@ class TwigTestRenderer implements TestRendererInterface
         // Create the FileSystemLoader
         $templateFolder = $this->config->getOption(ConfigInterface::OPTION_TWIG_TEMPLATE_FOLDER) ??
             self::DEFAULT_TEMPLATE_FOLDER;
-        $loader = new FilesystemLoader($templateFolder);
+        $loader = $this->getFilesystemLoader($templateFolder);
 
         // Create twig configuration
         $twigConfig['cache'] = false;
@@ -83,5 +83,17 @@ class TwigTestRenderer implements TestRendererInterface
         return $this->twig->render('class.twig', [
             'class' => $classModel
         ]);
+    }
+
+    /**
+     * Construct a new instance of FilesystemLoader
+     *
+     * @param array|string $path
+     *
+     * @return FilesystemLoader
+     */
+    protected function getFilesystemLoader($path): FilesystemLoader
+    {
+        return new FilesystemLoader($path);
     }
 }

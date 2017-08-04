@@ -40,9 +40,9 @@ class MethodModel implements MethodModelInterface
     private $visibility = self::VISIBILITY_PUBLIC;
 
     /**
-     * @var string $modifier The method modifier
+     * @var string[] $modifiers The method modifier
      */
-    private $modifier = ModifierInterface::MODIFIER_NONE;
+    private $modifiers = [];
 
     /**
      * @var ArgumentModelInterface[] $arguments The method arguments
@@ -115,19 +115,32 @@ class MethodModel implements MethodModelInterface
     /**
      * {@inheritdoc}
      */
-    public function getModifier(): string
+    public function getModifiers(): array
     {
-        return $this->modifier;
+        return $this->modifiers;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setModifier(string $modifier)
+    public function setModifiers(array $modifiers)
     {
-        $this->modifier = $modifier;
+        $this->modifiers = $modifiers;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasModifier(string $modifier): bool
+    {
+        foreach ($this->getModifiers() as $currentModifier) {
+            if ($modifier === $currentModifier) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -257,7 +270,7 @@ class MethodModel implements MethodModelInterface
      */
     public function isAbstract(): bool
     {
-        return ModifierInterface::MODIFIER_ABSTRACT === $this->getModifier();
+        return $this->hasModifier(ModifierInterface::MODIFIER_ABSTRACT);
     }
 
     /**
@@ -265,7 +278,7 @@ class MethodModel implements MethodModelInterface
      */
     public function isStatic(): bool
     {
-        return ModifierInterface::MODIFIER_STATIC === $this->getModifier();
+        return $this->hasModifier(ModifierInterface::MODIFIER_STATIC);
     }
 
     /**
@@ -298,11 +311,7 @@ class MethodModel implements MethodModelInterface
     {
         $arguments = [];
         foreach ($this->getArguments() as $argument) {
-            try {
-                $arguments[] = FixedValueGenerator::generateValue($argument->getType());
-            } catch (InvalidTypeException $exception) {
-                $arguments[] = '/** @todo: A callable value */';
-            }
+            $arguments[] = $argument->generateValue();
         }
         return implode(', ', $arguments);
     }

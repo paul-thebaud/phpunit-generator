@@ -22,11 +22,6 @@ namespace PHPUnitGenerator\Model\ModelInterface;
 interface ModifierInterface
 {
     /**
-     * @var string MODIFIER_NONE None modifier
-     */
-    const MODIFIER_NONE = '';
-
-    /**
      * @var string MODIFIER_STATIC The modifier "static"
      */
     const MODIFIER_STATIC = 'static';

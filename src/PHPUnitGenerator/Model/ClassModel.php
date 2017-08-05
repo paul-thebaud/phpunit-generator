@@ -111,7 +111,7 @@ class ClassModel implements ClassModelInterface
     /**
      * {@inheritdoc}
      */
-    public function getModifier(): string
+    public function getModifier()
     {
         return $this->modifier;
     }

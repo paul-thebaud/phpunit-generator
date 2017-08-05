@@ -101,7 +101,9 @@ class CodeParser implements CodeParserInterface
 
         // Create class model
         $classModel = new ClassModel($classStatement->name);
-        $classModel->setNamespaceName($namespaceName);
+        if ($namespaceName) {
+            $classModel->setNamespaceName($namespaceName);
+        }
         if ($classStatement instanceof Class_) {
             if ($classStatement->isFinal()) {
                 $classModel->setModifier(ModifierInterface::MODIFIER_FINAL);

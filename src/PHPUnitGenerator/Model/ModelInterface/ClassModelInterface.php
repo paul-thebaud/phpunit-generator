@@ -83,7 +83,7 @@ interface ClassModelInterface
      *
      * @return string
      */
-    public function getModifier(): string;
+    public function getModifier();
 
     /**
      * Set the class modifier

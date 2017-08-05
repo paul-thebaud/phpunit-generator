@@ -37,9 +37,9 @@ class ArgumentModel implements ArgumentModelInterface
     private $type = TypeInterface::TYPE_MIXED;
 
     /**
-     * @var bool $canBeNull Tells if the method return value can be null
+     * @var bool $nullable Tells if the method return value can be null
      */
-    private $canBeNull = false;
+    private $nullable = false;
 
     /**
      * @var MethodModelInterface $method The argument parent method
@@ -87,17 +87,17 @@ class ArgumentModel implements ArgumentModelInterface
     /**
      * {@inheritdoc}
      */
-    public function getCanBeNull(): bool
+    public function getNullable(): bool
     {
-        return $this->canBeNull;
+        return $this->nullable;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setCanBeNull(bool $canBeNull)
+    public function setNullable(bool $nullable)
     {
-        $this->canBeNull = $canBeNull;
+        $this->nullable = $nullable;
 
         return $this;
     }

@@ -62,21 +62,30 @@ interface MethodModelInterface
     public function setVisibility(string $visibility);
 
     /**
-     * Get the method modifier as a string
+     * Get the method modifiers as a string array
      * (presents in ModifierInterface constants named MODIFIER_<type>)
      *
-     * @return string
+     * @return string[]
      */
-    public function getModifier(): string;
+    public function getModifiers(): array;
 
     /**
-     * Set the method modifier
+     * Set the method modifiers
      *
-     * @param string $modifier
+     * @param string[] $modifiers
      *
      * @return MethodModelInterface
      */
-    public function setModifier(string $modifier);
+    public function setModifiers(array $modifiers);
+
+    /**
+     * Check if the method has a specific modifier
+     *
+     * @param string $modifier
+     *
+     * @return bool
+     */
+    public function hasModifier(string $modifier): bool;
 
     /**
      * Get the method arguments
@@ -118,16 +127,16 @@ interface MethodModelInterface
      *
      * @return bool
      */
-    public function getCanBeNullReturn(): bool;
+    public function getReturnNullable(): bool;
 
     /**
-     * Set the $canBeNullReturn boolean
+     * Set the $returnNullable boolean
      *
-     * @param bool $canBeNullReturn
+     * @param bool $returnNullable
      *
      * @return MethodModelInterface
      */
-    public function setCanBeNullReturn(bool $canBeNullReturn);
+    public function setReturnNullable(bool $returnNullable);
 
     /**
      * Get the method documentation if exists, else return null
@@ -220,7 +229,7 @@ interface MethodModelInterface
     public function generateValue(): string;
 
     /**
-     * Generate a values for the method arguments
+     * Generate values for the method arguments
      *
      * @return string
      */

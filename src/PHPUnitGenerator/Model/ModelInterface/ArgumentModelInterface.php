@@ -53,16 +53,16 @@ interface ArgumentModelInterface
      *
      * @return bool
      */
-    public function getCanBeNull(): bool;
+    public function getNullable(): bool;
 
     /**
-     * Set the $canBeNull boolean
+     * Set the $nullable boolean
      *
-     * @param bool $canBeNull
+     * @param bool $nullable
      *
      * @return ArgumentModelInterface
      */
-    public function setCanBeNull(bool $canBeNull);
+    public function setNullable(bool $nullable);
 
     /**
      * Get the method which uses this argument

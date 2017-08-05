@@ -1,0 +1,20 @@
+language: php
+dist: trusty
+sudo: false
+
+# PHP versions to tests
+php:
+- 7.0
+- 7.1
+# Composer install
+install:
+  - travis_retry composer install --no-interaction
+# Make unit tests log directory
+before_script:
+  - mkdir -p build/logs
+# Unit tests
+script:
+  - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+# Upload results on Coveralls
+after_success:
+  - sh -c 'php vendor/bin/coveralls -v;'

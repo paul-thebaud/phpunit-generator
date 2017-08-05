@@ -42,7 +42,7 @@ class ClassModel implements ClassModelInterface
     /**
      * @var string $modifier The class modifier
      */
-    private $modifier = ModifierInterface::MODIFIER_NONE;
+    private $modifier = null;
 
     /**
      * @var string[] $properties The class properties

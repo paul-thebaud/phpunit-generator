@@ -235,13 +235,16 @@ class CodeParser implements CodeParserInterface
                 }
 
                 // Get method modifier
+                $modifiers = [];
                 if ($statement->isStatic()) {
-                    $methodModel->setModifier(ModifierInterface::MODIFIER_STATIC);
-                } elseif ($statement->isFinal()) {
-                    $methodModel->setModifier(ModifierInterface::MODIFIER_FINAL);
-                } elseif ($statement->isAbstract()) {
-                    $methodModel->setModifier(ModifierInterface::MODIFIER_ABSTRACT);
+                    $modifiers[] = ModifierInterface::MODIFIER_STATIC;
                 }
+                if ($statement->isFinal()) {
+                    $modifiers[] = ModifierInterface::MODIFIER_FINAL;
+                } elseif ($statement->isAbstract()) {
+                    $modifiers[] = ModifierInterface::MODIFIER_ABSTRACT;
+                }
+                $methodModel->setModifiers($modifiers);
 
                 // Get method arguments
                 $methodModel->setArguments(
@@ -255,7 +258,7 @@ class CodeParser implements CodeParserInterface
                 $returnType = $statement->getReturnType();
                 if ($returnType instanceof NullableType) {
                     $returnType = $returnType->type;
-                    $methodModel->setCanBeNullReturn(true);
+                    $methodModel->setReturnNullable(true);
                 }
                 $methodModel->setReturnType($this->parseType($methodModel->getParentClass(), $returnType));
 
@@ -294,7 +297,7 @@ class CodeParser implements CodeParserInterface
                 $type = $statement->type;
                 if ($type instanceof NullableType) {
                     $type = $type->type;
-                    $argumentModel->setCanBeNull(true);
+                    $argumentModel->setNullable(true);
                 }
                 $argumentModel->setType($this->parseType($methodModel->getParentClass(), $type));
 

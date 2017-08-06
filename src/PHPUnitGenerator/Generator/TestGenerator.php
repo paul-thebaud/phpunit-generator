@@ -121,7 +121,7 @@ class TestGenerator implements TestGeneratorInterface
 
         $this->write($outFile, $testCode);
 
-        Application::getPrinter()->success('Tests generated from "%s" to "%s"', $inFile, $outFile);
+        Application::getPrinter()->info('"%s" tests generated', $inFile, $outFile);
 
         return 1;
     }

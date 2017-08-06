@@ -10,11 +10,11 @@ __DO NOT USE THIS PACKAGE WITHOUT CHECKING GENERATED TESTS!__
 
 You must check and complete all tests you generate, including the most basic methods.
 
-Files to parse must declare __ONE__ class, abstract class, trait or interface to be accept.
+Files to parse must declare __ONE__ class, abstract class, trait or interface to be accepted.
 
 ### Basic usage
 
-You can go to [Example folder](example/) to see concrete examples.
+You can go to [Examples folder](examples/) to see concrete examples.
 
 #### CLI (Command Line Interface)
 
@@ -36,6 +36,14 @@ There is a few available options:
 * __include__ `--include=<regex>`: A PHP regex (/.*.php/ for example) that files should match to have a tests generation.
 * __exclude__ `--exclude=<regex>`: A PHP regex (/.*config.php/ for example) that files must not match to have a tests generation.
 
+#### Online
+
+PHPUnit Generator has a website which allows you to parse / edit / download your files / tests:
+
+[phpunit-generator.herokuapp.com](https://phpunit-generator.herokuapp.com/).
+
+__NB__: This web application has it own documentation.
+
 #### Custom PHP Code
 
 ```php
@@ -56,8 +64,6 @@ try {
 In PHP code usage, you can also add options when constructing you TestGenerator instance:
 
 * __auto__: Add this option if you want to automaticaly generate tests for getter / setter method.
-* __template-folder__: The template folder for Twig renderer (it will search "class.twig" in it).
-* __debug__: If you want to allow debug on Twig renderer.
 
 ### Documentation parsing and annotations
 
@@ -116,12 +122,16 @@ $this->AssertNull($this->method());
 ```
 
 Those two annotations will allow you to auto-generate tests for simple getter / setter.
-You getter / setter needs to be named like the following:
+Your getter / setter needs to be named like the following:
 
 ```
 get<MyProperty>() {}
 set<MyProperty>() {}
 ```
+
+__NB__: PHPUnit Generator has an "auto" option: If you activate it, 
+it will search for the property when it find a method beginning 
+with "get" or "set", and if the property exists, it will generate tests.
 
 #### Private or protected method
 

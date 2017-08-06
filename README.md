@@ -14,10 +14,11 @@ It can also follow some annotations you can write in your methods documentation.
 
 ```
 build/          ==> The build result (unit tests)
+examples/       ==> The annotation usage and rendering examples
 src/            ==> The package source files
 template/       ==> The tests templates
 test/           ==> The package unit tests
-vendor/         ==> The dependencies
+vendor/         ==> The composer dependencies
 ```
 
 ## Install
@@ -30,10 +31,13 @@ $ composer require paulthebaud/phpunit-generator
 
 ## Usage
 
-
 ```bash
 $ php ./vendor/bin/phpunitgen <source_dir> <target_dir> [--option1 --option2]
 ```
+
+Or maybe online:
+
+[phpunit-generator.herokuapp.com](https://phpunit-generator.herokuapp.com/).
 
 Or maybe with a PHP code:
 

@@ -23,18 +23,11 @@ class TwigTestRendererTest extends TestCase
     protected $instance;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $config;
-
-    /**
      * Build the instance of TwigTestRenderer
      */
     protected function setUp()
     {
-        $this->config = $this->createMock(ConfigInterface::class);
-
-        $this->instance = new TwigTestRenderer($this->config);
+        $this->instance = new TwigTestRenderer();
     }
 
     /**
@@ -44,40 +37,12 @@ class TwigTestRendererTest extends TestCase
     {
         $propertyTwig = (new \ReflectionClass(TwigTestRenderer::class))->getProperty('twig');
         $propertyTwig->setAccessible(true);
-        $propertyConfig = (new \ReflectionClass(TwigTestRenderer::class))->getProperty('config');
-        $propertyConfig->setAccessible(true);
 
-        $mock = $this->getMockBuilder(TwigTestRenderer::class)
-            ->setMethods(['getFilesystemLoader'])
-            ->setConstructorArgs([$this->config])
-            ->getMock();
-        $mock->expects($this->exactly(2))->method('getFilesystemLoader')
-            ->withConsecutive([TwigTestRenderer::DEFAULT_TEMPLATE_FOLDER], ['/custom/dir'])
-            ->willReturn($this->createMock(FilesystemLoader::class));
-
-        $this->config = new Config([]);
-
-        // Without a custom configuration
-        $mock->__construct($this->config);
-        $this->assertEquals($this->config, $propertyConfig->getValue($mock));
-        $twig = $propertyTwig->getValue($mock);
+        $twig = $propertyTwig->getValue($this->instance);
         $this->assertInstanceOf(Environment::class, $twig);
-        $this->assertFalse($twig->hasExtension(\Twig_Extension_Debug::class));
+        $this->assertFalse($twig->isDebug());
         $this->assertFalse($twig->getCache());
-        $this->assertNotNull($twig->getFilter('lcfirst'));
-
-        $this->config = new Config([
-            ConfigInterface::OPTION_TWIG_TEMPLATE_FOLDER => '/custom/dir',
-            ConfigInterface::OPTION_TWIG_DEBUG           => true,
-        ]);
-
-        // With a custom configuration
-        $mock->__construct($this->config);
-        $this->assertEquals($this->config, $propertyConfig->getValue($mock));
-        $twig = $propertyTwig->getValue($mock);
-        $this->assertInstanceOf(Environment::class, $twig);
-        $this->assertTrue($twig->hasExtension(\Twig_Extension_Debug::class));
-        $this->assertFalse($twig->getCache());
+        $this->assertEquals(TwigTestRenderer::DEFAULT_TEMPLATE_FOLDER, $twig->getLoader()->getPaths()[0]);
         $this->assertNotNull($twig->getFilter('lcfirst'));
     }
 
@@ -98,5 +63,17 @@ class TwigTestRendererTest extends TestCase
             ->willReturn('render');
 
         $this->assertEquals('render', $this->instance->render($classModel));
+    }
+
+    /**
+     * @covers \PHPUnitGenerator\Renderer\TwigTestRenderer::getFilesystemLoader()
+     */
+    public function testGetFilesystemLoader()
+    {
+        $method = (new \ReflectionClass(TwigTestRenderer::class))->getMethod('getFilesystemLoader');
+        $method->setAccessible(true);
+
+        $loader = $method->invoke($this->instance, TwigTestRenderer::DEFAULT_TEMPLATE_FOLDER);
+        $this->assertEquals(TwigTestRenderer::DEFAULT_TEMPLATE_FOLDER, $loader->getPaths()[0]);
     }
 }

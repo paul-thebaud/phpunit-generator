@@ -11,7 +11,6 @@
 
 namespace PHPUnitGenerator\Renderer;
 
-use PHPUnitGenerator\Config\ConfigInterface\ConfigInterface;
 use PHPUnitGenerator\Model\ModelInterface\ClassModelInterface;
 use PHPUnitGenerator\Renderer\RendererInterface\TestRendererInterface;
 use Twig\Environment;
@@ -34,45 +33,30 @@ class TwigTestRenderer implements TestRendererInterface
     const DEFAULT_TEMPLATE_FOLDER = __DIR__ . '/../../../template';
 
     /**
-     * @var ConfigInterface $config
-     */
-    protected $config;
-
-    /**
      * @var \Twig\Environment $twig The template renderer
      */
     private $twig;
 
     /**
      * TwigTestRenderer constructor
-     *
-     * @param ConfigInterface $config
      */
-    public function __construct(ConfigInterface $config)
+    public function __construct()
     {
-        $this->config = $config;
-
         // Create the FileSystemLoader
-        $templateFolder = $this->config->getOption(ConfigInterface::OPTION_TWIG_TEMPLATE_FOLDER) ??
-            self::DEFAULT_TEMPLATE_FOLDER;
-        $loader = $this->getFilesystemLoader($templateFolder);
+        $loader = $this->getFilesystemLoader(self::DEFAULT_TEMPLATE_FOLDER);
 
         // Create twig configuration
         $twigConfig['cache'] = false;
         $twigConfig['debug'] = false;
-        if ($this->config->getOption(ConfigInterface::OPTION_TWIG_DEBUG) === true) {
-            $twigConfig['debug'] = true;
-        }
 
         // Create Twig renderer environment
-        $this->twig = new Environment($loader, $twigConfig);
+        $this->twig = new Environment($loader, [
+            'cache' => false,
+            'debug' => false
+        ]);
 
         // Add method lcfirst
         $this->twig->addFilter(new \Twig_SimpleFilter('lcfirst', 'lcfirst'));
-
-        if ($twigConfig['debug'] === true) {
-            $this->twig->addExtension(new \Twig_Extension_Debug());
-        }
     }
 
     /**

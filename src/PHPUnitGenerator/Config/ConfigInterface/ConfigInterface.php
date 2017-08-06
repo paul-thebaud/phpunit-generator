@@ -34,22 +34,6 @@ interface ConfigInterface
     const OPTION_NO_COLOR = 'no-color';
 
     /*
-     * Use the following options when you use TwigTestRenderer::__construct()
-     */
-
-    /**
-     * @var string OPTION_TWIG_TEMPLATE_FOLDER The twig template folder to use
-     *      to generate tests [string]
-     */
-    const OPTION_TWIG_TEMPLATE_FOLDER = 'template-folder';
-
-    /**
-     * @var string OPTION_TWIG_DEBUG Tells if twig should be in debug
-     *      mode [bool]
-     */
-    const OPTION_TWIG_DEBUG = 'debug';
-
-    /*
      * Use the following options when you use TestGenerator::writeFile()
      */
 

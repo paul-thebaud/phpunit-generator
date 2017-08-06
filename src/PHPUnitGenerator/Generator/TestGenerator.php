@@ -69,7 +69,7 @@ class TestGenerator implements TestGeneratorInterface
         // By default, set dependencies to default interface implementation
         $this->codeParser = new CodeParser();
         $this->documentationParser = new DocumentationParser($config);
-        $this->testRenderer = new TwigTestRenderer($config);
+        $this->testRenderer = new TwigTestRenderer();
     }
 
     /**

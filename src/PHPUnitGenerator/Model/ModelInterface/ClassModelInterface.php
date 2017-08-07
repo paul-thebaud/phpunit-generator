@@ -153,6 +153,22 @@ interface ClassModelInterface
      */
     public function hasMethod(string $name): bool;
 
+    /**
+     * Get the tests class PHPDoc annotations
+     *
+     * @return string[]
+     */
+    public function getTestsAnnotations(): array;
+
+    /**
+     * Get the tests class PHPDoc annotations
+     *
+     * @param string[] $testsAnnotations
+     *
+     * @return ClassModelInterface
+     */
+    public function setTestsAnnotations(array $testsAnnotations);
+
     /*
      **********************************************************************
      *

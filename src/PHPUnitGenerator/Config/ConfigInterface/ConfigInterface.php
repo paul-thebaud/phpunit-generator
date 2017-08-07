@@ -61,6 +61,11 @@ interface ConfigInterface
      */
     const OPTION_AUTO = 'auto';
 
+    /**
+     * @var string OPTION_DOC_AUTHOR The author PHPDoc tag content
+     */
+    const OPTION_DOC_AUTHOR = 'doc-author';
+
     /*
      * Use the following options when you use TestGenerator::writeDir()
      */

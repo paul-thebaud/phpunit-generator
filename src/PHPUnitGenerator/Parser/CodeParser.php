@@ -25,6 +25,7 @@ use PhpParser\Node\Stmt\Trait_;
 use PhpParser\Node\Stmt\Use_;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
+use PHPUnitGenerator\Config\ConfigInterface\ConfigInterface;
 use PHPUnitGenerator\Exception\EmptyFileException;
 use PHPUnitGenerator\Exception\InvalidCodeException;
 use PHPUnitGenerator\Exception\NoMethodFoundException;
@@ -50,6 +51,11 @@ use PHPUnitGenerator\Parser\ParserInterface\CodeParserInterface;
 class CodeParser implements CodeParserInterface
 {
     /**
+     * @var ConfigInterface $config
+     */
+    protected $config;
+
+    /**
      * @var Parser $phpParser The PHP code parser
      */
     private $phpParser;
@@ -63,8 +69,10 @@ class CodeParser implements CodeParserInterface
     /**
      * CodeParser constructor.
      */
-    public function __construct()
+    public function __construct(ConfigInterface $config)
     {
+        $this->config = $config;
+
         $this->phpParser = (new ParserFactory())
             ->create(ParserFactory::PREFER_PHP7);
     }
@@ -118,6 +126,13 @@ class CodeParser implements CodeParserInterface
 
         // Add "self" as an alias of class name to mappingClassNames
         $this->mappingClassNames['self'] = $classModel->getCompleteName();
+
+        // Add future tests documentation
+        $testsAnnotations = [];
+        if (! empty($author = $this->config->getOption(ConfigInterface::OPTION_DOC_AUTHOR))) {
+            $testsAnnotations['author'] = $author;
+        }
+        $classModel->setTestsAnnotations($testsAnnotations);
 
         // Parse class methods
         $classModel->setMethods(

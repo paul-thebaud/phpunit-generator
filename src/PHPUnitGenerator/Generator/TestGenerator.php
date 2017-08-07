@@ -67,7 +67,7 @@ class TestGenerator implements TestGeneratorInterface
         $this->config = $config;
 
         // By default, set dependencies to default interface implementation
-        $this->codeParser = new CodeParser();
+        $this->codeParser = new CodeParser($config);
         $this->documentationParser = new DocumentationParser($config);
         $this->testRenderer = new TwigTestRenderer();
     }
@@ -131,6 +131,10 @@ class TestGenerator implements TestGeneratorInterface
      */
     public function writeDir(string $inDir, string $outDir): int
     {
+        // Fix $outDir name
+        if (substr($outDir, -1) !== '\\' && substr($outDir, -1) !== '/') {
+            $outDir .= '/';
+        }
         // Check source dir
         if (! $this->fileExists($inDir, true)) {
             throw new DirNotFoundException(

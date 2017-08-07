@@ -55,6 +55,11 @@ class ClassModel implements ClassModelInterface
     private $methods = [];
 
     /**
+     * @var string[] $testsAnnotations The tests class annotations
+     */
+    private $testsAnnotations = [];
+
+    /**
      * ClassModel constructor.
      *
      * @param string $name
@@ -197,6 +202,22 @@ class ClassModel implements ClassModelInterface
             }
         }
         return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTestsAnnotations(): array
+    {
+        return $this->testsAnnotations;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setTestsAnnotations(array $testsAnnotations)
+    {
+        $this->testsAnnotations = $testsAnnotations;
     }
 
     /*

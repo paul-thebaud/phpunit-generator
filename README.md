@@ -68,6 +68,10 @@ $ composer test
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
+## Known issues
+
+* Issue with object type of method parameter because of PHP parsing cannot correctly identify object.
+
 ## Credits
 
 - [Paul Thébaud][link-author]

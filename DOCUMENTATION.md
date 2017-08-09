@@ -94,8 +94,9 @@ See this example, we want to auto generate some simple test for this method:
 <?php
 // The class to test content
 
-/** @PHPUnitGen\AssertFalse('expected string':{1, 2, 'a string'}) */
+/** @PHPUnitGen\AssertEquals('expected string':{1, 2, 'a string'}) */
 /** @PHPUnitGen\AssertTrue(:{4, 5, 'another'}) */
+/** @PHPUnitGen\AssertEquals(null) */
 /** @PHPUnitGen\AssertNull() */
 public function method(int $arg1 = 0, int $arg2 = 0, string $arg3 = 'default') {}
 ```
@@ -106,9 +107,10 @@ Those annotations will create basic PHPUnit tests:
 <?php
 // The generated test for "method" in tests class
 
-$this->AssertFalse('expectation string', $this->method(1, 2, 'a string'));
-$this->AssertTrue($this->method(4, 5, 'another'));
-$this->AssertNull($this->method());
+$this->assertEquals('expectation string', $this->method(1, 2, 'a string'));
+$this->assertTrue($this->method(4, 5, 'another'));
+$this->AssertEquals(null, $this->method());
+$this->assertNull($this->method());
 ```
 
 #### Getter and setter annotation

@@ -7,8 +7,8 @@ use {{ class.getCompleteName }};
 
 /**
  * Class {{ class.getName }}Test
-{% if class.getTestsAnnotations | length > 0 %}
  *
+{% if class.getTestsAnnotations | length > 0 %}
 {% for tag, value in class.getTestsAnnotations %}
  * @{{ tag }} {{ value | raw }}
 {% endfor %}

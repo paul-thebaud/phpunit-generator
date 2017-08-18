@@ -103,8 +103,10 @@ class AnnotationBaseModelTest extends TestCase
         $class->method('getName')->willReturn('MyClass');
 
         $method = $this->createMock(MethodModelInterface::class);
-        $method->method('isPublic')->willReturnOnConsecutiveCalls(false, false, true, true);
-        $method->method('isStatic')->willReturnOnConsecutiveCalls(false, true);
+        $method->method('isPublic')
+            ->willReturnOnConsecutiveCalls(false, false, false, false, true, true, true, true);
+        $method->method('isStatic')
+            ->willReturnOnConsecutiveCalls(false, true);
         $method->method('getObjectToUse')->willReturn('$this->instance');
         $method->method('getName')->willReturn('myMethod');
         $method->method('getParentClass')->willReturn($class);

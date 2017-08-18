@@ -2,7 +2,7 @@
   "name": "paulthebaud/phpunit-generator",
   "description": "A PHPUnit6 tests skeletons generator",
   "homepage": "https://github.com/paul-thebaud/phpunit-generator",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "license": "MIT",
   "authors": [
     {

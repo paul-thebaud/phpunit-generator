@@ -99,20 +99,7 @@ class AnnotationBaseModel extends AbstractAnnotationModel
      */
     public function getCall(): string
     {
-        if ($this->getParentMethod()->isPublic()) {
-            if ($this->getParentMethod()->isStatic()) {
-                return sprintf(
-                    '%s::%s(',
-                    $this->getParentMethod()->getParentClass()->getName(),
-                    $this->getParentMethod()->getName()
-                );
-            }
-            return sprintf(
-                '$this->instance->%s(',
-                $this->getParentMethod()->getName()
-            );
-        }
-        return sprintf('$method->invoke(%s', $this->getParentMethod()->getObjectToUse())
-            . ($this->arguments === null ? '' : ', ');
+        return parent::getCall()
+            . ($this->getParentMethod()->isPublic() || $this->arguments === null ? '' : ', ');
     }
 }

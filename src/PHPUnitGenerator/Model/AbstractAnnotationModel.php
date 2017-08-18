@@ -69,4 +69,28 @@ abstract class AbstractAnnotationModel implements AnnotationModelInterface
     {
         return $this->method;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCall(): string
+    {
+        if ($this->getParentMethod()->isPublic()) {
+            if ($this->getParentMethod()->isStatic()) {
+                return sprintf(
+                    '%s::%s(',
+                    $this->getParentMethod()->getParentClass()->getName(),
+                    $this->getParentMethod()->getName()
+                );
+            }
+            return sprintf(
+                '$this->instance->%s(',
+                $this->getParentMethod()->getName()
+            );
+        }
+        return sprintf(
+            '$method->invoke(%s',
+            $this->getParentMethod()->getObjectToUse()
+        );
+    }
 }

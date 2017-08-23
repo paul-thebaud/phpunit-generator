@@ -128,11 +128,7 @@ class CodeParser implements CodeParserInterface
         $this->mappingClassNames['self'] = $classModel->getCompleteName();
 
         // Add future tests documentation
-        $testsAnnotations = [];
-        if (! empty($author = $this->config->getOption(ConfigInterface::OPTION_DOC_AUTHOR))) {
-            $testsAnnotations['author'] = $author;
-        }
-        $classModel->setTestsAnnotations($testsAnnotations);
+        $classModel->setTestsAnnotations($this->getTestsAnnotations());
 
         // Parse class methods
         $classModel->setMethods(
@@ -225,6 +221,29 @@ class CodeParser implements CodeParserInterface
             }
         }
         return $properties;
+    }
+
+    /**
+     * Get the tests annotations from the configuration
+     *
+     * @return array
+     */
+    protected function getTestsAnnotations(): array
+    {
+        $testsAnnotations = [];
+        if (! empty($author = $this->config->getOption(ConfigInterface::OPTION_DOC_AUTHOR))) {
+            $testsAnnotations['author'] = $author;
+        }
+        if (! empty($copyright = $this->config->getOption(ConfigInterface::OPTION_DOC_COPYRIGHT))) {
+            $testsAnnotations['copyright'] = $copyright;
+        }
+        if (! empty($licence = $this->config->getOption(ConfigInterface::OPTION_DOC_LICENCE))) {
+            $testsAnnotations['licence'] = $licence;
+        }
+        if (! empty($since = $this->config->getOption(ConfigInterface::OPTION_DOC_SINCE))) {
+            $testsAnnotations['since'] = $since;
+        }
+        return $testsAnnotations;
     }
 
     /**

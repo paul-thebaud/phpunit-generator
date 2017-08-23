@@ -131,16 +131,21 @@ class DocumentationParser implements DocumentationParserInterface
     ): string {
         $openingCharCount = 0;
         $closingCharCount = 0;
+        $lastClosingCharIndex = 0;
         for ($i = 0; $i < strlen($content); $i++) {
             $openingCharCount += $content[$i] === $openingChar;
-            $closingCharCount += $content[$i] === $closingChar;
+            if ($content[$i] === $closingChar) {
+                $closingCharCount ++;
+                $lastClosingCharIndex = $i;
+            }
+
             if ($closingCharCount > $openingCharCount) {
-                return substr($content, 0, $i);
+                return substr($content, 1, $i - 1);
             }
         }
         if ($openingCharCount === 0) {
             return '';
         }
-        return $content;
+        return substr($content, 1, $lastClosingCharIndex - 1);
     }
 }

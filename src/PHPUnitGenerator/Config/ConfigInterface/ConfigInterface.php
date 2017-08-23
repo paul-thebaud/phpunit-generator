@@ -66,6 +66,21 @@ interface ConfigInterface
      */
     const OPTION_DOC_AUTHOR = 'doc-author';
 
+    /**
+     * @var string OPTION_DOC_COPYRIGHT The copyright PHPDoc tag content
+     */
+    const OPTION_DOC_COPYRIGHT = 'doc-copyright';
+
+    /**
+     * @var string OPTION_DOC_LICENCE The licence PHPDoc tag content
+     */
+    const OPTION_DOC_LICENCE = 'doc-licence';
+
+    /**
+     * @var string OPTION_DOC_SINCE The since PHPDoc tag content
+     */
+    const OPTION_DOC_SINCE = 'doc-since';
+
     /*
      * Use the following options when you use TestGenerator::writeDir()
      */

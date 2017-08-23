@@ -26,7 +26,7 @@ class AnnotationBaseModelTest extends TestCase
     {
         $this->instance = new AnnotationBaseModel(
             'AssertSomething',
-            '()',
+            '',
             $this->createMock(MethodModelInterface::class)
         );
     }
@@ -43,7 +43,7 @@ class AnnotationBaseModelTest extends TestCase
 
         $this->instance = new AnnotationBaseModel(
             'AssertSomething',
-            '("An expected value":{"arg1", "arg2"})',
+            '"An expected value":{"arg1", "arg2"}',
             $this->createMock(MethodModelInterface::class)
         );
 

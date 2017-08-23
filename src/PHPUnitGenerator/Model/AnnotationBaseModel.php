@@ -29,7 +29,7 @@ class AnnotationBaseModel extends AbstractAnnotationModel
     /**
      * @var string CONTENT_REGEX A regex to analyse annotation content
      */
-    const CONTENT_REGEX = '/\(((.|\s)*?)?(:\{((.|\s)*?){1}\})?\)/';
+    const CONTENT_REGEX = '/^((.|\s)*?)?(:\{((.|\s)*?){1}\})?$/';
 
     /**
      * @var string $methodName The PHPUnit method to use

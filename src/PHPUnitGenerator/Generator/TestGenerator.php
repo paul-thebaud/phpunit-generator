@@ -67,9 +67,9 @@ class TestGenerator implements TestGeneratorInterface
         $this->config = $config;
 
         // By default, set dependencies to default interface implementation
-        $this->codeParser = new CodeParser($config);
-        $this->documentationParser = new DocumentationParser($config);
-        $this->testRenderer = new TwigTestRenderer();
+        $this->setCodeParser(new CodeParser($config));
+        $this->setDocumentationParser(new DocumentationParser($config));
+        $this->setTestRenderer(new TwigTestRenderer());
     }
 
     /**
@@ -188,6 +188,47 @@ class TestGenerator implements TestGeneratorInterface
         return $count;
     }
 
+    /*
+     **********************************************************************
+     *
+     * Setters to use custom parsers and renderer if needed
+     *
+     **********************************************************************
+     */
+
+    /**
+     * @param CodeParserInterface $codeParser
+     */
+    public function setCodeParser(CodeParserInterface $codeParser)
+    {
+        $this->codeParser = $codeParser;
+    }
+
+    /**
+     * @param DocumentationParserInterface $documentationParser
+     */
+    public function setDocumentationParser(
+        DocumentationParserInterface $documentationParser
+    ) {
+        $this->documentationParser = $documentationParser;
+    }
+
+    /**
+     * @param TestRendererInterface $testRenderer
+     */
+    public function setTestRenderer(TestRendererInterface $testRenderer)
+    {
+        $this->testRenderer = $testRenderer;
+    }
+
+    /*
+     **********************************************************************
+     *
+     * Protected methods
+     *
+     **********************************************************************
+     */
+
     /**
      * Get the files of a directory and filter them
      *
@@ -199,9 +240,7 @@ class TestGenerator implements TestGeneratorInterface
     {
         $fileList = [];
 
-        $directory = new \RecursiveDirectoryIterator($dir);
-        $iterator = new \RecursiveIteratorIterator($directory);
-        $files = new \IteratorIterator($iterator);
+        $files = $this->getFilesIterator($dir);
 
         foreach ($files as $file) {
             /**
@@ -222,46 +261,19 @@ class TestGenerator implements TestGeneratorInterface
         return $fileList;
     }
 
-    /*
-     **********************************************************************
-     *
-     * Setters to use custom parsers and renderer if needed
-     *
-     **********************************************************************
-     */
-
     /**
-     * @param CodeParserInterface $codeParser
+     * Get the file iterator for a directory
+     *
+     * @param string $dir
+     *
+     * @return \IteratorIterator
      */
-    public function setCodeParser(CodeParserInterface $codeParser)
+    protected function getFilesIterator(string $dir): \IteratorIterator
     {
-        $this->codeParser = $codeParser;
+        $directory = new \RecursiveDirectoryIterator($dir);
+        $iterator = new \RecursiveIteratorIterator($directory);
+        return new \IteratorIterator($iterator);
     }
-
-    /**
-     * @param DocumentationParser $documentationParser
-     */
-    public function setDocumentationParser(
-        DocumentationParser $documentationParser
-    ) {
-        $this->documentationParser = $documentationParser;
-    }
-
-    /**
-     * @param TestGeneratorInterface $testRenderer
-     */
-    public function setTestRenderer(TestGeneratorInterface $testRenderer)
-    {
-        $this->testRenderer = $testRenderer;
-    }
-
-    /*
-     **********************************************************************
-     *
-     * Protected methods
-     *
-     **********************************************************************
-     */
 
     /**
      * Check if the file exists and if it is a file or a dir

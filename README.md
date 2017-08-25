@@ -83,12 +83,12 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/paulthebaud/phpunit-generator.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/paul-thebaud/phpunit-generator/master.svg?style=flat-square
-[ico-coveralls]: https://img.shields.io/coveralls/paul-thebaud/phpunit-generator/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/v/paulthebaud/phpunit-generator.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/paulthebaud/phpunit-generator.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/paulthebaud/phpunit-generator.svg
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg
+[ico-travis]: https://img.shields.io/travis/paul-thebaud/phpunit-generator/master.svg
+[ico-coveralls]: https://img.shields.io/coveralls/paul-thebaud/phpunit-generator/master.svg
+[ico-scrutinizer]: https://scrutinizer-ci.com/g/paul-thebaud/phpunit-generator/badges/quality-score.png?b=master
+[ico-downloads]: https://img.shields.io/packagist/dt/paulthebaud/phpunit-generator.svg
 
 [link-packagist]: https://packagist.org/packages/paulthebaud/phpunit-generator
 [link-travis]: https://travis-ci.org/paul-thebaud/phpunit-generator

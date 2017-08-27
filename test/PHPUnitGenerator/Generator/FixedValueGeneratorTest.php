@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\PHPUnitGenerator\Generator\FixedValueGenerator;
+namespace Test\PHPUnitGenerator\Generator;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnitGenerator\Exception\InvalidTypeException;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\PHPUnitGenerator\Config\Config;
+namespace Test\PHPUnitGenerator\Config;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnitGenerator\Config\Config;

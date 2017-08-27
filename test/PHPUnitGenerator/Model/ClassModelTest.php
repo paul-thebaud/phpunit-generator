@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\PHPUnitGenerator\Model\ClassModel;
+namespace Test\PHPUnitGenerator\Model;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnitGenerator\Model\ClassModel;

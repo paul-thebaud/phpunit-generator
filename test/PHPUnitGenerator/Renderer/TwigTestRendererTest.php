@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\PHPUnitGenerator\Renderer\TwigTestRenderer;
+namespace Test\PHPUnitGenerator\Renderer;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnitGenerator\Config\Config;

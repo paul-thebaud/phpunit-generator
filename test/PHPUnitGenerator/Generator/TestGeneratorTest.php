@@ -1,10 +1,11 @@
 <?php
 
-namespace Test\PHPUnitGenerator\Generator\TestGenerator;
+namespace Test\PHPUnitGenerator\Generator;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnitGenerator\Config\ConfigInterface\ConfigInterface;
 use PHPUnitGenerator\Exception\IsInterfaceException;
+use PHPUnitGenerator\FileSystem\FileSystemInterface\FileSystemInterface;
 use PHPUnitGenerator\Generator\TestGenerator;
 use PHPUnitGenerator\Model\ModelInterface\AnnotationModelInterface;
 use PHPUnitGenerator\Model\ModelInterface\ClassModelInterface;
@@ -49,20 +50,27 @@ class TestGeneratorTest extends TestCase
     protected $testRenderer;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $fileSystem;
+
+    /**
      * Build the instance of TestGenerator
      */
     protected function setUp()
     {
-        $this->codeParser = $this->createMock(CodeParserInterface::class);
+        $this->codeParser          = $this->createMock(CodeParserInterface::class);
         $this->documentationParser = $this->createMock(DocumentationParserInterface::class);
-        $this->testRenderer = $this->createMock(TestRendererInterface::class);
-        $this->config = $this->createMock(ConfigInterface::class);
+        $this->testRenderer        = $this->createMock(TestRendererInterface::class);
+        $this->fileSystem          = $this->createMock(FileSystemInterface::class);
+        $this->config              = $this->createMock(ConfigInterface::class);
 
         $this->instance = new TestGenerator($this->config);
 
         $this->instance->setCodeParser($this->codeParser);
         $this->instance->setDocumentationParser($this->documentationParser);
         $this->instance->setTestRenderer($this->testRenderer);
+        $this->instance->setFileSystem($this->fileSystem);
     }
 
     /**
@@ -90,8 +98,8 @@ class TestGeneratorTest extends TestCase
      */
     public function testGenerate()
     {
-        $methodModel1 = $this->createMock(MethodModelInterface::class);
-        $methodModel2 = $this->createMock(MethodModelInterface::class);
+        $methodModel1     = $this->createMock(MethodModelInterface::class);
+        $methodModel2     = $this->createMock(MethodModelInterface::class);
         $annotationModel1 = $this->createMock(AnnotationModelInterface::class);
         $annotationModel2 = $this->createMock(AnnotationModelInterface::class);
 
@@ -185,88 +193,5 @@ class TestGeneratorTest extends TestCase
         $this->instance->setTestRenderer($expected);
 
         $this->assertEquals($expected, $property->getValue($this->instance));
-    }
-
-    /**
-     * @covers \PHPUnitGenerator\Generator\TestGenerator::getFiles()
-     */
-    public function testGetFiles()
-    {
-        // @todo: Complete this test
-        $this->markTestIncomplete();
-    }
-
-    /**
-     * @covers \PHPUnitGenerator\Generator\TestGenerator::getFilesIterator()
-     */
-    public function testGetFilesIterator()
-    {
-        // @todo: Complete this test
-        $this->markTestIncomplete();
-    }
-
-    /**
-     * @covers \PHPUnitGenerator\Generator\TestGenerator::fileExists()
-     */
-    public function testFileExists()
-    {
-        $method = (new \ReflectionClass(TestGenerator::class))->getMethod('fileExists');
-        $method->setAccessible(true);
-
-        $this->assertTrue($method->invoke($this->instance, __FILE__));
-        $this->assertFalse($method->invoke($this->instance, __DIR__ . '/AFileThatDoesNotExists'));
-        $this->assertTrue($method->invoke($this->instance, __DIR__, true));
-        $this->assertFalse($method->invoke($this->instance, __DIR__ . '/ADirThatDoesNotExists', true));
-    }
-
-    /**
-     * @covers \PHPUnitGenerator\Generator\TestGenerator::mkDir()
-     */
-    public function testMkDir()
-    {
-        $method = (new \ReflectionClass(TestGenerator::class))->getMethod('mkDir');
-        $method->setAccessible(true);
-
-        $method->invoke($this->instance, __DIR__ . '/new/directories');
-        $this->assertDirectoryExists(__DIR__ . '/new');
-        $this->assertDirectoryExists(__DIR__ . '/new/directories');
-
-        // Clear
-        rmdir(__DIR__ . '/new/directories');
-        rmdir(__DIR__ . '/new');
-    }
-
-    /**
-     * @covers \PHPUnitGenerator\Generator\TestGenerator::write()
-     */
-    public function testWrite()
-    {
-        $method = (new \ReflectionClass(TestGenerator::class))->getMethod('write');
-        $method->setAccessible(true);
-
-        $method->invoke($this->instance, __DIR__ . '/new_file', 'Some content');
-        $this->assertFileExists(__DIR__ . '/new_file');
-        $this->assertEquals('Some content', file_get_contents(__DIR__ . '/new_file'));
-
-        $method->invoke($this->instance, __DIR__ . '/new_file', 'Some new content');
-        $this->assertFileExists(__DIR__ . '/new_file');
-        $this->assertEquals('Some new content', file_get_contents(__DIR__ . '/new_file'));
-
-        unlink(__DIR__ . '/new_file');
-    }
-
-    /**
-     * @covers \PHPUnitGenerator\Generator\TestGenerator::read()
-     */
-    public function testRead()
-    {
-        $method = (new \ReflectionClass(TestGenerator::class))->getMethod('read');
-        $method->setAccessible(true);
-
-        file_put_contents(__DIR__ . '/new_file', 'Some content');
-
-        $this->assertEquals('Some content', $method->invoke($this->instance, __DIR__ . '/new_file'));
-
-        unlink(__DIR__ . '/new_file');
     }
 }

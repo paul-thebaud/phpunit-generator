@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\PHPUnitGenerator\Model\AnnotationBaseModel;
+namespace Test\PHPUnitGenerator\Model;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnitGenerator\Model\AnnotationBaseModel;

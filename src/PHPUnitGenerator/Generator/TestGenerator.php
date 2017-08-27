@@ -13,12 +13,12 @@ namespace PHPUnitGenerator\Generator;
 
 use PHPUnitGenerator\CLI\Application;
 use PHPUnitGenerator\Config\ConfigInterface\ConfigInterface;
-use PHPUnitGenerator\Exception\DirNotFoundException;
 use PHPUnitGenerator\Exception\ExceptionInterface\ExceptionInterface;
 use PHPUnitGenerator\Exception\FileExistsException;
-use PHPUnitGenerator\Exception\FileNotFoundException;
 use PHPUnitGenerator\Exception\InvalidRegexException;
 use PHPUnitGenerator\Exception\IsInterfaceException;
+use PHPUnitGenerator\FileSystem\FileSystemInterface\FileSystemInterface;
+use PHPUnitGenerator\FileSystem\LocalFileSystem;
 use PHPUnitGenerator\Generator\GeneratorInterface\TestGeneratorInterface;
 use PHPUnitGenerator\Parser\CodeParser;
 use PHPUnitGenerator\Parser\DocumentationParser;
@@ -60,6 +60,11 @@ class TestGenerator implements TestGeneratorInterface
     protected $testRenderer;
 
     /**
+     * @var FileSystemInterface $fileSystem The file manager
+     */
+    protected $fileSystem;
+
+    /**
      * {@inheritdoc}
      */
     public function __construct(ConfigInterface $config)
@@ -67,9 +72,10 @@ class TestGenerator implements TestGeneratorInterface
         $this->config = $config;
 
         // By default, set dependencies to default interface implementation
-        $this->codeParser = new CodeParser($config);
-        $this->documentationParser = new DocumentationParser($config);
-        $this->testRenderer = new TwigTestRenderer();
+        $this->setCodeParser(new CodeParser($config));
+        $this->setDocumentationParser(new DocumentationParser($config));
+        $this->setTestRenderer(new TwigTestRenderer());
+        $this->setFileSystem(new LocalFileSystem());
     }
 
     /**
@@ -102,24 +108,17 @@ class TestGenerator implements TestGeneratorInterface
      */
     public function writeFile(string $inFile, string $outFile): int
     {
-        if (! $this->fileExists($inFile)) {
-            throw new FileNotFoundException(
-                sprintf(FileNotFoundException::TEXT, $inFile)
-            );
-        }
-        if ($this->fileExists($outFile) && true !== $this->config->getOption(ConfigInterface::OPTION_OVERWRITE)) {
-            throw new FileExistsException(
-                sprintf(FileExistsException::TEXT, $outFile)
-            );
+        if ($this->fileSystem->fileExists($outFile)
+            && true !== $this->config->getOption(ConfigInterface::OPTION_OVERWRITE)
+        ) {
+            throw new FileExistsException(sprintf(FileExistsException::TEXT, $outFile));
         }
 
-        $testCode = $this->generate($this->read($inFile));
+        $testCode = $this->generate($this->fileSystem->read($inFile));
 
-        if (! $this->fileExists(dirname($outFile), true)) {
-            $this->mkDir(dirname($outFile));
-        }
+        $this->fileSystem->mkDir(dirname($outFile));
 
-        $this->write($outFile, $testCode);
+        $this->fileSystem->write($outFile, $testCode);
 
         Application::getPrinter()->info('"%s" tests generated', $inFile, $outFile);
 
@@ -131,40 +130,27 @@ class TestGenerator implements TestGeneratorInterface
      */
     public function writeDir(string $inDir, string $outDir): int
     {
+        // Check regex validity
+        $this->checkRegexValidity(ConfigInterface::OPTION_INCLUDE);
+        $this->checkRegexValidity(ConfigInterface::OPTION_EXCLUDE);
+
         // Fix $outDir name
         if (substr($outDir, -1) !== '\\' && substr($outDir, -1) !== '/') {
             $outDir .= '/';
         }
-        // Check source dir
-        if (! $this->fileExists($inDir, true)) {
-            throw new DirNotFoundException(
-                sprintf(
-                    DirNotFoundException::TEXT,
-                    $inDir
-                )
-            );
-        }
-
-        // Check regex validity
-        if ($this->config->getOption(ConfigInterface::OPTION_INCLUDE) !== null
-            && @preg_match($this->config->getOption(ConfigInterface::OPTION_INCLUDE), '') === false
-        ) {
-            throw new InvalidRegexException(InvalidRegexException::TEXT);
-        }
-        if ($this->config->getOption(ConfigInterface::OPTION_EXCLUDE) !== null
-            && @preg_match($this->config->getOption(ConfigInterface::OPTION_EXCLUDE), '') === false
-        ) {
-            throw new InvalidRegexException(InvalidRegexException::TEXT);
-        }
 
         // Check target dir
-        if (! $this->fileExists($outDir, true)) {
-            $this->mkDir($outDir);
-        }
+        $this->fileSystem->mkDir($outDir);
+
+        $files = $this->fileSystem->filterFiles(
+            $this->fileSystem->getFiles($inDir),
+            $this->config->getOption(ConfigInterface::OPTION_INCLUDE),
+            $this->config->getOption(ConfigInterface::OPTION_EXCLUDE)
+        );
 
         // Foreach files
         $count = 0;
-        foreach ($this->getFiles($inDir) as $inFile) {
+        foreach ($files as $inFile) {
             $outFile = str_replace($inDir, $outDir, $inFile);
             $outFile = preg_replace('/.php$/', 'Test.php', $outFile);
 
@@ -188,40 +174,6 @@ class TestGenerator implements TestGeneratorInterface
         return $count;
     }
 
-    /**
-     * Get the files of a directory and filter them
-     *
-     * @param string $dir
-     *
-     * @return array
-     */
-    protected function getFiles(string $dir): array
-    {
-        $fileList = [];
-
-        $directory = new \RecursiveDirectoryIterator($dir);
-        $iterator = new \RecursiveIteratorIterator($directory);
-        $files = new \IteratorIterator($iterator);
-
-        foreach ($files as $file) {
-            /**
-             * @var \SplFileInfo $file
-             */
-            $file = $file->__toString();
-            // If it is a file and if path match include regex and does not match exclude regex
-            if ($this->fileExists($file)
-                && ($this->config->getOption(ConfigInterface::OPTION_INCLUDE) === null
-                    || preg_match($this->config->getOption(ConfigInterface::OPTION_INCLUDE), $file) > 0)
-                && ($this->config->getOption(ConfigInterface::OPTION_EXCLUDE) === null
-                    || preg_match($this->config->getOption(ConfigInterface::OPTION_EXCLUDE), $file) <= 0)
-            ) {
-                $fileList[] = $file;
-            }
-        }
-
-        return $fileList;
-    }
-
     /*
      **********************************************************************
      *
@@ -239,20 +191,28 @@ class TestGenerator implements TestGeneratorInterface
     }
 
     /**
-     * @param DocumentationParser $documentationParser
+     * @param DocumentationParserInterface $documentationParser
      */
     public function setDocumentationParser(
-        DocumentationParser $documentationParser
+        DocumentationParserInterface $documentationParser
     ) {
         $this->documentationParser = $documentationParser;
     }
 
     /**
-     * @param TestGeneratorInterface $testRenderer
+     * @param TestRendererInterface $testRenderer
      */
-    public function setTestRenderer(TestGeneratorInterface $testRenderer)
+    public function setTestRenderer(TestRendererInterface $testRenderer)
     {
         $this->testRenderer = $testRenderer;
+    }
+
+    /**
+     * @param FileSystemInterface $filesystem
+     */
+    public function setFileSystem(FileSystemInterface $filesystem)
+    {
+        $this->fileSystem = $filesystem;
     }
 
     /*
@@ -264,48 +224,18 @@ class TestGenerator implements TestGeneratorInterface
      */
 
     /**
-     * Check if the file exists and if it is a file or a dir
+     * Check the regex validity if set
      *
-     * @param string $file
-     * @param bool   $isDir
+     * @param string $optionName
      *
-     * @return bool
+     * @throws InvalidRegexException If a regex is invalid
      */
-    protected function fileExists(string $file, bool $isDir = false): bool
+    protected function checkRegexValidity(string $optionName)
     {
-        return file_exists($file) && (($isDir && is_dir($file)) || (! $isDir && is_file($file)));
-    }
-
-    /**
-     * Create a directory recursively
-     *
-     * @param string $dir
-     */
-    protected function mkDir(string $dir)
-    {
-        mkdir($dir, 0777, true);
-    }
-
-    /**
-     * Write the $content in the $file
-     *
-     * @param string $file
-     * @param string $content
-     */
-    protected function write(string $file, string $content)
-    {
-        file_put_contents($file, $content);
-    }
-
-    /**
-     * Read the content of a $file
-     *
-     * @param string $file
-     *
-     * @return string
-     */
-    protected function read(string $file)
-    {
-        return file_get_contents($file);
+        if ($this->config->getOption($optionName) !== null
+            && @preg_match($this->config->getOption($optionName), '') === false
+        ) {
+            throw new InvalidRegexException(InvalidRegexException::TEXT);
+        }
     }
 }

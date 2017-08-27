@@ -24,32 +24,32 @@ interface PrinterInterface
     /**
      * Print an error message
      *
-     * @param string $message
-     * @param array  ...$args
+     * @param string  $message
+     * @param mixed[] ...$args
      */
     public function error(string $message, ... $args);
 
     /**
      * Print a warning message
      *
-     * @param string $message
-     * @param array  ...$args
+     * @param string  $message
+     * @param mixed[] ...$args
      */
     public function warning(string $message, ... $args);
 
     /**
      * Print a success message
      *
-     * @param string $message
-     * @param array  ...$args
+     * @param string  $message
+     * @param mixed[] ...$args
      */
     public function success(string $message, ... $args);
 
     /**
      * Print an info message
      *
-     * @param string $message
-     * @param array  ...$args
+     * @param string  $message
+     * @param mixed[] ...$args
      */
     public function info(string $message, ... $args);
 }

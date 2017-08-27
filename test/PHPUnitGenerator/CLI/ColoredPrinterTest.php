@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\PHPUnitGenerator\CLI\ColoredPrinter;
+namespace Test\PHPUnitGenerator\CLI;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnitGenerator\CLI\ColoredPrinter;

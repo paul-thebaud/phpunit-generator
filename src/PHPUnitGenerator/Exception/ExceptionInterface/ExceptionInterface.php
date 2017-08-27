@@ -18,6 +18,6 @@ namespace PHPUnitGenerator\Exception\ExceptionInterface;
  *
  * @package PHPUnitGenerator\Exception\ExceptionInterface
  */
-interface ExceptionInterface
+interface ExceptionInterface extends \Throwable
 {
 }

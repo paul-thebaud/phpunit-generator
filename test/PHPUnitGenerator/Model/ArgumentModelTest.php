@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\PHPUnitGenerator\Model\ArgumentModel;
+namespace Test\PHPUnitGenerator\Model;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnitGenerator\Generator\FixedValueGenerator;

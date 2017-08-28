@@ -7,5 +7,3 @@ vendor/
 
 # Development
 build/
-phpcs\.xml
-phpunit\.xml

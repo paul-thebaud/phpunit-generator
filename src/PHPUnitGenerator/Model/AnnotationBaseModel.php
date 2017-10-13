@@ -59,7 +59,9 @@ class AnnotationBaseModel extends AbstractAnnotationModel
         $this->methodName = lcfirst($methodName);
 
         if (preg_match(self::CONTENT_REGEX, $content, $matches) > 0) {
-            $this->expected = empty($matches[1]) ? null : $matches[1];
+            $this->expected  = ! isset($matches[1])
+            || (empty($matches[1]) && $matches[1] !== "0" && $matches[1] !== 0) ?
+                null : $matches[1];
             $this->arguments = $matches[4] ?? null;
         }
     }

@@ -26,7 +26,7 @@ abstract class AbstractAnnotationModel implements AnnotationModelInterface
     /**
      * @var string $type The annotation type
      */
-    protected $type = self::TYPE_PHPUNIT_METHOD;
+    protected $type = AnnotationModelInterface::TYPE_PHPUNIT_METHOD;
 
     /**
      * @var MethodModelInterface The method which contains this annotation

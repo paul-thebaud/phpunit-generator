@@ -120,7 +120,7 @@ class TestGenerator implements TestGeneratorInterface
 
         $this->fileSystem->write($outFile, $testCode);
 
-        Application::getPrinter()->info('"%s" tests generated', $inFile, $outFile);
+        Application::getPrinter()->info('"%s" tests generated', $inFile);
 
         return 1;
     }
@@ -152,7 +152,7 @@ class TestGenerator implements TestGeneratorInterface
         $count = 0;
         foreach ($files as $inFile) {
             $outFile = str_replace($inDir, $outDir, $inFile);
-            $outFile = preg_replace('/.php$/', 'Test.php', $outFile);
+            $outFile = preg_replace('/(.php|.phtml)$/', '', $outFile) . 'Test.php';
 
             try {
                 $this->writeFile($inFile, $outFile);

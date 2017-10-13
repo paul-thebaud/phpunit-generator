@@ -93,36 +93,23 @@ class CodeParser implements CodeParserInterface
         $namespaceName = null;
         $namespaceStatement = $this->findNamespace($statements);
         // If namespace is defined, search in namespace statements
-        if ($namespaceStatement) {
+        if ($namespaceStatement !== null) {
             $statements = $namespaceStatement->stmts ?? [];
             $namespaceName = $namespaceStatement->name ? $namespaceStatement->name->toString() : null;
         }
 
-        // Map class names
-        $this->parseUseStatements($statements);
-
         // Parse class
-        $classStatement = $this->findClass($statements);
+        $classStatement = $this->findClassAndUses($statements);
         if (! $classStatement) {
             throw new EmptyFileException(EmptyFileException::TEXT);
         }
 
         // Create class model
         $classModel = new ClassModel($classStatement->name);
-        if ($namespaceName) {
+        if ($namespaceName !== null) {
             $classModel->setNamespaceName($namespaceName);
         }
-        if ($classStatement instanceof Class_) {
-            if ($classStatement->isFinal()) {
-                $classModel->setModifier(ModifierInterface::MODIFIER_FINAL);
-            } elseif ($classStatement->isAbstract()) {
-                $classModel->setModifier(ModifierInterface::MODIFIER_ABSTRACT);
-            }
-        } elseif ($classStatement instanceof Interface_) {
-            $classModel->setType(ClassModelInterface::TYPE_INTERFACE);
-        } elseif ($classStatement instanceof Trait_) {
-            $classModel->setType(ClassModelInterface::TYPE_TRAIT);
-        }
+        $classModel = $this->parseTypeAndModifier($classModel, $classStatement);
 
         // Add "self" as an alias of class name to mappingClassNames
         $this->mappingClassNames['self'] = $classModel->getCompleteName();
@@ -131,9 +118,7 @@ class CodeParser implements CodeParserInterface
         $classModel->setTestsAnnotations($this->getTestsAnnotations());
 
         // Parse class methods
-        $classModel->setMethods(
-            $this->parseMethods($classModel, $classStatement->stmts)
-        );
+        $classModel->setMethods($this->parseMethods($classModel, $classStatement->stmts));
 
         if (count($classModel->getMethods()) === 0) {
             throw new NoMethodFoundException(
@@ -167,40 +152,71 @@ class CodeParser implements CodeParserInterface
     }
 
     /**
-     * Get the class statement if exists, else return null
+     * Find class statement if exists, and parse uses statement
      *
-     * @param Node[] $statements
+     * @param array $statements
      *
      * @return Class_|Trait_|Interface_|null
      */
-    protected function findClass(array $statements)
+    protected function findClassAndUses(array $statements)
     {
+        $classStatement = null;
         foreach ($statements as $statement) {
-            if ($statement instanceof Class_ || $statement instanceof Trait_ || $statement instanceof Interface_) {
-                return $statement;
+            if ($statement instanceof Use_ && $statement->type === Use_::TYPE_NORMAL) {
+                $this->parseUseStatement($statement);
+            } else {
+                // No break, because uses statement can be after a class statement
+                $classStatement = $this->findClass($statement);
             }
+        }
+        return $classStatement;
+    }
+
+    /**
+     * Find class in statement if exists
+     *
+     * @param Node $statement
+     *
+     * @return Class_|Trait_|Interface_|null
+     */
+    protected function findClass(Node $statement)
+    {
+        if ($statement instanceof Class_ || $statement instanceof Trait_ || $statement instanceof Interface_) {
+            return $statement;
         }
         return null;
     }
 
     /**
-     * Map class names with complete class names (with namespace)
+     * Parse a "use" statement and save mapping between alias and class name
      *
-     * @param Node[] $statements
+     * @param Use_ $statement
      */
-    protected function parseUseStatements(array $statements)
+    protected function parseUseStatement(Use_ $statement)
     {
-        foreach ($statements as $statement) {
-            if ($statement instanceof Use_ && $statement->type === Use_::TYPE_NORMAL) {
-                foreach ($statement->uses as $use) {
-                    if ($use->alias) {
-                        $this->mappingClassNames[$use->alias] = $use->name->toString();
-                    } else {
-                        $this->mappingClassNames[$use->name->getLast()] = $use->name->toString();
-                    }
-                }
+        foreach ($statement->uses as $use) {
+            if ($use->alias) {
+                $this->mappingClassNames[$use->alias] = $use->name->toString();
+            } else {
+                $this->mappingClassNames[$use->name->getLast()] = $use->name->toString();
             }
         }
+    }
+
+    protected function parseTypeAndModifier(ClassModelInterface $classModel, Node $statement): ClassModelInterface
+    {
+        if ($statement instanceof Class_) {
+            if ($statement->isFinal()) {
+                $classModel->setModifier(ModifierInterface::MODIFIER_FINAL);
+            } elseif ($statement->isAbstract()) {
+                $classModel->setModifier(ModifierInterface::MODIFIER_ABSTRACT);
+            }
+        } elseif ($statement instanceof Interface_) {
+            $classModel->setType(ClassModelInterface::TYPE_INTERFACE);
+        } elseif ($statement instanceof Trait_) {
+            $classModel->setType(ClassModelInterface::TYPE_TRAIT);
+        }
+        return $classModel;
     }
 
     /**
@@ -215,10 +231,24 @@ class CodeParser implements CodeParserInterface
         $properties = [];
         foreach ($statements as $statement) {
             if ($statement instanceof Property) {
-                foreach ($statement->props as $property) {
-                    $properties[] = $property->name;
-                }
+                $properties[] = $this->parseProperty($statement);
             }
+        }
+        return $properties;
+    }
+
+    /**
+     * Parse a "property" statement to get all declared properties
+     *
+     * @param Property $statement
+     *
+     * @return array
+     */
+    protected function parseProperty(Property $statement): array
+    {
+        $properties = [];
+        foreach ($statement->props as $property) {
+            $properties[] = $property->name;
         }
         return $properties;
     }

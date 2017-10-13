@@ -1,6 +1,6 @@
 <?php
 
-namespace Test\{{ class.getNamespace }};
+namespace Test\{{ class.getNamespaceName }};
 
 use PHPUnit\Framework\TestCase;
 use {{ class.getCompleteName }};
@@ -13,7 +13,7 @@ use {{ class.getCompleteName }};
  * @{{ tag }} {{ value | raw }}
 {% endfor %}
 {% endif %}
- * @package \Test\{{ class.getCompleteName }}
+ * @package \Test\{{ class.getNamespaceName }}
  *
  * @covers \{{ class.getCompleteName }}
  */

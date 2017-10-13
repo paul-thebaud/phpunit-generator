@@ -17,7 +17,8 @@ use PHPUnitGenerator\Exception\FileNotFoundException;
 /**
  * Interface FileSystemInterface
  *
- *      Specifies which methods will contains a FileSystem
+ *      Specifies which methods will contains a FileSystem.
+ *      A FileSystem will allow to create / read / write on files / directories
  *
  * @package PHPUnitGenerator\FileSystem\FileSystemInterface
  */

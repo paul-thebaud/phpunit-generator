@@ -1,40 +1,23 @@
 #!/usr/bin/env php
 <?php
 
-// Check PHP version
-if (version_compare('7.0.0', PHP_VERSION, '>')) {
-    fwrite(
-        STDERR,
-        sprintf(
-            'This version of PHPUnit Generator is supported on PHP 7.0 and PHP 7.1.' . PHP_EOL .
-            'You are using PHP %s (%s).' . PHP_EOL,
-            PHP_VERSION,
-            PHP_BINARY
-        )
-    );
-    die(-1);
-}
+$loaded = false;
 
-// Search for Autoload
-foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/../vendor/autoload.php', __DIR__ . '/vendor/autoload.php') as $file) {
+foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/vendor/autoload.php') as $file) {
     if (file_exists($file)) {
-        define('PHPUNIT_GENERATOR_COMPOSER_INSTALL', $file);
+        require $file;
+        $loaded = true;
         break;
     }
 }
 
-// If no autoload found
-if (!defined('PHPUNIT_GENERATOR_COMPOSER_INSTALL')) {
-    fwrite(
-        STDERR,
-        'You need to set up the project dependencies using Composer:' . PHP_EOL . PHP_EOL .
-        '    composer install' . PHP_EOL . PHP_EOL .
-        'You can learn all about Composer on https://getcomposer.org/.' . PHP_EOL
+if (!$loaded) {
+    die(
+        'You need to set up the project dependencies using the following commands:' . PHP_EOL .
+        'wget http://getcomposer.org/composer.phar' . PHP_EOL .
+        'php composer.phar install' . PHP_EOL
     );
-    die(-1);
 }
 
-require PHPUNIT_GENERATOR_COMPOSER_INSTALL;
-
-// Launch app
-\PHPUnitGenerator\CLI\Application::run($argv);
+$application = new \PhpUnitGen\Console\Application();
+$application->run();

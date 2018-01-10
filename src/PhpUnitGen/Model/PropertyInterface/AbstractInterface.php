@@ -1,9 +1,9 @@
 <?php
 
-namespace PhpUnitGen\Configuration;
+namespace PhpUnitGen\Model\PropertyInterface;
 
 /**
- * Interface ConfigInterface.
+ * Interface AbstractInterface.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -11,10 +11,15 @@ namespace PhpUnitGen\Configuration;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface ConfigInterface
+interface AbstractInterface
 {
     /**
-     * @return bool True if interfaces need to be parsed too.
+     * @param bool $isAbstract The new abstract value to set.
      */
-    public function hasInterfaceParsing(): bool;
+    public function setIsAbstract(bool $isAbstract): void;
+
+    /**
+     * @return bool True if it is abstract.
+     */
+    public function isAbstract(): bool;
 }

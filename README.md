@@ -72,7 +72,22 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Known issues
 
-* Issue with object type of method parameter because of PHP parsing cannot correctly identify object.
+Notice that if you use class (or whatever) imports in namespace, you might have problems with
+parsed absolute class names.
+
+Look at this example:
+```php
+<?php
+
+namespace PhpUnitGen;
+
+use PhpUnitGen\Model; // Model is a "folder"
+
+function doSomething(SomeClass $obj) {}
+```
+
+In this example, PhpUnit Generator cannot know if `SomeClass` is in `PhpUnitGen` namespace or in `PhpUnitGen\Model`.
+By default, it will use the current namespace of the class (here it is `PhpUnitGen`).
 
 ## Credits
 

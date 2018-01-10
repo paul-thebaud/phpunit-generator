@@ -1,0 +1,12 @@
+{
+  "overwrite": true,
+  "interface": false,
+  "auto": true,
+  "ignore": true,
+  "exclude": "/.*config.php/",
+  "include": "/.*.php/",
+  "dirs": {
+    "src/PhpUnitGen/Configuration": "test/PhpUnitGen/Configuration",
+    "src/PhpUnitGen/Console": "test/PhpUnitGen/Console"
+  }
+}

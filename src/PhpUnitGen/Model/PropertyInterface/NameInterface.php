@@ -1,9 +1,9 @@
 <?php
 
-namespace PhpUnitGen\Configuration;
+namespace PhpUnitGen\Model\PropertyInterface;
 
 /**
- * Interface ConfigInterface.
+ * Interface NameInterface.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -11,10 +11,15 @@ namespace PhpUnitGen\Configuration;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface ConfigInterface
+interface NameInterface
 {
     /**
-     * @return bool True if interfaces need to be parsed too.
+     * @param string $name The new name to be set.
      */
-    public function hasInterfaceParsing(): bool;
+    public function setName(string $name): void;
+
+    /**
+     * @return string The current name.
+     */
+    public function getName(): string;
 }

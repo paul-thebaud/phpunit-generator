@@ -24,10 +24,12 @@
   ],
   "require": {
     "php": "~7.2",
+    "league/flysystem": "~1.0",
     "nikic/php-parser": "~3.0",
-    "twig/twig": "~2.0",
     "symfony/console": "~4.0",
-    "league/flysystem": "^1.0"
+    "symfony/yaml": "~4.0",
+    "twig/twig": "~2.0",
+    "psr/container": "~1.0.0"
   },
   "require-dev": {
     "phpunit/phpunit": "~6.0",
@@ -47,8 +49,8 @@
   "scripts": {
     "cs-check": "php ./vendor/bin/phpcs",
     "cs-fix": "php ./vendor/bin/phpcbf",
-    "phpunit" : "php ./vendor/bin/phpunit",
-    "test" : [
+    "phpunit": "php ./vendor/bin/phpunit",
+    "test": [
       "@cs-check",
       "@phpunit"
     ]

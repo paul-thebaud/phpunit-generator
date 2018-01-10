@@ -2,6 +2,7 @@
 
 namespace PhpUnitGen\Console;
 
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application as AbstractApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,13 +19,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Application extends AbstractApplication
 {
     /**
-     * {@inheritdoc}
+     * Application constructor.
+     *
+     * @param ContainerInterface $container A container to manage dependencies.
      */
-    public function __construct()
+    public function __construct(ContainerInterface $container)
     {
         parent::__construct('phpunitgen', '2.0.0');
 
-        $this->add(new GenerateTestsCommand());
+        $this->add(new GenerateTestsCommand($container));
     }
 
     /**
@@ -32,8 +35,7 @@ class Application extends AbstractApplication
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        if (! $input->hasParameterOption('--quiet') &&
-            ! $input->hasParameterOption('--q')) {
+        if (! $output->isQuiet()) {
             $output->writeln(sprintf(
                 "phpunitgen %s by Paul Thébaud.\n\n",
                 $this->getVersion()

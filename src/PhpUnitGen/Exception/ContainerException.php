@@ -1,9 +1,11 @@
 <?php
 
-namespace PhpUnitGen\Configuration;
+namespace PhpUnitGen\Exception;
+
+use Psr\Container\ContainerExceptionInterface;
 
 /**
- * Interface ConfigInterface.
+ * Class ContainerException.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -11,10 +13,6 @@ namespace PhpUnitGen\Configuration;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface ConfigInterface
+class ContainerException extends Exception implements ContainerExceptionInterface
 {
-    /**
-     * @return bool True if interfaces need to be parsed too.
-     */
-    public function hasInterfaceParsing(): bool;
 }

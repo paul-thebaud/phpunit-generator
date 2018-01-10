@@ -89,7 +89,12 @@ class GenerateTestsCommand extends Command
         // Load the ConfigInterface dependency
         $this->container = $this->dependencyInjector->inject($config, $this->container);
 
+        // Add output
+        $this->container->setInstance(OutputInterface::class, $output);
+
         $this->directoryParser = $this->container->get(DirectoryParserInterface::class);
+
+        /** @todo Extract this in another class */
 
         $directoryModels = [];
         foreach ($config->getDirectories() as $sourceDirectory => $targetDirectory) {

@@ -2,14 +2,16 @@
 
 namespace PhpUnitGen\Parser;
 
+use League\Flysystem\AdapterInterface;
 use League\Flysystem\FilesystemInterface;
 use PhpUnitGen\Configuration\ConsoleConfigInterface;
-use PhpUnitGen\Exception\InvalidArgumentException;
 use PhpUnitGen\Exception\ParsingException;
 use PhpUnitGen\Model\DirectoryModel;
 use PhpUnitGen\Model\ModelInterface\DirectoryModelInterface;
 use PhpUnitGen\Parser\ParserInterface\DirectoryParserInterface;
 use PhpUnitGen\Parser\ParserInterface\PhpFileParserInterface;
+use Respect\Validation\Validator;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class DirectoryParser.
@@ -38,20 +40,28 @@ class DirectoryParser implements DirectoryParserInterface
     private $phpFileParser;
 
     /**
+     * @var OutputInterface $output The output to display message.
+     */
+    private $output;
+
+    /**
      * DirectoryParser constructor.
      *
      * @param ConsoleConfigInterface $config        A config instance.
      * @param FilesystemInterface    $fileSystem    A file system instance.
      * @param PhpFileParserInterface $phpFileParser A php file parser instance.
+     * @param OutputInterface $output The output to display message.
      */
     public function __construct(
         ConsoleConfigInterface $config,
         FilesystemInterface $fileSystem,
-        PhpFileParserInterface $phpFileParser
+        PhpFileParserInterface $phpFileParser,
+        OutputInterface $output
     ) {
         $this->config        = $config;
         $this->fileSystem    = $fileSystem;
         $this->phpFileParser = $phpFileParser;
+        $this->output = $output;
     }
 
     /**
@@ -67,17 +77,59 @@ class DirectoryParser implements DirectoryParserInterface
         $directoryModel->setSourceDirectory($sourceDirectory);
         $directoryModel->setTargetDirectory($targetDirectory);
 
-        foreach ($this->fileSystem->listContents($sourceDirectory) as $file) {
-            if ($file['type'] === 'file'
-                && @preg_match($this->config->getIncludeRegex(), $file['path']) === 1
-                && @preg_match($this->config->getExcludeRegex(), $file['path']) === 0
-                && ($fileContent = $this->fileSystem->read($file['path'])) !== false
-            ) {
-                /** @todo Add error on read return false */
-                $directoryModel->addPhpFile($this->phpFileParser->parse($fileContent));
+        $directoryModel = $this->addPhpFiles($directoryModel);
+
+        return $directoryModel;
+    }
+
+    /**
+     * Get all php files from a directory (and sub-directories).
+     *
+     * @param DirectoryModelInterface $directoryModel The directory model to save php files in.
+     *
+     * @return DirectoryModelInterface The updated directory model.
+     *
+     * @throws ParsingException If the file is not readable.
+     */
+    private function addPhpFiles(DirectoryModelInterface $directoryModel): DirectoryModelInterface
+    {
+        foreach ($this->fileSystem->listContents($directoryModel->getSourceDirectory()) as $file) {
+            try {
+                if ($this->validateFile($file['type'], $file['path'])) {
+                    $directoryModel->addPhpFile($this->phpFileParser->parse($this->fileSystem->read($file['path'])));
+                }
+            } catch (ParsingException $exception) {
+                if (! $this->config->hasIgnore()) {
+                    throw new ParsingException($exception->getMessage());
+                }
+                $this->output->writeln(sprintf('<error>%s</error>', $exception->getMessage()));
             }
         }
 
         return $directoryModel;
+    }
+
+    /**
+     * Get a file content if the file match requirements and if it is readable.
+     *
+     * @param string $type The file type.
+     * @param string $path The file path.
+     *
+     * @return bool If the file is valid.
+     *
+     * @throws ParsingException If the file is not readable.
+     */
+    private function validateFile(string $type, string $path): bool
+    {
+        if (! $type === 'file'
+            || Validator::regex($this->config->getIncludeRegex())->validate($path) !== true
+            || Validator::regex($this->config->getExcludeRegex())->validate($path) !== false
+        ) {
+            return false;
+        }
+        if ($this->fileSystem->getVisibility($path) === AdapterInterface::VISIBILITY_PRIVATE) {
+            throw new ParsingException(sprintf('The file "%s" is not readable.', $path));
+        }
+        return true;
     }
 }

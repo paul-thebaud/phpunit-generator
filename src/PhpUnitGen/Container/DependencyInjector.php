@@ -11,6 +11,7 @@ use PhpUnitGen\Parser\ParserInterface\DirectoryParserInterface;
 use PhpUnitGen\Parser\ParserInterface\PhpFileParserInterface;
 use PhpUnitGen\Parser\PhpFileParser;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class DependencyInjector.
@@ -41,7 +42,8 @@ class DependencyInjector implements DependencyInjectorInterface
             return new DirectoryParser(
                 $container->get(ConfigInterface::class),
                 $container->get(FilesystemInterface::class),
-                $container->get(PhpFileParserInterface::class)
+                $container->get(PhpFileParserInterface::class),
+                $container->get(OutputInterface::class)
             );
         });
 

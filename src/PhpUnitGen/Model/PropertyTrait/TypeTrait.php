@@ -2,7 +2,7 @@
 
 namespace PhpUnitGen\Model\PropertyTrait;
 
-use PhpUnitGen\Model\ModelInterface\TypeInterface;
+use PhpUnitGen\Model\PropertyInterface\TypeInterface;
 
 /**
  * Trait TypeTrait.

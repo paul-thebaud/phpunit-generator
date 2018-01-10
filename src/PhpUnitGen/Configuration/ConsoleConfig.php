@@ -23,18 +23,41 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
     {
         parent::validate($config);
 
+        $this->validateBooleans($config);
+        $this->validateStrings($config);
+        $this->validateDirs($config);
+    }
+
+    /**
+     * Validate all boolean attributes contained in configuration.
+     *
+     * @param mixed $config The configuration.
+     *
+     * @throws InvalidConfigException If a boolean attribute is invalid.
+     */
+    private function validateBooleans($config):void
+    {
         // Check boolean parameters
         if (! Validator::key('overwrite', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"overwrite" parameter must be set as a boolean.');
         }
-
         if (! Validator::key('auto', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"auto" parameter must be set as a boolean.');
         }
         if (! Validator::key('ignore', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"ignore" parameter must be set as a boolean.');
         }
+    }
 
+    /**
+     * Validate all string attributes contained in configuration.
+     *
+     * @param mixed $config The configuration.
+     *
+     * @throws InvalidConfigException If a string attribute is invalid.
+     */
+    private function validateStrings($config): void
+    {
         // Check string parameters
         if (! Validator::key('include', Validator::stringType())->validate($config)) {
             throw new InvalidConfigException('"include" parameter must be set as a string.');
@@ -42,7 +65,17 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
         if (! Validator::key('exclude', Validator::stringType())->validate($config)) {
             throw new InvalidConfigException('"exclude" parameter must be set as a string.');
         }
+    }
 
+    /**
+     * Validate directories contained in configuration.
+     *
+     * @param mixed $config The configuration.
+     *
+     * @throws InvalidConfigException If a directory is invalid (source or target).
+     */
+    private function validateDirs($config): void
+    {
         // Check that dirs exists
         if (! Validator::key('dirs', Validator::arrayType()->length(1, null))->validate($config)) {
             throw new InvalidConfigException('"dirs" parameter is not an array or does not contains elements.');

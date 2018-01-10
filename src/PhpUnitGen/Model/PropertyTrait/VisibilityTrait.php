@@ -2,7 +2,7 @@
 
 namespace PhpUnitGen\Model\PropertyTrait;
 
-use PhpUnitGen\Model\ModelInterface\VisibilityInterface;
+use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
 
 /**
  * Trait VisibilityTrait.

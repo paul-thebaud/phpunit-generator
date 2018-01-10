@@ -44,7 +44,7 @@ class Application extends AbstractApplication
 
         if ($input->hasParameterOption('--version') ||
             $input->hasParameterOption('-V')) {
-            exit;
+            return 0;
         }
 
         parent::doRun($input, $output);

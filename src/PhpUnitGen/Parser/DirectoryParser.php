@@ -71,8 +71,10 @@ class DirectoryParser implements DirectoryParserInterface
             if ($file['type'] === 'file'
                 && @preg_match($this->config->getIncludeRegex(), $file['path']) === 1
                 && @preg_match($this->config->getExcludeRegex(), $file['path']) === 0
+                && ($fileContent = $this->fileSystem->read($file['path'])) !== false
             ) {
-                $directoryModel->addPhpFile($this->phpFileParser->parse($this->fileSystem->read($file['path'])));
+                /** @todo Add error on read return false */
+                $directoryModel->addPhpFile($this->phpFileParser->parse($fileContent));
             }
         }
 

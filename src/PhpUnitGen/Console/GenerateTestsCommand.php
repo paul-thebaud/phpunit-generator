@@ -83,7 +83,7 @@ class GenerateTestsCommand extends Command
             $output->writeln(
                 sprintf("<error>Error during configuration parsing:\n\n%s</error>", $exception->getMessage())
             );
-            exit;
+            return -1;
         }
 
         // Load the ConfigInterface dependency
@@ -102,7 +102,7 @@ class GenerateTestsCommand extends Command
                     $exception->getMessage()
                 ));
                 if (! $config->hasIgnore()) {
-                    exit;
+                    return -1;
                 }
             }
 

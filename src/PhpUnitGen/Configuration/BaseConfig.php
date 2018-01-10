@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Configuration;
 
 use PhpUnitGen\Exception\InvalidConfigException;
+use Respect\Validation\Validator;
 
 /**
  * Class BaseConfig.
@@ -42,12 +43,12 @@ class BaseConfig implements ConfigInterface
     protected function validate($config): void
     {
         // Check that $config is an array
-        if (! is_array($config)) {
+        if (! Validator::arrayType()->validate($config)) {
             throw new InvalidConfigException('The config must be an array.');
         }
 
         // Check boolean parameters
-        if (! isset($config['interface']) || ! is_bool($config['interface'])) {
+        if (! Validator::key('interface', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"interface" parameter must be set as a boolean.');
         }
     }

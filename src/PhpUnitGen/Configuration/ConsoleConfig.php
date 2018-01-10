@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Configuration;
 
 use PhpUnitGen\Exception\InvalidConfigException;
+use Respect\Validation\Validator;
 
 /**
  * Class ConsoleConfig.
@@ -23,34 +24,34 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
         parent::validate($config);
 
         // Check boolean parameters
-        if (! isset($config['overwrite']) || ! is_bool($config['overwrite'])) {
+        if (! Validator::key('overwrite', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"overwrite" parameter must be set as a boolean.');
         }
 
-        if (! isset($config['auto']) || ! is_bool($config['auto'])) {
+        if (! Validator::key('auto', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"auto" parameter must be set as a boolean.');
         }
-        if (! isset($config['ignore']) || ! is_bool($config['ignore'])) {
+        if (! Validator::key('ignore', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"ignore" parameter must be set as a boolean.');
         }
 
         // Check string parameters
-        if (! isset($config['include']) || ! is_string($config['include'])) {
+        if (! Validator::key('include', Validator::stringType())->validate($config)) {
             throw new InvalidConfigException('"include" parameter must be set as a string.');
         }
-        if (! isset($config['exclude']) || ! is_string($config['exclude'])) {
+        if (! Validator::key('exclude', Validator::stringType())->validate($config)) {
             throw new InvalidConfigException('"exclude" parameter must be set as a string.');
         }
 
         // Check that dirs exists
-        if (! isset($config['dirs']) || ! is_array($config['dirs']) || count($config['dirs']) < 1) {
+        if (! Validator::key('dirs', Validator::arrayType()->length(1, null))->validate($config)) {
             throw new InvalidConfigException('"dirs" parameter is not an array or does not contains elements.');
         }
-        // Validate dirs
-        foreach ($config['dirs'] as $srcDir => $testsDir) {
-            if (! is_string($srcDir) || ! is_string($testsDir)) {
-                throw new InvalidConfigException('Some directories in "dirs" parameter are not strings.');
-            }
+        // Validate each dirs
+        if (! Validator::arrayVal()
+            ->each(Validator::stringType(), Validator::stringType())->validate($config['dirs'])
+        ) {
+            throw new InvalidConfigException('Some directories in "dirs" parameter are not strings.');
         }
     }
 

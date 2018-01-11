@@ -4,8 +4,7 @@ sudo: false
 
 # PHP versions to tests
 php:
-- 7.0
-- 7.1
+- 7.2
 # Composer install
 install:
   - travis_retry composer install --no-interaction

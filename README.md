@@ -1,64 +1,62 @@
-# phpunit-generator
+# PhpUnitGenerator
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.0-8892BF.svg?style=flat-square)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg?style=flat-square)](https://php.net/)
 [![Build Status][ico-travis]][link-travis]
 [![Coverage Status][ico-coveralls]][link-coveralls]
 [![Scrutinizer][ico-scrutinizer]][link-scrutinizer]
 
 [![Total Downloads][ico-downloads]][link-downloads]
 
-This package allows you to generate PHPUnit6 tests from PHP code or CLI without any autoload.
-It can also follow some annotations you can write in your methods documentation.
+This package will help you writing your unit tests:
+* Generate unit skeleton for all php files.
+* Automatically generate a few simple unit tests (like getter / setter methods tests).
 
-## Structure
+## Package structure
 
 ```
-build/          ==> The build result (unit tests)
-examples/       ==> The annotation usage and rendering examples
-src/            ==> The package source files
-template/       ==> The tests templates
-test/           ==> The package unit tests
-vendor/         ==> The composer dependencies
+config/         ==> Default PhpUnitGen configurations.
+examples/       ==> Examples about this package (configuration, parsing examples).
+src/            ==> Package source files
+template/       ==> Tests templates
+test/           ==> Package unit tests
+vendor/         ==> Composer dependencies
 ```
 
-## Install
+## Installation
 
-Via Composer
+Best way to install this package is with composer dependency manager.
 
 ```bash
-$ composer require paulthebaud/phpunit-generator
+$ composer require --dev paulthebaud/phpunit-generator
 ```
 
-## Usage
+`--dev` option is used to install this package only in development environment.
+
+## Basic usage
+
+PhpUnitGenerator basic usage is from command line with those two following commands.
+
+For this first command, you will need a configuration file written in `Yaml`, `Json` or `Php`.
 
 ```bash
-$ php ./vendor/bin/phpunitgen <source_dir> <target_dir> [--option1 --option2]
+$ php ./vendor/bin/phpunitgen generate <config-path>
 ```
 
-Or maybe online:
+* `Yaml` example is available [here](examples/phpunitgen.config.yml).
+* `Json` example is available [here](examples/phpunitgen.config.json).
+* `Php` example is available [here](examples/phpunitgen.config.php).
 
-[phpunit-generator.herokuapp.com](https://phpunit-generator.herokuapp.com/).
+For this second command, PhpUnitGenerator will use a default configuration.
 
-Or maybe with a PHP code:
-
-```php
-<?php
-
-$testGenerator = new \PHPUnitGenerator\Generator\TestGenerator([
-    // Options ...
-]);
-
-try {
-    // This will echo the tests skeleton for "A_PHP_Class" class
-    echo $testGenerator->generate(file_get_contents('A_PHP_Class.php'));
-} catch (\PHPUnitGenerator\Exception\ExceptionInterface\ExceptionInterface $e) {
-    // Errors ...
-}
+```bash
+$ php ./vendor/bin/phpunitgen generate-default <source-path> <target-path>
 ```
 
-Please see [Documentation File](DOCUMENTATION.md) for details.
+PhpUnitGenerator can also be used online on [this website](https://phpunitgen.heroku.com)
+
+Please see [Usage section](DOCUMENTATION.md#Usage) of documentation for more details.
 
 ## Testing
 
@@ -68,26 +66,7 @@ $ composer test
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Known issues
-
-Notice that if you use class (or whatever) imports in namespace, you might have problems with
-parsed absolute class names.
-
-Look at this example:
-```php
-<?php
-
-namespace PhpUnitGen;
-
-use PhpUnitGen\Model; // Model is a "folder"
-
-function doSomething(SomeClass $obj) {}
-```
-
-In this example, PhpUnit Generator cannot know if `SomeClass` is in `PhpUnitGen` namespace or in `PhpUnitGen\Model`.
-By default, it will use the current namespace of the class (here it is `PhpUnitGen`).
+Please see [CONTRIBUTING](CONTRIBUTING.md) for more details.
 
 ## Credits
 

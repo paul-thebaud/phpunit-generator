@@ -3,17 +3,11 @@
 
 namespace PhpUnitGen;
 
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemInterface;
 use PhpUnitGen\Console\Application;
-use PhpUnitGen\Container\Container;
-use PhpUnitGen\Container\DependencyInjector;
-use PhpUnitGen\Container\DependencyInjectorInterface;
 
 $loaded = false;
 
-foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/vendor/autoload.php') as $file) {
+foreach ([__DIR__ . '/../../autoload.php', __DIR__ . '/vendor/autoload.php'] as $file) {
     if (file_exists($file)) {
         require $file;
         $loaded = true;
@@ -21,7 +15,7 @@ foreach (array(__DIR__ . '/../../autoload.php', __DIR__ . '/vendor/autoload.php'
     }
 }
 
-if (!$loaded) {
+if (! $loaded) {
     die(
         'You need to set up the project dependencies using the following commands:' . PHP_EOL .
         'wget http://getcomposer.org/composer.phar' . PHP_EOL .
@@ -29,13 +23,6 @@ if (!$loaded) {
     );
 }
 
-$container = new Container();
-
-// Load first dependencies
-// And next dependencies will be loaded by PhpUnitGen\Container\DependencyInjector class
-$container->setInstance(FilesystemInterface::class, new Filesystem(new Local('./')));
-$container->setInstance(DependencyInjectorInterface::class, new DependencyInjector());
-
 // Run application
-$application = new Application($container);
+$application = new Application();
 $application->run();

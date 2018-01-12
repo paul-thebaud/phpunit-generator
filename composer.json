@@ -39,12 +39,12 @@
   },
   "autoload": {
     "psr-4": {
-      "PhpUnitGen\\": "src/PhpUnitGen/"
+      "PhpUnitGen\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "PhpUnitGen\\": "test/PhpUnitGen/"
+      "PhpUnitGenTest\\": "test/"
     }
   },
   "scripts": {

@@ -6,7 +6,6 @@
   "exclude": "/.*config.php/",
   "include": "/.*.php/",
   "dirs": {
-    "src/PhpUnitGen/Configuration": "test/PhpUnitGen/Configuration",
-    "src/PhpUnitGen/Console": "test/PhpUnitGen/Console"
+    "source/dir/to/parse": "target/dir/to/put/generated/files"
   }
 }

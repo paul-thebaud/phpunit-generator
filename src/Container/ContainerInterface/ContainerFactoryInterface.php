@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpUnitGen\Container;
+namespace PhpUnitGen\Container\ContainerInterface;
 
-use PhpUnitGen\Configuration\ConfigInterface;
+use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 
 /**
  * Interface ContainerFactoryInterface.

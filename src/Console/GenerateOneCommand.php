@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
- * Class GenerateCommand.
+ * Class GenerateOneCommand.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -21,7 +21,7 @@ use Symfony\Component\Console\Input\InputInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class GenerateCommand extends AbstractGenerateCommand
+class GenerateOneCommand extends AbstractGenerateCommand
 {
     /**
      * @var string[] CONSOLE_CONFIG_FACTORIES Mapping array between file extension and configuration factories.
@@ -37,10 +37,12 @@ class GenerateCommand extends AbstractGenerateCommand
      */
     protected function configure()
     {
-        $this->setName("generate")
-            ->setDescription("Generate unit tests skeletons with a custom configuration")
-            ->setHelp("Use it to generate your unit tests skeletons from a configuration file")
-            ->addArgument('config-path', InputArgument::REQUIRED, 'The configuration file path.');
+        $this->setName("generate-one")
+            ->setDescription("Generate unit tests skeletons with a custom configuration for only one file")
+            ->setHelp("Use it to generate your unit tests skeletons from a configuration file and for only one file")
+            ->addArgument('config-path', InputArgument::REQUIRED, 'The configuration file path.')
+            ->addArgument('source-file-path', InputArgument::REQUIRED, 'The source file path.')
+            ->addArgument('target-file-path', InputArgument::REQUIRED, 'The target file path.');
     }
 
     /**
@@ -49,6 +51,8 @@ class GenerateCommand extends AbstractGenerateCommand
     public function getConfiguration(InputInterface $input): ConsoleConfigInterface
     {
         $configPath = $input->getArgument('config-path');
+        $sourceFile = $input->getArgument('source-file-path');
+        $targetFile = $input->getArgument('target-file-path');
 
         if (! file_exists($configPath)) {
             throw new InvalidConfigException(sprintf('Config file "%s" does not exists.', $configPath));
@@ -64,6 +68,6 @@ class GenerateCommand extends AbstractGenerateCommand
         /** @var ConsoleConfigFactoryInterface $factory */
         $factoryClass = static::CONSOLE_CONFIG_FACTORIES[$extension];
         $factory = new $factoryClass();
-        return $factory->invoke($configPath);
+        return $factory->invokeOneFile($configPath, $sourceFile, $targetFile);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpUnitGen\Container;
+namespace PhpUnitGen\Container\ContainerInterface;
 
 use Psr\Container\ContainerInterface as PsrContainerInterface;
 

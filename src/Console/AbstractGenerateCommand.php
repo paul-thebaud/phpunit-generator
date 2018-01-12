@@ -3,9 +3,8 @@
 namespace PhpUnitGen\Console;
 
 use League\Flysystem\FilesystemInterface;
-use PhpUnitGen\Configuration\ConsoleConfigInterface;
-use PhpUnitGen\Container\ConsoleContainerFactoryInterface;
-use PhpUnitGen\Container\ContainerInterface;
+use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
+use PhpUnitGen\Container\ContainerInterface\ConsoleContainerFactoryInterface;
 use PhpUnitGen\Exception\InvalidConfigException;
 use PhpUnitGen\Exception\ParsingException;
 use PhpUnitGen\Parser\ParserInterface\DirectoryParserInterface;
@@ -68,14 +67,16 @@ abstract class AbstractGenerateCommand extends Command
         $container = $this->containerFactory->invoke($config, $output);
 
         $this->directoryParser = $container->get(DirectoryParserInterface::class);
-        $this->fileSystem = $container->get(FilesystemInterface::class);
-
-        /** @todo Extract this in another class */
+        $this->fileSystem      = $container->get(FilesystemInterface::class);
 
         foreach ($config->getDirectories() as $sourceDirectory => $targetDirectory) {
-            if ($this->generateForDirectory($output, $config, $sourceDirectory, $targetDirectory)) {
+            if ($this->generateForDirectory($output, $config, $sourceDirectory, $targetDirectory) === false) {
                 return -1;
             }
+        }
+        foreach ($config->getFiles() as $sourceFile => $targetFile) {
+            /** @todo move this and generate for files too */
+            $output->writeln(sprintf("<info>Hey! Request parsing of file: %s</info>", $sourceFile));
         }
 
         return 1;

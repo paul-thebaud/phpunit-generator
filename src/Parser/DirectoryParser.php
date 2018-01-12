@@ -4,7 +4,7 @@ namespace PhpUnitGen\Parser;
 
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\FilesystemInterface;
-use PhpUnitGen\Configuration\ConsoleConfigInterface;
+use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Exception\ParsingException;
 use PhpUnitGen\Model\DirectoryModel;
 use PhpUnitGen\Model\ModelInterface\DirectoryModelInterface;

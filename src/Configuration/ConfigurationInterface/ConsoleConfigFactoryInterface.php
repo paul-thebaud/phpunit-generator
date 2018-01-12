@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpUnitGen\Configuration;
+namespace PhpUnitGen\Configuration\ConfigurationInterface;
 
 /**
  * Interface ConsoleConfigFactoryInterface.
@@ -21,4 +21,15 @@ interface ConsoleConfigFactoryInterface
      * @return ConsoleConfigInterface The created configuration.
      */
     public function invoke(string $configPath): ConsoleConfigInterface;
+
+    /**
+     * Build a console configuration from a configuration file.
+     *
+     * @param string $configPath The configuration file path.
+     * @param string $sourceFile The source file.
+     * @param string $targetFile The target file.
+     *
+     * @return ConsoleConfigInterface The created configuration.
+     */
+    public function invokeOneFile(string $configPath, string $sourceFile, string $targetFile): ConsoleConfigInterface;
 }

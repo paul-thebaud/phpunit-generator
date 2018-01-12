@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Configuration;
 
 use PhpUnitGen\Exception\InvalidConfigException;
+use Respect\Validation\Validator;
 
 /**
  * Class JsonConsoleConfigFactory.
@@ -13,18 +14,23 @@ use PhpUnitGen\Exception\InvalidConfigException;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class JsonConsoleConfigFactory implements ConsoleConfigFactoryInterface
+class JsonConsoleConfigFactory extends AbstractConsoleConfigFactory
 {
     /**
-     * {@inheritdoc}
+     * Decode a configuration file to get a configuration array.
+     *
+     * @param string $configPath The configuration file path.
+     *
+     * @return array The decoded configuration array.
+     *
+     * @throws InvalidConfigException If the configuration is invalid.
      */
-    public function invoke(string $configPath): ConsoleConfigInterface
+    protected function decode(string $configPath): array
     {
         $configArray = json_decode(file_get_contents($configPath), true);
-        if (! is_array($configArray)) {
+        if (! Validator::arrayType()->validate($configArray)) {
             throw new InvalidConfigException('Unable to parse JSON config');
         }
-
-        return new ConsoleConfig($configArray);
+        return $configArray;
     }
 }

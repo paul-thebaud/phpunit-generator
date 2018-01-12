@@ -2,6 +2,7 @@
 
 namespace PhpUnitGen\Configuration;
 
+use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Exception\InvalidConfigException;
 use Respect\Validation\Validator;
 

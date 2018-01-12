@@ -13,6 +13,7 @@ return [
     'exclude'   => '/.*config.php/',
     // Regex (/.*.php/ for example) that files should match to have a tests generation
     'include'   => '/.*.php/',
-    // Directories to generate tests for
-    'dirs'      => []
+    // Directories and files to generate tests for
+    'dirs'      => [],
+    'files'     => []
 ];

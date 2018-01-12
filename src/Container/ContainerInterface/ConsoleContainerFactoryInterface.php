@@ -1,8 +1,8 @@
 <?php
 
-namespace PhpUnitGen\Container;
+namespace PhpUnitGen\Container\ContainerInterface;
 
-use PhpUnitGen\Configuration\ConsoleConfigInterface;
+use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**

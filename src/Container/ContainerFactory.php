@@ -4,8 +4,10 @@ namespace PhpUnitGen\Container;
 
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
-use PhpUnitGen\Configuration\ConfigInterface;
-use PhpUnitGen\Configuration\ConsoleConfigInterface;
+use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
+use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
+use PhpUnitGen\Container\ContainerInterface\ContainerFactoryInterface;
+use PhpUnitGen\Container\ContainerInterface\ContainerInterface;
 use PhpUnitGen\Parser\DirectoryParser;
 use PhpUnitGen\Parser\ParserInterface\DirectoryParserInterface;
 use PhpUnitGen\Parser\ParserInterface\PhpFileParserInterface;

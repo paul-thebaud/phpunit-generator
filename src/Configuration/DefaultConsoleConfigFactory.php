@@ -2,6 +2,8 @@
 
 namespace PhpUnitGen\Configuration;
 
+use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
+
 /**
  * Class DefaultConsoleConfigFactory.
  *
@@ -26,6 +28,24 @@ class DefaultConsoleConfigFactory
         $configArray         = require __DIR__ . '/../../config/default.phpunitgen.config.php';
         $configArray['dirs'] = [
             $sourceDirectory => $targetDirectory
+        ];
+
+        return new ConsoleConfig($configArray);
+    }
+
+    /**
+     * Build a console configuration from a configuration file.
+     *
+     * @param string $sourceFile The source file.
+     * @param string $targetFile The target file.
+     *
+     * @return ConsoleConfigInterface The created configuration.
+     */
+    public function invokeOneFile(string $sourceFile, string $targetFile): ConsoleConfigInterface
+    {
+        $configArray         = require __DIR__ . '/../../config/default.phpunitgen.config.php';
+        $configArray['files'] = [
+            $sourceFile => $targetFile
         ];
 
         return new ConsoleConfig($configArray);

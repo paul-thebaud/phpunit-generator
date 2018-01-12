@@ -28,7 +28,9 @@ class Application extends AbstractApplication
         $containerFactory = new ConsoleContainerFactory();
 
         $this->add(new GenerateCommand($containerFactory));
-        $this->add(new DefaultGenerateCommand($containerFactory));
+        $this->add(new GenerateOneCommand($containerFactory));
+        $this->add(new GenerateDefaultCommand($containerFactory));
+        $this->add(new GenerateOneDefaultCommand($containerFactory));
     }
 
     /**

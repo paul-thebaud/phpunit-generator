@@ -16,5 +16,9 @@ return [
     // Directories to generate tests for
     'dirs'      => [
         'source/dir/to/parse' => 'target/dir/to/put/generated/files'
+    ],
+    // Files to generate tests for
+    'files'     => [
+        'source/file/to/parse' => 'target/file/to/put/generated/file'
     ]
 ];

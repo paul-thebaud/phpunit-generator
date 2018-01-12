@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpUnitGen\Configuration;
+namespace PhpUnitGen\Configuration\ConfigurationInterface;
 
 /**
  * Interface ConsoleConfigInterface.
@@ -46,4 +46,18 @@ interface ConsoleConfigInterface extends ConfigInterface
      * @return string[] The directories to parse.
      */
     public function getDirectories(): array;
+
+    /**
+     * @param string $sourceFile The source file to add as an array key.
+     * @param string $targetFile The target file to add as an array value.
+     */
+    public function addFile(string $sourceFile, string $targetFile): void;
+
+    /**
+     * Get files to use.
+     * Array keys are source files, and array values are tests files.
+     *
+     * @return string[] The files to parse.
+     */
+    public function getFiles(): array;
 }

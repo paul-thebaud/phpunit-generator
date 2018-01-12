@@ -2,6 +2,7 @@
 
 namespace PhpUnitGen\Configuration;
 
+use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Exception\InvalidConfigException;
 use Respect\Validation\Validator;
 
@@ -25,7 +26,7 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
 
         $this->validateBooleans($config);
         $this->validateStrings($config);
-        $this->validateDirs($config);
+        $this->validateDirsAndFiles($config);
     }
 
     /**
@@ -68,23 +69,32 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
     }
 
     /**
-     * Validate directories contained in configuration.
+     * Validate directories and files contained in configuration.
      *
      * @param mixed $config The configuration.
      *
      * @throws InvalidConfigException If a directory is invalid (source or target).
      */
-    private function validateDirs($config): void
+    private function validateDirsAndFiles($config): void
     {
         // Check that dirs exists
-        if (! Validator::key('dirs', Validator::arrayType()->length(1, null))->validate($config)) {
-            throw new InvalidConfigException('"dirs" parameter is not an array or does not contains elements.');
+        if (! Validator::key('dirs', Validator::arrayType())->validate($config)) {
+            throw new InvalidConfigException('"dirs" parameter is not an array.');
+        }
+        if (! Validator::key('files', Validator::arrayType())->validate($config)) {
+            throw new InvalidConfigException('"files" parameter is not an array.');
         }
         // Validate each dirs
         if (! Validator::arrayVal()
             ->each(Validator::stringType(), Validator::stringType())->validate($config['dirs'])
         ) {
             throw new InvalidConfigException('Some directories in "dirs" parameter are not strings.');
+        }
+        // Validate each dirs
+        if (! Validator::arrayVal()
+            ->each(Validator::stringType(), Validator::stringType())->validate($config['files'])
+        ) {
+            throw new InvalidConfigException('Some files in "files" parameter are not strings.');
         }
     }
 
@@ -137,5 +147,24 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
             $this->config['dirs'] = [];
         }
         $this->config['dirs'][$sourceDirectory] = $targetDirectory;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFiles(): array
+    {
+        return $this->config['files'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addFile(string $sourceFile, string $targetFile): void
+    {
+        if (! Validator::arrayType()->validate($this->config['files'])) {
+            $this->config['files'] = [];
+        }
+        $this->config['files'][$sourceFile] = $targetFile;
     }
 }

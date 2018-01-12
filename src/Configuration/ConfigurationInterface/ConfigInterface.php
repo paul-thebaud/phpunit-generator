@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpUnitGen\Configuration;
+namespace PhpUnitGen\Configuration\ConfigurationInterface;
 
 /**
  * Interface ConfigInterface.

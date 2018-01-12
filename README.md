@@ -36,27 +36,34 @@ $ composer require --dev paulthebaud/phpunit-generator
 
 ## Basic usage
 
-PhpUnitGenerator basic usage is from command line with those two following commands.
-
-For this first command, you will need a configuration file written in `Yaml`, `Json` or `Php`.
+PhpUnitGenerator basic usage is from command line with the following command.
 
 ```bash
 $ php ./vendor/bin/phpunitgen generate <config-path>
 ```
+For this command, you will need a configuration file written in `Yaml`, `Json` or `Php`.
 
 * `Yaml` example is available [here](examples/phpunitgen.config.yml).
 * `Json` example is available [here](examples/phpunitgen.config.json).
 * `Php` example is available [here](examples/phpunitgen.config.php).
 
-For this second command, PhpUnitGenerator will use a default configuration.
+3 other commands are available:
 
 ```bash
+$ php ./vendor/bin/phpunitgen generate-one <config-path> <source-file-path> <target-file-path>
+
 $ php ./vendor/bin/phpunitgen generate-default <source-path> <target-path>
+
+$ php ./vendor/bin/phpunitgen generate-default-one <config-path> <source-file-path> <target-file-path>
 ```
 
-PhpUnitGenerator can also be used online on [this website](https://phpunitgen.heroku.com)
+* __generate-one__: To generate unit tests skeleton for only one file.
+* __generate-default__: To generate unit tests skeletons of a repository with the default configuration.
+* __generate-default-one__: To generate unit tests skeleton for only one file with the default configuration.
 
-Please see [Usage section](DOCUMENTATION.md#Usage) of documentation for more details.
+Check them on the [Usage section](DOCUMENTATION.md#Usage) of documentation for more details.
+
+PhpUnitGenerator can also be used online on [this website](https://phpunitgen.heroku.com)
 
 ## Testing
 

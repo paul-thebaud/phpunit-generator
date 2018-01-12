@@ -15,12 +15,12 @@ use Symfony\Component\Yaml\Yaml;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class YamlConsoleConfigFactory implements ConsoleConfigFactoryInterface
+class YamlConsoleConfigFactory extends AbstractConsoleConfigFactory
 {
     /**
      * {@inheritdoc}
      */
-    public function invoke(string $configPath): ConsoleConfigInterface
+    protected function decode(string $configPath): array
     {
         try {
             $configArray = Yaml::parse(file_get_contents($configPath));
@@ -30,7 +30,6 @@ class YamlConsoleConfigFactory implements ConsoleConfigFactoryInterface
                 $exception->getMessage()
             ));
         }
-
-        return new ConsoleConfig($configArray);
+        return $configArray;
     }
 }

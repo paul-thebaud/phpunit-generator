@@ -13,18 +13,17 @@ use PhpUnitGen\Exception\InvalidConfigException;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class PhpConsoleConfigFactory implements ConsoleConfigFactoryInterface
+class PhpConsoleConfigFactory extends AbstractConsoleConfigFactory
 {
     /**
      * {@inheritdoc}
      */
-    public function invoke(string $configPath): ConsoleConfigInterface
+    protected function decode(string $configPath): array
     {
         $configArray = require $configPath;
         if (! is_array($configArray)) {
             throw new InvalidConfigException('Unable to parse PHP config');
         }
-
-        return new ConsoleConfig($configArray);
+        return $configArray;
     }
 }

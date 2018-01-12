@@ -5,7 +5,9 @@ namespace PhpUnitGen\Container;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
-use PhpUnitGen\Configuration\ConsoleConfigInterface;
+use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
+use PhpUnitGen\Container\ContainerInterface\ConsoleContainerFactoryInterface;
+use PhpUnitGen\Container\ContainerInterface\ContainerInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**

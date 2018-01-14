@@ -18,15 +18,8 @@ use PhpUnitGen\Model\PropertyTrait\NodeTrait;
  */
 class PhpFileModel implements PhpFileModelInterface
 {
-    // The name trait is used as the file name.
-    use NameTrait;
     use NamespaceTrait;
     use NodeTrait;
-
-    /**
-     * @var string $path The file path from the main directory.
-     */
-    private $path;
 
     /**
      * This array is constructed with the name or the alias as key, and the real namespace, full name as a value.
@@ -53,22 +46,6 @@ class PhpFileModel implements PhpFileModelInterface
      * @var InterfaceModel[] $interfaces Interfaces contained in the file.
      */
     private $interfaces = [];
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setPath(?string $path): void
-    {
-        $this->path = $path;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getPath(): ?string
-    {
-        return $this->path;
-    }
 
     /**
      * {@inheritdoc}

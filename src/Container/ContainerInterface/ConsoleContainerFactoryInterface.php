@@ -3,7 +3,7 @@
 namespace PhpUnitGen\Container\ContainerInterface;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\StyleInterface;
 
 /**
  * Interface ConsoleContainerFactoryInterface.
@@ -20,9 +20,9 @@ interface ConsoleContainerFactoryInterface
      * Build a new instance of the container.
      *
      * @param ConsoleConfigInterface $config A configuration instance.
-     * @param OutputInterface        $output A out put instance to display message.
+     * @param StyleInterface         $output An output to display messages.
      *
      * @return ContainerInterface The created container.
      */
-    public function invoke(ConsoleConfigInterface $config, OutputInterface $output): ContainerInterface;
+    public function invoke(ConsoleConfigInterface $config, StyleInterface $output): ContainerInterface;
 }

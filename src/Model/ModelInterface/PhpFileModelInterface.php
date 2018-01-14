@@ -19,18 +19,8 @@ use PhpUnitGen\Model\TraitModel;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface PhpFileModelInterface extends NameInterface, NamespaceInterface, NodeInterface
+interface PhpFileModelInterface extends NamespaceInterface, NodeInterface
 {
-    /**
-     * @param string|null $path The new path to this file.
-     */
-    public function setPath(?string $path): void;
-
-    /**
-     * @return string|null The path to the file, from the source directory.
-     */
-    public function getPath(): ?string;
-
     /**
      * Add a new PHP import.
      *

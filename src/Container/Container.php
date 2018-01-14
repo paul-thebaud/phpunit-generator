@@ -4,6 +4,7 @@ namespace PhpUnitGen\Container;
 
 use PhpUnitGen\Container\ContainerInterface\ContainerInterface;
 use PhpUnitGen\Exception\ContainerException;
+use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
 use PhpUnitGen\Exception\NotFoundException;
 use Respect\Validation\Validator;
 

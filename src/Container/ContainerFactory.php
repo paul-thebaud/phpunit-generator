@@ -2,14 +2,14 @@
 
 namespace PhpUnitGen\Container;
 
+use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Container\ContainerInterface\ContainerFactoryInterface;
 use PhpUnitGen\Container\ContainerInterface\ContainerInterface;
-use PhpUnitGen\Parser\DirectoryParser;
-use PhpUnitGen\Parser\ParserInterface\DirectoryParserInterface;
+use PhpUnitGen\Executor\Executor;
 use PhpUnitGen\Parser\ParserInterface\PhpFileParserInterface;
 use PhpUnitGen\Parser\PhpFileParser;
 
@@ -37,8 +37,8 @@ class ContainerFactory implements ContainerFactoryInterface
         $container->setInstance(Parser::class, (new ParserFactory())->create(ParserFactory::PREFER_PHP7));
 
         // Automatically created dependencies and aliases
-        $container->set(DirectoryParserInterface::class, DirectoryParser::class);
         $container->set(PhpFileParserInterface::class, PhpFileParser::class);
+        $container->set(ExecutorInterface::class, Executor::class);
 
         return $container;
     }

@@ -39,7 +39,6 @@ class GenerateDefaultCommand extends AbstractGenerateCommand
         $sourceDirectory = $input->getArgument('source-path');
         $targetDirectory = $input->getArgument('target-path');
 
-        /** @var ConsoleConfigFactoryInterface $factory */
         $factory = new DefaultConsoleConfigFactory();
         return $factory->invoke($sourceDirectory, $targetDirectory);
     }

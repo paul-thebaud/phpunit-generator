@@ -8,7 +8,17 @@ use League\Flysystem\FilesystemInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Container\ContainerInterface\ConsoleContainerFactoryInterface;
 use PhpUnitGen\Container\ContainerInterface\ContainerInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use PhpUnitGen\Exception\ExceptionCatcher;
+use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
+use PhpUnitGen\Executor\ConsoleExecutor;
+use PhpUnitGen\Executor\DirectoryExecutor;
+use PhpUnitGen\Executor\ExecutorInterface\ConsoleExecutorInterface;
+use PhpUnitGen\Executor\ExecutorInterface\DirectoryExecutorInterface;
+use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
+use PhpUnitGen\Executor\FileExecutor;
+use PhpUnitGen\Validator\FileValidator;
+use PhpUnitGen\Validator\ValidatorInterface\FileValidatorInterface;
+use Symfony\Component\Console\Style\StyleInterface;
 
 /**
  * Class ConsoleContainerFactory.
@@ -31,12 +41,20 @@ class ConsoleContainerFactory implements ConsoleContainerFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function invoke(ConsoleConfigInterface $config, OutputInterface $output): ContainerInterface
-    {
+    public function invoke(
+        ConsoleConfigInterface $config,
+        StyleInterface $output
+    ): ContainerInterface {
         $container = $this->containerFactory->invoke($config);
 
         $container->setInstance(FilesystemInterface::class, new Filesystem(new Local('./')));
-        $container->setInstance(OutputInterface::class, $output);
+        $container->setInstance(StyleInterface::class, $output);
+
+        $container->set(ExceptionCatcherInterface::class, ExceptionCatcher::class);
+        $container->set(FileValidatorInterface::class, FileValidator::class);
+        $container->set(FileExecutorInterface::class, FileExecutor::class);
+        $container->set(DirectoryExecutorInterface::class, DirectoryExecutor::class);
+        $container->set(ConsoleExecutorInterface::class, ConsoleExecutor::class);
 
         return $container;
     }

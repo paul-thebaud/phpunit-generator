@@ -2,15 +2,14 @@
 
 namespace PhpUnitGen\Console;
 
-use League\Flysystem\FilesystemInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Container\ContainerInterface\ConsoleContainerFactoryInterface;
 use PhpUnitGen\Exception\InvalidConfigException;
-use PhpUnitGen\Exception\ParsingException;
-use PhpUnitGen\Parser\ParserInterface\DirectoryParserInterface;
+use PhpUnitGen\Executor\ExecutorInterface\ConsoleExecutorInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class AbstractGenerateCommand.
@@ -29,14 +28,9 @@ abstract class AbstractGenerateCommand extends Command
     protected $containerFactory;
 
     /**
-     * @var DirectoryParserInterface $directoryParser A directory parser to parse each files in directory.
+     * @var ConsoleExecutorInterface $consoleExecutor A executor to execute PhpUnitGen task.
      */
-    protected $directoryParser;
-
-    /**
-     * @var FilesystemInterface $fileSystem A file system to navigate through files.
-     */
-    protected $fileSystem;
+    protected $consoleExecutor;
 
     /**
      * GenerateCommand constructor.
@@ -55,67 +49,24 @@ abstract class AbstractGenerateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $styledOutput = new SymfonyStyle($input, $output);
         try {
             $config = $this->getConfiguration($input);
         } catch (InvalidConfigException $exception) {
-            $output->writeln(
-                sprintf("<error>Error during configuration parsing:\n\n%s</error>", $exception->getMessage())
-            );
+            $styledOutput->error($exception->getMessage());
             return -1;
         }
 
-        $container = $this->containerFactory->invoke($config, $output);
+        $container = $this->containerFactory->invoke($config, $styledOutput);
 
-        $this->directoryParser = $container->get(DirectoryParserInterface::class);
-        $this->fileSystem      = $container->get(FilesystemInterface::class);
+        $this->consoleExecutor = $container->get(ConsoleExecutorInterface::class);
 
-        foreach ($config->getDirectories() as $sourceDirectory => $targetDirectory) {
-            if ($this->generateForDirectory($output, $config, $sourceDirectory, $targetDirectory) === false) {
-                return -1;
-            }
-        }
-        foreach ($config->getFiles() as $sourceFile => $targetFile) {
-            /** @todo move this and generate for files too */
-            $output->writeln(sprintf("<info>Hey! Request parsing of file: %s</info>", $sourceFile));
-        }
+        $this->consoleExecutor->execute();
+
+        /** @todo detailed stats */
+        $styledOutput->success('Parsing finished.');
 
         return 1;
-    }
-
-    /**
-     * Generate unit tests skeletons for a source directory to a target directory.
-     *
-     * @param OutputInterface        $output          An output to display message.
-     * @param ConsoleConfigInterface $config          A configuration.
-     * @param string                 $sourceDirectory A source directory to get files to parse.
-     * @param string                 $targetDirectory A target directory to put generated files.
-     *
-     * @return bool True there was no (important) error during parsing.
-     */
-    protected function generateForDirectory(
-        OutputInterface $output,
-        ConsoleConfigInterface $config,
-        string $sourceDirectory,
-        string $targetDirectory
-    ): bool {
-        try {
-            $directoryModel = $this->directoryParser->parse($sourceDirectory, $targetDirectory);
-        } catch (ParsingException $exception) {
-            $output->writeln(sprintf(
-                "<error>Parsing directory \"%s\" failed for the following reason:\n\n%s</error>",
-                $sourceDirectory,
-                $exception->getMessage()
-            ));
-            if (! $config->hasIgnore()) {
-                return false;
-            }
-        }
-
-        /** @todo Parse the $directoryModel to generate unit tests skeletons */
-
-        $output->writeln(sprintf('<info>Parsing directory "%s" completed.</info>', $sourceDirectory));
-
-        return true;
     }
 
     /**

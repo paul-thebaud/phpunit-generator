@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Console;
 
 use PhpUnitGen\Container\ConsoleContainerFactory;
+use PhpUnitGen\Container\ContainerFactory;
 use Symfony\Component\Console\Application as AbstractApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,7 +26,7 @@ class Application extends AbstractApplication
     {
         parent::__construct('phpunitgen', '2.0.0');
 
-        $containerFactory = new ConsoleContainerFactory();
+        $containerFactory = new ConsoleContainerFactory(new ContainerFactory());
 
         $this->add(new GenerateCommand($containerFactory));
         $this->add(new GenerateOneCommand($containerFactory));

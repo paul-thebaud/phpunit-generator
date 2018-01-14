@@ -2,7 +2,6 @@
 
 namespace PhpUnitGen\Console;
 
-use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigFactoryInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Configuration\DefaultConsoleConfigFactory;
 use Symfony\Component\Console\Input\InputArgument;

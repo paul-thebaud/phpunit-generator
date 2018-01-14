@@ -3,8 +3,8 @@
 namespace PhpUnitGen\Executor;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
+use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
-use PhpUnitGen\Exception\ExecutorException;
 use PhpUnitGen\Executor\ExecutorInterface\ConsoleExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\DirectoryExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
@@ -40,6 +40,14 @@ class ConsoleExecutor implements ConsoleExecutorInterface
      */
     private $exceptionCatcher;
 
+    /**
+     * ConsoleExecutor constructor.
+     *
+     * @param ConsoleConfigInterface     $config            The config to use.
+     * @param DirectoryExecutorInterface $directoryExecutor The directory executor.
+     * @param FileExecutorInterface      $fileExecutor      The file executor.
+     * @param ExceptionCatcherInterface  $exceptionCatcher  The exception catcher.
+     */
     public function __construct(
         ConsoleConfigInterface $config,
         DirectoryExecutorInterface $directoryExecutor,
@@ -60,14 +68,14 @@ class ConsoleExecutor implements ConsoleExecutorInterface
         foreach ($this->config->getDirectories() as $source => $target) {
             try {
                 $this->directoryExecutor->execute($source, $target);
-            } catch (ExecutorException $exception) {
+            } catch (Exception $exception) {
                 $this->exceptionCatcher->catch($exception);
             }
         }
         foreach ($this->config->getFiles() as $source => $target) {
             try {
                 $this->fileExecutor->execute($source, $target);
-            } catch (ExecutorException $exception) {
+            } catch (Exception $exception) {
                 $this->exceptionCatcher->catch($exception);
             }
         }

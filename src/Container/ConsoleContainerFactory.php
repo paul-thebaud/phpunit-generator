@@ -7,6 +7,7 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Container\ContainerInterface\ConsoleContainerFactoryInterface;
+use PhpUnitGen\Container\ContainerInterface\ContainerFactoryInterface;
 use PhpUnitGen\Container\ContainerInterface\ContainerInterface;
 use PhpUnitGen\Exception\ExceptionCatcher;
 use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
@@ -31,11 +32,19 @@ use Symfony\Component\Console\Style\StyleInterface;
  */
 class ConsoleContainerFactory implements ConsoleContainerFactoryInterface
 {
+    /**
+     * @var ContainerFactoryInterface $containerFactory The basic container factory.
+     */
     private $containerFactory;
 
-    public function __construct()
+    /**
+     * ConsoleContainerFactory constructor.
+     *
+     * @param ContainerFactoryInterface $containerFactory The basic container factory.
+     */
+    public function __construct(ContainerFactoryInterface $containerFactory)
     {
-        $this->containerFactory = new ContainerFactory();
+        $this->containerFactory = $containerFactory;
     }
 
     /**

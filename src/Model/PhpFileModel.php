@@ -4,7 +4,6 @@ namespace PhpUnitGen\Model;
 
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PropertyTrait\NamespaceTrait;
-use PhpUnitGen\Model\PropertyTrait\NameTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
 
 /**

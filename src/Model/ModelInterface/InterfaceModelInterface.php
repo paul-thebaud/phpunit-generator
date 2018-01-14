@@ -2,10 +2,9 @@
 
 namespace PhpUnitGen\Model\ModelInterface;
 
+use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\InPhpFileInterface;
 use PhpUnitGen\Model\PropertyInterface\NameInterface;
-use PhpUnitGen\Model\PropertyInterface\NamespaceInterface;
-use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 
 /**

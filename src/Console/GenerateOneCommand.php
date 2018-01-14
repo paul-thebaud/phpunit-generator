@@ -4,9 +4,6 @@ namespace PhpUnitGen\Console;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigFactoryInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
-use PhpUnitGen\Configuration\JsonConsoleConfigFactory;
-use PhpUnitGen\Configuration\PhpConsoleConfigFactory;
-use PhpUnitGen\Configuration\YamlConsoleConfigFactory;
 use PhpUnitGen\Exception\InvalidConfigException;
 use Respect\Validation\Validator;
 use Symfony\Component\Console\Input\InputArgument;
@@ -23,15 +20,6 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class GenerateOneCommand extends AbstractGenerateCommand
 {
-    /**
-     * @var string[] CONSOLE_CONFIG_FACTORIES Mapping array between file extension and configuration factories.
-     */
-    const CONSOLE_CONFIG_FACTORIES = [
-        'yml'  => YamlConsoleConfigFactory::class,
-        'json' => JsonConsoleConfigFactory::class,
-        'php'  => PhpConsoleConfigFactory::class
-    ];
-
     /**
      * {@inheritdoc}
      */
@@ -67,7 +55,7 @@ class GenerateOneCommand extends AbstractGenerateCommand
 
         /** @var ConsoleConfigFactoryInterface $factory */
         $factoryClass = static::CONSOLE_CONFIG_FACTORIES[$extension];
-        $factory = new $factoryClass();
+        $factory      = new $factoryClass();
         return $factory->invokeOneFile($configPath, $sourceFile, $targetFile);
     }
 }

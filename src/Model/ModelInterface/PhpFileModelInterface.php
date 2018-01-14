@@ -5,7 +5,6 @@ namespace PhpUnitGen\Model\ModelInterface;
 use PhpUnitGen\Model\ClassModel;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\InterfaceModel;
-use PhpUnitGen\Model\PropertyInterface\NameInterface;
 use PhpUnitGen\Model\PropertyInterface\NamespaceInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Model\TraitModel;

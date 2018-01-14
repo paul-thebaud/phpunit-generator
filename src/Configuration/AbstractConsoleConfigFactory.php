@@ -34,8 +34,8 @@ abstract class AbstractConsoleConfigFactory implements ConsoleConfigFactoryInter
             throw new InvalidConfigException(sprintf('The source file "%s" does not exists.', $sourceFile));
         }
 
-        $configArray = $this->decode($configPath);
-        $configArray['dirs'] = [];
+        $configArray          = $this->decode($configPath);
+        $configArray['dirs']  = [];
         $configArray['files'] = [
             $sourceFile => $targetFile
         ];

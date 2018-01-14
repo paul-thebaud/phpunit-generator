@@ -18,7 +18,12 @@ use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface AttributeModelInterface extends NameInterface, TypeInterface, ValueInterface, VisibilityInterface,
-    StaticInterface, NodeInterface
+interface AttributeModelInterface extends
+    NameInterface,
+    TypeInterface,
+    ValueInterface,
+    VisibilityInterface,
+    StaticInterface,
+    NodeInterface
 {
 }

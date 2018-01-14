@@ -17,13 +17,7 @@ use Respect\Validation\Validator;
 class JsonConsoleConfigFactory extends AbstractConsoleConfigFactory
 {
     /**
-     * Decode a configuration file to get a configuration array.
-     *
-     * @param string $configPath The configuration file path.
-     *
-     * @return array The decoded configuration array.
-     *
-     * @throws InvalidConfigException If the configuration is invalid.
+     * {@inheritdoc}
      */
     protected function decode(string $configPath): array
     {

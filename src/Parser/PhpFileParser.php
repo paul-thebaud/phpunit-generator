@@ -52,7 +52,7 @@ class PhpFileParser implements PhpFileParserInterface
     ) {
         $this->phpParser = $phpParser;
 
-        $this->nodeParsers = [
+        $this->nodeParsers               = [
             Node\Stmt\Namespace_::class => new NamespaceNodeParser(),
             Node\Stmt\Use_::class       => new UseNodeParser(),
             Node\Stmt\Function_::class  => null,

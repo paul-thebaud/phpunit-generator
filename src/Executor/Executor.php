@@ -21,6 +21,11 @@ class Executor implements ExecutorInterface
      */
     private $phpFileParser;
 
+    /**
+     * Executor constructor.
+     *
+     * @param PhpFileParserInterface $phpFileParser The php file parser.
+     */
     public function __construct(
         PhpFileParserInterface $phpFileParser
     ) {

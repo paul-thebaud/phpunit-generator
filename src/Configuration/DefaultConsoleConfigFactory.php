@@ -43,7 +43,7 @@ class DefaultConsoleConfigFactory
      */
     public function invokeOneFile(string $sourceFile, string $targetFile): ConsoleConfigInterface
     {
-        $configArray         = require __DIR__ . '/../../config/default.phpunitgen.config.php';
+        $configArray          = require __DIR__ . '/../../config/default.phpunitgen.config.php';
         $configArray['files'] = [
             $sourceFile => $targetFile
         ];

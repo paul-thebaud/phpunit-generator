@@ -24,7 +24,7 @@ class UseNodeParser implements NodeParserInterface
     {
         /**
          * Overriding variable types.
-         * @var Node\Stmt\Use_  $nodeToParse The namespace node to parse.
+         * @var Node\Stmt\Use_        $nodeToParse The namespace node to parse.
          * @var PhpFileModelInterface $node        The node which contains this namespace.
          */
         foreach ($nodeToParse->uses as $use) {

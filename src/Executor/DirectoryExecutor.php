@@ -2,12 +2,12 @@
 
 namespace PhpUnitGen\Executor;
 
-use PhpUnitGen\Exception\Exception;
-use PhpUnitGen\Executor\ExecutorInterface\DirectoryExecutorInterface;
-use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
 use League\Flysystem\FilesystemInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
+use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Exception\ExecutorException;
+use PhpUnitGen\Executor\ExecutorInterface\DirectoryExecutorInterface;
+use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
 /**
@@ -45,7 +45,7 @@ class DirectoryExecutor implements DirectoryExecutorInterface
      * DirectoryParser constructor.
      *
      * @param ConsoleConfigInterface $config       A config instance.
-     * @param StyleInterface        $output       An output to display message.
+     * @param StyleInterface         $output       An output to display message.
      * @param FileExecutorInterface  $fileExecutor A file executor.
      * @param FilesystemInterface    $fileSystem   A file system instance.
      */
@@ -84,7 +84,7 @@ class DirectoryExecutor implements DirectoryExecutorInterface
      *
      * @param string $sourcePath The directory source path.
      * @param string $targetPath The directory target path.
-     * @param string $filePath The file path.
+     * @param string $filePath   The file path.
      *
      * @throws ExecutorException If there was an error during the process.
      */

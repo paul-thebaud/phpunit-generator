@@ -36,7 +36,7 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
      *
      * @throws InvalidConfigException If a boolean attribute is invalid.
      */
-    private function validateBooleans($config):void
+    private function validateBooleans($config): void
     {
         // Check boolean parameters
         if (! Validator::key('overwrite', Validator::boolType())->validate($config)) {

@@ -3,6 +3,9 @@
 namespace PhpUnitGen\Console;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
+use PhpUnitGen\Configuration\JsonConsoleConfigFactory;
+use PhpUnitGen\Configuration\PhpConsoleConfigFactory;
+use PhpUnitGen\Configuration\YamlConsoleConfigFactory;
 use PhpUnitGen\Container\ContainerInterface\ConsoleContainerFactoryInterface;
 use PhpUnitGen\Exception\InvalidConfigException;
 use PhpUnitGen\Executor\ExecutorInterface\ConsoleExecutorInterface;
@@ -22,6 +25,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 abstract class AbstractGenerateCommand extends Command
 {
+    /**
+     * @var string[] CONSOLE_CONFIG_FACTORIES Mapping array between file extension and configuration factories.
+     */
+    const CONSOLE_CONFIG_FACTORIES = [
+        'yml'  => YamlConsoleConfigFactory::class,
+        'json' => JsonConsoleConfigFactory::class,
+        'php'  => PhpConsoleConfigFactory::class
+    ];
+
     /**
      * @var ConsoleContainerFactoryInterface $containerFactory A container factory to create container.
      */
@@ -78,5 +90,5 @@ abstract class AbstractGenerateCommand extends Command
      *
      * @throws InvalidConfigException If an error occurs during process.
      */
-    protected abstract function getConfiguration(InputInterface $input): ConsoleConfigInterface;
+    abstract protected function getConfiguration(InputInterface $input): ConsoleConfigInterface;
 }

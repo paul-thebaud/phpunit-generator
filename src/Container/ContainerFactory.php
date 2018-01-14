@@ -2,7 +2,6 @@
 
 namespace PhpUnitGen\Container;
 
-use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
@@ -10,6 +9,7 @@ use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Container\ContainerInterface\ContainerFactoryInterface;
 use PhpUnitGen\Container\ContainerInterface\ContainerInterface;
 use PhpUnitGen\Executor\Executor;
+use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
 use PhpUnitGen\Parser\ParserInterface\PhpFileParserInterface;
 use PhpUnitGen\Parser\PhpFileParser;
 

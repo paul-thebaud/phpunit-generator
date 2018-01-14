@@ -20,8 +20,14 @@ use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface FunctionModelInterface extends NameInterface, VisibilityInterface, StaticInterface,
-    FinalInterface, AbstractInterface, InPhpFileInterface, NodeInterface
+interface FunctionModelInterface extends
+    NameInterface,
+    VisibilityInterface,
+    StaticInterface,
+    FinalInterface,
+    AbstractInterface,
+    InPhpFileInterface,
+    NodeInterface
 {
     /**
      * @param ClassLikeInterface|null $parent The new parent to use.

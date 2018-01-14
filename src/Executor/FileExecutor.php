@@ -2,14 +2,12 @@
 
 namespace PhpUnitGen\Executor;
 
-use League\Flysystem\AdapterInterface;
 use League\Flysystem\FilesystemInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Exception\ExecutorException;
 use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
 use PhpUnitGen\Validator\ValidatorInterface\FileValidatorInterface;
-use Respect\Validation\Validator;
 use Symfony\Component\Console\Style\StyleInterface;
 
 /**

@@ -47,19 +47,9 @@ class FileValidator implements FileValidatorInterface
      */
     public function validate(string $path): bool
     {
-        if (! $this->fileSystem->has($path)
-            || $this->fileSystem->get($path)->getType() !== 'file') {
-            return false;
-        }
-
-        // Nullable regex
-        $includeRegex = $this->config->getIncludeRegex();
-        $excludeRegex = $this->config->getExcludeRegex();
-        if (($includeRegex !== null && $excludeRegex !== null)
-            && (
-                Validator::regex($includeRegex)->validate($path) !== true
-                || Validator::regex($excludeRegex)->validate($path) === true
-            )
+        if (! $this->validatePath($path)
+            || ! $this->validateIncludeRegex($path)
+            || ! $this->validateExcludeRegex($path)
         ) {
             return false;
         }
@@ -70,5 +60,43 @@ class FileValidator implements FileValidatorInterface
         }
 
         return true;
+    }
+
+    /**
+     * Validate file has a valid path.
+     *
+     * @param string $path The file path.
+     *
+     * @return bool True if it pass this validation.
+     */
+    private function validatePath(string $path): bool
+    {
+        return $this->fileSystem->has($path) && $this->fileSystem->get($path)->getType() !== 'file';
+    }
+
+    /**
+     * Validate file has the include regex if this regex is set.
+     *
+     * @param string $path The file path.
+     *
+     * @return bool True if it pass this validation.
+     */
+    private function validateIncludeRegex(string $path): bool
+    {
+        $includeRegex = $this->config->getIncludeRegex();
+        return $includeRegex === null || Validator::regex($includeRegex)->validate($path) === true;
+    }
+
+    /**
+     * Validate file has not the exclude regex if this regex is set.
+     *
+     * @param string $path The file path.
+     *
+     * @return bool True if it pass this validation.
+     */
+    private function validateExcludeRegex(string $path): bool
+    {
+        $excludeRegex = $this->config->getExcludeRegex();
+        return $excludeRegex === null || Validator::regex($excludeRegex)->validate($path) !== true;
     }
 }

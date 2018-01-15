@@ -26,7 +26,8 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
 
         $this->validateBooleans($config);
         $this->validateStrings($config);
-        $this->validateDirsAndFiles($config);
+        $this->validateDirs($config);
+        $this->validateFiles($config);
     }
 
     /**
@@ -69,20 +70,17 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
     }
 
     /**
-     * Validate directories and files contained in configuration.
+     * Validate directories contained in configuration.
      *
      * @param mixed $config The configuration.
      *
      * @throws InvalidConfigException If a directory is invalid (source or target).
      */
-    private function validateDirsAndFiles($config): void
+    private function validateDirs($config): void
     {
-        // Check that dirs exists
+        // Check that dirs key exists
         if (! Validator::key('dirs', Validator::arrayType())->validate($config)) {
             throw new InvalidConfigException('"dirs" parameter is not an array.');
-        }
-        if (! Validator::key('files', Validator::arrayType())->validate($config)) {
-            throw new InvalidConfigException('"files" parameter is not an array.');
         }
         // Validate each dirs
         if (! Validator::arrayVal()
@@ -90,7 +88,22 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
         ) {
             throw new InvalidConfigException('Some directories in "dirs" parameter are not strings.');
         }
-        // Validate each dirs
+    }
+
+    /**
+     * Validate files contained in configuration.
+     *
+     * @param mixed $config The configuration.
+     *
+     * @throws InvalidConfigException If a file is invalid (source or target).
+     */
+    private function validateFiles($config): void
+    {
+        // Check that files key exists
+        if (! Validator::key('files', Validator::arrayType())->validate($config)) {
+            throw new InvalidConfigException('"files" parameter is not an array.');
+        }
+        // Validate each files
         if (! Validator::arrayVal()
             ->each(Validator::stringType(), Validator::stringType())->validate($config['files'])
         ) {

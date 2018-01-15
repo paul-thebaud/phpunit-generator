@@ -4,9 +4,10 @@ namespace PhpUnitGen\Parser;
 
 use PhpParser\Error;
 use PhpParser\Parser;
-use PhpUnitGen\Exception\ParsingException;
+use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PhpFileModel;
+use PhpUnitGen\Parser\NodeParser\NodeParserInterface\PhpFileNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\PhpFileNodeParser;
 use PhpUnitGen\Parser\ParserInterface\PhpParserInterface;
 
@@ -34,12 +35,12 @@ class PhpParser implements PhpParserInterface
     /**
      * PhpFileParser constructor.
      *
-     * @param Parser            $phpParser         The php code parser.
-     * @param PhpFileNodeParser $phpFileNodeParser The php file node parser.
+     * @param Parser                     $phpParser         The php code parser to use.
+     * @param PhpFileNodeParserInterface $phpFileNodeParser The php file node parser to use.
      */
     public function __construct(
         Parser $phpParser,
-        PhpFileNodeParser $phpFileNodeParser
+        PhpFileNodeParserInterface $phpFileNodeParser
     ) {
         $this->phpParser         = $phpParser;
         $this->phpFileNodeParser = $phpFileNodeParser;
@@ -53,10 +54,11 @@ class PhpParser implements PhpParserInterface
         try {
             $nodes = $this->phpParser->parse($code);
         } catch (Error $error) {
-            throw new ParsingException("Unable to parse given php code (maybe your code contains errors).");
+            throw new ParseException("Unable to parse given php code (maybe your code contains errors).");
         }
 
         $phpFileModel = new PhpFileModel();
+        $phpFileModel = $this->phpFileNodeParser->preParseUses($nodes, $phpFileModel);
 
         /** @var PhpFileModelInterface $phpFileModel */
         $phpFileModel = $this->phpFileNodeParser->parseSubNodes($nodes, $phpFileModel);

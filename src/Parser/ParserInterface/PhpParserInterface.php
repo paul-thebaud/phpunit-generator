@@ -2,7 +2,7 @@
 
 namespace PhpUnitGen\Parser\ParserInterface;
 
-use PhpUnitGen\Exception\ParsingException;
+use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 
 /**
@@ -23,7 +23,7 @@ interface PhpParserInterface
      *
      * @return PhpFileModelInterface The created php file model.
      *
-     * @throws ParsingException If there is an error during parsing.
+     * @throws ParseException If there is an error during parsing.
      */
     public function invoke(string $code): PhpFileModelInterface;
 }

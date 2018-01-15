@@ -19,8 +19,9 @@ interface ExceptionCatcherInterface
      * Catch an exception, and display a warning or throw an exception depending on configuration.
      *
      * @param Exception $exception The exception to catch.
+     * @param string    $path      The concerned file path.
      *
      * @throws Exception If the configuration does not allow ignoring errors.
      */
-    public function catch(Exception $exception): void;
+    public function catch(Exception $exception, string $path): void;
 }

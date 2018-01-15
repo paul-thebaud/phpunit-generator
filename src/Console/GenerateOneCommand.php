@@ -28,9 +28,9 @@ class GenerateOneCommand extends AbstractGenerateCommand
         $this->setName("generate-one")
             ->setDescription("Generate unit tests skeletons with a custom configuration for only one file")
             ->setHelp("Use it to generate your unit tests skeletons from a configuration file and for only one file")
-            ->addArgument('config-path', InputArgument::REQUIRED, 'The configuration file path.')
             ->addArgument('source-file-path', InputArgument::REQUIRED, 'The source file path.')
-            ->addArgument('target-file-path', InputArgument::REQUIRED, 'The target file path.');
+            ->addArgument('target-file-path', InputArgument::REQUIRED, 'The target file path.')
+            ->addArgument('config-path', InputArgument::OPTIONAL, 'The configuration file path.');
     }
 
     /**
@@ -38,7 +38,10 @@ class GenerateOneCommand extends AbstractGenerateCommand
      */
     public function getConfiguration(InputInterface $input): ConsoleConfigInterface
     {
-        $configPath = $input->getArgument('config-path');
+        $configPath = 'phpunitgen.yml';
+        if (($inputConfigPath = $input->getArgument('config-path')) !== null) {
+            $configPath = $inputConfigPath;
+        }
         $sourceFile = $input->getArgument('source-file-path');
         $targetFile = $input->getArgument('target-file-path');
 

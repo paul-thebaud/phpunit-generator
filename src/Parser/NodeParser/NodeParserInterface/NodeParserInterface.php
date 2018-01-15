@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpUnitGen\Parser\NodeParser;
+namespace PhpUnitGen\Parser\NodeParser\NodeParserInterface;
 
 use PhpParser\Node;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
@@ -13,16 +13,22 @@ use PhpUnitGen\Model\PropertyInterface\NodeInterface;
  * @license    https://opensource.org/licenses/MIT The MIT license.
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
+ *
+ * A node parser interface must have the following method:
+ * invoke(
+ *      \PhpParser\Node $node,
+ *      \PhpUnitGen\Model\PropertyInterface\NodeInterface $parent
+ * ): PhpUnitGen\Model\PropertyInterface\NodeInterface;
  */
 interface NodeParserInterface
 {
     /**
      * Parse a node to update the parent node.
      *
-     * @param Node          $node   The php node to parse.
-     * @param NodeInterface $parent The parent node (for a method it is a class, etc).
+     * @param Node          $node   The node to parse.
+     * @param NodeInterface $parent The parent node.
      *
-     * @return NodeInterface The updated node.
+     * @return NodeInterface The updated parent.
      */
     public function parse(Node $node, NodeInterface $parent): NodeInterface;
 

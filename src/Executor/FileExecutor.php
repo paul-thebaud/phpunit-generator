@@ -80,8 +80,6 @@ class FileExecutor implements FileExecutorInterface
             return;
         }
 
-        $this->checkTargetPath($targetPath);
-
         $content = $this->fileSystem->read($sourcePath);
 
         if ($content === false) {
@@ -90,6 +88,8 @@ class FileExecutor implements FileExecutorInterface
 
         // We ignore the type checked because we already check the readability
         $code = $this->executor->invoke($content);
+
+        $this->checkTargetPath($targetPath);
 
         $this->fileSystem->write($targetPath, $code);
 

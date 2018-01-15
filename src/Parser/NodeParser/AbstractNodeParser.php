@@ -3,7 +3,9 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
+use PhpUnitGen\Exception\NodeParserException;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
+use PhpUnitGen\Parser\NodeParser\NodeParserInterface\NodeParserInterface;
 use Respect\Validation\Validator;
 
 /**
@@ -18,18 +20,26 @@ use Respect\Validation\Validator;
 abstract class AbstractNodeParser implements NodeParserInterface
 {
     /**
-     * @var NodeParserInterface[] $nodeParsers The array of node parsers. A key is node class, and a value is the
-     *      parser for this class.
+     * @var NodeParserInterface[] $nodeParsers Mapping array between PhpParser node class and PhpUnitGen node parser.
      */
     protected $nodeParsers = [];
 
     /**
      * {@inheritdoc}
+     *
+     * The abstract node parser is used with implementation of <NodeName>NodeParserInterface, so it must have the
+     * invoke method from them.
+     * If the invoke method does not exists, or if the parameter class does not match, it is an implementation error.
      */
     public function parse(Node $node, NodeInterface $parent): NodeInterface
     {
-        // By default, only return the parent node.
-        return $parent;
+        if (! method_exists($this, 'invoke')) {
+            throw new NodeParserException(sprintf(
+                'Class "%s" must implements method invoke described in AbstractNodeParser',
+                get_class($this)
+            ));
+        }
+        return $parent = $this->invoke($node, $parent);
     }
 
     /**
@@ -37,32 +47,49 @@ abstract class AbstractNodeParser implements NodeParserInterface
      */
     public function parseSubNodes(array $nodes, NodeInterface $parent): NodeInterface
     {
-        if (Validator::arrayType()->length(1, null)->validate($nodes)) {
-            foreach ($nodes as $node) {
-                $parent = $this->parseSubNode($node, $parent);
+        foreach ($nodes as $node) {
+            // Get the node class
+            $class = get_class($node);
+
+            // If a node parser exists
+            if ($this->hasNodeParser($class)) {
+                // Parse the node
+                $parent = $this->getNodeParser($class)->parse($node, $parent);
             }
         }
         return $parent;
     }
 
     /**
-     * Parse a sub node to update parent.
+     * Check if this node parser instance has a node parser.
      *
-     * @param Node          $node   The node to parse.
-     * @param NodeInterface $parent The parent.
+     * @param string $class The node parser for this class.
      *
-     * @return NodeInterface The updated parent.
+     * @return bool True if the node parser exists.
      */
-    protected function parseSubNode(Node $node, NodeInterface $parent): NodeInterface
+    protected function hasNodeParser(string $class): bool
     {
-        $class = get_class($node);
-
         if (Validator::key($class, Validator::instance(NodeParserInterface::class))
-            ->validate($this->nodeParsers)
-        ) {
-            $parent = $this->nodeParsers[$class]->parse($node, $parent);
+            ->validate($this->nodeParsers)) {
+            return true;
         }
+        return false;
+    }
 
-        return $parent;
+    /**
+     * Get a node parser.
+     *
+     * @param string $class The node parser for this class.
+     *
+     * @return NodeParserInterface The node parser.
+     *
+     * @throws NodeParserException If the node parser does not exists.
+     */
+    protected function getNodeParser(string $class): NodeParserInterface
+    {
+        if ($this->hasNodeParser($class)) {
+            return $this->nodeParsers[$class];
+        }
+        throw new NodeParserException(sprintf('The node parser for "%s" cannot be found.', $class));
     }
 }

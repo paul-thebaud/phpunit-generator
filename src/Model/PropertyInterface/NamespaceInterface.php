@@ -14,12 +14,22 @@ namespace PhpUnitGen\Model\PropertyInterface;
 interface NamespaceInterface
 {
     /**
-     * @param string[]|null $namespace The new namespace to be set.
+     * @param string[] $namespace The new namespace to be set.
      */
-    public function setNamespace(?array $namespace): void;
+    public function setNamespace(array $namespace): void;
 
     /**
-     * @return string[]|null The current namespace.
+     * @return string[] The current namespace.
      */
-    public function getNamespace(): ?array;
+    public function getNamespace(): array;
+
+    /**
+     * @return string|null The concat namespace parts.
+     */
+    public function getNamespaceString(): ?string;
+
+    /**
+     * @return string|null The last namespace part.
+     */
+    public function getNamespaceLast(): ?string;
 }

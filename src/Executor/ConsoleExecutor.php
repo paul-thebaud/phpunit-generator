@@ -135,7 +135,7 @@ class ConsoleExecutor implements ConsoleExecutorInterface
             try {
                 $this->directoryExecutor->invoke($source, $target);
             } catch (Exception $exception) {
-                $this->exceptionCatcher->catch($exception);
+                $this->exceptionCatcher->catch($exception, $source);
             }
             $this->report->increaseParsedDirectoriesNumber();
         }
@@ -151,7 +151,7 @@ class ConsoleExecutor implements ConsoleExecutorInterface
                 $this->fileExecutor->invoke($source, $target);
                 $this->report->increaseParsedFilesNumber();
             } catch (Exception $exception) {
-                $this->exceptionCatcher->catch($exception);
+                $this->exceptionCatcher->catch($exception, $source);
             }
         }
     }

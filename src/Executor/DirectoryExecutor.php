@@ -5,6 +5,7 @@ namespace PhpUnitGen\Executor;
 use League\Flysystem\FilesystemInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Exception\Exception;
+use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
 use PhpUnitGen\Exception\ExecutorException;
 use PhpUnitGen\Executor\ExecutorInterface\DirectoryExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
@@ -43,6 +44,11 @@ class DirectoryExecutor implements DirectoryExecutorInterface
     private $fileSystem;
 
     /**
+     * @var ExceptionCatcherInterface $exceptionCatcher An exception catcher to catch exception.
+     */
+    private $exceptionCatcher;
+
+    /**
      * @var ReportInterface $report The report to use.
      */
     private $report;
@@ -50,24 +56,27 @@ class DirectoryExecutor implements DirectoryExecutorInterface
     /**
      * DirectoryParser constructor.
      *
-     * @param ConsoleConfigInterface $config       A config instance.
-     * @param StyleInterface         $output       An output to display message.
-     * @param FileExecutorInterface  $fileExecutor A file executor.
-     * @param FilesystemInterface    $fileSystem   A file system instance.
-     * @param ReportInterface        $report       The report.
+     * @param ConsoleConfigInterface    $config           A config instance.
+     * @param StyleInterface            $output           An output to display message.
+     * @param FileExecutorInterface     $fileExecutor     A file executor.
+     * @param FilesystemInterface       $fileSystem       A file system instance.
+     * @param ExceptionCatcherInterface $exceptionCatcher The exception catcher.
+     * @param ReportInterface           $report           The report.
      */
     public function __construct(
         ConsoleConfigInterface $config,
         StyleInterface $output,
         FileExecutorInterface $fileExecutor,
         FilesystemInterface $fileSystem,
+        ExceptionCatcherInterface $exceptionCatcher,
         ReportInterface $report
     ) {
-        $this->config       = $config;
-        $this->output       = $output;
-        $this->fileExecutor = $fileExecutor;
-        $this->fileSystem   = $fileSystem;
-        $this->report       = $report;
+        $this->config           = $config;
+        $this->output           = $output;
+        $this->fileExecutor     = $fileExecutor;
+        $this->fileSystem       = $fileSystem;
+        $this->exceptionCatcher = $exceptionCatcher;
+        $this->report           = $report;
     }
 
     /**
@@ -105,11 +114,7 @@ class DirectoryExecutor implements DirectoryExecutorInterface
             // Execute file executor
             $this->fileExecutor->invoke($filePath, str_replace($sourcePath, $targetPath, $filePath));
         } catch (Exception $exception) {
-            if ($this->config->hasIgnore()) {
-                $this->output->note($exception->getMessage());
-            } else {
-                throw new ExecutorException($exception->getMessage());
-            }
+            $this->exceptionCatcher->catch($exception, $sourcePath);
         }
     }
 }

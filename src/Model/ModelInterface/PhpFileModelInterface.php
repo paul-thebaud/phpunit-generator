@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Model\ModelInterface;
 
 use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
+use PhpUnitGen\Model\PropertyInterface\NamespaceInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 
 /**
@@ -14,8 +15,21 @@ use PhpUnitGen\Model\PropertyInterface\NodeInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface PhpFileModelInterface extends ClassLikeInterface, NodeInterface
+interface PhpFileModelInterface extends NamespaceInterface, ClassLikeInterface, NodeInterface
 {
+    /**
+     * Add a new concrete PHP import for tests skeleton.
+     *
+     * @param string $fullName The full name of this import.
+     * @param string $name     The name of the class.
+     */
+    public function addConcreteUse(string $fullName, string $name): void;
+
+    /**
+     * @return string[] Imports needed for tests skeletons.
+     */
+    public function getConcreteUses(): array;
+
     /**
      * Add a new PHP import.
      *

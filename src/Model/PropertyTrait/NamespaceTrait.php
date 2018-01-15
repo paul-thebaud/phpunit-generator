@@ -2,6 +2,8 @@
 
 namespace PhpUnitGen\Model\PropertyTrait;
 
+use Respect\Validation\Validator;
+
 /**
  * Trait NamespaceTrait.
  *
@@ -14,23 +16,43 @@ namespace PhpUnitGen\Model\PropertyTrait;
 trait NamespaceTrait
 {
     /**
-     * @var string[]|null $namespace A string[] describing a namespace.
+     * @var string[] $namespace A string[] describing a namespace.
      */
-    protected $namespace;
+    protected $namespace = [];
 
     /**
-     * @param string[]|null $namespace The new namespace to be set.
+     * @param string[] $namespace The new namespace to be set.
      */
-    public function setNamespace(?array $namespace): void
+    public function setNamespace(array $namespace): void
     {
         $this->namespace = $namespace;
     }
 
     /**
-     * @return string[]|null The current namespace.
+     * @return string[] The current namespace.
      */
-    public function getNamespace(): ?array
+    public function getNamespace(): array
     {
         return $this->namespace;
+    }
+
+    /**
+     * @return string|null The concat namespace parts.
+     */
+    public function getNamespaceString(): ?string
+    {
+        return Validator::notEmpty()->validate($this->namespace) ?
+            implode('\\', $this->namespace) :
+            null;
+    }
+
+    /**
+     * @return string|null The last namespace part.
+     */
+    public function getNamespaceLast(): ?string
+    {
+        return Validator::notEmpty()->validate($this->namespace) ?
+            $this->namespace[(count($this->namespace) - 1)] :
+            null;
     }
 }

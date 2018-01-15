@@ -41,16 +41,18 @@ To help you configuring PhpUnitGen, you can use the following configuration file
 * `Json` example is available [here](examples/phpunitgen.config.json).
 * `Php` example is available [here](examples/phpunitgen.config.php).
 
+Notice that if don't give a `config-path`, it will use the default path: `./phpunitgen.yml`.
+
 The following command generate unit tests skeletons for a given configuration.
 
 ```bash
-$ php ./vendor/bin/phpunitgen generate <config-path>
+$ php ./vendor/bin/phpunitgen generate [<config-path>]
 ```
 
 The following command generate unit tests skeletons for a given configuration, but only for the given source file to the target file.
 
 ```bash
-$ php ./vendor/bin/phpunitgen generate-one <config-path> <source-file-path> <target-file-path>
+$ php ./vendor/bin/phpunitgen generate-one <source-file-path> <target-file-path> [<config-path>]
 ```
 
 #### Console command using the default configuration

@@ -14,6 +14,11 @@ namespace PhpUnitGen\Model\PropertyInterface;
 interface TypeInterface
 {
     /**
+     * @var string UNKNOWN_CUSTOM A string describing an unknown custom type.
+     */
+    const UNKNOWN_CUSTOM = 'UNKNOWN_CUSTOM_TYPE';
+
+    /**
      * @var null MIXED A mixed value (can be whatever).
      */
     const MIXED = null;
@@ -77,4 +82,14 @@ interface TypeInterface
      * @return bool True if it is nullable.
      */
     public function nullable(): bool;
+
+    /**
+     * @param string|null $customType The new custom type to set as a string.
+     */
+    public function setCustomType(?string $customType): void;
+
+    /**
+     * @return string|null The current custom type as a string.
+     */
+    public function getCustomType(): ?string;
 }

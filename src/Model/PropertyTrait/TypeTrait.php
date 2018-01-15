@@ -26,6 +26,11 @@ trait TypeTrait
     protected $nullable = false;
 
     /**
+     * @var string|null $customType A custom type as a string (not null if the type is CUSTOM).
+     */
+    protected $customType = null;
+
+    /**
      * @param int|null $type The new type to set.
      */
     public function setType(?int $type): void
@@ -55,5 +60,21 @@ trait TypeTrait
     public function nullable(): bool
     {
         return $this->nullable;
+    }
+
+    /**
+     * @param string|null $customType The new custom type to set as a string.
+     */
+    public function setCustomType(?string $customType): void
+    {
+        $this->customType = $customType;
+    }
+
+    /**
+     * @return string|null The current custom type as a string.
+     */
+    public function getCustomType(): ?string
+    {
+        return $this->customType;
     }
 }

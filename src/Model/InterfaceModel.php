@@ -19,7 +19,6 @@ use PhpUnitGen\Model\PropertyTrait\NodeTrait;
  */
 class InterfaceModel implements InterfaceModelInterface
 {
-    use NamespaceTrait;
     use NameTrait;
     use NodeTrait;
 
@@ -34,7 +33,6 @@ class InterfaceModel implements InterfaceModelInterface
     public function addFunction(FunctionModelInterface $function): void
     {
         $this->functions[] = $function;
-        $function->setParentNode($this);
     }
 
     /**

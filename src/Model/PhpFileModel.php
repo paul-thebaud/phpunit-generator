@@ -2,6 +2,7 @@
 
 namespace PhpUnitGen\Model;
 
+use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Model\ModelInterface\ClassModelInterface;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
@@ -9,6 +10,7 @@ use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
 use PhpUnitGen\Model\PropertyTrait\NamespaceTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
+use Respect\Validation\Validator;
 
 /**
  * Class PhpFileModel.
@@ -23,6 +25,12 @@ class PhpFileModel implements PhpFileModelInterface
 {
     use NamespaceTrait;
     use NodeTrait;
+
+    /**
+     * This array is constructed with the full name as key, and the class name as a value.
+     * @var string[] $uses Imports needed for tests skeletons.
+     */
+    private $concreteUses = [];
 
     /**
      * This array is constructed with the name or the alias as key, and the real namespace, full name as a value.
@@ -49,6 +57,28 @@ class PhpFileModel implements PhpFileModelInterface
      * @var InterfaceModelInterface[] $interfaces Interfaces contained in the file.
      */
     private $interfaces = [];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addConcreteUse(string $fullName, string $name): void
+    {
+        if (Validator::contains($name)->validate($this->concreteUses)) {
+            throw new ParseException(sprintf(
+                'It seems you import two times the class "%s" in your code',
+                $fullName
+            ));
+        }
+        $this->concreteUses[$fullName] = $name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConcreteUses(): array
+    {
+        return $this->concreteUses;
+    }
 
     /**
      * {@inheritdoc}
@@ -91,7 +121,6 @@ class PhpFileModel implements PhpFileModelInterface
     public function addFunction(FunctionModelInterface $function): void
     {
         $this->functions[] = $function;
-        $function->setParentNode($this);
     }
 
     /**
@@ -108,7 +137,6 @@ class PhpFileModel implements PhpFileModelInterface
     public function addClass(ClassModelInterface $class): void
     {
         $this->classes[] = $class;
-        $class->setParentNode($this);
     }
 
     /**
@@ -125,7 +153,6 @@ class PhpFileModel implements PhpFileModelInterface
     public function addTrait(TraitModelInterface $trait): void
     {
         $this->traits[] = $trait;
-        $trait->setParentNode($this);
     }
 
     /**
@@ -142,7 +169,6 @@ class PhpFileModel implements PhpFileModelInterface
     public function addInterface(InterfaceModelInterface $interface): void
     {
         $this->interfaces[] = $interface;
-        $interface->setParentNode($this);
     }
 
     /**

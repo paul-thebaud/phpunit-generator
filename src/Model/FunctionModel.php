@@ -48,7 +48,6 @@ class FunctionModel implements FunctionModelInterface
     public function addParameter(ParameterModelInterface $parameter): void
     {
         $this->parameters[] = $parameter;
-        $parameter->setParentNode($this);
     }
 
     /**
@@ -65,7 +64,6 @@ class FunctionModel implements FunctionModelInterface
     public function setReturn(ReturnModelInterface $return): void
     {
         $this->setReturn($return);
-        $return->setParentNode($this);
     }
 
     /**

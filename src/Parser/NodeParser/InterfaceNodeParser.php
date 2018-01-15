@@ -5,7 +5,8 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\InterfaceModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
-use PhpUnitGen\Model\PropertyInterface\NodeInterface;
+use PhpUnitGen\Parser\NodeParser\NodeParserInterface\InterfaceNodeParserInterface;
+use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
 
 /**
  * Class InterfaceNodeParser.
@@ -16,29 +17,31 @@ use PhpUnitGen\Model\PropertyInterface\NodeInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class InterfaceNodeParser extends AbstractNodeParser
+class InterfaceNodeParser extends AbstractNodeParser implements InterfaceNodeParserInterface
 {
     /**
      * InterfaceNodeParser constructor.
      *
-     * @param FunctionNodeParser $functionNodeParser The function node parser.
+     * @param MethodNodeParserInterface $methodNodeParser The method node parser to use.
      */
-    public function __construct(FunctionNodeParser $functionNodeParser)
-    {
-        $this->nodeParsers[Node\Stmt\ClassMethod::class] = $functionNodeParser;
+    public function __construct(
+        MethodNodeParserInterface $methodNodeParser
+    ) {
+        $this->nodeParsers[Node\Stmt\ClassMethod::class] = $methodNodeParser;
     }
 
     /**
-     * {@inheritdoc}
+     * Parse a node to update the parent node model.
+     *
+     * @param Node\Stmt\Interface_  $node   The node to parse.
+     * @param PhpFileModelInterface $parent The parent node.
+     *
+     * @return PhpFileModelInterface The updated parent.
      */
-    public function parse(Node $node, NodeInterface $parent): NodeInterface
+    public function invoke(Node\Stmt\Interface_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
     {
-        /**
-         * Overriding variable types.
-         * @var Node\Stmt\Interface_  $node   The interface node to parse.
-         * @var PhpFileModelInterface $parent The node which contains this namespace.
-         */
         $interface = new InterfaceModel();
+        $interface->setParentNode($parent);
         $interface->setName($node->name);
 
         $interface = $this->parseSubNodes($node->stmts, $interface);

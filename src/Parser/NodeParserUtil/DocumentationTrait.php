@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpUnitGen\Parser\NodeParserTrait;
+namespace PhpUnitGen\Parser\NodeParserUtil;
 
 use PhpParser\Node;
 use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
@@ -17,13 +17,13 @@ use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
 trait DocumentationTrait
 {
     /**
-     * Retrieve the documentation of a node.
+     * Get the documentation of a node.
      *
      * @param Node $node The node.
      *
      * @return string|null The documentation of the node, null if none.
      */
-    protected function parseDocumentation(Node $node): ?string
+    protected function getDocumentation(Node $node): ?string
     {
         $phpdoc = $node->getDocComment();
         if ($phpdoc !== null) {

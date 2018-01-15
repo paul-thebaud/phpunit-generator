@@ -6,6 +6,7 @@ use PhpUnitGen\Model\PropertyInterface\NameInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Model\PropertyInterface\StaticInterface;
 use PhpUnitGen\Model\PropertyInterface\ValueInterface;
+use PhpUnitGen\Model\PropertyInterface\VariableLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
 
 /**
@@ -17,11 +18,6 @@ use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface AttributeModelInterface extends
-    NameInterface,
-    ValueInterface,
-    VisibilityInterface,
-    StaticInterface,
-    NodeInterface
+interface AttributeModelInterface extends VariableLikeInterface, VisibilityInterface, StaticInterface
 {
 }

@@ -28,7 +28,7 @@ class GenerateCommand extends AbstractGenerateCommand
         $this->setName("generate")
             ->setDescription("Generate unit tests skeletons with a custom configuration")
             ->setHelp("Use it to generate your unit tests skeletons from a configuration file")
-            ->addArgument('config-path', InputArgument::REQUIRED, 'The configuration file path.');
+            ->addArgument('config-path', InputArgument::OPTIONAL, 'The configuration file path.');
     }
 
     /**
@@ -36,7 +36,10 @@ class GenerateCommand extends AbstractGenerateCommand
      */
     public function getConfiguration(InputInterface $input): ConsoleConfigInterface
     {
-        $configPath = $input->getArgument('config-path');
+        $configPath = 'phpunitgen.yml';
+        if ($input->hasArgument('config-path')) {
+            $configPath = $input->getArgument('config-path');
+        }
 
         if (! file_exists($configPath)) {
             throw new InvalidConfigException(sprintf('Config file "%s" does not exists.', $configPath));

@@ -3,11 +3,11 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
-use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\UseNodeParserInterface;
+use PhpUnitGen\Model\PropertyInterface\VariableLikeInterface;
+use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ValueNodeParserInterface;
 
 /**
- * Class UseNodeParser.
+ * Class ValueNodeParser.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -15,17 +15,15 @@ use PhpUnitGen\Parser\NodeParser\NodeParserInterface\UseNodeParserInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class UseNodeParser extends AbstractNodeParser implements UseNodeParserInterface
+class ValueNodeParser extends AbstractNodeParser implements ValueNodeParserInterface
 {
     /**
      * {@inheritdoc}
+     *
+     * This method do nothing because parsing expr is hard and useless for PhpUnitGen.
      */
-    public function invoke(Node\Stmt\Use_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
+    public function invoke(Node\Expr $node, VariableLikeInterface $parent): VariableLikeInterface
     {
-        foreach ($node->uses as $use) {
-            $parent->addUse($use->alias, $use->name->toString());
-        }
-
         return $parent;
     }
 }

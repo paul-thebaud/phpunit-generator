@@ -5,9 +5,9 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\AttributeModel;
 use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
-use PhpUnitGen\Model\PropertyInterface\NodeInterface;
-use PhpUnitGen\Parser\NodeParserTrait\VisibilityTrait;
-use Respect\Validation\Validator;
+use PhpUnitGen\Parser\NodeParser\NodeParserInterface\AttributeNodeParserInterface;
+use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ValueNodeParserInterface;
+use PhpUnitGen\Parser\NodeParserUtil\AttributeVisibilityTrait;
 
 /**
  * Class AttributeNodeParser.
@@ -18,35 +18,43 @@ use Respect\Validation\Validator;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class AttributeNodeParser extends AbstractNodeParser
+class AttributeNodeParser extends AbstractNodeParser implements AttributeNodeParserInterface
 {
-    use VisibilityTrait;
+    use AttributeVisibilityTrait;
+
+    /**
+     * @var ValueNodeParserInterface $valueNodeParser The value node parser.
+     */
+    protected $valueNodeParser;
+
+    /**
+     * AttributeNodeParser constructor.
+     *
+     * @param ValueNodeParserInterface $valueNodeParser The value node parser.
+     */
+    public function __construct(ValueNodeParserInterface $valueNodeParser)
+    {
+        $this->valueNodeParser = $valueNodeParser;
+    }
 
     /**
      * {@inheritdoc}
      */
-    public function parse(Node $node, NodeInterface $parent): NodeInterface
+    public function invoke(Node\Stmt\Property $node, TraitModelInterface $parent): TraitModelInterface
     {
-        /**
-         * Overriding variable types.
-         * @var Node\Stmt\Property  $node   The property node to parse.
-         * @var TraitModelInterface $parent The node which contains this namespace.
-         */
-        if (! Validator::instance(Node\Stmt\Property::class)->validate($node)) {
-            return $parent;
-        }
-
         $isStatic = $node->isStatic();
-        $visibility = $this->parseVisibility($node);
+        $visibility = $this->getPropertyVisibility($node);
 
         foreach ($node->props as $property) {
             $attribute = new AttributeModel();
+            $attribute->setParentNode($parent);
             $attribute->setName($property->name);
             $attribute->setIsStatic($isStatic);
             $attribute->setVisibility($visibility);
 
-            /** @todo */
-            $attribute->setValue(null);
+            if ($property->default !== null) {
+                $attribute = $this->valueNodeParser->invoke($property->default, $attribute);
+            }
 
             $parent->addAttribute($attribute);
         }

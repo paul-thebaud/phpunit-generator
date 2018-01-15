@@ -39,7 +39,7 @@ $ composer require --dev paulthebaud/phpunit-generator
 PhpUnitGenerator basic usage is from command line with the following command.
 
 ```bash
-$ php ./vendor/bin/phpunitgen generate <config-path>
+$ php ./vendor/bin/phpunitgen generate [<config-path>]
 ```
 For this command, you will need a configuration file written in `Yaml`, `Json` or `Php`.
 
@@ -47,10 +47,12 @@ For this command, you will need a configuration file written in `Yaml`, `Json` o
 * `Json` example is available [here](examples/phpunitgen.config.json).
 * `Php` example is available [here](examples/phpunitgen.config.php).
 
+Notice that if don't give a `config-path`, it will use the default path: `./phpunitgen.yml`.
+
 3 other commands are available:
 
 ```bash
-$ php ./vendor/bin/phpunitgen generate-one <config-path> <source-file-path> <target-file-path>
+$ php ./vendor/bin/phpunitgen generate-one <source-file-path> <target-file-path> [<config-path>]
 
 $ php ./vendor/bin/phpunitgen generate-default <source-path> <target-path>
 

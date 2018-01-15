@@ -6,6 +6,7 @@ use PhpUnitGen\Model\PropertyInterface\NameInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Model\PropertyInterface\TypeInterface;
 use PhpUnitGen\Model\PropertyInterface\ValueInterface;
+use PhpUnitGen\Model\PropertyInterface\VariableLikeInterface;
 
 /**
  * Interface ParameterModelInterface.
@@ -16,7 +17,7 @@ use PhpUnitGen\Model\PropertyInterface\ValueInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface ParameterModelInterface extends NameInterface, TypeInterface, ValueInterface, NodeInterface
+interface ParameterModelInterface extends VariableLikeInterface, TypeInterface
 {
     /**
      * @param bool $isVariadic The new variadic value to set.

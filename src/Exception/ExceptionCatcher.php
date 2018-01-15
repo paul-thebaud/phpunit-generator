@@ -44,10 +44,10 @@ class ExceptionCatcher implements ExceptionCatcherInterface
     /**
      * {@inheritdoc}
      */
-    public function catch(Exception $exception): void
+    public function catch(Exception $exception, string $path): void
     {
         if ($this->config->hasIgnore()) {
-            $this->output->note($exception->getMessage());
+            $this->output->note(sprintf('On file "%s": %s', $path, $exception->getMessage()));
         } else {
             throw new Exception($exception->getMessage());
         }

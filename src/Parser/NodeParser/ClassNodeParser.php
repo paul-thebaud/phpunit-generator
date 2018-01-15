@@ -5,7 +5,9 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\ClassModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
-use PhpUnitGen\Model\PropertyInterface\NodeInterface;
+use PhpUnitGen\Parser\NodeParser\NodeParserInterface\AttributeNodeParserInterface;
+use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ClassNodeParserInterface;
+use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
 
 /**
  * Class ClassNodeParser.
@@ -16,38 +18,41 @@ use PhpUnitGen\Model\PropertyInterface\NodeInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class ClassNodeParser extends AbstractNodeParser
+class ClassNodeParser extends AbstractNodeParser implements ClassNodeParserInterface
 {
     /**
-     * InterfaceNodeParser constructor.
+     * ClassNodeParser constructor.
      *
-     * @param FunctionNodeParser  $functionNodeParser  The function node parser.
-     * @param AttributeNodeParser $attributeNodeParser The attribute node parser.
+     * @param MethodNodeParserInterface    $methodNodeParser    The method node parser to use.
+     * @param AttributeNodeParserInterface $attributeNodeParser The attribute node parser to use.
      */
-    public function __construct(FunctionNodeParser $functionNodeParser, AttributeNodeParser $attributeNodeParser)
-    {
-        $this->nodeParsers[Node\Stmt\ClassMethod::class] = $functionNodeParser;
+    public function __construct(
+        MethodNodeParserInterface $methodNodeParser,
+        AttributeNodeParserInterface $attributeNodeParser
+    ) {
+        $this->nodeParsers[Node\Stmt\ClassMethod::class] = $methodNodeParser;
         $this->nodeParsers[Node\Stmt\Property::class]    = $attributeNodeParser;
     }
 
     /**
-     * {@inheritdoc}
+     * Parse a node to update the parent node model.
+     *
+     * @param Node\Stmt\Class_      $node   The node to parse.
+     * @param PhpFileModelInterface $parent The parent node.
+     *
+     * @return PhpFileModelInterface The updated parent.
      */
-    public function parse(Node $node, NodeInterface $parent): NodeInterface
+    public function invoke(Node\Stmt\Class_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
     {
-        /**
-         * Overriding variable types.
-         * @var Node\Stmt\Class_      $node   The class node to parse.
-         * @var PhpFileModelInterface $parent The node which contains this namespace.
-         */
         $class = new ClassModel();
+        $class->setParentNode($parent);
         $class->setName($node->name);
         $class->setIsAbstract($node->isAbstract());
         $class->setIsFinal($node->isFinal());
 
         $class = $this->parseSubNodes($node->stmts, $class);
 
-        $parent->addClass($class);
+        $parent->addTrait($class);
 
         return $parent;
     }

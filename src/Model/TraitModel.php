@@ -27,7 +27,6 @@ class TraitModel extends InterfaceModel implements TraitModelInterface
     public function addAttribute(AttributeModelInterface $attribute): void
     {
         $this->attributes[] = $attribute;
-        $attribute->setParentNode($this);
     }
 
     /**

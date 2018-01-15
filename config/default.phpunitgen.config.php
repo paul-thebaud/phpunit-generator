@@ -15,5 +15,8 @@ return [
     'include'   => '/.*.php/',
     // Directories and files to generate tests for
     'dirs'      => [],
-    'files'     => []
+    // Files to generate tests for
+    'files'     => [],
+    // Phpdoc annotations to add on the unit tests class header
+    'phpdoc'    => []
 ];

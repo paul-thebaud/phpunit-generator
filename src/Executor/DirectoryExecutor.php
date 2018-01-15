@@ -8,6 +8,7 @@ use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Exception\ExecutorException;
 use PhpUnitGen\Executor\ExecutorInterface\DirectoryExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
+use PhpUnitGen\Report\ReportInterface\ReportInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
 /**
@@ -42,23 +43,31 @@ class DirectoryExecutor implements DirectoryExecutorInterface
     private $fileSystem;
 
     /**
+     * @var ReportInterface $report The report to use.
+     */
+    private $report;
+
+    /**
      * DirectoryParser constructor.
      *
      * @param ConsoleConfigInterface $config       A config instance.
      * @param StyleInterface         $output       An output to display message.
      * @param FileExecutorInterface  $fileExecutor A file executor.
      * @param FilesystemInterface    $fileSystem   A file system instance.
+     * @param ReportInterface        $report       The report.
      */
     public function __construct(
         ConsoleConfigInterface $config,
         StyleInterface $output,
         FileExecutorInterface $fileExecutor,
-        FilesystemInterface $fileSystem
+        FilesystemInterface $fileSystem,
+        ReportInterface $report
     ) {
         $this->config       = $config;
         $this->output       = $output;
         $this->fileExecutor = $fileExecutor;
         $this->fileSystem   = $fileSystem;
+        $this->report       = $report;
     }
 
     /**
@@ -77,6 +86,8 @@ class DirectoryExecutor implements DirectoryExecutorInterface
         foreach ($this->fileSystem->listContents($sourcePath, true) as $file) {
             $this->executeFileExecutor($sourcePath, $targetPath, $file['path']);
         }
+
+        $this->report->increaseParsedFileFromDirectoryNumber();
     }
 
     /**

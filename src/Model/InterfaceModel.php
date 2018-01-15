@@ -4,6 +4,7 @@ namespace PhpUnitGen\Model;
 
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
+use PhpUnitGen\Model\PropertyTrait\NamespaceTrait;
 use PhpUnitGen\Model\PropertyTrait\NameTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
 
@@ -18,6 +19,7 @@ use PhpUnitGen\Model\PropertyTrait\NodeTrait;
  */
 class InterfaceModel implements InterfaceModelInterface
 {
+    use NamespaceTrait;
     use NameTrait;
     use NodeTrait;
 

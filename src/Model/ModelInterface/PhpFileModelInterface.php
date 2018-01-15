@@ -2,12 +2,8 @@
 
 namespace PhpUnitGen\Model\ModelInterface;
 
-use PhpUnitGen\Model\ClassModel;
-use PhpUnitGen\Model\FunctionModel;
-use PhpUnitGen\Model\InterfaceModel;
-use PhpUnitGen\Model\PropertyInterface\NamespaceInterface;
+use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
-use PhpUnitGen\Model\TraitModel;
 
 /**
  * Interface PhpFileModelInterface.
@@ -18,7 +14,7 @@ use PhpUnitGen\Model\TraitModel;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface PhpFileModelInterface extends NamespaceInterface, NodeInterface
+interface PhpFileModelInterface extends ClassLikeInterface, NodeInterface
 {
     /**
      * Add a new PHP import.
@@ -52,42 +48,32 @@ interface PhpFileModelInterface extends NamespaceInterface, NodeInterface
     public function getUses(): array;
 
     /**
-     * @param FunctionModel $function The function to add.
+     * @param ClassModelInterface $class The class to add.
      */
-    public function addFunction(FunctionModel $function): void;
+    public function addClass(ClassModelInterface $class): void;
 
     /**
-     * @return FunctionModel[] All functions contained in the file.
-     */
-    public function getFunctions(): array;
-
-    /**
-     * @param ClassModel $class The class to add.
-     */
-    public function addClass(ClassModel $class): void;
-
-    /**
-     * @return ClassModel[] All classes contained in the file.
+     * @return ClassModelInterface[] All classes contained in the file.
      */
     public function getClasses(): array;
 
     /**
-     * @param TraitModel $trait The trait to add.
+     * @param TraitModelInterface $trait The trait to add.
      */
-    public function addTrait(TraitModel $trait): void;
+    public function addTrait(TraitModelInterface $trait): void;
 
     /**
-     * @return TraitModel[] All traits contained in the file.
+     * @return TraitModelInterface[] All traits contained in the file.
      */
     public function getTraits(): array;
 
     /**
-     * @param InterfaceModel $interface The interface to add.
+     * @param InterfaceModelInterface $interface The interface to add.
      */
-    public function addInterface(InterfaceModel $interface): void;
+    public function addInterface(InterfaceModelInterface $interface): void;
 
     /**
-     * @return InterfaceModel[] All interfaces contained in the file.
+     * @return InterfaceModelInterface[] All interfaces contained in the file.
      */
     public function getInterfaces(): array;
 }

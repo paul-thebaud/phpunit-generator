@@ -156,10 +156,14 @@ public function setSomething(int $something): void
 ```php
 <?php
 /**
- * @PhpUnitGen\AssertEquals(p=["1"], r="2")
+ * @PhpUnitGen\AssertEquals(p=["1"], e="2")
  */
 public function doSomething(int $something): int
 {
     return $something + 1;
 }
 ```
+
+`p` is for `parameters`: an array of parameters.
+
+`e` is for `expected`: an expected value.

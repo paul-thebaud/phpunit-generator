@@ -7,7 +7,9 @@ use PhpUnitGen\Model\ModelInterface\ParameterModelInterface;
 use PhpUnitGen\Model\ModelInterface\ReturnModelInterface;
 use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyTrait\AbstractTrait;
+use PhpUnitGen\Model\PropertyTrait\DocumentationTrait;
 use PhpUnitGen\Model\PropertyTrait\FinalTrait;
+use PhpUnitGen\Model\PropertyTrait\NamespaceTrait;
 use PhpUnitGen\Model\PropertyTrait\NameTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
 use PhpUnitGen\Model\PropertyTrait\StaticTrait;
@@ -30,6 +32,7 @@ class FunctionModel implements FunctionModelInterface
     use FinalTrait;
     use AbstractTrait;
     use NodeTrait;
+    use DocumentationTrait;
 
     /**
      * @var ParameterModel[] $parameters The function methods.

@@ -8,6 +8,7 @@ use PhpUnitGen\Exception\ExecutorException;
 use PhpUnitGen\Exception\NotReadableFileException;
 use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
+use PhpUnitGen\Report\ReportInterface\ReportInterface;
 use PhpUnitGen\Validator\ValidatorInterface\FileValidatorInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 

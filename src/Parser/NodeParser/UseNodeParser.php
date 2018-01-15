@@ -25,10 +25,12 @@ class UseNodeParser extends AbstractNodeParser
     {
         /**
          * Overriding variable types.
-         * @var Node\Stmt\Use_        $node   The namespace node to parse.
+         * @var Node\Stmt\Use_        $node   The use node to parse.
          * @var PhpFileModelInterface $parent The node which contains this namespace.
          */
-        if (! Validator::instance(Node\Stmt\Use_::class)->validate($node)) {
+        if (! Validator::instance(Node\Stmt\Use_::class)->validate($node)
+            && $node->type === Node\Stmt\Use_::TYPE_NORMAL
+        ) {
             return $parent;
         }
         foreach ($node->uses as $use) {

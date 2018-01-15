@@ -13,7 +13,7 @@ use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface ClassLikeInterface
+interface ClassLikeInterface extends NamespaceInterface
 {
     /**
      * @param FunctionModelInterface $function The function to add on this parent.

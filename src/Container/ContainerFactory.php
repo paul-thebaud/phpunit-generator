@@ -11,14 +11,17 @@ use PhpUnitGen\Container\ContainerInterface\ContainerInterface;
 use PhpUnitGen\Executor\Executor;
 use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
 use PhpUnitGen\Parser\NodeParser\AttributeNodeParser;
+use PhpUnitGen\Parser\NodeParser\ClassNodeParser;
+use PhpUnitGen\Parser\NodeParser\FunctionNodeParser;
 use PhpUnitGen\Parser\NodeParser\InterfaceNodeParser;
-use PhpUnitGen\Parser\NodeParser\MethodNodeParser;
 use PhpUnitGen\Parser\NodeParser\NamespaceNodeParser;
 use PhpUnitGen\Parser\NodeParser\PhpFileNodeParser;
 use PhpUnitGen\Parser\NodeParser\TraitNodeParser;
 use PhpUnitGen\Parser\NodeParser\UseNodeParser;
 use PhpUnitGen\Parser\ParserInterface\PhpParserInterface;
 use PhpUnitGen\Parser\PhpParser;
+use PhpUnitGen\Report\Report;
+use PhpUnitGen\Report\ReportInterface\ReportInterface;
 
 /**
  * Class ContainerFactory.
@@ -47,11 +50,13 @@ class ContainerFactory implements ContainerFactoryInterface
         $container->set(PhpParserInterface::class, PhpParser::class);
         $container->set(ExecutorInterface::class, Executor::class);
 
+        $container->set(ReportInterface::class, Report::class);
         $container->set(UseNodeParser::class);
-        $container->set(MethodNodeParser::class);
+        $container->set(FunctionNodeParser::class);
         $container->set(AttributeNodeParser::class);
         $container->set(InterfaceNodeParser::class);
         $container->set(TraitNodeParser::class);
+        $container->set(ClassNodeParser::class);
         $container->set(NamespaceNodeParser::class);
         $container->set(PhpFileNodeParser::class);
 

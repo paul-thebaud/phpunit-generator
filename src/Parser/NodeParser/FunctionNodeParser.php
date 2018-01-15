@@ -6,9 +6,12 @@ use PhpParser\Node;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
+use PhpUnitGen\Parser\NodeParserTrait\DocumentationTrait;
+use PhpUnitGen\Parser\NodeParserTrait\ParamTrait;
+use PhpUnitGen\Parser\NodeParserTrait\VisibilityTrait;
 
 /**
- * Class MethodNodeParser.
+ * Class FunctionNodeParser.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -16,8 +19,12 @@ use PhpUnitGen\Model\PropertyInterface\NodeInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class MethodNodeParser extends AbstractNodeParser
+class FunctionNodeParser extends AbstractNodeParser
 {
+    use VisibilityTrait;
+    use DocumentationTrait;
+    use ParamTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -25,11 +32,20 @@ class MethodNodeParser extends AbstractNodeParser
     {
         /**
          * Overriding variable types.
-         * @var Node\Stmt\ClassMethod $node   The method node to parse.
+         * @var Node\Stmt\ClassMethod $node   The function node to parse.
          * @var ClassLikeInterface    $parent The node which contains this namespace.
          */
         $function = new FunctionModel();
         $function->setName($node->name);
+        $function->setDocumentation($this->parseDocumentation($node));
+        $function->setIsFinal($node->isFinal());
+        $function->setIsStatic($node->isStatic());
+        $function->setIsAbstract($node->isAbstract());
+        $function->setVisibility($this->parseVisibility($node));
+
+        foreach ($node->getParams() as $param) {
+            $function->addParameter($this->parseParam($param));
+        }
 
         $parent->addFunction($function);
 

@@ -8,6 +8,7 @@ use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
 use PhpUnitGen\Executor\ExecutorInterface\ConsoleExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\DirectoryExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
+use PhpUnitGen\Report\ReportInterface\ReportInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
@@ -53,6 +54,11 @@ class ConsoleExecutor implements ConsoleExecutorInterface
     private $exceptionCatcher;
 
     /**
+     * @var ReportInterface $report The report to use.
+     */
+    private $report;
+
+    /**
      * ConsoleExecutor constructor.
      *
      * @param ConsoleConfigInterface     $config            The config to use.
@@ -61,6 +67,7 @@ class ConsoleExecutor implements ConsoleExecutorInterface
      * @param DirectoryExecutorInterface $directoryExecutor The directory executor.
      * @param FileExecutorInterface      $fileExecutor      The file executor.
      * @param ExceptionCatcherInterface  $exceptionCatcher  The exception catcher.
+     * @param ReportInterface            $report            The report.
      */
     public function __construct(
         ConsoleConfigInterface $config,
@@ -68,7 +75,8 @@ class ConsoleExecutor implements ConsoleExecutorInterface
         Stopwatch $stopwatch,
         DirectoryExecutorInterface $directoryExecutor,
         FileExecutorInterface $fileExecutor,
-        ExceptionCatcherInterface $exceptionCatcher
+        ExceptionCatcherInterface $exceptionCatcher,
+        ReportInterface $report
     ) {
         $this->config            = $config;
         $this->output            = $output;
@@ -76,6 +84,7 @@ class ConsoleExecutor implements ConsoleExecutorInterface
         $this->directoryExecutor = $directoryExecutor;
         $this->fileExecutor      = $fileExecutor;
         $this->exceptionCatcher  = $exceptionCatcher;
+        $this->report            = $report;
     }
 
     /**
@@ -83,9 +92,15 @@ class ConsoleExecutor implements ConsoleExecutorInterface
      */
     public function invoke(): void
     {
+        if (count($this->config->getDirectories()) > 0) {
+            $this->output->section('Directories parsing begins.');
+        }
+
         $this->executeOnDirectories();
 
-        $this->output->section('Global files parsing begins.');
+        if (count($this->config->getFiles()) > 0) {
+            $this->output->section('Global files parsing begins.');
+        }
 
         $this->executeOnFiles();
 
@@ -99,6 +114,14 @@ class ConsoleExecutor implements ConsoleExecutorInterface
         $this->output->text(sprintf(
             '<options=bold,underscore>Memory usage:</> %d bytes',
             $event->getMemory()
+        ));
+        $this->output->text(sprintf(
+            '<options=bold,underscore>Parsed files number:</> %d files',
+            ($this->report->getParsedFileNumber() + $this->report->getParsedFileFromDirectoryNumber())
+        ));
+        $this->output->text(sprintf(
+            '<options=bold,underscore>Parsed directories number:</> %d directories',
+            $this->report->getParsedDirectoryNumber()
         ));
         $this->output->newLine();
     }
@@ -114,6 +137,7 @@ class ConsoleExecutor implements ConsoleExecutorInterface
             } catch (Exception $exception) {
                 $this->exceptionCatcher->catch($exception);
             }
+            $this->report->increaseParsedDirectoriesNumber();
         }
     }
 
@@ -125,6 +149,7 @@ class ConsoleExecutor implements ConsoleExecutorInterface
         foreach ($this->config->getFiles() as $source => $target) {
             try {
                 $this->fileExecutor->invoke($source, $target);
+                $this->report->increaseParsedFilesNumber();
             } catch (Exception $exception) {
                 $this->exceptionCatcher->catch($exception);
             }

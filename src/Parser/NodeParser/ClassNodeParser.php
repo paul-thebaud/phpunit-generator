@@ -3,12 +3,12 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
+use PhpUnitGen\Model\ClassModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
-use PhpUnitGen\Model\TraitModel;
 
 /**
- * Class TraitNodeParser.
+ * Class ClassNodeParser.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -16,7 +16,7 @@ use PhpUnitGen\Model\TraitModel;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class TraitNodeParser extends AbstractNodeParser
+class ClassNodeParser extends AbstractNodeParser
 {
     /**
      * InterfaceNodeParser constructor.
@@ -37,15 +37,17 @@ class TraitNodeParser extends AbstractNodeParser
     {
         /**
          * Overriding variable types.
-         * @var Node\Stmt\Trait_      $node   The trait node to parse.
+         * @var Node\Stmt\Class_      $node   The class node to parse.
          * @var PhpFileModelInterface $parent The node which contains this namespace.
          */
-        $trait = new TraitModel();
-        $trait->setName($node->name);
+        $class = new ClassModel();
+        $class->setName($node->name);
+        $class->setIsAbstract($node->isAbstract());
+        $class->setIsFinal($node->isFinal());
 
-        $trait = $this->parseSubNodes($node->stmts, $trait);
+        $class = $this->parseSubNodes($node->stmts, $class);
 
-        $parent->addTrait($trait);
+        $parent->addClass($class);
 
         return $parent;
     }

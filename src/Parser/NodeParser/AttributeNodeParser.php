@@ -6,7 +6,7 @@ use PhpParser\Node;
 use PhpUnitGen\Model\AttributeModel;
 use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
-use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
+use PhpUnitGen\Parser\NodeParserTrait\VisibilityTrait;
 use Respect\Validation\Validator;
 
 /**
@@ -20,6 +20,8 @@ use Respect\Validation\Validator;
  */
 class AttributeNodeParser extends AbstractNodeParser
 {
+    use VisibilityTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -33,33 +35,22 @@ class AttributeNodeParser extends AbstractNodeParser
         if (! Validator::instance(Node\Stmt\Property::class)->validate($node)) {
             return $parent;
         }
+
+        $isStatic = $node->isStatic();
+        $visibility = $this->parseVisibility($node);
+
         foreach ($node->props as $property) {
             $attribute = new AttributeModel();
             $attribute->setName($property->name);
-            $attribute->setIsStatic($node->isStatic());
-            $attribute->setVisibility($this->retrieveVisibility($node));
+            $attribute->setIsStatic($isStatic);
+            $attribute->setVisibility($visibility);
+
+            /** @todo */
+            $attribute->setValue(null);
 
             $parent->addAttribute($attribute);
         }
 
         return $parent;
-    }
-
-    /**
-     * Retrieve the visibility of this property.
-     *
-     * @param Node\Stmt\Property $property The property.
-     *
-     * @return int The visibility as an integer.
-     */
-    private function retrieveVisibility(Node\Stmt\Property $property): int
-    {
-        if ($property->isPrivate()) {
-            return VisibilityInterface::PRIVATE;
-        }
-        if ($property->isProtected()) {
-            return VisibilityInterface::PROTECTED;
-        }
-        return VisibilityInterface::PUBLIC;
     }
 }

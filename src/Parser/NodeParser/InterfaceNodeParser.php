@@ -21,11 +21,11 @@ class InterfaceNodeParser extends AbstractNodeParser
     /**
      * InterfaceNodeParser constructor.
      *
-     * @param MethodNodeParser $methodNodeParser The method node parser.
+     * @param FunctionNodeParser $functionNodeParser The function node parser.
      */
-    public function __construct(MethodNodeParser $methodNodeParser)
+    public function __construct(FunctionNodeParser $functionNodeParser)
     {
-        $this->nodeParsers[Node\Stmt\ClassMethod::class] = $methodNodeParser;
+        $this->nodeParsers[Node\Stmt\ClassMethod::class] = $functionNodeParser;
     }
 
     /**
@@ -35,7 +35,7 @@ class InterfaceNodeParser extends AbstractNodeParser
     {
         /**
          * Overriding variable types.
-         * @var Node\Stmt\Interface_  $node   The namespace node to parse.
+         * @var Node\Stmt\Interface_  $node   The interface node to parse.
          * @var PhpFileModelInterface $parent The node which contains this namespace.
          */
         $interface = new InterfaceModel();

@@ -61,7 +61,7 @@ $ php ./vendor/bin/phpunitgen generate-default-one <config-path> <source-file-pa
 * __generate-default__: To generate unit tests skeletons of a repository with the default configuration.
 * __generate-default-one__: To generate unit tests skeleton for only one file with the default configuration.
 
-Check them on the [Usage section](DOCUMENTATION.md#Usage) of documentation for more details.
+Check them on the [Usage section](DOCUMENTATION.md#console-usage) of documentation for more details.
 
 PhpUnitGenerator can also be used online on [this website](https://phpunitgen.heroku.com)
 

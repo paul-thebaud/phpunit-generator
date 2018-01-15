@@ -4,8 +4,10 @@ namespace PhpUnitGen\Model\ModelInterface;
 
 use PhpUnitGen\Model\PropertyInterface\AbstractInterface;
 use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
+use PhpUnitGen\Model\PropertyInterface\DocumentationInterface;
 use PhpUnitGen\Model\PropertyInterface\FinalInterface;
 use PhpUnitGen\Model\PropertyInterface\NameInterface;
+use PhpUnitGen\Model\PropertyInterface\NamespaceInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Model\PropertyInterface\StaticInterface;
 use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
@@ -25,7 +27,8 @@ interface FunctionModelInterface extends
     StaticInterface,
     FinalInterface,
     AbstractInterface,
-    NodeInterface
+    NodeInterface,
+    DocumentationInterface
 {
     /**
      * @param ParameterModelInterface $parameter A new parameter for this function.

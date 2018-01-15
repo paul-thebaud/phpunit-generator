@@ -25,7 +25,8 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
         parent::validate($config);
 
         $this->validateBooleans($config);
-        $this->validateStrings($config);
+        $this->validateIncludeRegex($config);
+        $this->validateExcludeRegex($config);
         $this->validateDirs($config);
         $this->validateFiles($config);
     }
@@ -49,20 +50,30 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
     }
 
     /**
-     * Validate all string attributes contained in configuration.
+     * Validate the include regex.
      *
      * @param mixed $config The configuration.
      *
      * @throws InvalidConfigException If a string attribute is invalid.
      */
-    private function validateStrings($config): void
+    private function validateIncludeRegex($config): void
     {
-        // Check string parameters
         if (! Validator::key('include', Validator::stringType())->validate($config)
             && ! Validator::key('include', Validator::nullType())->validate($config)
         ) {
             throw new InvalidConfigException('"include" parameter must be set as a string or a null value.');
         }
+    }
+
+    /**
+     * Validate the exclude regex.
+     *
+     * @param mixed $config The configuration.
+     *
+     * @throws InvalidConfigException If a string attribute is invalid.
+     */
+    private function validateExcludeRegex($config): void
+    {
         if (! Validator::key('exclude', Validator::stringType())->validate($config)
             && ! Validator::key('exclude', Validator::nullType())->validate($config)
         ) {

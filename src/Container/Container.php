@@ -38,7 +38,7 @@ class Container implements ContainerInterface
      */
     public function setResolver(string $id, callable $resolver): void
     {
-        static::$customResolvable[$id] = $resolver;
+        self::$customResolvable[$id] = $resolver;
     }
 
     /**
@@ -46,7 +46,7 @@ class Container implements ContainerInterface
      */
     public function setInstance(string $id, object $instance): void
     {
-        static::$instances[$id] = $instance;
+        self::$instances[$id] = $instance;
     }
 
     /**
@@ -54,7 +54,7 @@ class Container implements ContainerInterface
      */
     public function set(string $id, string $class = null): void
     {
-        static::$autoResolvable[$id] = $class ?? $id;
+        self::$autoResolvable[$id] = $class ?? $id;
     }
 
     /**
@@ -93,18 +93,60 @@ class Container implements ContainerInterface
     private function resolve($id): object
     {
         if (! Validator::stringType()->validate($id)) {
-            throw new ContainerException("Identifier is not a string.");
+            throw new ContainerException('Identifier is not a string.');
         }
-        if (Validator::key($id)->validate(static::$instances)) {
-            return static::$instances[$id];
+        return $this->resolveInstance($id);
+    }
+
+    /**
+     * Try to retrieve a service instance from the instances array.
+     *
+     * @param string $id The service identifier.
+     *
+     * @return object The service.
+     *
+     * @throws ContainerException If the service identifier is not a string.
+     */
+    private function resolveInstance(string $id): object
+    {
+        if (Validator::key($id)->validate(self::$instances)) {
+            return self::$instances[$id];
         }
-        if (Validator::key($id)->validate(static::$customResolvable)) {
-            return static::$instances[$id] = (static::$customResolvable[$id])($this);
+        return $this->resolveCustomResolvable($id);
+    }
+
+    /**
+     * Try to retrieve a service instance from the custom resolvable array.
+     *
+     * @param string $id The service identifier.
+     *
+     * @return object The service.
+     *
+     * @throws ContainerException If the service identifier is not a string.
+     */
+    private function resolveCustomResolvable(string $id): object
+    {
+        if (Validator::key($id)->validate(self::$customResolvable)) {
+            return self::$instances[$id] = (self::$customResolvable[$id])($this);
         }
-        if (Validator::key($id)->validate(static::$autoResolvable)) {
-            return static::$instances[$id] = $this->autoResolve(static::$autoResolvable[$id]);
+        return $this->resolveAutomaticResolvable($id);
+    }
+
+    /**
+     * Try to retrieve a service instance from the automatic resolvable array.
+     *
+     * @param string $id The service identifier.
+     *
+     * @return object The service.
+     *
+     * @throws ContainerException If the service identifier is not a string.
+     */
+    private function resolveAutomaticResolvable(string $id): object
+    {
+        if (Validator::key($id)->validate(self::$autoResolvable)) {
+            return self::$instances[$id] = $this->autoResolve(self::$autoResolvable[$id]);
         }
-        throw new NotFoundException(sprintf('Service of identifier "%s" not found.', $id));
+        return $this->autoResolve($id);
     }
 
     /**
@@ -119,16 +161,35 @@ class Container implements ContainerInterface
     private function autoResolve(string $class): object
     {
         if (! class_exists($class)) {
-            throw new ContainerException(sprintf("Class %s does not exists.", $class));
+            throw new ContainerException(sprintf('Class "%s" does not exists.', $class));
         }
 
         $reflection = new \ReflectionClass($class);
 
         if (! $reflection->isInstantiable()) {
-            throw new ContainerException(sprintf("Class %s is not instantiable.", $class));
+            throw new ContainerException(sprintf('Class "%s" is not instantiable.', $class));
         }
+        return $this->buildInstance($reflection);
+    }
+
+    /**
+     * Build a new instance of a class from reflection class and auto-resolved constructor arguments.
+     *
+     * @param \ReflectionClass $reflection The reflection class.
+     *
+     * @return object The built instance.
+     *
+     * @throws ContainerException If the class constructor is not public.
+     */
+    private function buildInstance(\ReflectionClass $reflection): object
+    {
         if (($constructor = $reflection->getConstructor()) === null) {
             return $reflection->newInstance();
+        }
+        if (! $constructor->isPublic()) {
+            throw new ContainerException(
+                sprintf('Class "%s" has no public constructor.', $reflection->getName())
+            );
         }
         $constructorParameters = [];
         foreach ($constructor->getParameters() as $parameter) {

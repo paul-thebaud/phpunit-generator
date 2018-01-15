@@ -7,6 +7,7 @@ use PhpUnitGen\Model\AttributeModel;
 use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
+use Respect\Validation\Validator;
 
 /**
  * Class AttributeNodeParser.
@@ -29,6 +30,9 @@ class AttributeNodeParser extends AbstractNodeParser
          * @var Node\Stmt\Property  $node   The property node to parse.
          * @var TraitModelInterface $parent The node which contains this namespace.
          */
+        if (! Validator::instance(Node\Stmt\Property::class)->validate($node)) {
+            return $parent;
+        }
         foreach ($node->props as $property) {
             $attribute = new AttributeModel();
             $attribute->setName($property->name);

@@ -68,7 +68,9 @@ class FileValidator implements FileValidatorInterface
      */
     private function validatePath(string $path): bool
     {
-        return $this->validatePathExists($path) && $this->validateIncludeRegex($path) && $this->validateExcludeRegex($path);
+        return $this->validatePathExists($path)
+            && $this->validateIncludeRegex($path)
+            && $this->validateExcludeRegex($path);
     }
 
     /**

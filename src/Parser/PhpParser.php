@@ -56,8 +56,9 @@ class PhpParser implements PhpParserInterface
             throw new ParsingException("Unable to parse given php code (maybe your code contains errors).");
         }
 
-        /** @var PhpFileModelInterface $phpFileModel */
         $phpFileModel = new PhpFileModel();
+
+        /** @var PhpFileModelInterface $phpFileModel */
         $phpFileModel = $this->phpFileNodeParser->parseSubNodes($nodes, $phpFileModel);
 
         return $phpFileModel;

@@ -5,6 +5,7 @@ namespace PhpUnitGen\Executor;
 use League\Flysystem\FilesystemInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Exception\ExecutorException;
+use PhpUnitGen\Exception\NotReadableFileException;
 use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
 use PhpUnitGen\Validator\ValidatorInterface\FileValidatorInterface;
@@ -80,8 +81,13 @@ class FileExecutor implements FileExecutorInterface
 
         $this->checkTargetPath($targetPath);
 
-        /** @scrutinizer ignore-type Because file readability has already been checked. */
         $content = $this->fileSystem->read($sourcePath);
+
+        if ($content === false) {
+            throw new NotReadableFileException(sprintf('The file "%s" is not readable.', $sourcePath));
+        }
+
+        // We ignore the type checked because we already check the readability
         $code = $this->executor->execute($content);
 
         $this->fileSystem->write($targetPath, $code);

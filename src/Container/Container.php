@@ -92,7 +92,7 @@ class Container implements ContainerInterface
      */
     private function resolve($id): object
     {
-        if (! is_string($id)) {
+        if (! Validator::stringType()->validate($id)) {
             throw new ContainerException("Identifier is not a string.");
         }
         if (Validator::key($id)->validate($this->instances)) {

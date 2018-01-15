@@ -5,6 +5,7 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
+use Respect\Validation\Validator;
 
 /**
  * Class UseNodeParser.
@@ -27,6 +28,9 @@ class UseNodeParser extends AbstractNodeParser
          * @var Node\Stmt\Use_        $node The namespace node to parse.
          * @var PhpFileModelInterface $parent        The node which contains this namespace.
          */
+        if (! Validator::instance(Node\Stmt\Use_::class)->validate($node)) {
+            return $parent;
+        }
         foreach ($node->uses as $use) {
             if ($use->alias !== null) {
                 $parent->addUse($use->alias, $use->name->toString());

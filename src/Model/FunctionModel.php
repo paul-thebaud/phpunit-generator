@@ -4,10 +4,10 @@ namespace PhpUnitGen\Model;
 
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\ParameterModelInterface;
+use PhpUnitGen\Model\ModelInterface\ReturnModelInterface;
 use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyTrait\AbstractTrait;
 use PhpUnitGen\Model\PropertyTrait\FinalTrait;
-use PhpUnitGen\Model\PropertyTrait\InPhpFileTrait;
 use PhpUnitGen\Model\PropertyTrait\NameTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
 use PhpUnitGen\Model\PropertyTrait\StaticTrait;
@@ -29,13 +29,7 @@ class FunctionModel implements FunctionModelInterface
     use StaticTrait;
     use FinalTrait;
     use AbstractTrait;
-    use InPhpFileTrait;
     use NodeTrait;
-
-    /**
-     * @var ClassLikeInterface|null $parent The parent which contains this function.
-     */
-    private $parent;
 
     /**
      * @var ParameterModel[] $parameters The function methods.
@@ -50,25 +44,10 @@ class FunctionModel implements FunctionModelInterface
     /**
      * {@inheritdoc}
      */
-    public function setParent(?ClassLikeInterface $parent): void
-    {
-        $this->parent = $parent;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParent(): ?ClassLikeInterface
-    {
-        return $this->parent;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function addParameter(ParameterModelInterface $parameter): void
     {
         $this->parameters[] = $parameter;
+        $parameter->setParentNode($this);
     }
 
     /**
@@ -77,5 +56,22 @@ class FunctionModel implements FunctionModelInterface
     public function getParameters(): array
     {
         return $this->parameters;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setReturn(ReturnModelInterface $return): void
+    {
+        $this->setReturn($return);
+        $return->setParentNode($this);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getReturn(): ReturnModelInterface
+    {
+        return $this->return;
     }
 }

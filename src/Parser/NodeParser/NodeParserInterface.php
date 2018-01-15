@@ -17,12 +17,22 @@ use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 interface NodeParserInterface
 {
     /**
-     * Parse a node to create a child node or update the $parent node.
+     * Parse a node to update the parent node.
      *
-     * @param Node          $nodeToParse The php node to parse.
-     * @param NodeInterface $node        The node parent (for a method it is a class, etc).
+     * @param Node          $node   The php node to parse.
+     * @param NodeInterface $parent The parent node (for a method it is a class, etc).
      *
-     * @return NodeInterface The created or updated node.
+     * @return NodeInterface The updated node.
      */
-    public function parse(Node $nodeToParse, NodeInterface $node): NodeInterface;
+    public function parse(Node $node, NodeInterface $parent): NodeInterface;
+
+    /**
+     * Parse the node sub nodes to update parent.
+     *
+     * @param Node[]        $nodes  The nodes to parse.
+     * @param NodeInterface $parent The parent.
+     *
+     * @return NodeInterface The updated parent.
+     */
+    public function parseSubNodes(array $nodes, NodeInterface $parent): NodeInterface;
 }

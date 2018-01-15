@@ -71,7 +71,7 @@ class FileValidator implements FileValidatorInterface
      */
     private function validatePath(string $path): bool
     {
-        return $this->fileSystem->has($path) && $this->fileSystem->get($path)->getType() !== 'file';
+        return $this->fileSystem->has($path) && $this->fileSystem->get($path)->getType() === 'file';
     }
 
     /**

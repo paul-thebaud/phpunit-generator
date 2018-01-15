@@ -16,22 +16,33 @@ use Respect\Validation\Validator;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class NamespaceNodeParser implements NodeParserInterface
+class NamespaceNodeParser extends AbstractNodeParser
 {
+    public function __construct(
+        UseNodeParser $useNodeParser,
+        InterfaceNodeParser $interfaceNodeParser,
+        TraitNodeParser $traitNodeParser
+    ) {
+        $this->nodeParsers[Node\Stmt\Use_::class]       = $useNodeParser;
+        $this->nodeParsers[Node\Stmt\Interface_::class] = $interfaceNodeParser;
+        $this->nodeParsers[Node\Stmt\Trait_::class]     = $traitNodeParser;
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function parse(Node $nodeToParse, NodeInterface $node): NodeInterface
+    public function parse(Node $node, NodeInterface $parent): NodeInterface
     {
         /**
          * Overriding variable types.
-         * @var Node\Stmt\Namespace_  $nodeToParse The namespace node to parse.
-         * @var PhpFileModelInterface $node        The node which contains this namespace.
+         * @var Node\Stmt\Namespace_  $node   The namespace node to parse.
+         * @var PhpFileModelInterface $parent The node which contains this namespace.
          */
-        if (Validator::instance(Node\Name::class)->validate($nodeToParse->name)) {
-            $node->setNamespace($nodeToParse->name->parts);
+        if (Validator::instance(Node\Name::class)->validate($node->name)) {
+            $parent->setNamespace($node->name->parts);
         }
+        $parent = $this->parseSubNodes($node->stmts, $parent);
 
-        return $node;
+        return $parent;
     }
 }

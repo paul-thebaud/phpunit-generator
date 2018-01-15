@@ -87,6 +87,7 @@ class PhpFileModel implements PhpFileModelInterface
     public function addFunction(FunctionModel $function): void
     {
         $this->functions[] = $function;
+        $function->setParentNode($this);
     }
 
     /**
@@ -103,6 +104,7 @@ class PhpFileModel implements PhpFileModelInterface
     public function addClass(ClassModel $class): void
     {
         $this->classes[] = $class;
+        $class->setParentNode($this);
     }
 
     /**
@@ -119,6 +121,7 @@ class PhpFileModel implements PhpFileModelInterface
     public function addTrait(TraitModel $trait): void
     {
         $this->traits[] = $trait;
+        $trait->setParentNode($this);
     }
 
     /**
@@ -135,6 +138,7 @@ class PhpFileModel implements PhpFileModelInterface
     public function addInterface(InterfaceModel $interface): void
     {
         $this->interfaces[] = $interface;
+        $interface->setParentNode($this);
     }
 
     /**

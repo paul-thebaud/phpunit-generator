@@ -5,7 +5,6 @@ namespace PhpUnitGen\Model\ModelInterface;
 use PhpUnitGen\Model\PropertyInterface\AbstractInterface;
 use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\FinalInterface;
-use PhpUnitGen\Model\PropertyInterface\InPhpFileInterface;
 use PhpUnitGen\Model\PropertyInterface\NameInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Model\PropertyInterface\StaticInterface;
@@ -26,20 +25,8 @@ interface FunctionModelInterface extends
     StaticInterface,
     FinalInterface,
     AbstractInterface,
-    InPhpFileInterface,
     NodeInterface
 {
-    /**
-     * @param ClassLikeInterface|null $parent The new parent to use.
-     */
-    public function setParent(?ClassLikeInterface $parent): void;
-
-    /**
-     * @return ClassLikeInterface|null The parent of this function (a class, a trait or an interface), null there is
-     *                                   no parent.
-     */
-    public function getParent(): ?ClassLikeInterface;
-
     /**
      * @param ParameterModelInterface $parameter A new parameter for this function.
      */
@@ -49,4 +36,14 @@ interface FunctionModelInterface extends
      * @return ParameterModelInterface[] All parameters of this function.
      */
     public function getParameters(): array;
+
+    /**
+     * @param ReturnModelInterface $return The new return to be set.
+     */
+    public function setReturn(ReturnModelInterface $return): void;
+
+    /**
+     * @return ReturnModelInterface The current return.
+     */
+    public function getReturn(): ReturnModelInterface;
 }

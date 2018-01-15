@@ -6,7 +6,7 @@ use PhpUnitGen\Exception\ParsingException;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 
 /**
- * Interface PhpFileParserInterface.
+ * Interface PhpParserInterface.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -14,7 +14,7 @@ use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface PhpFileParserInterface
+interface PhpParserInterface
 {
     /**
      * Parse php code to build a php file model.

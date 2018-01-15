@@ -10,8 +10,15 @@ use PhpUnitGen\Container\ContainerInterface\ContainerFactoryInterface;
 use PhpUnitGen\Container\ContainerInterface\ContainerInterface;
 use PhpUnitGen\Executor\Executor;
 use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
-use PhpUnitGen\Parser\ParserInterface\PhpFileParserInterface;
-use PhpUnitGen\Parser\PhpFileParser;
+use PhpUnitGen\Parser\NodeParser\AttributeNodeParser;
+use PhpUnitGen\Parser\NodeParser\InterfaceNodeParser;
+use PhpUnitGen\Parser\NodeParser\MethodNodeParser;
+use PhpUnitGen\Parser\NodeParser\NamespaceNodeParser;
+use PhpUnitGen\Parser\NodeParser\PhpFileNodeParser;
+use PhpUnitGen\Parser\NodeParser\TraitNodeParser;
+use PhpUnitGen\Parser\NodeParser\UseNodeParser;
+use PhpUnitGen\Parser\ParserInterface\PhpParserInterface;
+use PhpUnitGen\Parser\PhpParser;
 
 /**
  * Class ContainerFactory.
@@ -37,8 +44,16 @@ class ContainerFactory implements ContainerFactoryInterface
         $container->setInstance(Parser::class, (new ParserFactory())->create(ParserFactory::PREFER_PHP7));
 
         // Automatically created dependencies and aliases
-        $container->set(PhpFileParserInterface::class, PhpFileParser::class);
+        $container->set(PhpParserInterface::class, PhpParser::class);
         $container->set(ExecutorInterface::class, Executor::class);
+
+        $container->set(UseNodeParser::class);
+        $container->set(MethodNodeParser::class);
+        $container->set(AttributeNodeParser::class);
+        $container->set(InterfaceNodeParser::class);
+        $container->set(TraitNodeParser::class);
+        $container->set(NamespaceNodeParser::class);
+        $container->set(PhpFileNodeParser::class);
 
         return $container;
     }

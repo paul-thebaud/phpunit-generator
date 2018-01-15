@@ -3,7 +3,7 @@
 namespace PhpUnitGen\Executor;
 
 use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
-use PhpUnitGen\Parser\ParserInterface\PhpFileParserInterface;
+use PhpUnitGen\Parser\ParserInterface\PhpParserInterface;
 
 /**
  * Class Executor.
@@ -17,17 +17,17 @@ use PhpUnitGen\Parser\ParserInterface\PhpFileParserInterface;
 class Executor implements ExecutorInterface
 {
     /**
-     * @var PhpFileParserInterface $phpFileParser The php file parser.
+     * @var PhpParserInterface $phpFileParser The php file parser.
      */
     private $phpFileParser;
 
     /**
      * Executor constructor.
      *
-     * @param PhpFileParserInterface $phpFileParser The php file parser.
+     * @param PhpParserInterface $phpFileParser The php file parser.
      */
     public function __construct(
-        PhpFileParserInterface $phpFileParser
+        PhpParserInterface $phpFileParser
     ) {
         $this->phpFileParser = $phpFileParser;
     }
@@ -39,8 +39,12 @@ class Executor implements ExecutorInterface
     {
         $phpFileModel = $this->phpFileParser->parse($code);
 
+        ob_start();
+        var_dump($phpFileModel);
+        $content = ob_get_contents();
+        ob_end_clean();
         /** @todo ... */
 
-        return '';
+        return $content;
     }
 }

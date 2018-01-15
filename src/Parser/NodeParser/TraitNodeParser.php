@@ -3,12 +3,12 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
-use PhpUnitGen\Model\InterfaceModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
+use PhpUnitGen\Model\TraitModel;
 
 /**
- * Class InterfaceNodeParser.
+ * Class TraitNodeParser.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -16,16 +16,18 @@ use PhpUnitGen\Model\PropertyInterface\NodeInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class InterfaceNodeParser extends AbstractNodeParser
+class TraitNodeParser extends AbstractNodeParser
 {
     /**
      * InterfaceNodeParser constructor.
      *
-     * @param MethodNodeParser $methodNodeParser The method node parser.
+     * @param MethodNodeParser    $methodNodeParser    The method node parser.
+     * @param AttributeNodeParser $attributeNodeParser The attribute node parser.
      */
-    public function __construct(MethodNodeParser $methodNodeParser)
+    public function __construct(MethodNodeParser $methodNodeParser, AttributeNodeParser $attributeNodeParser)
     {
         $this->nodeParsers[Node\Stmt\ClassMethod::class] = $methodNodeParser;
+        $this->nodeParsers[Node\Stmt\Property::class]    = $attributeNodeParser;
     }
 
     /**
@@ -35,15 +37,15 @@ class InterfaceNodeParser extends AbstractNodeParser
     {
         /**
          * Overriding variable types.
-         * @var Node\Stmt\Interface_  $node   The namespace node to parse.
+         * @var Node\Stmt\Trait_      $node   The namespace node to parse.
          * @var PhpFileModelInterface $parent The node which contains this namespace.
          */
-        $interface = new InterfaceModel();
-        $interface->setName($node->name);
+        $trait = new TraitModel();
+        $trait->setName($node->name);
 
-        $interface = $this->parseSubNodes($node->stmts, $interface);
+        $trait = $this->parseSubNodes($node->stmts, $trait);
 
-        $parent->addInterface($interface);
+        $parent->addTrait($trait);
 
         return $parent;
     }

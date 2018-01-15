@@ -20,7 +20,6 @@ use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
  */
 interface AttributeModelInterface extends
     NameInterface,
-    TypeInterface,
     ValueInterface,
     VisibilityInterface,
     StaticInterface,

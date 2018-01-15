@@ -22,7 +22,6 @@ use PhpUnitGen\Model\PropertyTrait\VisibilityTrait;
 class AttributeModel implements AttributeModelInterface
 {
     use NameTrait;
-    use TypeTrait;
     use ValueTrait;
     use VisibilityTrait;
     use StaticTrait;

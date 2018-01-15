@@ -29,6 +29,7 @@
     "psr/container": "~1.0.0",
     "respect/validation": "~1.1",
     "symfony/console": "~4.0",
+    "symfony/stopwatch": "~4.0",
     "symfony/yaml": "~4.0",
     "twig/twig": "~2.0"
   },

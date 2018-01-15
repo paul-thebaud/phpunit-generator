@@ -20,6 +20,7 @@ use PhpUnitGen\Executor\FileExecutor;
 use PhpUnitGen\Validator\FileValidator;
 use PhpUnitGen\Validator\ValidatorInterface\FileValidatorInterface;
 use Symfony\Component\Console\Style\StyleInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * Class ConsoleContainerFactory.
@@ -52,12 +53,14 @@ class ConsoleContainerFactory implements ConsoleContainerFactoryInterface
      */
     public function invoke(
         ConsoleConfigInterface $config,
-        StyleInterface $output
+        StyleInterface $output,
+        Stopwatch $stopwatch
     ): ContainerInterface {
         $container = $this->containerFactory->invoke($config);
 
         $container->setInstance(FilesystemInterface::class, new Filesystem(new Local('./')));
         $container->setInstance(StyleInterface::class, $output);
+        $container->setInstance(Stopwatch::class, $stopwatch);
 
         $container->set(ExceptionCatcherInterface::class, ExceptionCatcher::class);
         $container->set(FileValidatorInterface::class, FileValidator::class);

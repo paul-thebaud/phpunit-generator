@@ -4,6 +4,7 @@ namespace PhpUnitGen\Container\ContainerInterface;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use Symfony\Component\Console\Style\StyleInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * Interface ConsoleContainerFactoryInterface.
@@ -19,10 +20,15 @@ interface ConsoleContainerFactoryInterface
     /**
      * Build a new instance of the container.
      *
-     * @param ConsoleConfigInterface $config A configuration instance.
-     * @param StyleInterface         $output An output to display messages.
+     * @param ConsoleConfigInterface $config    A configuration instance.
+     * @param StyleInterface         $output    An output to display messages.
+     * @param Stopwatch              $stopwatch The stopwatch instance to measure duration and memory usage.
      *
      * @return ContainerInterface The created container.
      */
-    public function invoke(ConsoleConfigInterface $config, StyleInterface $output): ContainerInterface;
+    public function invoke(
+        ConsoleConfigInterface $config,
+        StyleInterface $output,
+        Stopwatch $stopwatch
+    ): ContainerInterface;
 }

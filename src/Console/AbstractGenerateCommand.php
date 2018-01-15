@@ -13,6 +13,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * Class AbstractGenerateCommand.
@@ -45,6 +46,11 @@ abstract class AbstractGenerateCommand extends Command
     protected $consoleExecutor;
 
     /**
+     * @var Stopwatch $stopwatch The stopwatch to measure duration and memory usage.
+     */
+    protected $stopwatch;
+
+    /**
      * GenerateCommand constructor.
      *
      * @param ConsoleContainerFactoryInterface $containerFactory A container factory to create container.
@@ -54,6 +60,9 @@ abstract class AbstractGenerateCommand extends Command
         parent::__construct();
 
         $this->containerFactory = $containerFactory;
+
+        $this->stopwatch = new Stopwatch(true);
+        $this->stopwatch->start('command');
     }
 
     /**
@@ -69,14 +78,11 @@ abstract class AbstractGenerateCommand extends Command
             return -1;
         }
 
-        $container = $this->containerFactory->invoke($config, $styledOutput);
+        $container = $this->containerFactory->invoke($config, $styledOutput, $this->stopwatch);
 
         $this->consoleExecutor = $container->get(ConsoleExecutorInterface::class);
 
         $this->consoleExecutor->execute();
-
-        /** @todo detailed stats */
-        $styledOutput->success('Parsing finished.');
 
         return 1;
     }

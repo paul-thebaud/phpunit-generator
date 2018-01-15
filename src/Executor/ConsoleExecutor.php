@@ -9,6 +9,7 @@ use PhpUnitGen\Executor\ExecutorInterface\ConsoleExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\DirectoryExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
 use Symfony\Component\Console\Style\StyleInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * Class ConsoleExecutor.
@@ -32,6 +33,11 @@ class ConsoleExecutor implements ConsoleExecutorInterface
     private $output;
 
     /**
+     * @var Stopwatch $stopwatch The stopwatch to measure duration and memory usage.
+     */
+    private $stopwatch;
+
+    /**
      * @var DirectoryExecutorInterface $directoryExecutor A directory executor.
      */
     private $directoryExecutor;
@@ -51,6 +57,7 @@ class ConsoleExecutor implements ConsoleExecutorInterface
      *
      * @param ConsoleConfigInterface     $config            The config to use.
      * @param StyleInterface             $output            The output to use.
+     * @param Stopwatch                  $stopwatch         The stopwatch to use.
      * @param DirectoryExecutorInterface $directoryExecutor The directory executor.
      * @param FileExecutorInterface      $fileExecutor      The file executor.
      * @param ExceptionCatcherInterface  $exceptionCatcher  The exception catcher.
@@ -58,11 +65,14 @@ class ConsoleExecutor implements ConsoleExecutorInterface
     public function __construct(
         ConsoleConfigInterface $config,
         StyleInterface $output,
+        Stopwatch $stopwatch,
         DirectoryExecutorInterface $directoryExecutor,
         FileExecutorInterface $fileExecutor,
         ExceptionCatcherInterface $exceptionCatcher
     ) {
         $this->config            = $config;
+        $this->output            = $output;
+        $this->stopwatch         = $stopwatch;
         $this->directoryExecutor = $directoryExecutor;
         $this->fileExecutor      = $fileExecutor;
         $this->exceptionCatcher  = $exceptionCatcher;
@@ -78,6 +88,18 @@ class ConsoleExecutor implements ConsoleExecutorInterface
         $this->output->section('Global files parsing begins.');
 
         $this->executeOnFiles();
+
+        $event = $this->stopwatch->stop('command');
+
+        $this->output->section('PhpUnitGen finished all tasks.');
+        $this->output->text(sprintf(
+            '<options=bold,underscore>Duration:</> %d milliseconds',
+            $event->getDuration()
+        ));
+        $this->output->text(sprintf(
+            '<options=bold,underscore>Memory usage:</> %d bytes',
+            $event->getMemory()
+        ));
     }
 
     /**

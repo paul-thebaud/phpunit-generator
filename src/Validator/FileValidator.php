@@ -47,10 +47,7 @@ class FileValidator implements FileValidatorInterface
      */
     public function validate(string $path): bool
     {
-        if (! $this->validatePath($path)
-            || ! $this->validateIncludeRegex($path)
-            || ! $this->validateExcludeRegex($path)
-        ) {
+        if (! $this->validatePath($path)) {
             return false;
         }
 
@@ -63,13 +60,25 @@ class FileValidator implements FileValidatorInterface
     }
 
     /**
-     * Validate file has a valid path.
+     * Validate file has a valid path and pass regex validation.
      *
      * @param string $path The file path.
      *
      * @return bool True if it pass this validation.
      */
     private function validatePath(string $path): bool
+    {
+        return $this->validatePathExists($path) && $this->validateIncludeRegex($path) && $this->validateExcludeRegex($path);
+    }
+
+    /**
+     * Validate file has a valid path.
+     *
+     * @param string $path The file path.
+     *
+     * @return bool True if it pass this validation.
+     */
+    private function validatePathExists(string $path): bool
     {
         return $this->fileSystem->has($path) && $this->fileSystem->get($path)->getType() === 'file';
     }

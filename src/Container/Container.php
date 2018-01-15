@@ -21,24 +21,24 @@ class Container implements ContainerInterface
     /**
      * @var callable[] $customResolvable All objects resolvable from a callable.
      */
-    private $customResolvable = [];
+    private static $customResolvable = [];
 
     /**
      * @var string[] $autoResolvable All objects resolvable automatically.
      */
-    private $autoResolvable = [];
+    private static $autoResolvable = [];
 
     /**
      * @var object[] $instances All objects instances.
      */
-    private $instances = [];
+    private static $instances = [];
 
     /**
      * {@inheritdoc}
      */
     public function setResolver(string $id, callable $resolver): void
     {
-        $this->customResolvable[$id] = $resolver;
+        static::$customResolvable[$id] = $resolver;
     }
 
     /**
@@ -46,7 +46,7 @@ class Container implements ContainerInterface
      */
     public function setInstance(string $id, object $instance): void
     {
-        $this->instances[$id] = $instance;
+        static::$instances[$id] = $instance;
     }
 
     /**
@@ -54,7 +54,7 @@ class Container implements ContainerInterface
      */
     public function set(string $id, string $class = null): void
     {
-        $this->autoResolvable[$id] = $class ?? $id;
+        static::$autoResolvable[$id] = $class ?? $id;
     }
 
     /**
@@ -95,14 +95,14 @@ class Container implements ContainerInterface
         if (! Validator::stringType()->validate($id)) {
             throw new ContainerException("Identifier is not a string.");
         }
-        if (Validator::key($id)->validate($this->instances)) {
-            return $this->instances[$id];
+        if (Validator::key($id)->validate(static::$instances)) {
+            return static::$instances[$id];
         }
-        if (Validator::key($id)->validate($this->customResolvable)) {
-            return $this->instances[$id] = $this->customResolvable[$id]($this);
+        if (Validator::key($id)->validate(static::$customResolvable)) {
+            return static::$instances[$id] = (static::$customResolvable[$id])($this);
         }
-        if (Validator::key($id)->validate($this->autoResolvable)) {
-            return $this->instances[$id] = $this->autoResolve($this->autoResolvable[$id]);
+        if (Validator::key($id)->validate(static::$autoResolvable)) {
+            return static::$instances[$id] = $this->autoResolve(static::$autoResolvable[$id]);
         }
         throw new NotFoundException(sprintf('Service of identifier "%s" not found.', $id));
     }

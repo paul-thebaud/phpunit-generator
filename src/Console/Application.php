@@ -20,11 +20,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Application extends AbstractApplication
 {
     /**
+     * @var string VERSION The current application version.
+     */
+    const VERSION = '2.0.0';
+
+    /**
      * Application constructor.
      */
     public function __construct()
     {
-        parent::__construct('phpunitgen', '2.0.0');
+        parent::__construct('phpunitgen', static::VERSION);
 
         $containerFactory = new ConsoleContainerFactory(new ContainerFactory());
 

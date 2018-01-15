@@ -100,6 +100,7 @@ class ConsoleExecutor implements ConsoleExecutorInterface
             '<options=bold,underscore>Memory usage:</> %d bytes',
             $event->getMemory()
         ));
+        $this->output->newLine();
     }
 
     /**

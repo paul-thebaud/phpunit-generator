@@ -2,6 +2,8 @@
 
 namespace PhpUnitGen\Generator\GeneratorInterface;
 
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
+
 /**
  * Interface GeneratorInterface.
  *
@@ -13,5 +15,5 @@ namespace PhpUnitGen\Generator\GeneratorInterface;
  */
 interface GeneratorInterface
 {
-    public function invoke();
+    public function invoke(NodeInterface $node): string;
 }

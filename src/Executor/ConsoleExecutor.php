@@ -8,6 +8,7 @@ use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
 use PhpUnitGen\Executor\ExecutorInterface\ConsoleExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\DirectoryExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
+use Symfony\Component\Console\Style\StyleInterface;
 
 /**
  * Class ConsoleExecutor.
@@ -24,6 +25,11 @@ class ConsoleExecutor implements ConsoleExecutorInterface
      * @var ConsoleConfigInterface $config The configuration to use.
      */
     private $config;
+
+    /**
+     * @var StyleInterface $output The output to display message.
+     */
+    private $output;
 
     /**
      * @var DirectoryExecutorInterface $directoryExecutor A directory executor.
@@ -44,12 +50,14 @@ class ConsoleExecutor implements ConsoleExecutorInterface
      * ConsoleExecutor constructor.
      *
      * @param ConsoleConfigInterface     $config            The config to use.
+     * @param StyleInterface             $output            The output to use.
      * @param DirectoryExecutorInterface $directoryExecutor The directory executor.
      * @param FileExecutorInterface      $fileExecutor      The file executor.
      * @param ExceptionCatcherInterface  $exceptionCatcher  The exception catcher.
      */
     public function __construct(
         ConsoleConfigInterface $config,
+        StyleInterface $output,
         DirectoryExecutorInterface $directoryExecutor,
         FileExecutorInterface $fileExecutor,
         ExceptionCatcherInterface $exceptionCatcher
@@ -65,6 +73,18 @@ class ConsoleExecutor implements ConsoleExecutorInterface
      */
     public function execute(): void
     {
+        $this->executeOnDirectories();
+
+        $this->output->section('Global files parsing begins.');
+
+        $this->executeOnFiles();
+    }
+
+    /**
+     * Execute PhpUnitGen tasks on directories.
+     */
+    private function executeOnDirectories(): void
+    {
         foreach ($this->config->getDirectories() as $source => $target) {
             try {
                 $this->directoryExecutor->execute($source, $target);
@@ -72,6 +92,13 @@ class ConsoleExecutor implements ConsoleExecutorInterface
                 $this->exceptionCatcher->catch($exception);
             }
         }
+    }
+
+    /**
+     * Execute PhpUnitGen tasks on files.
+     */
+    private function executeOnFiles(): void
+    {
         foreach ($this->config->getFiles() as $source => $target) {
             try {
                 $this->fileExecutor->execute($source, $target);

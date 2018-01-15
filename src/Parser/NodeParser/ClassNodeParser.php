@@ -9,6 +9,7 @@ use PhpUnitGen\Parser\NodeParser\NodeParserInterface\AttributeNodeParserInterfac
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ClassNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
+use PhpUnitGen\Parser\NodeParserUtil\ConcreteUseTrait;
 
 /**
  * Class ClassNodeParser.
@@ -52,6 +53,7 @@ class ClassNodeParser extends AbstractNodeParser implements ClassNodeParserInter
         $class->setName($this->getName($node));
         $class->setIsAbstract($node->isAbstract());
         $class->setIsFinal($node->isFinal());
+        $parent->addConcreteUse($parent->getFullNameFor($class->getName()), $class->getName());
 
         $class = $this->parseSubNodes($node->stmts, $class);
 

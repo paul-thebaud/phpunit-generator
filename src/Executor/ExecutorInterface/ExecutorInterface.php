@@ -17,8 +17,9 @@ interface ExecutorInterface
      * Execute all PhpUnitGen tasks from parsing to code generation for a source code.
      *
      * @param string $code The php code to parse.
+     * @param string $name The php tests class name (optional, default is 'Generated').
      *
      * @return string The generated unit tests skeleton.
      */
-    public function invoke(string $code): string;
+    public function invoke(string $code, string $name = 'GeneratedTest'): string;
 }

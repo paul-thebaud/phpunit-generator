@@ -148,7 +148,8 @@ class ConsoleExecutor implements ConsoleExecutorInterface
     {
         foreach ($this->config->getFiles() as $source => $target) {
             try {
-                $this->fileExecutor->invoke($source, $target);
+                $name = pathinfo($target)['filename'];
+                $this->fileExecutor->invoke($source, $target, $name);
                 $this->report->increaseParsedFilesNumber();
             } catch (Exception $exception) {
                 $this->exceptionCatcher->catch($exception, $source);

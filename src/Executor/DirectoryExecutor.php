@@ -111,8 +111,11 @@ class DirectoryExecutor implements DirectoryExecutorInterface
     private function executeFileExecutor(string $sourcePath, string $targetPath, string $filePath): void
     {
         try {
+            $name = pathinfo($filePath)['filename'] . 'Test';
+            $targetPath = str_replace($sourcePath, $targetPath, $filePath);
+            $targetPath = str_replace('.php', 'Test.php', $targetPath);
             // Execute file executor
-            $this->fileExecutor->invoke($filePath, str_replace($sourcePath, $targetPath, $filePath));
+            $this->fileExecutor->invoke($filePath, $targetPath, $name);
         } catch (Exception $exception) {
             $this->exceptionCatcher->catch($exception, $sourcePath);
         }

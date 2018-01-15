@@ -24,6 +24,11 @@ interface ConfigInterface
     public function hasAuto(): bool;
 
     /**
+     * @return string The templates directory path.
+     */
+    public function getTemplatesPath(): string;
+
+    /**
      * @return string[] The phpdoc array.
      */
     public function getPhpDoc(): array;

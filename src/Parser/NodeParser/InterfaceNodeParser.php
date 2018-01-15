@@ -3,11 +3,14 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
+use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Model\InterfaceModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\InterfaceNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
+use PhpUnitGen\Parser\NodeParserUtil\ConcreteUseTrait;
+use PhpUnitGen\Parser\NodeParserUtil\RootRetrieverTrait;
 
 /**
  * Class InterfaceNodeParser.
@@ -23,13 +26,22 @@ class InterfaceNodeParser extends AbstractNodeParser implements InterfaceNodePar
     use ClassLikeNameTrait;
 
     /**
+     * @var ConfigInterface $config The configuration to use.
+     */
+    private $config;
+
+    /**
      * InterfaceNodeParser constructor.
      *
+     * @param ConfigInterface           $config           The configuration to use.
      * @param MethodNodeParserInterface $methodNodeParser The method node parser to use.
      */
     public function __construct(
+        ConfigInterface $config,
         MethodNodeParserInterface $methodNodeParser
     ) {
+        $this->config = $config;
+
         $this->nodeParsers[Node\Stmt\ClassMethod::class] = $methodNodeParser;
     }
 
@@ -43,13 +55,16 @@ class InterfaceNodeParser extends AbstractNodeParser implements InterfaceNodePar
      */
     public function invoke(Node\Stmt\Interface_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
     {
-        $interface = new InterfaceModel();
-        $interface->setParentNode($parent);
-        $interface->setName($this->getName($node));
+        if ($this->config->hasInterfaceParsing()) {
+            $interface = new InterfaceModel();
+            $interface->setParentNode($parent);
+            $interface->setName($this->getName($node));
+            $parent->addConcreteUse($parent->getFullNameFor($interface->getName()), $interface->getName());
 
-        $interface = $this->parseSubNodes($node->stmts, $interface);
+            $interface = $this->parseSubNodes($node->stmts, $interface);
 
-        $parent->addInterface($interface);
+            $parent->addInterface($interface);
+        }
 
         return $parent;
     }

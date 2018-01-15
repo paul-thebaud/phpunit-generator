@@ -4,6 +4,7 @@ namespace PhpUnitGen\Executor;
 
 use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
 use PhpUnitGen\Parser\ParserInterface\PhpParserInterface;
+use PhpUnitGen\Renderer\RendererInterface\PhpFileRendererInterface;
 
 /**
  * Class Executor.
@@ -22,29 +23,32 @@ class Executor implements ExecutorInterface
     private $phpFileParser;
 
     /**
+     * @var PhpFileRendererInterface $phpFileRenderer The php file renderer.
+     */
+    private $phpFileRenderer;
+
+    /**
      * Executor constructor.
      *
-     * @param PhpParserInterface $phpFileParser The php file parser.
+     * @param PhpParserInterface       $phpFileParser   The php file parser.
+     * @param PhpFileRendererInterface $phpFileRenderer The php file renderer.
      */
     public function __construct(
-        PhpParserInterface $phpFileParser
+        PhpParserInterface $phpFileParser,
+        PhpFileRendererInterface $phpFileRenderer
     ) {
-        $this->phpFileParser = $phpFileParser;
+        $this->phpFileParser   = $phpFileParser;
+        $this->phpFileRenderer = $phpFileRenderer;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function invoke(string $code): string
+    public function invoke(string $code, string $name = 'GeneratedTest'): string
     {
         $phpFileModel = $this->phpFileParser->invoke($code);
+        $phpFileModel->setName($name);
 
-        ob_start();
-        var_dump($phpFileModel);
-        $content = ob_get_contents();
-        ob_end_clean();
-        /** @todo ... */
-
-        return $content;
+        return $this->phpFileRenderer->invoke($phpFileModel);
     }
 }

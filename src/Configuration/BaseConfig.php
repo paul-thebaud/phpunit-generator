@@ -99,6 +99,14 @@ class BaseConfig implements ConfigInterface
     /**
      * {@inheritdoc}
      */
+    public function getTemplatesPath(): string
+    {
+        return __DIR__ . '/../../templates';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getPhpDoc(): array
     {
         return $this->config['phpdoc'];

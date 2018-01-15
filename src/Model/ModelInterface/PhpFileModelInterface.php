@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Model\ModelInterface;
 
 use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
+use PhpUnitGen\Model\PropertyInterface\NameInterface;
 use PhpUnitGen\Model\PropertyInterface\NamespaceInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 
@@ -15,8 +16,17 @@ use PhpUnitGen\Model\PropertyInterface\NodeInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface PhpFileModelInterface extends NamespaceInterface, ClassLikeInterface, NodeInterface
+interface PhpFileModelInterface extends NameInterface, NamespaceInterface, ClassLikeInterface, NodeInterface
 {
+    /**
+     * Get the full name of a class (namespace + name).
+     *
+     * @param string $name The class name.
+     *
+     * @return string The full name.
+     */
+    public function getFullNameFor(string $name): string;
+
     /**
      * Add a new concrete PHP import for tests skeleton.
      *

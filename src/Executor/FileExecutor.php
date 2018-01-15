@@ -74,7 +74,7 @@ class FileExecutor implements FileExecutorInterface
     /**
      * {@inheritdoc}
      */
-    public function invoke(string $sourcePath, string $targetPath): void
+    public function invoke(string $sourcePath, string $targetPath, string $name = 'GeneratedTest'): void
     {
         if (! $this->fileValidator->validate($sourcePath)) {
             return;
@@ -87,7 +87,7 @@ class FileExecutor implements FileExecutorInterface
         }
 
         // We ignore the type checked because we already check the readability
-        $code = $this->executor->invoke($content);
+        $code = $this->executor->invoke($content, $name);
 
         $this->checkTargetPath($targetPath);
 

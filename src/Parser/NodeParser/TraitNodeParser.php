@@ -9,6 +9,7 @@ use PhpUnitGen\Parser\NodeParser\NodeParserInterface\AttributeNodeParserInterfac
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\TraitNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
+use PhpUnitGen\Parser\NodeParserUtil\ConcreteUseTrait;
 
 /**
  * Class TraitNodeParser.
@@ -50,6 +51,7 @@ class TraitNodeParser extends AbstractNodeParser implements TraitNodeParserInter
         $trait = new TraitModel();
         $trait->setParentNode($parent);
         $trait->setName($this->getName($node));
+        $parent->addConcreteUse($parent->getFullNameFor($trait->getName()), $trait->getName());
 
         $trait = $this->parseSubNodes($node->stmts, $trait);
 

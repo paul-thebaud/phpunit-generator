@@ -32,13 +32,16 @@ use PhpUnitGen\Parser\NodeParser\UseNodeParser;
 use PhpUnitGen\Parser\NodeParser\ValueNodeParser;
 use PhpUnitGen\Parser\ParserInterface\PhpParserInterface;
 use PhpUnitGen\Parser\PhpParser;
+use PhpUnitGen\Renderer\PhpFileRenderer;
+use PhpUnitGen\Renderer\RendererInterface\PhpFileRendererInterface;
 use PhpUnitGen\Report\Report;
 use PhpUnitGen\Report\ReportInterface\ReportInterface;
 
 return [
-    PhpParserInterface::class           => PhpParser::class,
-    ExecutorInterface::class            => Executor::class,
-    ReportInterface::class              => Report::class,
+    PhpParserInterface::class => PhpParser::class,
+    ExecutorInterface::class  => Executor::class,
+    ReportInterface::class    => Report::class,
+
     ValueNodeParserInterface::class     => ValueNodeParser::class,
     TypeNodeParserInterface::class      => TypeNodeParser::class,
     UseNodeParserInterface::class       => UseNodeParser::class,
@@ -51,5 +54,7 @@ return [
     TraitNodeParserInterface::class     => TraitNodeParser::class,
     ClassNodeParserInterface::class     => ClassNodeParser::class,
     NamespaceNodeParserInterface::class => NamespaceNodeParser::class,
-    PhpFileNodeParserInterface::class   => PhpFileNodeParser::class
+    PhpFileNodeParserInterface::class   => PhpFileNodeParser::class,
+
+    PhpFileRendererInterface::class => PhpFileRenderer::class
 ];

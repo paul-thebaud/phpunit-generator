@@ -9,6 +9,7 @@ use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
 use PhpUnitGen\Model\PropertyTrait\NamespaceTrait;
+use PhpUnitGen\Model\PropertyTrait\NameTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
 use Respect\Validation\Validator;
 
@@ -23,6 +24,7 @@ use Respect\Validation\Validator;
  */
 class PhpFileModel implements PhpFileModelInterface
 {
+    use NameTrait;
     use NamespaceTrait;
     use NodeTrait;
 
@@ -57,6 +59,15 @@ class PhpFileModel implements PhpFileModelInterface
      * @var InterfaceModelInterface[] $interfaces Interfaces contained in the file.
      */
     private $interfaces = [];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFullNameFor(string $name): string
+    {
+        $namespace = $this->getNamespaceString();
+        return $namespace === null? $name : $namespace . '\\' . $name;
+    }
 
     /**
      * {@inheritdoc}

@@ -99,10 +99,11 @@ $config = new BaseConfig();
 // Create the dependency container
 $container = (new ContainerFactory())->invoke($config);
 
-$myCode = "<?php ... some php code ...";
+$myTestClass = 'MyClassTest';
+$myCode = "<?php class MyClass { ... some php code ... }";
 
 // Execute PhpUnitGen on your code
-$myUnitTestsSkeleton = $container->get(ExecutorInterface::class)->invoke($myCode);
+$myUnitTestsSkeleton = $container->get(ExecutorInterface::class)->invoke($myCode, $myTestClass);
 ```
 
 ## Annotations

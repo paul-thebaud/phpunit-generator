@@ -38,4 +38,12 @@ interface ContainerInterface extends PsrContainerInterface
      * @param string|null $class The class name, null if it can $id as a class name.
      */
     public function set(string $id, string $class = null): void;
+
+    /**
+     * Add to available services all classes and aliases of the autoResolvable.
+     * Using this method is the same as using set method on each rows.
+     *
+     * @param array $autoResolvable
+     */
+    public function addAutoResolvableArray(array $autoResolvable): void;
 }

@@ -60,6 +60,14 @@ class Container implements ContainerInterface
     /**
      * {@inheritdoc}
      */
+    public function addAutoResolvableArray(array $autoResolvable): void
+    {
+        array_merge(self::$autoResolvable, $autoResolvable);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function get($id): object
     {
         return $this->resolve($id);

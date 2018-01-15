@@ -8,6 +8,7 @@ use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\AttributeNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ClassNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
+use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
 
 /**
  * Class ClassNodeParser.
@@ -20,6 +21,8 @@ use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
  */
 class ClassNodeParser extends AbstractNodeParser implements ClassNodeParserInterface
 {
+    use ClassLikeNameTrait;
+
     /**
      * ClassNodeParser constructor.
      *
@@ -46,13 +49,13 @@ class ClassNodeParser extends AbstractNodeParser implements ClassNodeParserInter
     {
         $class = new ClassModel();
         $class->setParentNode($parent);
-        $class->setName($node->name);
+        $class->setName($this->getName($node));
         $class->setIsAbstract($node->isAbstract());
         $class->setIsFinal($node->isFinal());
 
         $class = $this->parseSubNodes($node->stmts, $class);
 
-        $parent->addTrait($class);
+        $parent->addClass($class);
 
         return $parent;
     }

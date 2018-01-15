@@ -18,9 +18,13 @@ interface ContainerFactoryInterface
     /**
      * Build a new instance of the container.
      *
-     * @param ConfigInterface $config A configuration instance.
+     * @param ConfigInterface $config         A configuration instance.
+     * @param string          $resolvablePath The resolvable array file path (optional).
      *
      * @return ContainerInterface The created container.
      */
-    public function invoke(ConfigInterface $config): ContainerInterface;
+    public function invoke(
+        ConfigInterface $config,
+        string $resolvablePath = __DIR__ . '/../../../config/autoresolvable.config.php'
+    ): ContainerInterface;
 }

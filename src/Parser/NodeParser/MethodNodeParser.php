@@ -3,14 +3,12 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
-use PhpUnitGen\Model\ClassModel;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
-use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
-use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\FunctionNodeParserInterface;
+use PhpUnitGen\Model\ReturnModel;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ParameterNodeParserInterface;
+use PhpUnitGen\Parser\NodeParser\NodeParserInterface\TypeNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\DocumentationTrait;
 use PhpUnitGen\Parser\NodeParserUtil\MethodVisibilityTrait;
 
@@ -34,13 +32,22 @@ class MethodNodeParser extends AbstractNodeParser implements MethodNodeParserInt
     protected $parameterNodeParser;
 
     /**
+     * @var TypeNodeParserInterface $typeNodeParser The type node parser.
+     */
+    protected $typeNodeParser;
+
+    /**
      * MethodNodeParser constructor.
      *
      * @param ParameterNodeParserInterface $parameterNodeParser The parameter node parser.
+     * @param TypeNodeParserInterface      $typeNodeParser      The type node parser.
      */
-    public function __construct(ParameterNodeParserInterface $parameterNodeParser)
-    {
+    public function __construct(
+        ParameterNodeParserInterface $parameterNodeParser,
+        TypeNodeParserInterface $typeNodeParser
+    ) {
         $this->parameterNodeParser = $parameterNodeParser;
+        $this->typeNodeParser      = $typeNodeParser;
     }
 
     /**
@@ -60,6 +67,13 @@ class MethodNodeParser extends AbstractNodeParser implements MethodNodeParserInt
         foreach ($node->getParams() as $param) {
             $function = $this->parameterNodeParser->invoke($param, $function);
         }
+
+        $return = new ReturnModel();
+        $return->setParentNode($function);
+        if ($node->getReturnType() !== null) {
+            $return = $this->typeNodeParser->invoke($node->getReturnType(), $return);
+        }
+        $function->setReturn($return);
 
         $parent->addFunction($function);
 

@@ -2,10 +2,11 @@
 
 namespace PhpUnitGen\Parser\NodeParser\NodeParserInterface;
 
-use PhpUnitGen\Model\PropertyInterface\TypeInterface;
+use PhpParser\Node;
+use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 
 /**
- * Interface TypeNodeParserInterface.
+ * Interface GroupUseNodeParserInterface.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -13,15 +14,15 @@ use PhpUnitGen\Model\PropertyInterface\TypeInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface TypeNodeParserInterface
+interface GroupUseNodeParserInterface extends NodeParserInterface
 {
     /**
      * Parse a node to update the parent node model.
      *
-     * @param mixed         $node   The node to parse.
-     * @param TypeInterface $parent The parent node.
+     * @param Node\Stmt\GroupUse    $node   The node to parse.
+     * @param PhpFileModelInterface $parent The parent node.
      *
-     * @return TypeInterface  The updated parent.
+     * @return PhpFileModelInterface The updated parent.
      */
-    public function invoke($node, TypeInterface $parent): TypeInterface;
+    public function invoke(Node\Stmt\GroupUse $node, PhpFileModelInterface $parent): PhpFileModelInterface;
 }

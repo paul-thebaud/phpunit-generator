@@ -16,22 +16,22 @@ interface VisibilityInterface
     /**
      * @var null UNKNOWN If the visibility is unknown.
      */
-    const UNKNOWN   = null;
+    const UNKNOWN_VISIBILITY = null;
 
     /**
      * @var int PUBLIC A public visibility.
      */
-    const PUBLIC    = 1;
+    const PUBLIC             = 1;
 
     /**
      * @var int PUBLIC A protected visibility.
      */
-    const PROTECTED = 2;
+    const PROTECTED          = 2;
 
     /**
      * @var int PUBLIC A private visibility.
      */
-    const PRIVATE   = 3;
+    const PRIVATE            = 3;
 
     /**
      * @param int|null $visibility The new visibility to set.

@@ -5,6 +5,7 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ClassNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\FunctionNodeParserInterface;
+use PhpUnitGen\Parser\NodeParser\NodeParserInterface\GroupUseNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\InterfaceNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\NamespaceNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\PhpFileNodeParserInterface;
@@ -30,6 +31,7 @@ class PhpFileNodeParser extends AbstractNodeParser implements PhpFileNodeParserI
      *
      * @param NamespaceNodeParserInterface $namespaceNodeParser The namespace node parser to use.
      * @param UseNodeParserInterface       $useNodeParser       The use node parser to use.
+     * @param GroupUseNodeParserInterface  $groupUseNodeParser  The group use node parser to use.
      * @param FunctionNodeParserInterface  $functionNodeParser  The function node parser to use.
      * @param ClassNodeParserInterface     $classNodeParser     The class node parser to use.
      * @param TraitNodeParserInterface     $traitNodeParser     The trait node parser to use.
@@ -38,19 +40,20 @@ class PhpFileNodeParser extends AbstractNodeParser implements PhpFileNodeParserI
     public function __construct(
         NamespaceNodeParserInterface $namespaceNodeParser,
         UseNodeParserInterface $useNodeParser,
+        GroupUseNodeParserInterface $groupUseNodeParser,
         FunctionNodeParserInterface $functionNodeParser,
         ClassNodeParserInterface $classNodeParser,
         TraitNodeParserInterface $traitNodeParser,
         InterfaceNodeParserInterface $interfaceNodeParser
     ) {
         $this->nodeParsers[Node\Stmt\Namespace_::class] = $namespaceNodeParser;
-        $this->nodeParsers[Node\Stmt\Use_::class]       = $useNodeParser;
         $this->nodeParsers[Node\Stmt\Function_::class]  = $functionNodeParser;
         $this->nodeParsers[Node\Stmt\Class_::class]     = $classNodeParser;
         $this->nodeParsers[Node\Stmt\Trait_::class]     = $traitNodeParser;
         $this->nodeParsers[Node\Stmt\Interface_::class] = $interfaceNodeParser;
 
-        $this->useNodeParser = $useNodeParser;
+        $this->useNodeParser      = $useNodeParser;
+        $this->groupUseNodeParser = $groupUseNodeParser;
     }
 
     /**

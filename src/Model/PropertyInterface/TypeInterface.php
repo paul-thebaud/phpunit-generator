@@ -11,7 +11,7 @@ namespace PhpUnitGen\Model\PropertyInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface TypeInterface
+interface TypeInterface extends NodeInterface
 {
     /**
      * @var string UNKNOWN_CUSTOM A string describing an unknown custom type.

@@ -39,7 +39,7 @@ abstract class AbstractNodeParser implements NodeParserInterface
                 get_class($this)
             ));
         }
-        return $parent = $this->invoke($node, $parent);
+        return $this->invoke($node, $parent);
     }
 
     /**

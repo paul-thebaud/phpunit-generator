@@ -7,6 +7,7 @@ use PhpUnitGen\Model\InterfaceModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\InterfaceNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
+use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
 
 /**
  * Class InterfaceNodeParser.
@@ -19,6 +20,8 @@ use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
  */
 class InterfaceNodeParser extends AbstractNodeParser implements InterfaceNodeParserInterface
 {
+    use ClassLikeNameTrait;
+
     /**
      * InterfaceNodeParser constructor.
      *
@@ -42,7 +45,7 @@ class InterfaceNodeParser extends AbstractNodeParser implements InterfaceNodePar
     {
         $interface = new InterfaceModel();
         $interface->setParentNode($parent);
-        $interface->setName($node->name);
+        $interface->setName($this->getName($node));
 
         $interface = $this->parseSubNodes($node->stmts, $interface);
 

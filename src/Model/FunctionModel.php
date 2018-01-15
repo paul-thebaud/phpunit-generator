@@ -63,7 +63,7 @@ class FunctionModel implements FunctionModelInterface
      */
     public function setReturn(ReturnModelInterface $return): void
     {
-        $this->setReturn($return);
+        $this->return = $return;
     }
 
     /**

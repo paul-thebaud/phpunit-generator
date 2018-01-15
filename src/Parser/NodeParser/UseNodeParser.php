@@ -22,8 +22,10 @@ class UseNodeParser extends AbstractNodeParser implements UseNodeParserInterface
      */
     public function invoke(Node\Stmt\Use_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
     {
-        foreach ($node->uses as $use) {
-            $parent->addUse($use->alias, $use->name->toString());
+        if ($node->type === Node\Stmt\Use_::TYPE_NORMAL) {
+            foreach ($node->uses as $use) {
+                $parent->addUse($use->alias, $use->name->toString());
+            }
         }
 
         return $parent;

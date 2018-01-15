@@ -18,7 +18,7 @@ trait VisibilityTrait
     /**
      * @var int|null $visibility The visibility as an integer constant.
      */
-    protected $visibility = VisibilityInterface::UNKNOWN;
+    protected $visibility = VisibilityInterface::UNKNOWN_VISIBILITY;
 
     /**
      * @param int|null $visibility The new visibility to set.

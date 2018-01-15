@@ -14,6 +14,6 @@ use PhpUnitGen\Model\PropertyInterface\TypeInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface ReturnModelInterface extends TypeInterface, NodeInterface
+interface ReturnModelInterface extends TypeInterface
 {
 }

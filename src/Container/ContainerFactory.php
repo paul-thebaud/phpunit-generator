@@ -25,7 +25,7 @@ class ContainerFactory implements ContainerFactoryInterface
      */
     public function invoke(
         ConfigInterface $config,
-        string $autoResolvableArrayPath = __DIR__ . '/../../config/autoresolvable.config.php'
+        string $resolvablePath = __DIR__ . '/../../config/autoresolvable.config.php'
     ): ContainerInterface {
         $container = new Container();
 
@@ -35,7 +35,8 @@ class ContainerFactory implements ContainerFactoryInterface
         $container->setInstance(Parser::class, (new ParserFactory())->create(ParserFactory::PREFER_PHP7));
 
         // Automatically created dependencies and aliases
-        $container->addAutoResolvableArray(require $autoResolvableArrayPath);
+        $autoResolvable = require $resolvablePath;
+        $container->addAutoResolvableArray($autoResolvable);
 
         return $container;
     }

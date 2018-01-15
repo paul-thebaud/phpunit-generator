@@ -2,6 +2,8 @@
 
 namespace PhpUnitGen\Model\PropertyTrait;
 
+use PhpUnitGen\Model\PropertyInterface\NameInterface;
+
 /**
  * Trait NameTrait.
  *
@@ -16,7 +18,7 @@ trait NameTrait
     /**
      * @var string $name A string describing a name.
      */
-    protected $name = 'UNKNOWN';
+    protected $name = NameInterface::UNKNOWN_NAME;
 
     /**
      * @param string $name The new name to be set.

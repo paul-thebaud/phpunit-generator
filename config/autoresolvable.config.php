@@ -7,12 +7,14 @@ use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
 use PhpUnitGen\Parser\NodeParser\AttributeNodeParser;
 use PhpUnitGen\Parser\NodeParser\ClassNodeParser;
 use PhpUnitGen\Parser\NodeParser\FunctionNodeParser;
+use PhpUnitGen\Parser\NodeParser\GroupUseNodeParser;
 use PhpUnitGen\Parser\NodeParser\InterfaceNodeParser;
 use PhpUnitGen\Parser\NodeParser\MethodNodeParser;
 use PhpUnitGen\Parser\NodeParser\NamespaceNodeParser;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\AttributeNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ClassNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\FunctionNodeParserInterface;
+use PhpUnitGen\Parser\NodeParser\NodeParserInterface\GroupUseNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\InterfaceNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\NamespaceNodeParserInterface;
@@ -40,6 +42,7 @@ return [
     ValueNodeParserInterface::class     => ValueNodeParser::class,
     TypeNodeParserInterface::class      => TypeNodeParser::class,
     UseNodeParserInterface::class       => UseNodeParser::class,
+    GroupUseNodeParserInterface::class  => GroupUseNodeParser::class,
     ParameterNodeParserInterface::class => ParameterNodeParser::class,
     FunctionNodeParserInterface::class  => FunctionNodeParser::class,
     MethodNodeParserInterface::class    => MethodNodeParser::class,

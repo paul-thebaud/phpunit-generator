@@ -14,6 +14,11 @@ namespace PhpUnitGen\Model\PropertyInterface;
 interface NameInterface
 {
     /**
+     * @var string UNKNOWN A string describing an unknown name.
+     */
+    const UNKNOWN_NAME = 'UNKNOWN';
+
+    /**
      * @param string $name The new name to be set.
      */
     public function setName(string $name): void;

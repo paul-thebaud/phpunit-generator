@@ -62,7 +62,7 @@ class Container implements ContainerInterface
      */
     public function addAutoResolvableArray(array $autoResolvable): void
     {
-        array_merge(self::$autoResolvable, $autoResolvable);
+        self::$autoResolvable = array_merge(self::$autoResolvable, $autoResolvable);
     }
 
     /**

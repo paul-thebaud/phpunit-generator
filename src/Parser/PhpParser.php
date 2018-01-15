@@ -28,7 +28,7 @@ class PhpParser implements PhpParserInterface
     private $phpParser;
 
     /**
-     * @var PhpFileNodeParser $phpFileNodeParser A php file node parser to parse php nodes.
+     * @var PhpFileNodeParserInterface $phpFileNodeParser A php file node parser to parse php nodes.
      */
     private $phpFileNodeParser;
 

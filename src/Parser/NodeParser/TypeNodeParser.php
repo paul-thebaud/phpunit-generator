@@ -3,7 +3,6 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
-use PhpUnitGen\Model\ModelInterface\ParameterModelInterface;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PropertyInterface\TypeInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\TypeNodeParserInterface;
@@ -26,7 +25,7 @@ class TypeNodeParser extends AbstractNodeParser implements TypeNodeParserInterfa
     /**
      * {@inheritdoc}
      */
-    public function invoke($node, ParameterModelInterface $parent): ParameterModelInterface
+    public function invoke($node, TypeInterface $parent): TypeInterface
     {
         // If it is a nullable type
         if (Validator::instance(Node\NullableType::class)->validate($node)) {
@@ -55,11 +54,11 @@ class TypeNodeParser extends AbstractNodeParser implements TypeNodeParserInterfa
      * Get the class type hint as a string.
      *
      * @param Node\Name               $node   The name node to parse.
-     * @param ParameterModelInterface $parent The parent to update.
+     * @param TypeInterface $parent The parent to update.
      *
      * @return string The class type hint.
      */
-    private function getClassType(Node\Name $node, ParameterModelInterface $parent): string
+    private function getClassType(Node\Name $node, TypeInterface $parent): string
     {
         $phpFile = $this->getRoot($parent);
 

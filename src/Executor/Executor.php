@@ -39,12 +39,8 @@ class Executor implements ExecutorInterface
     {
         $phpFileModel = $this->phpFileParser->parse($code);
 
-        ob_start();
-        var_dump($phpFileModel);
-        $content = ob_get_contents();
-        ob_end_clean();
         /** @todo ... */
 
-        return $content;
+        return '';
     }
 }

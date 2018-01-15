@@ -57,11 +57,9 @@ abstract class AbstractNodeParser implements NodeParserInterface
     {
         $class = get_class($node);
 
-        var_dump('I want to parse a "' . get_class($node) . '"');
         if (Validator::key($class, Validator::instance(NodeParserInterface::class))
             ->validate($this->nodeParsers)
         ) {
-            var_dump('Im gonna parse a "' . get_class($node) . '"');
             $parent = $this->nodeParsers[$class]->parse($node, $parent);
         }
 

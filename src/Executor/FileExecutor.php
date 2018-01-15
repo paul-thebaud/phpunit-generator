@@ -78,20 +78,35 @@ class FileExecutor implements FileExecutorInterface
             return;
         }
 
+        $this->checkTargetPath($targetPath);
+
+        /** @scrutinizer ignore-type Because file readability has already been checked. */
+        $content = $this->fileSystem->read($sourcePath);
+        $code = $this->executor->execute($content);
+
+        $this->fileSystem->write($targetPath, $code);
+
+        // Output that a file is parsed
+        $this->output->text(sprintf('Parsing file "%s" completed.', $sourcePath));
+    }
+
+    /**
+     * Check if an old file exists. If overwrite option is activated, delete it, else, throw an exception.
+     *
+     * @param string $targetPath The target file path.
+     *
+     * @throws ExecutorException If overwrite option is deactivated and file exists.
+     */
+    public function checkTargetPath(string $targetPath): void
+    {
         $targetPathExists = $this->fileSystem->has($targetPath);
 
         if ($targetPathExists && ! $this->config->hasOverwrite()) {
             throw new ExecutorException(sprintf('The target file "%s" already exists.', $targetPath));
         }
 
-        $code = $this->executor->execute($this->fileSystem->read($sourcePath));
-
         if ($targetPathExists) {
             $this->fileSystem->delete($targetPath);
         }
-        $this->fileSystem->write($targetPath, $code);
-
-        // Output that a file is parsed
-        $this->output->text(sprintf('Parsing file "%s" completed.', $sourcePath));
     }
 }

@@ -61,11 +61,15 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
     private function validateStrings($config): void
     {
         // Check string parameters
-        if (! Validator::key('include', Validator::stringType())->validate($config)) {
-            throw new InvalidConfigException('"include" parameter must be set as a string.');
+        if (! Validator::key('include', Validator::stringType())->validate($config) ||
+            ! Validator::key('include', Validator::nullType())->validate($config)
+        ) {
+            throw new InvalidConfigException('"include" parameter must be set as a string or a null value.');
         }
-        if (! Validator::key('exclude', Validator::stringType())->validate($config)) {
-            throw new InvalidConfigException('"exclude" parameter must be set as a string.');
+        if (! Validator::key('exclude', Validator::stringType())->validate($config)
+            || ! Validator::key('exclude', Validator::nullType())->validate($config)
+        ) {
+            throw new InvalidConfigException('"exclude" parameter must be set as a string or a null value.');
         }
     }
 

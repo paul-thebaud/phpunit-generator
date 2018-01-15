@@ -81,7 +81,7 @@ class ConsoleExecutor implements ConsoleExecutorInterface
     /**
      * {@inheritdoc}
      */
-    public function execute(): void
+    public function invoke(): void
     {
         $this->executeOnDirectories();
 
@@ -110,7 +110,7 @@ class ConsoleExecutor implements ConsoleExecutorInterface
     {
         foreach ($this->config->getDirectories() as $source => $target) {
             try {
-                $this->directoryExecutor->execute($source, $target);
+                $this->directoryExecutor->invoke($source, $target);
             } catch (Exception $exception) {
                 $this->exceptionCatcher->catch($exception);
             }
@@ -124,7 +124,7 @@ class ConsoleExecutor implements ConsoleExecutorInterface
     {
         foreach ($this->config->getFiles() as $source => $target) {
             try {
-                $this->fileExecutor->execute($source, $target);
+                $this->fileExecutor->invoke($source, $target);
             } catch (Exception $exception) {
                 $this->exceptionCatcher->catch($exception);
             }

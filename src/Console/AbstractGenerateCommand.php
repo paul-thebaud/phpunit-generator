@@ -7,6 +7,7 @@ use PhpUnitGen\Configuration\JsonConsoleConfigFactory;
 use PhpUnitGen\Configuration\PhpConsoleConfigFactory;
 use PhpUnitGen\Configuration\YamlConsoleConfigFactory;
 use PhpUnitGen\Container\ContainerInterface\ConsoleContainerFactoryInterface;
+use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Exception\InvalidConfigException;
 use PhpUnitGen\Executor\ExecutorInterface\ConsoleExecutorInterface;
 use Symfony\Component\Console\Command\Command;
@@ -82,7 +83,11 @@ abstract class AbstractGenerateCommand extends Command
 
         $this->consoleExecutor = $container->get(ConsoleExecutorInterface::class);
 
-        $this->consoleExecutor->execute();
+        try {
+            $this->consoleExecutor->invoke();
+        } catch (Exception $exception) {
+            $styledOutput->error($exception->getMessage());
+        }
 
         return 1;
     }

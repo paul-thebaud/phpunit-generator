@@ -16,5 +16,5 @@ interface ConsoleExecutorInterface
     /**
      * Execute all PhpUnitGen tasks from parsing to code generation for a configuration (retrieved from the container).
      */
-    public function execute(): void;
+    public function invoke(): void;
 }

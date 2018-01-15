@@ -17,17 +17,23 @@ use Respect\Validation\Validator;
  */
 class BaseConfig implements ConfigInterface
 {
+    const DEFAULT_CONFIG = [
+        'interface' => false,
+        'auto'      => true,
+        'phpdoc'    => []
+    ];
+
     /**
      * @var array $config The configuration as an array.
      */
-    protected $config = [];
+    protected $config;
 
     /**
      * ArrayConfig constructor.
      *
      * @param mixed $config The config array to use.
      */
-    public function __construct($config)
+    public function __construct($config = BaseConfig::DEFAULT_CONFIG)
     {
         $this->validate($config);
 
@@ -52,6 +58,26 @@ class BaseConfig implements ConfigInterface
         if (! Validator::key('interface', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"interface" parameter must be set as a boolean.');
         }
+        if (! Validator::key('auto', Validator::boolType())->validate($config)) {
+            throw new InvalidConfigException('"auto" parameter must be set as a boolean.');
+        }
+
+        $this->validatePhpdoc($config);
+    }
+
+    /**
+     * Validate the phpdoc key in the config array.
+     *
+     * @param mixed $config The configuration.
+     *
+     * @throws InvalidConfigException If the phpdoc is invalid (source or target).
+     */
+    private function validatePhpdoc($config): void
+    {
+        // Check that dirs key exists
+        if (! Validator::key('phpdoc', Validator::arrayType())->validate($config)) {
+            throw new InvalidConfigException('"phpdoc" parameter is not an array.');
+        }
     }
 
     /**
@@ -60,5 +86,21 @@ class BaseConfig implements ConfigInterface
     public function hasInterfaceParsing(): bool
     {
         return $this->config['interface'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasAuto(): bool
+    {
+        return $this->config['auto'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPhpDoc(): array
+    {
+        return $this->config['phpdoc'];
     }
 }

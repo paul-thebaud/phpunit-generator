@@ -64,7 +64,7 @@ class DirectoryExecutor implements DirectoryExecutorInterface
     /**
      * {@inheritdoc}
      */
-    public function execute(string $sourcePath, string $targetPath): void
+    public function invoke(string $sourcePath, string $targetPath): void
     {
         $this->output->section(sprintf('Directory "%s" parsing begins.', $sourcePath));
 
@@ -92,7 +92,7 @@ class DirectoryExecutor implements DirectoryExecutorInterface
     {
         try {
             // Execute file executor
-            $this->fileExecutor->execute($filePath, str_replace($sourcePath, $targetPath, $filePath));
+            $this->fileExecutor->invoke($filePath, str_replace($sourcePath, $targetPath, $filePath));
         } catch (Exception $exception) {
             if ($this->config->hasIgnore()) {
                 $this->output->note($exception->getMessage());

@@ -43,9 +43,6 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
         if (! Validator::key('overwrite', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"overwrite" parameter must be set as a boolean.');
         }
-        if (! Validator::key('auto', Validator::boolType())->validate($config)) {
-            throw new InvalidConfigException('"auto" parameter must be set as a boolean.');
-        }
         if (! Validator::key('ignore', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"ignore" parameter must be set as a boolean.');
         }
@@ -61,13 +58,13 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
     private function validateStrings($config): void
     {
         // Check string parameters
-        if (! Validator::key('include', Validator::stringType())->validate($config) ||
-            ! Validator::key('include', Validator::nullType())->validate($config)
+        if (! Validator::key('include', Validator::stringType())->validate($config)
+            && ! Validator::key('include', Validator::nullType())->validate($config)
         ) {
             throw new InvalidConfigException('"include" parameter must be set as a string or a null value.');
         }
         if (! Validator::key('exclude', Validator::stringType())->validate($config)
-            || ! Validator::key('exclude', Validator::nullType())->validate($config)
+            && ! Validator::key('exclude', Validator::nullType())->validate($config)
         ) {
             throw new InvalidConfigException('"exclude" parameter must be set as a string or a null value.');
         }

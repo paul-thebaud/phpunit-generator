@@ -19,5 +19,5 @@ interface DirectoryExecutorInterface
      * @param string $sourcePath The source directory path.
      * @param string $targetPath The target directory path.
      */
-    public function execute(string $sourcePath, string $targetPath): void;
+    public function invoke(string $sourcePath, string $targetPath): void;
 }

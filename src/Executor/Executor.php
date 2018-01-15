@@ -35,9 +35,9 @@ class Executor implements ExecutorInterface
     /**
      * {@inheritdoc}
      */
-    public function execute(string $code): string
+    public function invoke(string $code): string
     {
-        $phpFileModel = $this->phpFileParser->parse($code);
+        $phpFileModel = $this->phpFileParser->invoke($code);
 
         /** @todo ... */
 

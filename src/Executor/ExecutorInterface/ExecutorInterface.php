@@ -20,5 +20,5 @@ interface ExecutorInterface
      *
      * @return string The generated unit tests skeleton.
      */
-    public function execute(string $code): string;
+    public function invoke(string $code): string;
 }

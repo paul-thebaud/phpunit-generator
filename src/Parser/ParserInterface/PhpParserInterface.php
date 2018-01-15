@@ -25,5 +25,5 @@ interface PhpParserInterface
      *
      * @throws ParsingException If there is an error during parsing.
      */
-    public function parse(string $code): PhpFileModelInterface;
+    public function invoke(string $code): PhpFileModelInterface;
 }

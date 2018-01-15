@@ -17,4 +17,14 @@ interface ConfigInterface
      * @return bool True if interfaces need to be parsed too.
      */
     public function hasInterfaceParsing(): bool;
+
+    /**
+     * @return bool True if it require auto generation.
+     */
+    public function hasAuto(): bool;
+
+    /**
+     * @return string[] The phpdoc array.
+     */
+    public function getPhpDoc(): array;
 }

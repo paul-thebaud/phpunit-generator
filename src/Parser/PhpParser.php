@@ -48,7 +48,7 @@ class PhpParser implements PhpParserInterface
     /**
      * {@inheritdoc}
      */
-    public function parse(string $code): PhpFileModelInterface
+    public function invoke(string $code): PhpFileModelInterface
     {
         try {
             $nodes = $this->phpParser->parse($code);

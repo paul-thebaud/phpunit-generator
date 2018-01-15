@@ -19,5 +19,5 @@ interface FileExecutorInterface
      * @param string $sourcePath The source file path.
      * @param string $targetPath The target file path.
      */
-    public function execute(string $sourcePath, string $targetPath): void;
+    public function invoke(string $sourcePath, string $targetPath): void;
 }

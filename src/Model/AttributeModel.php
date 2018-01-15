@@ -6,7 +6,6 @@ use PhpUnitGen\Model\ModelInterface\AttributeModelInterface;
 use PhpUnitGen\Model\PropertyTrait\NameTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
 use PhpUnitGen\Model\PropertyTrait\StaticTrait;
-use PhpUnitGen\Model\PropertyTrait\TypeTrait;
 use PhpUnitGen\Model\PropertyTrait\ValueTrait;
 use PhpUnitGen\Model\PropertyTrait\VisibilityTrait;
 

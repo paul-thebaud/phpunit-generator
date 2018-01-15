@@ -3,11 +3,9 @@
 namespace PhpUnitGen\Model\ModelInterface;
 
 use PhpUnitGen\Model\PropertyInterface\AbstractInterface;
-use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\DocumentationInterface;
 use PhpUnitGen\Model\PropertyInterface\FinalInterface;
 use PhpUnitGen\Model\PropertyInterface\NameInterface;
-use PhpUnitGen\Model\PropertyInterface\NamespaceInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Model\PropertyInterface\StaticInterface;
 use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;

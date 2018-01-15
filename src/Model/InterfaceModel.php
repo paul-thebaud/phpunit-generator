@@ -24,7 +24,7 @@ class InterfaceModel implements InterfaceModelInterface
     use NodeTrait;
 
     /**
-     * @var FunctionModel[] $functions Class functions.
+     * @var FunctionModelInterface[] $functions Class functions.
      */
     private $functions = [];
 

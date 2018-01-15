@@ -2,7 +2,11 @@
 
 namespace PhpUnitGen\Model;
 
+use PhpUnitGen\Model\ModelInterface\ClassModelInterface;
+use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
+use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
+use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
 use PhpUnitGen\Model\PropertyTrait\NamespaceTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
 
@@ -27,22 +31,22 @@ class PhpFileModel implements PhpFileModelInterface
     private $uses = [];
 
     /**
-     * @var FunctionModel[] $functions Functions contained in the file.
+     * @var FunctionModelInterface[] $functions Functions contained in the file.
      */
     private $functions = [];
 
     /**
-     * @var ClassModel[] $classes Classes contained in the file.
+     * @var ClassModelInterface[] $classes Classes contained in the file.
      */
     private $classes = [];
 
     /**
-     * @var TraitModel[] $traits Traits contained in the file.
+     * @var TraitModelInterface[] $traits Traits contained in the file.
      */
     private $traits = [];
 
     /**
-     * @var InterfaceModel[] $interfaces Interfaces contained in the file.
+     * @var InterfaceModelInterface[] $interfaces Interfaces contained in the file.
      */
     private $interfaces = [];
 
@@ -84,7 +88,7 @@ class PhpFileModel implements PhpFileModelInterface
     /**
      * {@inheritdoc}
      */
-    public function addFunction(FunctionModel $function): void
+    public function addFunction(FunctionModelInterface $function): void
     {
         $this->functions[] = $function;
         $function->setParentNode($this);
@@ -101,7 +105,7 @@ class PhpFileModel implements PhpFileModelInterface
     /**
      * {@inheritdoc}
      */
-    public function addClass(ClassModel $class): void
+    public function addClass(ClassModelInterface $class): void
     {
         $this->classes[] = $class;
         $class->setParentNode($this);
@@ -118,7 +122,7 @@ class PhpFileModel implements PhpFileModelInterface
     /**
      * {@inheritdoc}
      */
-    public function addTrait(TraitModel $trait): void
+    public function addTrait(TraitModelInterface $trait): void
     {
         $this->traits[] = $trait;
         $trait->setParentNode($this);
@@ -135,7 +139,7 @@ class PhpFileModel implements PhpFileModelInterface
     /**
      * {@inheritdoc}
      */
-    public function addInterface(InterfaceModel $interface): void
+    public function addInterface(InterfaceModelInterface $interface): void
     {
         $this->interfaces[] = $interface;
         $interface->setParentNode($this);

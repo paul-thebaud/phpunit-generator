@@ -5,11 +5,9 @@ namespace PhpUnitGen\Model;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\ParameterModelInterface;
 use PhpUnitGen\Model\ModelInterface\ReturnModelInterface;
-use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyTrait\AbstractTrait;
 use PhpUnitGen\Model\PropertyTrait\DocumentationTrait;
 use PhpUnitGen\Model\PropertyTrait\FinalTrait;
-use PhpUnitGen\Model\PropertyTrait\NamespaceTrait;
 use PhpUnitGen\Model\PropertyTrait\NameTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
 use PhpUnitGen\Model\PropertyTrait\StaticTrait;
@@ -35,12 +33,12 @@ class FunctionModel implements FunctionModelInterface
     use DocumentationTrait;
 
     /**
-     * @var ParameterModel[] $parameters The function methods.
+     * @var ParameterModelInterface[] $parameters The function methods.
      */
     private $parameters = [];
 
     /**
-     * @var ReturnModel $return The function return.
+     * @var ReturnModelInterface $return The function return.
      */
     private $return;
 

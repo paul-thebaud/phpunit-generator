@@ -17,7 +17,7 @@ use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
 class TraitModel extends InterfaceModel implements TraitModelInterface
 {
     /**
-     * @var AttributeModel[] $attributes Class attributes.
+     * @var AttributeModelInterface[] $attributes Class attributes.
      */
     private $attributes = [];
 

@@ -36,7 +36,7 @@ class PhpFileModel implements PhpFileModelInterface
     private $concreteUses = [];
 
     /**
-     * @var UseModelInterface[] $uses Imports contained in the file.
+     * @var string[] $uses Imports contained in the file.
      */
     private $uses = [];
 
@@ -133,26 +133,6 @@ class PhpFileModel implements PhpFileModelInterface
             ));
         }
         return $this->uses[$name];
-    }
-
-    /**
-     * Get the index of a use from his name or alias.
-     *
-     * @param string $name The name or alias of this use.
-     *
-     * @return int|null The index of this use, null if no one corresponding.
-     */
-    private function getUseIndex(string $name): ?int
-    {
-        foreach ($this->uses as $key => $use) {
-            if ($use->getName() === $name) {
-                return $key;
-            }
-            if ($use->getAlias() === $name) {
-                return $key;
-            }
-        }
-        return null;
     }
 
     /**

@@ -31,7 +31,7 @@ trait RootRetrieverTrait
             if (Validator::instance(PhpFileModelInterface::class)->validate($parent)) {
                 return $parent;
             }
-            $parent = $parent->getParentNode($parent);
+            $parent = $parent->getParentNode();
         }
         return null;
     }

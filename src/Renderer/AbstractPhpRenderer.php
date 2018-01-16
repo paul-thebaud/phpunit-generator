@@ -3,7 +3,6 @@
 namespace PhpUnitGen\Renderer;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
-use PhpUnitGen\Renderer\Helper\RendererHelper;
 
 /**
  * Class AbstractRendererInterface.

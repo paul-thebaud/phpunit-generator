@@ -69,6 +69,11 @@ interface TypeInterface extends NodeInterface
     const STRING = 8;
 
     /**
+     * @var int VOID A void value (used for void return type).
+     */
+    const VOID = 9;
+
+    /**
      * @param int|null $type The new type to set.
      */
     public function setType(?int $type): void;

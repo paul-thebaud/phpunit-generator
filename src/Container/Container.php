@@ -162,7 +162,7 @@ class Container implements ContainerInterface
      *
      * @param string $class The service class.
      *
-     * @return object
+     * @return object The built instance.
      *
      * @throws ContainerException If the service cannot be constructed.
      */

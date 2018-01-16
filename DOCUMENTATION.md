@@ -102,7 +102,7 @@ $container = (new ContainerFactory())->invoke($config);
 $myTestClass = 'MyClassTest';
 $myCode = "<?php class MyClass { ... some php code ... }";
 
-// Execute PhpUnitGen on your code
+// Execute PhpUnitGen on your code to get the tests file content
 $myUnitTestsSkeleton = $container->get(ExecutorInterface::class)->invoke($myCode, $myTestClass);
 ```
 

@@ -5,6 +5,7 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PropertyInterface\TypeInterface;
+use PhpUnitGen\Model\UseModel;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\TypeNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\RootRetrieverTrait;
 use Respect\Validation\Validator;
@@ -99,7 +100,7 @@ class TypeNodeParser extends AbstractNodeParser implements TypeNodeParserInterfa
     {
         $name = $node->toString();
         if ($phpFile->hasUse($name)) {
-            return $phpFile->getFullNameUse($name);
+            return $phpFile->getUse($name);
         }
         $namespace = $phpFile->getNamespaceString();
         if ($namespace !== null) {
@@ -122,7 +123,7 @@ class TypeNodeParser extends AbstractNodeParser implements TypeNodeParserInterfa
         $firstPart = $node->getFirst();
 
         if ($phpFile->hasUse($firstPart)) {
-            return str_replace($firstPart, $phpFile->getFullNameUse($firstPart), $path);
+            return str_replace($firstPart, $phpFile->getUse($firstPart), $path);
         }
         if ($firstPart === $phpFile->getNamespaceLast()) {
             return str_replace($firstPart, $phpFile->getNamespaceString(), $path);

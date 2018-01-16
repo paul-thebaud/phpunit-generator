@@ -119,7 +119,7 @@ class DirectoryExecutor implements DirectoryExecutorInterface
                 $this->report->increaseParsedFileFromDirectoryNumber();
             }
         } catch (Exception $exception) {
-            $this->exceptionCatcher->catch($exception, $sourcePath);
+            $this->exceptionCatcher->catch($exception, $filePath);
         }
     }
 }

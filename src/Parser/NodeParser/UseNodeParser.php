@@ -4,6 +4,7 @@ namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
+use PhpUnitGen\Model\UseModel;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\UseNodeParserInterface;
 
 /**

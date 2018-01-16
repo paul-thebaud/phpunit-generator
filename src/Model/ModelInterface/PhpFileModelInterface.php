@@ -2,6 +2,7 @@
 
 namespace PhpUnitGen\Model\ModelInterface;
 
+use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\NameInterface;
 use PhpUnitGen\Model\PropertyInterface\NamespaceInterface;
@@ -19,7 +20,7 @@ use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 interface PhpFileModelInterface extends NameInterface, NamespaceInterface, ClassLikeInterface, NodeInterface
 {
     /**
-     * Get the full name of a class (namespace + name).
+     * Get the full name of a class (current namespace + name).
      *
      * @param string $name The class name.
      *
@@ -34,15 +35,6 @@ interface PhpFileModelInterface extends NameInterface, NamespaceInterface, Class
      * @param string $name     The name of the class.
      */
     public function addConcreteUse(string $fullName, string $name): void;
-
-    /**
-     * Check if the tests skeleton will contain a specific import.
-     *
-     * @param string $name The import to check.
-     *
-     * @return bool True if the tests skeleton will contain this import.
-     */
-    public function hasConcreteUse(string $name): bool;
 
     /**
      * @return string[] Imports needed for tests skeletons.
@@ -60,7 +52,7 @@ interface PhpFileModelInterface extends NameInterface, NamespaceInterface, Class
     /**
      * Check if the file contains a specific import.
      *
-     * @param string $name The import to check.
+     * @param string $name The import name to check.
      *
      * @return bool True if the file contains this import.
      */
@@ -69,16 +61,11 @@ interface PhpFileModelInterface extends NameInterface, NamespaceInterface, Class
     /**
      * Get the full name for a specific import.
      *
-     * @param string $name The name of this import (last component of name, or alias).
+     * @param string $name The name of this import.
      *
-     * @return string|null The full name if the import exists, else null.
+     * @return string The full name if the import exists.
      */
-    public function getFullNameUse(string $name): ?string;
-
-    /**
-     * @return string[] Imports contained in the file.
-     */
-    public function getUses(): array;
+    public function getUse(string $name): string;
 
     /**
      * @param ClassModelInterface $class The class to add.

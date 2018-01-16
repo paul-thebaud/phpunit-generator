@@ -8,7 +8,6 @@ use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Container\ContainerInterface\ContainerFactoryInterface;
 use PhpUnitGen\Container\ContainerInterface\ContainerInterface;
-use Slim\Views\PhpRenderer;
 
 /**
  * Class ContainerFactory.
@@ -35,10 +34,6 @@ class ContainerFactory implements ContainerFactoryInterface
         $container->setInstance(ConsoleConfigInterface::class, $config);
         // Php parser
         $container->setInstance(Parser::class, (new ParserFactory())->create(ParserFactory::PREFER_PHP7));
-        // Php renderer
-        $renderer = new PhpRenderer($config->getTemplatesPath());
-        $renderer->addAttribute('config', $config);
-        $container->setInstance(PhpRenderer::class, $renderer);
 
         // Automatically created dependencies and aliases
         $autoResolvable = require $resolvablePath;

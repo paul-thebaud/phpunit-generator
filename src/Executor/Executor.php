@@ -2,6 +2,7 @@
 
 namespace PhpUnitGen\Executor;
 
+use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
 use PhpUnitGen\Parser\ParserInterface\PhpParserInterface;
 use PhpUnitGen\Renderer\RendererInterface\PhpFileRendererInterface;
@@ -18,6 +19,11 @@ use PhpUnitGen\Renderer\RendererInterface\PhpFileRendererInterface;
 class Executor implements ExecutorInterface
 {
     /**
+     * @var ConfigInterface $config The configuration to use.
+     */
+    private $config;
+
+    /**
      * @var PhpParserInterface $phpFileParser The php file parser.
      */
     private $phpFileParser;
@@ -30,13 +36,16 @@ class Executor implements ExecutorInterface
     /**
      * Executor constructor.
      *
+     * @param ConfigInterface          $config          The config instance.
      * @param PhpParserInterface       $phpFileParser   The php file parser.
      * @param PhpFileRendererInterface $phpFileRenderer The php file renderer.
      */
     public function __construct(
+        ConfigInterface $config,
         PhpParserInterface $phpFileParser,
         PhpFileRendererInterface $phpFileRenderer
     ) {
+        $this->config          = $config;
         $this->phpFileParser   = $phpFileParser;
         $this->phpFileRenderer = $phpFileRenderer;
     }
@@ -44,11 +53,17 @@ class Executor implements ExecutorInterface
     /**
      * {@inheritdoc}
      */
-    public function invoke(string $code, string $name = 'GeneratedTest'): string
+    public function invoke(string $code, string $name = 'GeneratedTest'): ?string
     {
-        $phpFileModel = $this->phpFileParser->invoke($code);
-        $phpFileModel->setName($name);
+        $phpFile = $this->phpFileParser->invoke($code);
+        $phpFile->setName($name);
 
-        return $this->phpFileRenderer->invoke($phpFileModel);
+        if ((count($phpFile->getTraits()) + count($phpFile->getClasses()) + count($phpFile->getFunctions())) === 0) {
+            if (! $this->config->hasInterfaceParsing() || count($phpFile->getInterfaces()) === 0) {
+                return null;
+            }
+        }
+
+        return $this->phpFileRenderer->invoke($phpFile);
     }
 }

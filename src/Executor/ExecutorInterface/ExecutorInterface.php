@@ -19,7 +19,8 @@ interface ExecutorInterface
      * @param string $code The php code to parse.
      * @param string $name The php tests class name (optional, default is 'Generated').
      *
-     * @return string The generated unit tests skeleton.
+     * @return string|null The generated unit tests skeleton, null if the code does not contain any testable block (or
+     *                     only interface and config does not require interface parsing).
      */
-    public function invoke(string $code, string $name = 'GeneratedTest'): string;
+    public function invoke(string $code, string $name = 'GeneratedTest'): ?string;
 }

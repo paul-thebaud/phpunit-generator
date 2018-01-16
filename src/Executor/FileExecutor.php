@@ -89,6 +89,10 @@ class FileExecutor implements FileExecutorInterface
         // We ignore the type checked because we already check the readability
         $code = $this->executor->invoke($content, $name);
 
+        if ($code === null) {
+            return false;
+        }
+
         $this->checkTargetPath($targetPath);
 
         $this->fileSystem->write($targetPath, $code);

@@ -8,6 +8,7 @@ use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
+use PhpUnitGen\Model\ModelInterface\UseModelInterface;
 use PhpUnitGen\Model\PropertyTrait\NamespaceTrait;
 use PhpUnitGen\Model\PropertyTrait\NameTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
@@ -35,8 +36,7 @@ class PhpFileModel implements PhpFileModelInterface
     private $concreteUses = [];
 
     /**
-     * This array is constructed with the name or the alias as key, and the real namespace, full name as a value.
-     * @var string[] $uses Imports contained in the file.
+     * @var UseModelInterface[] $uses Imports contained in the file.
      */
     private $uses = [];
 
@@ -74,11 +74,12 @@ class PhpFileModel implements PhpFileModelInterface
      */
     public function addConcreteUse(string $fullName, string $name): void
     {
-        if (Validator::key($fullName)->validate($this->concreteUses)) {
-            throw new ParseException(sprintf(
-                'It seems you import two times the class "%s" in your code',
-                $fullName
-            ));
+        // Full name exists and concrete use correspond to this one
+        if (Validator::key($fullName)->validate($this->concreteUses)
+            && $name === $this->concreteUses[$fullName]
+        ) {
+            // Do not add
+            return;
         }
 
         // Delete duplicate class name
@@ -99,14 +100,6 @@ class PhpFileModel implements PhpFileModelInterface
     /**
      * {@inheritdoc}
      */
-    public function hasConcreteUse(string $name): bool
-    {
-        return Validator::contains($name)->validate($this->concreteUses);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getConcreteUses(): array
     {
         return $this->concreteUses;
@@ -117,12 +110,6 @@ class PhpFileModel implements PhpFileModelInterface
      */
     public function addUse(string $name, string $fullName): void
     {
-        if (Validator::contains($fullName)->validate($this->uses)) {
-            throw new ParseException(sprintf(
-                'It seems you import two times the class "%s" in your code',
-                $fullName
-            ));
-        }
         $this->uses[$name] = $fullName;
     }
 
@@ -137,20 +124,35 @@ class PhpFileModel implements PhpFileModelInterface
     /**
      * {@inheritdoc}
      */
-    public function getFullNameUse(string $name): ?string
+    public function getUse(string $name): string
     {
-        if ($this->hasUse($name)) {
-            return $this->uses[$name];
+        if (! $this->hasUse($name)) {
+            throw new ParseException(sprintf(
+                'Trying to get a full class name for "%s", but it does not exists',
+                $name
+            ));
         }
-        return null;
+        return $this->uses[$name];
     }
 
     /**
-     * {@inheritdoc}
+     * Get the index of a use from his name or alias.
+     *
+     * @param string $name The name or alias of this use.
+     *
+     * @return int|null The index of this use, null if no one corresponding.
      */
-    public function getUses(): array
+    private function getUseIndex(string $name): ?int
     {
-        return $this->uses;
+        foreach ($this->uses as $key => $use) {
+            if ($use->getName() === $name) {
+                return $key;
+            }
+            if ($use->getAlias() === $name) {
+                return $key;
+            }
+        }
+        return null;
     }
 
     /**

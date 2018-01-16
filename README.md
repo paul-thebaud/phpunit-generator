@@ -16,12 +16,12 @@ This package will help you writing your unit tests:
 ## Package structure
 
 ```
+build/          ==> Build results (code coverage ...) [only after running composer test].
 config/         ==> Default PhpUnitGen configurations.
 examples/       ==> Examples about this package (configuration, parsing examples).
-src/            ==> Package source files
-template/       ==> Tests templates
-test/           ==> Package unit tests
-vendor/         ==> Composer dependencies
+src/            ==> Package source files.
+test/           ==> Package unit tests.
+vendor/         ==> Composer dependencies [only after running composer install].
 ```
 
 ## Installation
@@ -29,7 +29,7 @@ vendor/         ==> Composer dependencies
 Best way to install this package is with composer dependency manager.
 
 ```bash
-$ composer require --dev paulthebaud/phpunit-generator
+$ composer require --dev paulthebaud/phpunit-generator ~2.0
 ```
 
 `--dev` option is used to install this package only in development environment.
@@ -39,7 +39,7 @@ $ composer require --dev paulthebaud/phpunit-generator
 PhpUnitGenerator basic usage is from command line with the following command.
 
 ```bash
-$ php ./vendor/bin/phpunitgen generate [<config-path>]
+$ php ./vendor/bin/phpunitgen gen [<config-path>]
 ```
 For this command, you will need a configuration file written in `Yaml`, `Json` or `Php`.
 
@@ -52,16 +52,16 @@ Notice that if don't give a `config-path`, it will use the default path: `./phpu
 3 other commands are available:
 
 ```bash
-$ php ./vendor/bin/phpunitgen generate-one <source-file-path> <target-file-path> [<config-path>]
+$ php ./vendor/bin/phpunitgen gen-one <source-file-path> <target-file-path> [<config-path>]
 
-$ php ./vendor/bin/phpunitgen generate-default <source-path> <target-path>
+$ php ./vendor/bin/phpunitgen gen-def <source-path> <target-path>
 
-$ php ./vendor/bin/phpunitgen generate-default-one <config-path> <source-file-path> <target-file-path>
+$ php ./vendor/bin/phpunitgen gen-one-def <source-file-path> <target-file-path>
 ```
 
-* __generate-one__: To generate unit tests skeleton for only one file.
-* __generate-default__: To generate unit tests skeletons of a repository with the default configuration.
-* __generate-default-one__: To generate unit tests skeleton for only one file with the default configuration.
+* __gen-one__: To generate unit tests skeleton for only one file.
+* __gen-def__: To generate unit tests skeletons of a repository with the default configuration.
+* __gen-one-def__: To generate unit tests skeleton for only one file with the default configuration.
 
 Check them on the [Usage section](DOCUMENTATION.md#console-usage) of documentation for more details.
 

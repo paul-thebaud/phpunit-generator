@@ -201,7 +201,7 @@ class Container implements ContainerInterface
         }
         $constructorParameters = [];
         foreach ($constructor->getParameters() as $parameter) {
-            $constructorParameters[] = $this->resolve($parameter->getClass()->getName());
+            $constructorParameters[] = $this->get($parameter->getClass()->getName());
         }
         return $reflection->newInstanceArgs($constructorParameters);
     }

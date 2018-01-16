@@ -74,10 +74,10 @@ class FileExecutor implements FileExecutorInterface
     /**
      * {@inheritdoc}
      */
-    public function invoke(string $sourcePath, string $targetPath, string $name = 'GeneratedTest'): void
+    public function invoke(string $sourcePath, string $targetPath, string $name = 'GeneratedTest'): bool
     {
         if (! $this->fileValidator->validate($sourcePath)) {
-            return;
+            return false;
         }
 
         $content = $this->fileSystem->read($sourcePath);
@@ -95,6 +95,8 @@ class FileExecutor implements FileExecutorInterface
 
         // Output that a file is parsed
         $this->output->text(sprintf('Parsing file "%s" completed.', $sourcePath));
+
+        return true;
     }
 
     /**

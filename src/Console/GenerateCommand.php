@@ -25,7 +25,7 @@ class GenerateCommand extends AbstractGenerateCommand
      */
     protected function configure()
     {
-        $this->setName("generate")
+        $this->setName("gen")
             ->setDescription("Generate unit tests skeletons with a custom configuration")
             ->setHelp("Use it to generate your unit tests skeletons from a configuration file")
             ->addArgument('config-path', InputArgument::OPTIONAL, 'The configuration file path.');

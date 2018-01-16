@@ -9,8 +9,6 @@ use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\InterfaceNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
-use PhpUnitGen\Parser\NodeParserUtil\ConcreteUseTrait;
-use PhpUnitGen\Parser\NodeParserUtil\RootRetrieverTrait;
 
 /**
  * Class InterfaceNodeParser.

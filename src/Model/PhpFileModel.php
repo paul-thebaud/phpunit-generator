@@ -74,13 +74,34 @@ class PhpFileModel implements PhpFileModelInterface
      */
     public function addConcreteUse(string $fullName, string $name): void
     {
-        if (Validator::contains($name)->validate($this->concreteUses)) {
+        if (Validator::key($fullName)->validate($this->concreteUses)) {
             throw new ParseException(sprintf(
                 'It seems you import two times the class "%s" in your code',
                 $fullName
             ));
         }
+
+        // Delete duplicate class name
+        $iteration = 0;
+        while (Validator::contains($name)->validate($this->concreteUses)) {
+            if ($iteration === 0 && Validator::contains($fullName)->validate($this->uses)) {
+                // If a known alias exists
+                $name = array_search($fullName, $this->uses);
+            } else {
+                // Give a default alias
+                $name .= 'Alias';
+            }
+            $iteration++;
+        }
         $this->concreteUses[$fullName] = $name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasConcreteUse(string $name): bool
+    {
+        return Validator::contains($name)->validate($this->concreteUses);
     }
 
     /**
@@ -96,6 +117,12 @@ class PhpFileModel implements PhpFileModelInterface
      */
     public function addUse(string $name, string $fullName): void
     {
+        if (Validator::contains($fullName)->validate($this->uses)) {
+            throw new ParseException(sprintf(
+                'It seems you import two times the class "%s" in your code',
+                $fullName
+            ));
+        }
         $this->uses[$name] = $fullName;
     }
 
@@ -104,7 +131,7 @@ class PhpFileModel implements PhpFileModelInterface
      */
     public function hasUse(string $name): bool
     {
-        return isset($this->uses[$name]);
+        return Validator::key($name)->validate($this->uses);
     }
 
     /**

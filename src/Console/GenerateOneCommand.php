@@ -25,7 +25,7 @@ class GenerateOneCommand extends AbstractGenerateCommand
      */
     protected function configure()
     {
-        $this->setName("generate-one")
+        $this->setName("gen-one")
             ->setDescription("Generate unit tests skeletons with a custom configuration for only one file")
             ->setHelp("Use it to generate your unit tests skeletons from a configuration file and for only one file")
             ->addArgument('source-file-path', InputArgument::REQUIRED, 'The source file path.')

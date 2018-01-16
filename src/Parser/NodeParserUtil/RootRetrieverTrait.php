@@ -26,12 +26,12 @@ trait RootRetrieverTrait
      */
     public function getRoot(NodeInterface $node): ?PhpFileModelInterface
     {
-        $parent = $node->getParentNode();
+        $parent = $node;
         while ($parent !== null) {
             if (Validator::instance(PhpFileModelInterface::class)->validate($parent)) {
                 return $parent;
             }
-            $parent = $this->getRoot($parent);
+            $parent = $parent->getParentNode($parent);
         }
         return null;
     }

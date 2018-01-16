@@ -46,13 +46,13 @@ Notice that if don't give a `config-path`, it will use the default path: `./phpu
 The following command generate unit tests skeletons for a given configuration.
 
 ```bash
-$ php ./vendor/bin/phpunitgen generate [<config-path>]
+$ php ./vendor/bin/phpunitgen gen [<config-path>]
 ```
 
 The following command generate unit tests skeletons for a given configuration, but only for the given source file to the target file.
 
 ```bash
-$ php ./vendor/bin/phpunitgen generate-one <source-file-path> <target-file-path> [<config-path>]
+$ php ./vendor/bin/phpunitgen gen-one <source-file-path> <target-file-path> [<config-path>]
 ```
 
 #### Console command using the default configuration
@@ -64,13 +64,13 @@ Because of you are not giving any configuration, you need to give a source direc
 This one generate unit tests skeletons for a source directory to a target directory.
 
 ```bash
-$ php ./vendor/bin/phpunitgen generate-default <source-path> <target-path>
+$ php ./vendor/bin/phpunitgen gen-def <source-path> <target-path>
 ```
 
 This one generate unit tests skeletons for a source file to a target file.
 
 ```bash
-$ php ./vendor/bin/phpunitgen generate-default-one <config-path> <source-file-path> <target-file-path>
+$ php ./vendor/bin/phpunitgen gen-one-def <source-file-path> <target-file-path>
 ```
 
 ### Website usage

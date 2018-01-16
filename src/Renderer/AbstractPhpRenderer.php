@@ -2,7 +2,8 @@
 
 namespace PhpUnitGen\Renderer;
 
-use Slim\Views\PhpRenderer;
+use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
+use PhpUnitGen\Renderer\Helper\RendererHelper;
 
 /**
  * Class AbstractRendererInterface.
@@ -16,31 +17,164 @@ use Slim\Views\PhpRenderer;
 abstract class AbstractPhpRenderer
 {
     /**
-     * @var PhpRenderer $renderer The php renderer from slim framework.
+     * @var ConfigInterface $config The configuration.
      */
-    private $renderer;
+    protected $config;
+
+    /**
+     * @var int $indent The indentation level.
+     */
+    protected $indent = 0;
+
+    /**
+     * @var string $content The content to show.
+     */
+    protected $content = '';
 
     /**
      * AbstractRendererInterface constructor.
      *
-     * @param PhpRenderer $renderer The php renderer.
+     * @param ConfigInterface $config The configuration to use.
      */
-    public function __construct(PhpRenderer $renderer)
+    public function __construct(ConfigInterface $config)
     {
-        $this->renderer = $renderer;
+        $this->config = $config;
     }
 
     /**
-     * Render a view and merge view data.
+     * Begin a new render (clear content).
      *
-     * @param string $view The view to render.
-     * @param array  $data The data to add.
-     *
-     * @return string The render result.
+     * @return AbstractPhpRenderer $this.
      */
-    protected function render(string $view, array $data): string
+    protected function begin(): AbstractPhpRenderer
     {
-        $this->renderer->setAttributes(array_merge($this->renderer->getAttributes(), $data));
-        return $this->renderer->fetch($view);
+        $this->content = '';
+        return $this;
+    }
+
+    /**
+     * Add a new line to content.
+     *
+     * @param string $line The new line (optional).
+     *
+     * @return AbstractPhpRenderer $this.
+     */
+    protected function add(string $line = ''): AbstractPhpRenderer
+    {
+        if ($line === '') {
+            $this->content .= "\n";
+        } else {
+            $this->content .= $this->indent($line) . "\n";
+        }
+        return $this;
+    }
+
+    /**
+     * Add new lines to content.
+     *
+     * @param array $lines New lines.
+     *
+     * @return AbstractPhpRenderer $this.
+     */
+    protected function multiple(array $lines): AbstractPhpRenderer
+    {
+        foreach ($lines as $line) {
+            $this->add($line);
+        }
+        return $this;
+    }
+
+    /**
+     * Add documentation block to content.
+     *
+     * @param array $documentation The documentation lines.
+     *
+     * @return AbstractPhpRenderer $this.
+     */
+    protected function doc(array $documentation): AbstractPhpRenderer
+    {
+        $lines = ['/**'];
+        foreach ($documentation as $line) {
+            $lines[] = ' * ' . $line;
+        }
+        $lines[] = ' */';
+
+        $this->multiple($lines);
+        return $this;
+    }
+
+    /**
+     * Add string at end of content.
+     *
+     * @param string $string The string to concat.
+     *
+     * @return AbstractPhpRenderer $this.
+     */
+    protected function concat(string $string): AbstractPhpRenderer
+    {
+        $this->content .= $string;
+        return $this;
+    }
+
+    /**
+     * Remove n character at the content string.
+     *
+     * @param int $number The number of char to remove.
+     *
+     * @return AbstractPhpRenderer $this.
+     */
+    protected function remove(int $number = 1): AbstractPhpRenderer
+    {
+        $this->content = substr($this->content, 0, (-$number));
+        return $this;
+    }
+
+    /**
+     * Increase the indent level.
+     *
+     * @return AbstractPhpRenderer $this.
+     */
+    protected function increaseIndent(): AbstractPhpRenderer
+    {
+        $this->indent++;
+        return $this;
+    }
+
+    /**
+     * Decrease the indent level.
+     *
+     * @return AbstractPhpRenderer $this.
+     */
+    protected function decreaseIndent(): AbstractPhpRenderer
+    {
+        $this->indent++;
+        return $this;
+    }
+
+    /**
+     * Get the content.
+     *
+     * @return string The rendered content.
+     */
+    protected function get(): string
+    {
+        return $this->content;
+    }
+
+    /**
+     * Add indent to a line line.
+     *
+     * @param string $line The line to indent.
+     *
+     * @return string The indented line.
+     */
+    private function indent(string $line): string
+    {
+        $indent = $this->indent;
+        while ($indent > 0) {
+            $line = '    ' . $line;
+            $indent--;
+        }
+        return $line;
     }
 }

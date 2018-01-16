@@ -59,9 +59,14 @@ interface TypeInterface extends NodeInterface
     const ITERABLE = 6;
 
     /**
-     * @var int CALLABLE A callable value (a PHP callable: .
+     * @var int CALLABLE A callable value (a PHP callable: function () {}).
      */
     const CALLABLE = 7;
+
+    /**
+     * @var int STRING A string value (a PHP string: 'something' or "something").
+     */
+    const STRING = 8;
 
     /**
      * @param int|null $type The new type to set.

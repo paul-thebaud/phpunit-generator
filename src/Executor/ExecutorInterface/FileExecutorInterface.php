@@ -19,6 +19,8 @@ interface FileExecutorInterface
      * @param string $sourcePath The source file path.
      * @param string $targetPath The target file path.
      * @param string $name       The php tests class name (optional, default is 'Generated').
+     *
+     * @return bool True if tasks were correctly executed.
      */
-    public function invoke(string $sourcePath, string $targetPath, string $name = 'GeneratedTest'): void;
+    public function invoke(string $sourcePath, string $targetPath, string $name = 'GeneratedTest'): bool;
 }

@@ -9,7 +9,6 @@ use PhpUnitGen\Parser\NodeParser\NodeParserInterface\AttributeNodeParserInterfac
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ClassNodeParserInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
-use PhpUnitGen\Parser\NodeParserUtil\ConcreteUseTrait;
 
 /**
  * Class ClassNodeParser.

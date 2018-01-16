@@ -95,8 +95,6 @@ class DirectoryExecutor implements DirectoryExecutorInterface
         foreach ($this->fileSystem->listContents($sourcePath, true) as $file) {
             $this->executeFileExecutor($sourcePath, $targetPath, $file['path']);
         }
-
-        $this->report->increaseParsedFileFromDirectoryNumber();
     }
 
     /**
@@ -115,7 +113,11 @@ class DirectoryExecutor implements DirectoryExecutorInterface
             $targetPath = str_replace($sourcePath, $targetPath, $filePath);
             $targetPath = str_replace('.php', 'Test.php', $targetPath);
             // Execute file executor
-            $this->fileExecutor->invoke($filePath, $targetPath, $name);
+            $result = $this->fileExecutor->invoke($filePath, $targetPath, $name);
+
+            if ($result === true) {
+                $this->report->increaseParsedFileFromDirectoryNumber();
+            }
         } catch (Exception $exception) {
             $this->exceptionCatcher->catch($exception, $sourcePath);
         }

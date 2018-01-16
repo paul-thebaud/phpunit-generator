@@ -36,6 +36,15 @@ interface PhpFileModelInterface extends NameInterface, NamespaceInterface, Class
     public function addConcreteUse(string $fullName, string $name): void;
 
     /**
+     * Check if the tests skeleton will contain a specific import.
+     *
+     * @param string $name The import to check.
+     *
+     * @return bool True if the tests skeleton will contain this import.
+     */
+    public function hasConcreteUse(string $name): bool;
+
+    /**
      * @return string[] Imports needed for tests skeletons.
      */
     public function getConcreteUses(): array;

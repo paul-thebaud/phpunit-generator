@@ -23,7 +23,7 @@ class GenerateDefaultCommand extends AbstractGenerateCommand
      */
     protected function configure()
     {
-        $this->setName("generate-default")
+        $this->setName("gen-def")
             ->setDescription("Generate unit tests skeletons with a default configuration")
             ->setHelp("Use it to generate your unit tests skeletons from a default config")
             ->addArgument('source-path', InputArgument::REQUIRED, 'The source directory path.')

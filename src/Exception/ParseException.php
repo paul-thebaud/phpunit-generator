@@ -11,6 +11,6 @@ namespace PhpUnitGen\Exception;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class ParseException extends Exception
+class ParseException extends IgnorableException
 {
 }

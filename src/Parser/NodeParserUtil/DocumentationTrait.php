@@ -3,7 +3,6 @@
 namespace PhpUnitGen\Parser\NodeParserUtil;
 
 use PhpParser\Node;
-use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
 
 /**
  * Trait DocumentationTrait.

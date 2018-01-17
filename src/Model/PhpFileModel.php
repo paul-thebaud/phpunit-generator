@@ -4,11 +4,10 @@ namespace PhpUnitGen\Model;
 
 use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Model\ModelInterface\ClassModelInterface;
-use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
-use PhpUnitGen\Model\ModelInterface\UseModelInterface;
+use PhpUnitGen\Model\PropertyTrait\ClassLikeTrait;
 use PhpUnitGen\Model\PropertyTrait\NamespaceTrait;
 use PhpUnitGen\Model\PropertyTrait\NameTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
@@ -28,6 +27,7 @@ class PhpFileModel implements PhpFileModelInterface
     use NameTrait;
     use NamespaceTrait;
     use NodeTrait;
+    use ClassLikeTrait;
 
     /**
      * This array is constructed with the full name as key, and the class name as a value.
@@ -39,11 +39,6 @@ class PhpFileModel implements PhpFileModelInterface
      * @var string[] $uses Imports contained in the file.
      */
     private $uses = [];
-
-    /**
-     * @var FunctionModelInterface[] $functions Functions contained in the file.
-     */
-    private $functions = [];
 
     /**
      * @var ClassModelInterface[] $classes Classes contained in the file.
@@ -59,6 +54,33 @@ class PhpFileModel implements PhpFileModelInterface
      * @var InterfaceModelInterface[] $interfaces Interfaces contained in the file.
      */
     private $interfaces = [];
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTestableFunctionsCount(): int
+    {
+        $sum = $this->countFunctions();
+        foreach ($this->getTraits() as $trait) {
+            $sum += $trait->countFunctions();
+        }
+        foreach ($this->getClasses() as $class) {
+            $sum += $class->countFunctions();
+        }
+        return $sum;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getInterfacesFunctionsCount(): int
+    {
+        $sum = 0;
+        foreach ($this->getInterfaces() as $interface) {
+            $sum += $interface->countFunctions();
+        }
+        return $sum;
+    }
 
     /**
      * {@inheritdoc}
@@ -133,22 +155,6 @@ class PhpFileModel implements PhpFileModelInterface
             ));
         }
         return $this->uses[$name];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addFunction(FunctionModelInterface $function): void
-    {
-        $this->functions[] = $function;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFunctions(): array
-    {
-        return $this->functions;
     }
 
     /**

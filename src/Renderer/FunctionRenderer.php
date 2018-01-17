@@ -26,7 +26,7 @@ class FunctionRenderer extends AbstractPhpRenderer
     {
         $this->begin();
 
-        $parent  = $function->getParentNode();
+        $parent = $function->getParentNode();
         /** @var PhpFileModelInterface $phpFile */
         $phpFile = $this->getRoot($parent);
 

@@ -58,8 +58,8 @@ class Executor implements ExecutorInterface
         $phpFile = $this->phpFileParser->invoke($code);
         $phpFile->setName($name);
 
-        if ((count($phpFile->getTraits()) + count($phpFile->getClasses()) + count($phpFile->getFunctions())) === 0) {
-            if (! $this->config->hasInterfaceParsing() || count($phpFile->getInterfaces()) === 0) {
+        if ($phpFile->getTestableFunctionsCount() === 0) {
+            if (! $this->config->hasInterfaceParsing() || $phpFile->getInterfacesFunctionsCount() === 0) {
                 return null;
             }
         }

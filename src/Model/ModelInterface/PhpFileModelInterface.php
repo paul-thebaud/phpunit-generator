@@ -2,11 +2,9 @@
 
 namespace PhpUnitGen\Model\ModelInterface;
 
-use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\NameInterface;
 use PhpUnitGen\Model\PropertyInterface\NamespaceInterface;
-use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 
 /**
  * Interface PhpFileModelInterface.
@@ -17,8 +15,18 @@ use PhpUnitGen\Model\PropertyInterface\NodeInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface PhpFileModelInterface extends NameInterface, NamespaceInterface, ClassLikeInterface, NodeInterface
+interface PhpFileModelInterface extends NameInterface, NamespaceInterface, ClassLikeInterface
 {
+    /**
+     * @return int The sum of functions number for all classes, traits (and global functions).
+     */
+    public function getTestableFunctionsCount(): int;
+
+    /**
+     * @return int The sum of functions number for all interfaces.
+     */
+    public function getInterfacesFunctionsCount(): int;
+
     /**
      * Get the full name of a class (current namespace + name).
      *

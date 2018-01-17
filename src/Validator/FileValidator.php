@@ -2,10 +2,9 @@
 
 namespace PhpUnitGen\Validator;
 
-use League\Flysystem\AdapterInterface;
 use League\Flysystem\FilesystemInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
-use PhpUnitGen\Exception\NotReadableFileException;
+use PhpUnitGen\Exception\FileNotFoundException;
 use PhpUnitGen\Validator\ValidatorInterface\FileValidatorInterface;
 use Respect\Validation\Validator;
 
@@ -47,30 +46,19 @@ class FileValidator implements FileValidatorInterface
      */
     public function validate(string $path): bool
     {
-        if (! $this->validatePath($path)) {
+        if (($type = $this->getPathType($path)) === null) {
+            throw new FileNotFoundException(sprintf('The source file "%s" does not exist.', $path));
+        }
+        if ($type === 'dir') {
+            return false;
+        }
+        if (! $this->validateIncludeRegex($path)
+            || ! $this->validateExcludeRegex($path)
+        ) {
             return false;
         }
 
-        // Not readable file
-        if ($this->fileSystem->getVisibility($path) === AdapterInterface::VISIBILITY_PRIVATE) {
-            throw new NotReadableFileException(sprintf('The file "%s" is not readable.', $path));
-        }
-
         return true;
-    }
-
-    /**
-     * Validate file has a valid path and pass regex validation.
-     *
-     * @param string $path The file path.
-     *
-     * @return bool True if it pass this validation.
-     */
-    private function validatePath(string $path): bool
-    {
-        return $this->validatePathExists($path)
-            && $this->validateIncludeRegex($path)
-            && $this->validateExcludeRegex($path);
     }
 
     /**
@@ -78,9 +66,9 @@ class FileValidator implements FileValidatorInterface
      *
      * @param string $path The file path.
      *
-     * @return bool True if it pass this validation.
+     * @return string|null "file" if its a file, "dir" if its a dir and null if the path does not exists.
      */
-    private function validatePathExists(string $path): bool
+    private function getPathType(string $path): ?string
     {
         return $this->fileSystem->has($path) && $this->fileSystem->get($path)->getType() === 'file';
     }

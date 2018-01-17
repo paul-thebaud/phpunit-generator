@@ -41,7 +41,7 @@ trait NamespaceTrait
      */
     public function getNamespaceString(): ?string
     {
-        return Validator::notEmpty()->validate($this->namespace) ?
+        return Validator::notEmpty()->validate($this->namespace)?
             implode('\\', $this->namespace) :
             null;
     }
@@ -51,7 +51,7 @@ trait NamespaceTrait
      */
     public function getNamespaceLast(): ?string
     {
-        return Validator::notEmpty()->validate($this->namespace) ?
+        return Validator::notEmpty()->validate($this->namespace)?
             $this->namespace[(count($this->namespace) - 1)] :
             null;
     }

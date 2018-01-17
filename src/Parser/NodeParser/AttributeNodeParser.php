@@ -42,7 +42,7 @@ class AttributeNodeParser extends AbstractNodeParser implements AttributeNodePar
      */
     public function invoke(Node\Stmt\Property $node, TraitModelInterface $parent): TraitModelInterface
     {
-        $isStatic = $node->isStatic();
+        $isStatic   = $node->isStatic();
         $visibility = $this->getPropertyVisibility($node);
 
         foreach ($node->props as $property) {

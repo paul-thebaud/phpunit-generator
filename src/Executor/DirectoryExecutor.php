@@ -7,6 +7,7 @@ use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
 use PhpUnitGen\Exception\ExecutorException;
+use PhpUnitGen\Exception\FileNotFoundException;
 use PhpUnitGen\Executor\ExecutorInterface\DirectoryExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
 use PhpUnitGen\Report\ReportInterface\ReportInterface;
@@ -88,7 +89,7 @@ class DirectoryExecutor implements DirectoryExecutorInterface
 
         // Check if source directory exists
         if (! $this->fileSystem->has($sourcePath) || ! $this->fileSystem->getMimetype($sourcePath) === 'directory') {
-            throw new ExecutorException(sprintf('The source directory "%s" does not exist.', $sourcePath));
+            throw new FileNotFoundException(sprintf('The source directory "%s" does not exist.', $sourcePath));
         }
 
         // List content of directory
@@ -109,7 +110,7 @@ class DirectoryExecutor implements DirectoryExecutorInterface
     private function executeFileExecutor(string $sourcePath, string $targetPath, string $filePath): void
     {
         try {
-            $name = pathinfo($filePath)['filename'] . 'Test';
+            $name       = pathinfo($filePath)['filename'] . 'Test';
             $targetPath = str_replace($sourcePath, $targetPath, $filePath);
             $targetPath = str_replace('.php', 'Test.php', $targetPath);
             // Execute file executor

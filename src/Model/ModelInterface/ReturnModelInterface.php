@@ -2,7 +2,6 @@
 
 namespace PhpUnitGen\Model\ModelInterface;
 
-use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Model\PropertyInterface\TypeInterface;
 
 /**

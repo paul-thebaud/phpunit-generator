@@ -17,7 +17,7 @@ use Respect\Validation\Validator;
  */
 class BaseConfig implements ConfigInterface
 {
-    const DEFAULT_CONFIG = [
+    protected const DEFAULT_CONFIG = [
         'interface' => false,
         'auto'      => true,
         'phpdoc'    => []

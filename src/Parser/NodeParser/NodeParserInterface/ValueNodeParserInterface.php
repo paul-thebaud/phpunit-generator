@@ -19,7 +19,7 @@ interface ValueNodeParserInterface
     /**
      * Parse a node to update the parent node model.
      *
-     * @param Node\Expr      $node   The node to parse.
+     * @param Node\Expr             $node   The node to parse.
      * @param VariableLikeInterface $parent The parent node.
      *
      * @return VariableLikeInterface The updated parent.

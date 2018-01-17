@@ -19,7 +19,7 @@ interface AttributeNodeParserInterface extends NodeParserInterface
     /**
      * Parse a node to update the parent node model.
      *
-     * @param Node\Stmt\Property  $node The node to parse.
+     * @param Node\Stmt\Property  $node   The node to parse.
      * @param TraitModelInterface $parent The parent node.
      *
      * @return TraitModelInterface The updated parent.

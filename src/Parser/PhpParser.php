@@ -8,7 +8,6 @@ use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PhpFileModel;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\PhpFileNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\PhpFileNodeParser;
 use PhpUnitGen\Parser\ParserInterface\PhpParserInterface;
 
 /**

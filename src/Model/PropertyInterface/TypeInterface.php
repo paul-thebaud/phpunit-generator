@@ -16,62 +16,62 @@ interface TypeInterface extends NodeInterface
     /**
      * @var string UNKNOWN_CUSTOM A string describing an unknown custom type.
      */
-    const UNKNOWN_CUSTOM = 'UNKNOWN_CUSTOM_TYPE';
+    public const UNKNOWN_CUSTOM = 'UNKNOWN_CUSTOM_TYPE';
 
     /**
      * @var null MIXED A mixed value (can be whatever).
      */
-    const MIXED = null;
+    public const MIXED = null;
 
     /**
      * @var int CUSTOM A custom type hint (class, interface ...).
      */
-    const CUSTOM = 0;
+    public const CUSTOM = 0;
 
     /**
      * @var int OBJECT An object value (type hint "object").
      */
-    const OBJECT = 1;
+    public const OBJECT = 1;
 
     /**
      * @var int BOOL A bool value (true or false).
      */
-    const BOOL = 2;
+    public const BOOL = 2;
 
     /**
      * @var int INT A int value (a PHP integer: ... -1, 0, 1 ...).
      */
-    const INT = 3;
+    public const INT = 3;
 
     /**
      * @var int FLOAT A float value (a PHP float: ... -0.1, 1.0, 1.01 ...).
      */
-    const FLOAT = 4;
+    public const FLOAT = 4;
 
     /**
      * @var int ARRAY A array value (a PHP array: [1, 2, 3]).
      */
-    const ARRAY = 5;
+    public const ARRAY = 5;
 
     /**
      * @var int ITERABLE A iterable value (a PHP iterable: array or Traversable).
      */
-    const ITERABLE = 6;
+    public const ITERABLE = 6;
 
     /**
      * @var int CALLABLE A callable value (a PHP callable: function () {}).
      */
-    const CALLABLE = 7;
+    public const CALLABLE = 7;
 
     /**
      * @var int STRING A string value (a PHP string: 'something' or "something").
      */
-    const STRING = 8;
+    public const STRING = 8;
 
     /**
      * @var int VOID A void value (used for void return type).
      */
-    const VOID = 9;
+    public const VOID = 9;
 
     /**
      * @param int|null $type The new type to set.

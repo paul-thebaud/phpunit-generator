@@ -2,10 +2,7 @@
 
 namespace PhpUnitGen\Model\ModelInterface;
 
-use PhpUnitGen\Model\PropertyInterface\NameInterface;
-use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Model\PropertyInterface\StaticInterface;
-use PhpUnitGen\Model\PropertyInterface\ValueInterface;
 use PhpUnitGen\Model\PropertyInterface\VariableLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
 

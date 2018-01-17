@@ -22,7 +22,7 @@ class Application extends AbstractApplication
     /**
      * @var string VERSION The current application version.
      */
-    const VERSION = '2.0.0';
+    public const VERSION = '2.0.0';
 
     /**
      * Application constructor.

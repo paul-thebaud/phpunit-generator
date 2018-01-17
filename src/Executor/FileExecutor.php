@@ -4,11 +4,10 @@ namespace PhpUnitGen\Executor;
 
 use League\Flysystem\FilesystemInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
-use PhpUnitGen\Exception\ExecutorException;
-use PhpUnitGen\Exception\NotReadableFileException;
+use PhpUnitGen\Exception\FileExistsException;
+use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
-use PhpUnitGen\Report\ReportInterface\ReportInterface;
 use PhpUnitGen\Validator\ValidatorInterface\FileValidatorInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -83,13 +82,14 @@ class FileExecutor implements FileExecutorInterface
         $content = $this->fileSystem->read($sourcePath);
 
         if ($content === false) {
-            throw new NotReadableFileException(sprintf('The file "%s" is not readable.', $sourcePath));
+            throw new ParseException(sprintf('The file "%s" is not readable.', $sourcePath));
         }
 
         // We ignore the type checked because we already check the readability
         $code = $this->executor->invoke($content, $name);
 
         if ($code === null) {
+            $this->output->note(sprintf('Parsing file "%s" completed: no functions in code.', $sourcePath));
             return false;
         }
 
@@ -108,14 +108,14 @@ class FileExecutor implements FileExecutorInterface
      *
      * @param string $targetPath The target file path.
      *
-     * @throws ExecutorException If overwrite option is deactivated and file exists.
+     * @throws FileExistsException If overwrite option is deactivated and file exists.
      */
     public function checkTargetPath(string $targetPath): void
     {
         $targetPathExists = $this->fileSystem->has($targetPath);
 
         if ($targetPathExists && ! $this->config->hasOverwrite()) {
-            throw new ExecutorException(sprintf('The target file "%s" already exists.', $targetPath));
+            throw new FileExistsException(sprintf('The target file "%s" already exists.', $targetPath));
         }
 
         if ($targetPathExists) {

@@ -4,6 +4,7 @@ namespace PhpUnitGen\Exception;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
+use Respect\Validation\Validator;
 use Symfony\Component\Console\Style\StyleInterface;
 
 /**
@@ -46,10 +47,12 @@ class ExceptionCatcher implements ExceptionCatcherInterface
      */
     public function catch(Exception $exception, string $path): void
     {
-        if ($this->config->hasIgnore()) {
+        if ($this->config->hasIgnore()
+            && Validator::instance(IgnorableException::class)->validate($exception)
+        ) {
             $this->output->note(sprintf('On file "%s": %s', $path, $exception->getMessage()));
         } else {
-            throw new Exception($exception->getMessage());
+            throw $exception;
         }
     }
 }

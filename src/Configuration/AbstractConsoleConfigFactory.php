@@ -30,10 +30,6 @@ abstract class AbstractConsoleConfigFactory implements ConsoleConfigFactoryInter
      */
     public function invokeOneFile(string $configPath, string $sourceFile, string $targetFile): ConsoleConfigInterface
     {
-        if (! file_exists($sourceFile)) {
-            throw new InvalidConfigException(sprintf('The source file "%s" does not exists.', $sourceFile));
-        }
-
         $configArray          = $this->decode($configPath);
         $configArray['dirs']  = [];
         $configArray['files'] = [

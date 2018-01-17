@@ -2,9 +2,8 @@
 
 namespace PhpUnitGen\Model;
 
-use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
-use PhpUnitGen\Model\PropertyTrait\NamespaceTrait;
+use PhpUnitGen\Model\PropertyTrait\ClassLikeTrait;
 use PhpUnitGen\Model\PropertyTrait\NameTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
 
@@ -21,25 +20,5 @@ class InterfaceModel implements InterfaceModelInterface
 {
     use NameTrait;
     use NodeTrait;
-
-    /**
-     * @var FunctionModelInterface[] $functions Class functions.
-     */
-    private $functions = [];
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addFunction(FunctionModelInterface $function): void
-    {
-        $this->functions[] = $function;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getFunctions(): array
-    {
-        return $this->functions;
-    }
+    use ClassLikeTrait;
 }

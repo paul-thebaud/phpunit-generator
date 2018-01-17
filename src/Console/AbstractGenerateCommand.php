@@ -30,7 +30,7 @@ abstract class AbstractGenerateCommand extends Command
     /**
      * @var string[] CONSOLE_CONFIG_FACTORIES Mapping array between file extension and configuration factories.
      */
-    const CONSOLE_CONFIG_FACTORIES = [
+    protected const CONSOLE_CONFIG_FACTORIES = [
         'yml'  => YamlConsoleConfigFactory::class,
         'json' => JsonConsoleConfigFactory::class,
         'php'  => PhpConsoleConfigFactory::class
@@ -74,19 +74,15 @@ abstract class AbstractGenerateCommand extends Command
         $styledOutput = new SymfonyStyle($input, $output);
         try {
             $config = $this->getConfiguration($input);
-        } catch (InvalidConfigException $exception) {
-            $styledOutput->error($exception->getMessage());
-            return -1;
-        }
 
-        $container = $this->containerFactory->invoke($config, $styledOutput, $this->stopwatch);
+            $container = $this->containerFactory->invoke($config, $styledOutput, $this->stopwatch);
 
-        $this->consoleExecutor = $container->get(ConsoleExecutorInterface::class);
+            $this->consoleExecutor = $container->get(ConsoleExecutorInterface::class);
 
-        try {
             $this->consoleExecutor->invoke();
         } catch (Exception $exception) {
             $styledOutput->error($exception->getMessage());
+            return -1;
         }
 
         return 1;

@@ -2,7 +2,7 @@
 
 namespace PhpUnitGen\Validator\ValidatorInterface;
 
-use PhpUnitGen\Exception\NotReadableFileException;
+use PhpUnitGen\Exception\FileNotFoundException;
 
 /**
  * Interface FileValidatorInterface.
@@ -22,7 +22,7 @@ interface FileValidatorInterface
      *
      * @return bool True if the file can be parsed.
      *
-     * @throws NotReadableFileException If the file cannot be read.
+     * @throws FileNotFoundException If the file does not exists.
      */
     public function validate(string $path): bool;
 }

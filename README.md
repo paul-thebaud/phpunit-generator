@@ -16,12 +16,12 @@ This package will help you writing your unit tests:
 ## Package structure
 
 ```
-build/          ==> Build results (code coverage ...) [only after running composer test].
-config/         ==> Default PhpUnitGen configurations.
-examples/       ==> Examples about this package (configuration, parsing examples).
-src/            ==> Package source files.
-test/           ==> Package unit tests.
-vendor/         ==> Composer dependencies [only after running composer install].
+build/      ==> Build results (code coverage ...) [only after running composer test].
+config/     ==> Default PhpUnitGen configurations.
+examples/   ==> Examples about this package (configuration, parsing examples).
+src/        ==> Package source files.
+tests/      ==> Package unit tests.
+vendor/     ==> Composer dependencies [only after running composer install].
 ```
 
 ## Installation

@@ -3,7 +3,7 @@
 namespace PhpUnitGen\Exception;
 
 /**
- * Class NodeParserException.
+ * Class FileNotFoundException.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -11,6 +11,6 @@ namespace PhpUnitGen\Exception;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class NodeParserException extends Exception
+class FileNotFoundException extends IgnorableException
 {
 }

@@ -5,7 +5,6 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PropertyInterface\TypeInterface;
-use PhpUnitGen\Model\UseModel;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\TypeNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\RootRetrieverTrait;
 use Respect\Validation\Validator;
@@ -54,7 +53,7 @@ class TypeNodeParser extends AbstractNodeParser implements TypeNodeParserInterfa
     /**
      * Get the class type hint as a string.
      *
-     * @param Node\Name               $node   The name node to parse.
+     * @param Node\Name     $node   The name node to parse.
      * @param TypeInterface $parent The parent to update.
      *
      * @return string The class type hint.

@@ -16,7 +16,7 @@ interface NameInterface
     /**
      * @var string UNKNOWN A string describing an unknown name.
      */
-    const UNKNOWN_NAME = 'UNKNOWN';
+    public const UNKNOWN_NAME = 'UNKNOWN_NAME';
 
     /**
      * @param string $name The new name to be set.

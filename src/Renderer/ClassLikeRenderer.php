@@ -4,7 +4,6 @@ namespace PhpUnitGen\Renderer;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
-use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 
 /**
  * Class ClassLikeRenderer.

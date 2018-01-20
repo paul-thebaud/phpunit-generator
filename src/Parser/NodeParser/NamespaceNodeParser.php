@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
+use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Parser\NodeParserUtil\UsePreParseTrait;
 use Respect\Validation\Validator;
@@ -54,15 +55,21 @@ class NamespaceNodeParser extends AbstractNodeParser
      * @param PhpFileModelInterface $parent The parent node.
      *
      * @return PhpFileModelInterface The updated parent.
+     *
+     * @throws ParseException If the method parseSubNodes does not return a valid instance.
      */
     public function invoke(Node\Stmt\Namespace_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
     {
-        if (Validator::instance(Node\Name::class)->validate($node->name)) {
+        if ($node->name instanceof Node\Name) {
             $parent->setNamespace($node->name->parts);
         }
 
         $parent = $this->preParseUses($node->stmts, $parent);
 
-        return $this->parseSubNodes($node->stmts, $parent);
+        $parent = $this->parseSubNodes($node->stmts, $parent);
+        if ($parent instanceof PhpFileModelInterface) {
+            return $parent;
+        }
+        throw new ParseException('"parseSubNodes" should return an instance of "PhpFileModelInterface" in NamespaceNodeParser');
     }
 }

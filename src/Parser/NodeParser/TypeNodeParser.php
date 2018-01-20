@@ -32,14 +32,14 @@ class TypeNodeParser extends AbstractNodeParser
     public function invoke($node, TypeInterface $parent): TypeInterface
     {
         // If it is a nullable type
-        if (Validator::instance(Node\NullableType::class)->validate($node)) {
+        if ($node instanceof Node\NullableType) {
             $parent->setNullable(true);
 
             return $this->invoke($node->type, $parent);
         }
 
         // If it is a class like type
-        if (Validator::instance(Node\Name::class)->validate($node)) {
+        if ($node instanceof Node\Name) {
             $parent->setType(TypeInterface::CUSTOM);
             $parent->setCustomType($this->getClassType($node, $parent));
 

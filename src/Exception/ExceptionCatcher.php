@@ -48,7 +48,7 @@ class ExceptionCatcher implements ExceptionCatcherInterface
     public function catch(Exception $exception, string $path): void
     {
         if ($this->config->hasIgnore()
-            && Validator::instance(IgnorableException::class)->validate($exception)
+            && $exception instanceof IgnorableException
         ) {
             $this->output->note(sprintf('On file "%s": %s', $path, $exception->getMessage()));
         } else {

@@ -5,8 +5,8 @@ namespace PhpUnitGen\Parser\NodeParserUtil;
 use PhpParser\Node\Stmt\GroupUse;
 use PhpParser\Node\Stmt\Use_;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\GroupUseNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\UseNodeParserInterface;
+use PhpUnitGen\Parser\NodeParser\GroupUseNodeParser;
+use PhpUnitGen\Parser\NodeParser\UseNodeParser;
 use Respect\Validation\Validator;
 
 /**
@@ -21,12 +21,12 @@ use Respect\Validation\Validator;
 trait UsePreParseTrait
 {
     /**
-     * @var UseNodeParserInterface $useNodeParser The use node parser.
+     * @var UseNodeParser $useNodeParser The use node parser.
      */
     protected $useNodeParser;
 
     /**
-     * @var GroupUseNodeParserInterface $groupUseNodeParser The group use node parser.
+     * @var GroupUseNodeParser $groupUseNodeParser The group use node parser.
      */
     protected $groupUseNodeParser;
 
@@ -41,10 +41,10 @@ trait UsePreParseTrait
     public function preParseUses(array $nodes, PhpFileModelInterface $parent): PhpFileModelInterface
     {
         foreach ($nodes as $node) {
-            if (Validator::instance(Use_::class)->validate($node)) {
+            if ($node instanceof Use_) {
                 $parent = $this->useNodeParser->invoke($node, $parent);
             }
-            if (Validator::instance(GroupUse::class)->validate($node)) {
+            if ($node instanceof GroupUse) {
                 $parent = $this->groupUseNodeParser->invoke($node, $parent);
             }
         }

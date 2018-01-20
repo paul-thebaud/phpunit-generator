@@ -5,8 +5,6 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
-use PhpUnitGen\Model\ReturnModel;
-use PhpUnitGen\Parser\NodeParserUtil\DocumentationTrait;
 use PhpUnitGen\Parser\NodeParserUtil\MethodVisibilityTrait;
 
 /**
@@ -18,34 +16,9 @@ use PhpUnitGen\Parser\NodeParserUtil\MethodVisibilityTrait;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class MethodNodeParser extends AbstractNodeParser
+class MethodNodeParser extends AbstractFunctionNodeParser
 {
-    use DocumentationTrait;
     use MethodVisibilityTrait;
-
-    /**
-     * @var ParameterNodeParser $parameterNodeParser The parameter node parser.
-     */
-    protected $parameterNodeParser;
-
-    /**
-     * @var TypeNodeParser $typeNodeParser The type node parser.
-     */
-    protected $typeNodeParser;
-
-    /**
-     * MethodNodeParser constructor.
-     *
-     * @param ParameterNodeParser $parameterNodeParser The parameter node parser.
-     * @param TypeNodeParser      $typeNodeParser      The type node parser.
-     */
-    public function __construct(
-        ParameterNodeParser $parameterNodeParser,
-        TypeNodeParser $typeNodeParser
-    ) {
-        $this->parameterNodeParser = $parameterNodeParser;
-        $this->typeNodeParser      = $typeNodeParser;
-    }
 
     /**
      * Parse a node to update the parent node model.
@@ -60,22 +33,12 @@ class MethodNodeParser extends AbstractNodeParser
         $function = new FunctionModel();
         $function->setParentNode($parent);
         $function->setName($node->name);
-        $function->setDocumentation($this->getDocumentation($node));
         $function->setIsFinal($node->isFinal());
         $function->setIsStatic($node->isStatic());
         $function->setIsAbstract($node->isAbstract());
         $function->setVisibility($this->getMethodVisibility($node));
 
-        foreach ($node->getParams() as $param) {
-            $function = $this->parameterNodeParser->invoke($param, $function);
-        }
-
-        $return = new ReturnModel();
-        $return->setParentNode($function);
-        if ($node->getReturnType() !== null) {
-            $return = $this->typeNodeParser->invoke($node->getReturnType(), $return);
-        }
-        $function->setReturn($return);
+        $function = $this->parseFunction($node, $function);
 
         $parent->addFunction($function);
 

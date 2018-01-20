@@ -5,7 +5,6 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
-use PhpUnitGen\Parser\NodeParserUtil\DocumentationTrait;
 
 /**
  * Class FunctionNodeParser.
@@ -16,25 +15,8 @@ use PhpUnitGen\Parser\NodeParserUtil\DocumentationTrait;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class FunctionNodeParser extends AbstractNodeParser
+class FunctionNodeParser extends AbstractFunctionNodeParser
 {
-    use DocumentationTrait;
-
-    /**
-     * @var ParameterNodeParser $parameterNodeParser The parameter node parser.
-     */
-    protected $parameterNodeParser;
-
-    /**
-     * FunctionNodeParser constructor.
-     *
-     * @param ParameterNodeParser $parameterNodeParser The parameter node parser.
-     */
-    public function __construct(ParameterNodeParser $parameterNodeParser)
-    {
-        $this->parameterNodeParser = $parameterNodeParser;
-    }
-
     /**
      * Parse a node to update the parent node model.
      *
@@ -48,11 +30,8 @@ class FunctionNodeParser extends AbstractNodeParser
         $function = new FunctionModel();
         $function->setParentNode($parent);
         $function->setName($node->name);
-        $function->setDocumentation($this->getDocumentation($node));
 
-        foreach ($node->getParams() as $param) {
-            $function = $this->parameterNodeParser->invoke($param, $function);
-        }
+        $function = $this->parseFunction($node, $function);
 
         $parent->addFunction($function);
 

@@ -2,6 +2,8 @@
 
 namespace PhpUnitGen\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\ParameterModelInterface;
 use PhpUnitGen\Model\ModelInterface\ReturnModelInterface;
@@ -33,9 +35,9 @@ class FunctionModel implements FunctionModelInterface
     use DocumentationTrait;
 
     /**
-     * @var ParameterModelInterface[] $parameters The function methods.
+     * @var ParameterModelInterface[]|Collection $parameters The function methods.
      */
-    private $parameters = [];
+    private $parameters;
 
     /**
      * @var ReturnModelInterface $return The function return.
@@ -43,17 +45,25 @@ class FunctionModel implements FunctionModelInterface
     private $return;
 
     /**
-     * {@inheritdoc}
+     * FunctionModel constructor.
      */
-    public function addParameter(ParameterModelInterface $parameter): void
+    public function __construct()
     {
-        $this->parameters[] = $parameter;
+        $this->parameters = new ArrayCollection();
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getParameters(): array
+    public function addParameter(ParameterModelInterface $parameter): void
+    {
+        $this->parameters->add($parameter);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParameters(): Collection
     {
         return $this->parameters;
     }

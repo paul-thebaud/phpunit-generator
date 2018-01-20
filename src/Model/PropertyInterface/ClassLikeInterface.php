@@ -2,6 +2,7 @@
 
 namespace PhpUnitGen\Model\PropertyInterface;
 
+use Doctrine\Common\Collections\Collection;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 
 /**
@@ -21,12 +22,12 @@ interface ClassLikeInterface extends NodeInterface
     public function addFunction(FunctionModelInterface $function): void;
 
     /**
-     * @return FunctionModelInterface[] All the functions contained in this parent.
+     * @return FunctionModelInterface[]|Collection All the functions contained in this parent.
      */
-    public function getFunctions(): array;
+    public function getFunctions(): Collection;
 
     /**
-     * @return int The number of function in this parent.
+     * @return int The number of testable (not abstract) function in this parent.
      */
-    public function countFunctions(): int;
+    public function countNotAbstractFunctions(): int;
 }

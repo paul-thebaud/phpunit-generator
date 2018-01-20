@@ -2,6 +2,7 @@
 
 namespace PhpUnitGen\Model\ModelInterface;
 
+use Doctrine\Common\Collections\Collection;
 use PhpUnitGen\Model\PropertyInterface\AbstractInterface;
 use PhpUnitGen\Model\PropertyInterface\DocumentationInterface;
 use PhpUnitGen\Model\PropertyInterface\FinalInterface;
@@ -34,9 +35,9 @@ interface FunctionModelInterface extends
     public function addParameter(ParameterModelInterface $parameter): void;
 
     /**
-     * @return ParameterModelInterface[] All parameters of this function.
+     * @return ParameterModelInterface[]|Collection All parameters of this function.
      */
-    public function getParameters(): array;
+    public function getParameters(): Collection;
 
     /**
      * @param ReturnModelInterface $return The new return to be set.

@@ -2,6 +2,8 @@
 
 namespace PhpUnitGen\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use PhpUnitGen\Model\ModelInterface\AttributeModelInterface;
 use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
 
@@ -17,16 +19,25 @@ use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
 class TraitModel extends InterfaceModel implements TraitModelInterface
 {
     /**
-     * @var AttributeModelInterface[] $attributes Class attributes.
+     * @var AttributeModelInterface[]|Collection $attributes Class attributes.
      */
-    private $attributes = [];
+    private $attributes;
+
+    /**
+     * TraitModel constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->attributes = new ArrayCollection();
+    }
 
     /**
      * {@inheritdoc}
      */
     public function addAttribute(AttributeModelInterface $attribute): void
     {
-        $this->attributes[] = $attribute;
+        $this->attributes->add($attribute);
     }
 
     /**
@@ -34,12 +45,9 @@ class TraitModel extends InterfaceModel implements TraitModelInterface
      */
     public function hasAttribute(string $name): bool
     {
-        foreach ($this->attributes as $attribute) {
-            if ($attribute->getName() === $name) {
-                return true;
-            }
-        }
-        return false;
+        return $this->attributes->exists(function (AttributeModelInterface $attribute) use ($name) {
+            return $attribute->getName() === $name;
+        });
     }
 
     /**
@@ -58,7 +66,7 @@ class TraitModel extends InterfaceModel implements TraitModelInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributes(): array
+    public function getAttributes(): Collection
     {
         return $this->attributes;
     }

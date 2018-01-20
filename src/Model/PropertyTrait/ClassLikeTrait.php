@@ -2,6 +2,7 @@
 
 namespace PhpUnitGen\Model\PropertyTrait;
 
+use Doctrine\Common\Collections\Collection;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 
 /**
@@ -16,31 +17,33 @@ use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 trait ClassLikeTrait
 {
     /**
-     * @var FunctionModelInterface[] $functions Class functions.
+     * @var FunctionModelInterface[]|Collection $functions Class functions.
      */
-    private $functions = [];
+    protected $functions;
 
     /**
      * @param FunctionModelInterface $function The function to add on this parent.
      */
     public function addFunction(FunctionModelInterface $function): void
     {
-        $this->functions[] = $function;
+        $this->functions->add($function);
     }
 
     /**
-     * @return FunctionModelInterface[] All the functions contained in this parent.
+     * @return FunctionModelInterface[]|Collection All the functions contained in this parent.
      */
-    public function getFunctions(): array
+    public function getFunctions(): Collection
     {
         return $this->functions;
     }
 
     /**
-     * @return int The number of function in this parent.
+     * @return int The number of testable (not abstract) function in this parent.
      */
-    public function countFunctions(): int
+    public function countNotAbstractFunctions(): int
     {
-        return count($this->functions);
+        return $this->functions->filter(function (FunctionModelInterface $function) {
+            return ! $function->isAbstract();
+        })->count();
     }
 }

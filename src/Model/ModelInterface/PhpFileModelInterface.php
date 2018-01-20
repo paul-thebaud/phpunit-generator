@@ -2,6 +2,7 @@
 
 namespace PhpUnitGen\Model\ModelInterface;
 
+use Doctrine\Common\Collections\Collection;
 use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\NameInterface;
 use PhpUnitGen\Model\PropertyInterface\NamespaceInterface;
@@ -81,9 +82,9 @@ interface PhpFileModelInterface extends NameInterface, NamespaceInterface, Class
     public function addClass(ClassModelInterface $class): void;
 
     /**
-     * @return ClassModelInterface[] All classes contained in the file.
+     * @return ClassModelInterface[]|Collection All classes contained in the file.
      */
-    public function getClasses(): array;
+    public function getClasses(): Collection;
 
     /**
      * @param TraitModelInterface $trait The trait to add.
@@ -91,9 +92,9 @@ interface PhpFileModelInterface extends NameInterface, NamespaceInterface, Class
     public function addTrait(TraitModelInterface $trait): void;
 
     /**
-     * @return TraitModelInterface[] All traits contained in the file.
+     * @return TraitModelInterface[]|Collection All traits contained in the file.
      */
-    public function getTraits(): array;
+    public function getTraits(): Collection;
 
     /**
      * @param InterfaceModelInterface $interface The interface to add.
@@ -101,7 +102,7 @@ interface PhpFileModelInterface extends NameInterface, NamespaceInterface, Class
     public function addInterface(InterfaceModelInterface $interface): void;
 
     /**
-     * @return InterfaceModelInterface[] All interfaces contained in the file.
+     * @return InterfaceModelInterface[]|Collection All interfaces contained in the file.
      */
-    public function getInterfaces(): array;
+    public function getInterfaces(): Collection;
 }

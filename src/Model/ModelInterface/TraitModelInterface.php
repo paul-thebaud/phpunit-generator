@@ -2,6 +2,8 @@
 
 namespace PhpUnitGen\Model\ModelInterface;
 
+use Doctrine\Common\Collections\Collection;
+
 /**
  * Interface TraitModelInterface.
  *
@@ -37,7 +39,7 @@ interface TraitModelInterface extends InterfaceModelInterface
     public function getAttribute(string $name): ?AttributeModelInterface;
 
     /**
-     * @return AttributeModelInterface[] All attributes contained.
+     * @return AttributeModelInterface[]|Collection All attributes contained.
      */
-    public function getAttributes(): array;
+    public function getAttributes(): Collection;
 }

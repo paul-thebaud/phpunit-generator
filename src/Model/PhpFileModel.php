@@ -2,6 +2,8 @@
 
 namespace PhpUnitGen\Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Model\ModelInterface\ClassModelInterface;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
@@ -41,31 +43,42 @@ class PhpFileModel implements PhpFileModelInterface
     private $uses = [];
 
     /**
-     * @var ClassModelInterface[] $classes Classes contained in the file.
+     * @var ClassModelInterface[]|Collection $classes Classes contained in the file.
      */
-    private $classes = [];
+    private $classes;
 
     /**
-     * @var TraitModelInterface[] $traits Traits contained in the file.
+     * @var TraitModelInterface[]|Collection $traits Traits contained in the file.
      */
-    private $traits = [];
+    private $traits;
 
     /**
-     * @var InterfaceModelInterface[] $interfaces Interfaces contained in the file.
+     * @var InterfaceModelInterface[]|Collection $interfaces Interfaces contained in the file.
      */
-    private $interfaces = [];
+    private $interfaces;
+
+    /**
+     * PhpFileModel constructor.
+     */
+    public function __construct()
+    {
+        $this->functions  = new ArrayCollection();
+        $this->classes    = new ArrayCollection();
+        $this->traits     = new ArrayCollection();
+        $this->interfaces = new ArrayCollection();
+    }
 
     /**
      * {@inheritdoc}
      */
     public function getTestableFunctionsCount(): int
     {
-        $sum = $this->countFunctions();
+        $sum = $this->countNotAbstractFunctions();
         foreach ($this->getTraits() as $trait) {
-            $sum += $trait->countFunctions();
+            $sum += $trait->countNotAbstractFunctions();
         }
         foreach ($this->getClasses() as $class) {
-            $sum += $class->countFunctions();
+            $sum += $class->countNotAbstractFunctions();
         }
         return $sum;
     }
@@ -77,7 +90,7 @@ class PhpFileModel implements PhpFileModelInterface
     {
         $sum = 0;
         foreach ($this->getInterfaces() as $interface) {
-            $sum += $interface->countFunctions();
+            $sum += $interface->countNotAbstractFunctions();
         }
         return $sum;
     }
@@ -162,13 +175,13 @@ class PhpFileModel implements PhpFileModelInterface
      */
     public function addClass(ClassModelInterface $class): void
     {
-        $this->classes[] = $class;
+        $this->classes->add($class);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getClasses(): array
+    public function getClasses(): Collection
     {
         return $this->classes;
     }
@@ -178,13 +191,13 @@ class PhpFileModel implements PhpFileModelInterface
      */
     public function addTrait(TraitModelInterface $trait): void
     {
-        $this->traits[] = $trait;
+        $this->traits->add($trait);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getTraits(): array
+    public function getTraits(): Collection
     {
         return $this->traits;
     }
@@ -194,13 +207,13 @@ class PhpFileModel implements PhpFileModelInterface
      */
     public function addInterface(InterfaceModelInterface $interface): void
     {
-        $this->interfaces[] = $interface;
+        $this->interfaces->add($interface);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getInterfaces(): array
+    public function getInterfaces(): Collection
     {
         return $this->interfaces;
     }

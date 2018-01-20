@@ -35,7 +35,7 @@ abstract class AbstractNodeParser implements NodeParserInterface
     {
         if (! method_exists($this, 'invoke')) {
             throw new ParseException(sprintf(
-                'Class "%s" must implements method invoke described in AbstractNodeParser',
+                'Class "%s" must implements method "invoke" described in AbstractNodeParser',
                 get_class($this)
             ));
         }

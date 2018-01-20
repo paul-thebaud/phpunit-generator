@@ -6,8 +6,6 @@ use PhpParser\Node;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Model\InterfaceModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\InterfaceNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
 
 /**
@@ -19,7 +17,7 @@ use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class InterfaceNodeParser extends AbstractNodeParser implements InterfaceNodeParserInterface
+class InterfaceNodeParser extends AbstractNodeParser
 {
     use ClassLikeNameTrait;
 
@@ -32,11 +30,11 @@ class InterfaceNodeParser extends AbstractNodeParser implements InterfaceNodePar
      * InterfaceNodeParser constructor.
      *
      * @param ConfigInterface           $config           The configuration to use.
-     * @param MethodNodeParserInterface $methodNodeParser The method node parser to use.
+     * @param MethodNodeParser $methodNodeParser The method node parser to use.
      */
     public function __construct(
         ConfigInterface $config,
-        MethodNodeParserInterface $methodNodeParser
+        MethodNodeParser $methodNodeParser
     ) {
         $this->config = $config;
 

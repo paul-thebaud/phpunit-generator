@@ -75,7 +75,7 @@ $ php ./vendor/bin/phpunitgen gen-one-def <source-file-path> <target-file-path>
 
 ### Website usage
 
-PhpUnitGen is available online on an Heroku server :
+PhpUnitGen is available online on an Heroku server:
 
 [https://phpunitgen.herokuapp.com/](https://phpunitgen.herokuapp.com/)
 

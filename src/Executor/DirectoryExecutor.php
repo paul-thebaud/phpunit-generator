@@ -6,7 +6,6 @@ use League\Flysystem\FilesystemInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
-use PhpUnitGen\Exception\ExecutorException;
 use PhpUnitGen\Exception\FileNotFoundException;
 use PhpUnitGen\Executor\ExecutorInterface\DirectoryExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;

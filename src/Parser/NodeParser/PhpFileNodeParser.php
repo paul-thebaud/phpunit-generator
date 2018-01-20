@@ -3,14 +3,6 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ClassNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\FunctionNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\GroupUseNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\InterfaceNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\NamespaceNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\PhpFileNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\TraitNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\UseNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\UsePreParseTrait;
 
 /**
@@ -22,29 +14,29 @@ use PhpUnitGen\Parser\NodeParserUtil\UsePreParseTrait;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class PhpFileNodeParser extends AbstractNodeParser implements PhpFileNodeParserInterface
+class PhpFileNodeParser extends AbstractNodeParser
 {
     use UsePreParseTrait;
 
     /**
      * PhpFileNodeParser constructor.
      *
-     * @param NamespaceNodeParserInterface $namespaceNodeParser The namespace node parser to use.
-     * @param UseNodeParserInterface       $useNodeParser       The use node parser to use.
-     * @param GroupUseNodeParserInterface  $groupUseNodeParser  The group use node parser to use.
-     * @param FunctionNodeParserInterface  $functionNodeParser  The function node parser to use.
-     * @param ClassNodeParserInterface     $classNodeParser     The class node parser to use.
-     * @param TraitNodeParserInterface     $traitNodeParser     The trait node parser to use.
-     * @param InterfaceNodeParserInterface $interfaceNodeParser The interface node parser to use.
+     * @param NamespaceNodeParser $namespaceNodeParser The namespace node parser to use.
+     * @param UseNodeParser       $useNodeParser       The use node parser to use.
+     * @param GroupUseNodeParser  $groupUseNodeParser  The group use node parser to use.
+     * @param FunctionNodeParser  $functionNodeParser  The function node parser to use.
+     * @param ClassNodeParser     $classNodeParser     The class node parser to use.
+     * @param TraitNodeParser     $traitNodeParser     The trait node parser to use.
+     * @param InterfaceNodeParser $interfaceNodeParser The interface node parser to use.
      */
     public function __construct(
-        NamespaceNodeParserInterface $namespaceNodeParser,
-        UseNodeParserInterface $useNodeParser,
-        GroupUseNodeParserInterface $groupUseNodeParser,
-        FunctionNodeParserInterface $functionNodeParser,
-        ClassNodeParserInterface $classNodeParser,
-        TraitNodeParserInterface $traitNodeParser,
-        InterfaceNodeParserInterface $interfaceNodeParser
+        NamespaceNodeParser $namespaceNodeParser,
+        UseNodeParser $useNodeParser,
+        GroupUseNodeParser $groupUseNodeParser,
+        FunctionNodeParser $functionNodeParser,
+        ClassNodeParser $classNodeParser,
+        TraitNodeParser $traitNodeParser,
+        InterfaceNodeParser $interfaceNodeParser
     ) {
         $this->nodeParsers[Node\Stmt\Namespace_::class] = $namespaceNodeParser;
         $this->nodeParsers[Node\Stmt\Function_::class]  = $functionNodeParser;

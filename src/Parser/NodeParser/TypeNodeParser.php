@@ -5,8 +5,7 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PropertyInterface\TypeInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\TypeNodeParserInterface;
-use PhpUnitGen\Parser\NodeParserUtil\RootRetrieverTrait;
+use PhpUnitGen\Util\RootRetrieverTrait;
 use Respect\Validation\Validator;
 
 /**
@@ -18,12 +17,17 @@ use Respect\Validation\Validator;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class TypeNodeParser extends AbstractNodeParser implements TypeNodeParserInterface
+class TypeNodeParser extends AbstractNodeParser
 {
     use RootRetrieverTrait;
 
     /**
-     * {@inheritdoc}
+     * Parse a node to update the parent node model.
+     *
+     * @param mixed         $node   The node to parse.
+     * @param TypeInterface $parent The parent node.
+     *
+     * @return TypeInterface  The updated parent.
      */
     public function invoke($node, TypeInterface $parent): TypeInterface
     {

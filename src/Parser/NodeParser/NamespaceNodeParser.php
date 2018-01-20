@@ -4,13 +4,6 @@ namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ClassNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\FunctionNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\GroupUseNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\InterfaceNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\NamespaceNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\TraitNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\UseNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\UsePreParseTrait;
 use Respect\Validation\Validator;
 
@@ -23,27 +16,27 @@ use Respect\Validation\Validator;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class NamespaceNodeParser extends AbstractNodeParser implements NamespaceNodeParserInterface
+class NamespaceNodeParser extends AbstractNodeParser
 {
     use UsePreParseTrait;
 
     /**
      * NamespaceNodeParser constructor.
      *
-     * @param UseNodeParserInterface       $useNodeParser       The use node parser to use.
-     * @param GroupUseNodeParserInterface  $groupUseNodeParser  The group use node parser to use.
-     * @param FunctionNodeParserInterface  $functionNodeParser  The function node parser to use.
-     * @param ClassNodeParserInterface     $classNodeParser     The class node parser to use.
-     * @param TraitNodeParserInterface     $traitNodeParser     The trait node parser to use.
-     * @param InterfaceNodeParserInterface $interfaceNodeParser The interface node parser to use.
+     * @param UseNodeParser       $useNodeParser       The use node parser to use.
+     * @param GroupUseNodeParser  $groupUseNodeParser  The group use node parser to use.
+     * @param FunctionNodeParser  $functionNodeParser  The function node parser to use.
+     * @param ClassNodeParser     $classNodeParser     The class node parser to use.
+     * @param TraitNodeParser     $traitNodeParser     The trait node parser to use.
+     * @param InterfaceNodeParser $interfaceNodeParser The interface node parser to use.
      */
     public function __construct(
-        UseNodeParserInterface $useNodeParser,
-        GroupUseNodeParserInterface $groupUseNodeParser,
-        FunctionNodeParserInterface $functionNodeParser,
-        ClassNodeParserInterface $classNodeParser,
-        TraitNodeParserInterface $traitNodeParser,
-        InterfaceNodeParserInterface $interfaceNodeParser
+        UseNodeParser $useNodeParser,
+        GroupUseNodeParser $groupUseNodeParser,
+        FunctionNodeParser $functionNodeParser,
+        ClassNodeParser $classNodeParser,
+        TraitNodeParser $traitNodeParser,
+        InterfaceNodeParser $interfaceNodeParser
     ) {
         $this->nodeParsers[Node\Stmt\Function_::class]  = $functionNodeParser;
         $this->nodeParsers[Node\Stmt\Class_::class]     = $classNodeParser;
@@ -55,7 +48,12 @@ class NamespaceNodeParser extends AbstractNodeParser implements NamespaceNodePar
     }
 
     /**
-     * {@inheritdoc }
+     * Parse a node to update the parent node model.
+     *
+     * @param Node\Stmt\Namespace_  $node   The node to parse.
+     * @param PhpFileModelInterface $parent The parent node.
+     *
+     * @return PhpFileModelInterface The updated parent.
      */
     public function invoke(Node\Stmt\Namespace_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
     {

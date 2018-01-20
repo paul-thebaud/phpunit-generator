@@ -7,8 +7,6 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Container\ContainerInterface\ConsoleContainerFactoryInterface;
-use PhpUnitGen\Container\ContainerInterface\ContainerFactoryInterface;
-use PhpUnitGen\Container\ContainerInterface\ContainerInterface;
 use PhpUnitGen\Exception\ExceptionCatcher;
 use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
 use PhpUnitGen\Executor\ConsoleExecutor;
@@ -19,6 +17,7 @@ use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
 use PhpUnitGen\Executor\FileExecutor;
 use PhpUnitGen\Validator\FileValidator;
 use PhpUnitGen\Validator\ValidatorInterface\FileValidatorInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
@@ -34,16 +33,16 @@ use Symfony\Component\Stopwatch\Stopwatch;
 class ConsoleContainerFactory implements ConsoleContainerFactoryInterface
 {
     /**
-     * @var ContainerFactoryInterface $containerFactory The basic container factory.
+     * @var ContainerFactory $containerFactory The basic container factory.
      */
     private $containerFactory;
 
     /**
      * ConsoleContainerFactory constructor.
      *
-     * @param ContainerFactoryInterface $containerFactory The basic container factory.
+     * @param ContainerFactory $containerFactory The basic container factory.
      */
-    public function __construct(ContainerFactoryInterface $containerFactory)
+    public function __construct(ContainerFactory $containerFactory)
     {
         $this->containerFactory = $containerFactory;
     }
@@ -56,6 +55,7 @@ class ConsoleContainerFactory implements ConsoleContainerFactoryInterface
         StyleInterface $output,
         Stopwatch $stopwatch
     ): ContainerInterface {
+        /** @var Container $container */
         $container = $this->containerFactory->invoke($config);
 
         $container->setInstance(FilesystemInterface::class, new Filesystem(new Local('./')));

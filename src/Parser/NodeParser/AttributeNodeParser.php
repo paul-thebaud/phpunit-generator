@@ -5,8 +5,6 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\AttributeModel;
 use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\AttributeNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ValueNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\AttributeVisibilityTrait;
 
 /**
@@ -18,27 +16,32 @@ use PhpUnitGen\Parser\NodeParserUtil\AttributeVisibilityTrait;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class AttributeNodeParser extends AbstractNodeParser implements AttributeNodeParserInterface
+class AttributeNodeParser extends AbstractNodeParser
 {
     use AttributeVisibilityTrait;
 
     /**
-     * @var ValueNodeParserInterface $valueNodeParser The value node parser.
+     * @var ValueNodeParser $valueNodeParser The value node parser.
      */
     protected $valueNodeParser;
 
     /**
      * AttributeNodeParser constructor.
      *
-     * @param ValueNodeParserInterface $valueNodeParser The value node parser.
+     * @param ValueNodeParser $valueNodeParser The value node parser.
      */
-    public function __construct(ValueNodeParserInterface $valueNodeParser)
+    public function __construct(ValueNodeParser $valueNodeParser)
     {
         $this->valueNodeParser = $valueNodeParser;
     }
 
     /**
-     * {@inheritdoc}
+     * Parse a node to update the parent node model.
+     *
+     * @param Node\Stmt\Property  $node   The node to parse.
+     * @param TraitModelInterface $parent The parent node.
+     *
+     * @return TraitModelInterface The updated parent.
      */
     public function invoke(Node\Stmt\Property $node, TraitModelInterface $parent): TraitModelInterface
     {

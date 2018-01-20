@@ -2,9 +2,9 @@
 
 namespace PhpUnitGen\Container;
 
-use PhpUnitGen\Container\ContainerInterface\ContainerInterface;
 use PhpUnitGen\Exception\ContainerException;
 use PhpUnitGen\Exception\NotFoundException;
+use Psr\Container\ContainerInterface;
 use Respect\Validation\Validator;
 
 /**
@@ -19,11 +19,6 @@ use Respect\Validation\Validator;
 class Container implements ContainerInterface
 {
     /**
-     * @var callable[] $customResolvable All objects resolvable from a callable.
-     */
-    private static $customResolvable = [];
-
-    /**
      * @var string[] $autoResolvable All objects resolvable automatically.
      */
     private static $autoResolvable = [];
@@ -34,15 +29,10 @@ class Container implements ContainerInterface
     private static $instances = [];
 
     /**
-     * {@inheritdoc}
-     */
-    public function setResolver(string $id, callable $resolver): void
-    {
-        self::$customResolvable[$id] = $resolver;
-    }
-
-    /**
-     * {@inheritdoc}
+     * Add to available services an instance of an object.
+     *
+     * @param string $id       The service identifier.
+     * @param object $instance An object instance.
      */
     public function setInstance(string $id, object $instance): void
     {
@@ -50,7 +40,10 @@ class Container implements ContainerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Add to available services a class which can be construct by the container resolve method.
+     *
+     * @param string      $id    The service identifier.
+     * @param string|null $class The class name, null if it can $id as a class name.
      */
     public function set(string $id, string $class = null): void
     {
@@ -58,7 +51,10 @@ class Container implements ContainerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Add to available services all classes and aliases of the autoResolvable.
+     * Using this method is the same as using set method on each rows.
+     *
+     * @param array $autoResolvable
      */
     public function addAutoResolvableArray(array $autoResolvable): void
     {
@@ -70,7 +66,10 @@ class Container implements ContainerInterface
      */
     public function get($id): object
     {
-        return $this->resolve($id);
+        if (! Validator::stringType()->validate($id)) {
+            throw new ContainerException('Identifier is not a string.');
+        }
+        return $this->resolveInstance($id);
     }
 
     /**
@@ -79,31 +78,13 @@ class Container implements ContainerInterface
     public function has($id): bool
     {
         try {
-            $this->resolve($id);
+            $this->get($id);
         } catch (NotFoundException $exception) {
             return false;
         } catch (ContainerException $exception) {
             return false;
         }
         return true;
-    }
-
-    /**
-     * Try to retrieve a service instance.
-     *
-     * @param string $id The service identifier.
-     *
-     * @return object The service.
-     *
-     * @throws ContainerException If the service identifier is not a string.
-     * @throws NotFoundException If the service does not exists.
-     */
-    private function resolve($id): object
-    {
-        if (! Validator::stringType()->validate($id)) {
-            throw new ContainerException('Identifier is not a string.');
-        }
-        return $this->resolveInstance($id);
     }
 
     /**
@@ -119,23 +100,6 @@ class Container implements ContainerInterface
     {
         if (Validator::key($id)->validate(self::$instances)) {
             return self::$instances[$id];
-        }
-        return $this->resolveCustomResolvable($id);
-    }
-
-    /**
-     * Try to retrieve a service instance from the custom resolvable array.
-     *
-     * @param string $id The service identifier.
-     *
-     * @return object The service.
-     *
-     * @throws ContainerException If the service identifier is not a string.
-     */
-    private function resolveCustomResolvable(string $id): object
-    {
-        if (Validator::key($id)->validate(self::$customResolvable)) {
-            return self::$instances[$id] = (self::$customResolvable[$id])($this);
         }
         return $this->resolveAutomaticResolvable($id);
     }

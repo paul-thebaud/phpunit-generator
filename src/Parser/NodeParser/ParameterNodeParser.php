@@ -5,9 +5,6 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ParameterModel;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ParameterNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\TypeNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ValueNodeParserInterface;
 
 /**
  * Class ParameterNodeParser.
@@ -18,32 +15,37 @@ use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ValueNodeParserInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class ParameterNodeParser extends AbstractNodeParser implements ParameterNodeParserInterface
+class ParameterNodeParser extends AbstractNodeParser
 {
     /**
-     * @var TypeNodeParserInterface $typeNodeParser The type node parser.
+     * @var TypeNodeParser $typeNodeParser The type node parser.
      */
     protected $typeNodeParser;
 
     /**
-     * @var ValueNodeParserInterface $valueNodeParser The value node parser.
+     * @var ValueNodeParser $valueNodeParser The value node parser.
      */
     protected $valueNodeParser;
 
     /**
      * AttributeNodeParser constructor.
      *
-     * @param TypeNodeParserInterface  $typeNodeParser  The type node parser.
-     * @param ValueNodeParserInterface $valueNodeParser The value node parser.
+     * @param TypeNodeParser  $typeNodeParser  The type node parser.
+     * @param ValueNodeParser $valueNodeParser The value node parser.
      */
-    public function __construct(TypeNodeParserInterface $typeNodeParser, ValueNodeParserInterface $valueNodeParser)
+    public function __construct(TypeNodeParser $typeNodeParser, ValueNodeParser $valueNodeParser)
     {
         $this->typeNodeParser  = $typeNodeParser;
         $this->valueNodeParser = $valueNodeParser;
     }
 
     /**
-     * {@inheritdoc}
+     * Parse a node to update the parent node model.
+     *
+     * @param Node\Param             $node   The node to parse.
+     * @param FunctionModelInterface $parent The parent node.
+     *
+     * @return FunctionModelInterface The updated parent.
      */
     public function invoke(Node\Param $node, FunctionModelInterface $parent): FunctionModelInterface
     {

@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Container\ContainerInterface;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 

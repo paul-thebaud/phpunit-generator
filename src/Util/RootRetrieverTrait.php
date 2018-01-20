@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpUnitGen\Parser\NodeParserUtil;
+namespace PhpUnitGen\Util;
 
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
@@ -28,7 +28,7 @@ trait RootRetrieverTrait
     {
         $parent = $node;
         while ($parent !== null) {
-            if (Validator::instance(PhpFileModelInterface::class)->validate($parent)) {
+            if ($parent instanceof PhpFileModelInterface) {
                 return $parent;
             }
             $parent = $parent->getParentNode();

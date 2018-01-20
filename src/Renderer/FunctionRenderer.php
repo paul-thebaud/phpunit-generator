@@ -5,7 +5,7 @@ namespace PhpUnitGen\Renderer;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PropertyInterface\NameInterface;
-use PhpUnitGen\Parser\NodeParserUtil\RootRetrieverTrait;
+use PhpUnitGen\Util\RootRetrieverTrait;
 
 /**
  * Class FunctionRenderer.

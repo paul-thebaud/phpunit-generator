@@ -5,9 +5,6 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\ClassModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\AttributeNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ClassNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
 
 /**
@@ -19,19 +16,19 @@ use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class ClassNodeParser extends AbstractNodeParser implements ClassNodeParserInterface
+class ClassNodeParser extends AbstractNodeParser
 {
     use ClassLikeNameTrait;
 
     /**
      * ClassNodeParser constructor.
      *
-     * @param MethodNodeParserInterface    $methodNodeParser    The method node parser to use.
-     * @param AttributeNodeParserInterface $attributeNodeParser The attribute node parser to use.
+     * @param MethodNodeParser    $methodNodeParser    The method node parser to use.
+     * @param AttributeNodeParser $attributeNodeParser The attribute node parser to use.
      */
     public function __construct(
-        MethodNodeParserInterface $methodNodeParser,
-        AttributeNodeParserInterface $attributeNodeParser
+        MethodNodeParser $methodNodeParser,
+        AttributeNodeParser $attributeNodeParser
     ) {
         $this->nodeParsers[Node\Stmt\ClassMethod::class] = $methodNodeParser;
         $this->nodeParsers[Node\Stmt\Property::class]    = $attributeNodeParser;

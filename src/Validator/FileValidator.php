@@ -46,10 +46,7 @@ class FileValidator implements FileValidatorInterface
      */
     public function validate(string $path): bool
     {
-        if (($type = $this->getPathType($path)) === null) {
-            throw new FileNotFoundException(sprintf('The source file "%s" does not exist.', $path));
-        }
-        if ($type === 'dir') {
+        if (! $this->validatePath($path)) {
             return false;
         }
         if (! $this->validateIncludeRegex($path)
@@ -66,11 +63,19 @@ class FileValidator implements FileValidatorInterface
      *
      * @param string $path The file path.
      *
-     * @return string|null "file" if its a file, "dir" if its a dir and null if the path does not exists.
+     * @return bool True if the path exists and is a file.
+     *
+     * @throws FileNotFoundException If the path corresponds to a dir.
      */
-    private function getPathType(string $path): ?string
+    private function validatePath(string $path): bool
     {
-        return $this->fileSystem->has($path) && $this->fileSystem->get($path)->getType() === 'file';
+        if (! $this->fileSystem->has($path)) {
+            throw new FileNotFoundException(sprintf('The source file "%s" does not exist.', $path));
+        }
+        if ($this->fileSystem->get($path)->getType() === 'dir') {
+            return false;
+        }
+        return true;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Container\ContainerInterface;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Interface ContainerFactoryInterface.

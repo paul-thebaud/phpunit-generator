@@ -4,7 +4,6 @@ namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\GroupUseNodeParserInterface;
 
 /**
  * Class GroupUseNodeParser.
@@ -15,10 +14,15 @@ use PhpUnitGen\Parser\NodeParser\NodeParserInterface\GroupUseNodeParserInterface
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class GroupUseNodeParser extends AbstractNodeParser implements GroupUseNodeParserInterface
+class GroupUseNodeParser extends AbstractNodeParser
 {
     /**
-     * {@inheritdoc}
+     * Parse a node to update the parent node model.
+     *
+     * @param Node\Stmt\GroupUse    $node   The node to parse.
+     * @param PhpFileModelInterface $parent The parent node.
+     *
+     * @return PhpFileModelInterface The updated parent.
      */
     public function invoke(Node\Stmt\GroupUse $node, PhpFileModelInterface $parent): PhpFileModelInterface
     {

@@ -4,7 +4,6 @@ namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
 use PhpUnitGen\Model\PropertyInterface\VariableLikeInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ValueNodeParserInterface;
 
 /**
  * Class ValueNodeParser.
@@ -15,10 +14,15 @@ use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ValueNodeParserInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class ValueNodeParser extends AbstractNodeParser implements ValueNodeParserInterface
+class ValueNodeParser extends AbstractNodeParser
 {
     /**
-     * {@inheritdoc}
+     * Parse a node to update the parent node model.
+     *
+     * @param Node\Expr             $node   The node to parse.
+     * @param VariableLikeInterface $parent The parent node.
+     *
+     * @return VariableLikeInterface The updated parent.
      *
      * This method do nothing because parsing expr is hard and useless for PhpUnitGen.
      */

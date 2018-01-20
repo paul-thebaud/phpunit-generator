@@ -5,8 +5,6 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\FunctionNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ParameterNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\DocumentationTrait;
 
 /**
@@ -18,27 +16,32 @@ use PhpUnitGen\Parser\NodeParserUtil\DocumentationTrait;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class FunctionNodeParser extends AbstractNodeParser implements FunctionNodeParserInterface
+class FunctionNodeParser extends AbstractNodeParser
 {
     use DocumentationTrait;
 
     /**
-     * @var ParameterNodeParserInterface $parameterNodeParser The parameter node parser.
+     * @var ParameterNodeParser $parameterNodeParser The parameter node parser.
      */
     protected $parameterNodeParser;
 
     /**
      * FunctionNodeParser constructor.
      *
-     * @param ParameterNodeParserInterface $parameterNodeParser The parameter node parser.
+     * @param ParameterNodeParser $parameterNodeParser The parameter node parser.
      */
-    public function __construct(ParameterNodeParserInterface $parameterNodeParser)
+    public function __construct(ParameterNodeParser $parameterNodeParser)
     {
         $this->parameterNodeParser = $parameterNodeParser;
     }
 
     /**
-     * {@inheritdoc}
+     * Parse a node to update the parent node model.
+     *
+     * @param Node\Stmt\Function_   $node   The node to parse.
+     * @param PhpFileModelInterface $parent The parent node.
+     *
+     * @return PhpFileModelInterface The updated parent.
      */
     public function invoke(Node\Stmt\Function_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
     {

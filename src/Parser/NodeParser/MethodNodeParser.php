@@ -6,9 +6,6 @@ use PhpParser\Node;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
 use PhpUnitGen\Model\ReturnModel;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\MethodNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\ParameterNodeParserInterface;
-use PhpUnitGen\Parser\NodeParser\NodeParserInterface\TypeNodeParserInterface;
 use PhpUnitGen\Parser\NodeParserUtil\DocumentationTrait;
 use PhpUnitGen\Parser\NodeParserUtil\MethodVisibilityTrait;
 
@@ -21,37 +18,42 @@ use PhpUnitGen\Parser\NodeParserUtil\MethodVisibilityTrait;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class MethodNodeParser extends AbstractNodeParser implements MethodNodeParserInterface
+class MethodNodeParser extends AbstractNodeParser
 {
     use DocumentationTrait;
     use MethodVisibilityTrait;
 
     /**
-     * @var ParameterNodeParserInterface $parameterNodeParser The parameter node parser.
+     * @var ParameterNodeParser $parameterNodeParser The parameter node parser.
      */
     protected $parameterNodeParser;
 
     /**
-     * @var TypeNodeParserInterface $typeNodeParser The type node parser.
+     * @var TypeNodeParser $typeNodeParser The type node parser.
      */
     protected $typeNodeParser;
 
     /**
      * MethodNodeParser constructor.
      *
-     * @param ParameterNodeParserInterface $parameterNodeParser The parameter node parser.
-     * @param TypeNodeParserInterface      $typeNodeParser      The type node parser.
+     * @param ParameterNodeParser $parameterNodeParser The parameter node parser.
+     * @param TypeNodeParser      $typeNodeParser      The type node parser.
      */
     public function __construct(
-        ParameterNodeParserInterface $parameterNodeParser,
-        TypeNodeParserInterface $typeNodeParser
+        ParameterNodeParser $parameterNodeParser,
+        TypeNodeParser $typeNodeParser
     ) {
         $this->parameterNodeParser = $parameterNodeParser;
         $this->typeNodeParser      = $typeNodeParser;
     }
 
     /**
-     * {@inheritdoc}
+     * Parse a node to update the parent node model.
+     *
+     * @param Node\Stmt\ClassMethod   $node   The node to parse.
+     * @param InterfaceModelInterface $parent The parent node.
+     *
+     * @return InterfaceModelInterface The updated parent.
      */
     public function invoke(Node\Stmt\ClassMethod $node, InterfaceModelInterface $parent): InterfaceModelInterface
     {

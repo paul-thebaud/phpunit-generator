@@ -7,7 +7,7 @@ use PhpParser\ParserFactory;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Container\ContainerInterface\ContainerFactoryInterface;
-use PhpUnitGen\Container\ContainerInterface\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class ContainerFactory.

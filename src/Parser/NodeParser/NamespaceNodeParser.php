@@ -70,6 +70,8 @@ class NamespaceNodeParser extends AbstractNodeParser
         if ($parent instanceof PhpFileModelInterface) {
             return $parent;
         }
-        throw new ParseException('"parseSubNodes" should return an instance of "PhpFileModelInterface" in NamespaceNodeParser');
+        throw new ParseException(
+            '"parseSubNodes" should return an instance of "PhpFileModelInterface" in "NamespaceNodeParser"'
+        );
     }
 }

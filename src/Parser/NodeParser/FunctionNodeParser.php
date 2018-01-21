@@ -30,6 +30,7 @@ class FunctionNodeParser extends AbstractFunctionNodeParser
         $function = new FunctionModel();
         $function->setParentNode($parent);
         $function->setName($node->name);
+        $function->setIsGlobal(true);
 
         $function = $this->parseFunction($node, $function);
 

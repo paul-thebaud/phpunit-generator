@@ -7,7 +7,18 @@ use PhpParser\ParserFactory;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Container\ContainerInterface\ContainerFactoryInterface;
+use PhpUnitGen\Executor\Executor;
+use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
+use PhpUnitGen\Parser\ParserInterface\PhpParserInterface;
+use PhpUnitGen\Parser\PhpParser;
+use PhpUnitGen\Renderer\PhpFileRenderer;
+use PhpUnitGen\Renderer\RendererInterface\PhpFileRendererInterface;
+use PhpUnitGen\Report\Report;
+use PhpUnitGen\Report\ReportInterface\ReportInterface;
 use Psr\Container\ContainerInterface;
+use Slim\Views\PhpRenderer;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
 
 /**
  * Class ContainerFactory.
@@ -24,8 +35,7 @@ class ContainerFactory implements ContainerFactoryInterface
      * {@inheritdoc}
      */
     public function invoke(
-        ConfigInterface $config,
-        string $resolvablePath = __DIR__ . '/../../config/autoresolvable.config.php'
+        ConfigInterface $config
     ): ContainerInterface {
         $container = new Container();
 
@@ -34,10 +44,14 @@ class ContainerFactory implements ContainerFactoryInterface
         $container->setInstance(ConsoleConfigInterface::class, $config);
         // Php parser
         $container->setInstance(Parser::class, (new ParserFactory())->create(ParserFactory::PREFER_PHP7));
+        // Php renderer
+        $container->setInstance(PhpRenderer::class, new PhpRenderer($config->getTemplatesPath()));
 
         // Automatically created dependencies and aliases
-        $autoResolvable = require $resolvablePath;
-        $container->addAutoResolvableArray($autoResolvable);
+        $container->set(PhpParserInterface::class, PhpParser::class);
+        $container->set(ExecutorInterface::class, Executor::class);
+        $container->set(ReportInterface::class, Report::class);
+        $container->set(PhpFileRendererInterface::class, PhpFileRenderer::class);
 
         return $container;
     }

@@ -51,17 +51,6 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Add to available services all classes and aliases of the autoResolvable.
-     * Using this method is the same as using set method on each rows.
-     *
-     * @param array $autoResolvable
-     */
-    public function addAutoResolvableArray(array $autoResolvable): void
-    {
-        self::$autoResolvable = array_merge(self::$autoResolvable, $autoResolvable);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function get($id): object

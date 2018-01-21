@@ -101,7 +101,7 @@ class BaseConfig implements ConfigInterface
      */
     public function getTemplatesPath(): string
     {
-        return __DIR__ . '/../../templates';
+        return __DIR__ . '/../../template';
     }
 
     /**

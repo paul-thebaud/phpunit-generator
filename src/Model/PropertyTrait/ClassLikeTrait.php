@@ -38,6 +38,20 @@ trait ClassLikeTrait
     }
 
     /**
+     * Check if a function exists.
+     *
+     * @param string $name The function name.
+     *
+     * @return bool True if it exists.
+     */
+    public function hasMethod(string $name): bool
+    {
+        return $this->functions->exists(function (FunctionModelInterface $function) use ($name) {
+            return $function->getName() === $name;
+        });
+    }
+
+    /**
      * @return int The number of testable (not abstract) function in this parent.
      */
     public function countNotAbstractFunctions(): int

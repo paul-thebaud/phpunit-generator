@@ -86,9 +86,9 @@ Here is an example of using PhpUnitGen in a php script.
 ```php
 <?php
 
-use \PhpUnitGen\Configuration\BaseConfig;
-use \PhpUnitGen\Container\ContainerFactory;
-use \PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
+use PhpUnitGen\Configuration\BaseConfig;
+use PhpUnitGen\Container\ContainerFactory;
+use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
 
 // Require your composer autoload
 require 'vendor/autoload.php';
@@ -100,7 +100,7 @@ $config = new BaseConfig();
 $container = (new ContainerFactory())->invoke($config);
 
 $myTestClass = 'MyClassTest';
-$myCode = "<?php class MyClass { ... some php code ... }";
+$myCode = "<?php class MyClass { /* ... some php code ... */ }";
 
 // Execute PhpUnitGen on your code to get the tests file content
 $myUnitTestsSkeleton = $container->get(ExecutorInterface::class)->invoke($myCode, $myTestClass);
@@ -170,3 +170,18 @@ public function doSomething(int $something): int
 `p` is for `parameters`: an array of parameters.
 
 `e` is for `expected`: an expected value.
+
+### Mocking
+
+```php
+<?php
+/**
+ * @PhpUnitGen\Mock("MyClass", "obj")
+ * @PhpUnitGen\AssertTrue(p=["$obj"])
+ * @PhpUnitGen\AssertFalse(p=["0"])
+ */
+public function doSomething($obj): bool
+{
+    return $obj instanceof MyClass;
+}
+```

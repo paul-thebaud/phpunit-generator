@@ -45,6 +45,11 @@ class FunctionModel implements FunctionModelInterface
     private $return;
 
     /**
+     * @var bool $isGlobal Tells if the function is global.
+     */
+    private $isGlobal = false;
+
+    /**
      * FunctionModel constructor.
      */
     public function __construct()
@@ -82,5 +87,21 @@ class FunctionModel implements FunctionModelInterface
     public function getReturn(): ReturnModelInterface
     {
         return $this->return;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setIsGlobal(bool $isGlobal): void
+    {
+        $this->isGlobal = true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isGlobal(): bool
+    {
+        return $this->isGlobal;
     }
 }

@@ -11,8 +11,8 @@
          syntaxCheck="false"
 >
     <testsuites>
-        <testsuite name="test">
-            <directory>./test</directory>
+        <testsuite name="tests">
+            <directory>./tests</directory>
         </testsuite>
     </testsuites>
     <filter>
@@ -21,7 +21,7 @@
             <exclude>
                 <directory>./examples</directory>
                 <directory>./template</directory>
-                <directory>./test</directory>
+                <directory>./tests</directory>
                 <directory>./vendor</directory>
             </exclude>
         </whitelist>

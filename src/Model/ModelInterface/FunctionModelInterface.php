@@ -48,4 +48,14 @@ interface FunctionModelInterface extends
      * @return ReturnModelInterface The current return.
      */
     public function getReturn(): ReturnModelInterface;
+
+    /**
+     * @param bool $isGlobal The new global value to set.
+     */
+    public function setIsGlobal(bool $isGlobal): void;
+
+    /**
+     * @return bool True if the function is global.
+     */
+    public function isGlobal(): bool;
 }

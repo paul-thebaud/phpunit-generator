@@ -3,8 +3,8 @@ checks:
     php: true
 filter:
     excluded_paths:
-        - build/*
         - config/*
         - examples/*
+        - template/*
         - tests/*
         - vendor/*

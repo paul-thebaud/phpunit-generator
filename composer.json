@@ -46,7 +46,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\PhpUnitGen\\": "tests/"
+      "FunctionalTests\\PhpUnitGen\\": "tests/functional/",
+      "UnitTests\\PhpUnitGen\\": "tests/unit/"
     }
   },
   "scripts": {

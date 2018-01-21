@@ -17,8 +17,6 @@ use PhpUnitGen\Report\Report;
 use PhpUnitGen\Report\ReportInterface\ReportInterface;
 use Psr\Container\ContainerInterface;
 use Slim\Views\PhpRenderer;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
 
 /**
  * Class ContainerFactory.

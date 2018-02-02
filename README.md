@@ -9,7 +9,7 @@
 
 [![Total Downloads][ico-downloads]][link-downloads]
 
-This package will help you writing your unit tests:
+PhpUnitGen is a development tool which will help you writing your unit tests:
 * Generate unit skeleton for all php files.
 * Automatically generate a few simple unit tests (like getter / setter methods tests).
 

@@ -1,6 +1,6 @@
 # PhpUnitGen: Documentation
 
-This documentation contains console command and annotations usage.
+This documentation contains console commands and annotations usage.
 
 ## Before using this package
 
@@ -111,10 +111,10 @@ $myUnitTestsSkeleton = $container->get(ExecutorInterface::class)->invoke($myCode
 Beyond using a configuration for your tests skeletons generation, PhpUnitGen provides
 Phpdoc annotation that you can use in your files:
 
-* Class instantiation information.
-* Automatic assertion for getter / setter methods.
-* PHPUnit assertion on functions / methods results.
-* Mock creation for methods call.
+* Class instantiation information: `@PhpUnitGen\constructor`.
+* Automatic assertion for getter / setter methods: `@PhpUnitGen\getter` or `@PhpUnitGen\setter`.
+* PHPUnit assertion on functions / methods results: `@PhpUnitGen\` with a PHPUnit assertion (`@PhpUnitGen\assertTrue`).
+* Mock creation for methods call: `@PhpUnitGen\mock`.
 
 These annotations __MUST__ be written in a Phpdoc block.
 They all start with `@PhpUnitGen` or `@Pug`
@@ -123,7 +123,7 @@ They all start with `@PhpUnitGen` or `@Pug`
 ```php
 <?php
 /**
- * Following works!
+ * Working!
  * @PhpUnitGen\assertTrue()
  * @Pug\assertTrue()
  * @pug\assertTrue()
@@ -134,6 +134,9 @@ They all start with `@PhpUnitGen` or `@Pug`
  */
 function doSomething() {}
 ```
+
+Notice that PhpUnitGen annotations are __made to generate simple tests__.
+If you want to test complex methods, you should write your assertions yourself.
 
 ### Automatic generation
 
@@ -148,7 +151,7 @@ of the return type of the getter or of the argument type of the setter.
 
 ### Arguments for annotations
 
-Each annotation that needs the method parameters, or the expected value,
+Each annotation that needs method parameters, or an assertion second parameter,
 needs a string that represents the PHP code to use.
 
 Example: You want to use the addition of variables `a` and `b`,
@@ -280,8 +283,9 @@ An assertion annotation is composed of the following parameters:
     * If it is set with an integer `n`, PhpUnitGen will use the `n` method call result.
 * (optional) An array giving method parameters to use:
     * It is optional for methods does not have parameters or methods with default parameter values.
-* (optional) A string to describe the expected value:
+* (optional) A string to describe the first parameter of assertion (generally it is the expected value):
     * It could be any PHP expression.
+    * If not provided, PhpUnitGen will consider that assertion does not needs one, like `assertTrue`.
 
 ### Mocking object for method or constructor parameters
 

@@ -19,15 +19,37 @@ class AnnotationFactory
     /**
      * Build an annotation from a name and a content.
      *
-     * @param string      $name    The annotation name (such as "@PhpUnitGen\AssertEquals").
-     * @param int         $line    The line number in documentation block.
+     * @param string $name The annotation name (such as "@PhpUnitGen\AssertEquals").
+     * @param int    $line The line number in documentation block.
      *
      * @return AnnotationInterface The new built annotation.
+     *
+     * @throws AnnotationParseException If the annotation is unknown.
      */
     public function invoke(string $name, int $line): AnnotationInterface
     {
-        /** @todo */
-        $annotation = new GetterAnnotation();
+        $name = preg_replace('/@(?i)(PhpUnitGen|Pug)\\\\/', '', $name);
+        switch (true) {
+            case strcasecmp($name, 'getter') === 0:
+                $annotation = new GetterAnnotation();
+                break;
+            case strcasecmp($name, 'setter') === 0:
+                $annotation = new SetterAnnotation();
+                break;
+            case strcasecmp($name, 'constructor') === 0:
+                $annotation = new ConstructorAnnotation();
+                break;
+            case strcasecmp($name, 'mock') === 0:
+                $annotation = new MockAnnotation();
+                break;
+            case strcasecmp(substr($name, 0, 6), 'assert') === 0:
+                $annotation = new AssertionAnnotation();
+                break;
+            default:
+                throw new AnnotationParseException(
+                    sprintf('Annotation of name "%s" is unknown', $name)
+                );
+        }
         $annotation->setName($name);
         $annotation->setLine($line);
         return $annotation;

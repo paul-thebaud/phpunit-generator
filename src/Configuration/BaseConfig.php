@@ -19,7 +19,7 @@ class BaseConfig implements ConfigInterface
 {
     protected const DEFAULT_CONFIG = [
         'interface' => false,
-        'auto'      => true,
+        'auto'      => false,
         'phpdoc'    => []
     ];
 
@@ -32,6 +32,8 @@ class BaseConfig implements ConfigInterface
      * ArrayConfig constructor.
      *
      * @param mixed $config The config array to use.
+     *
+     * @throws InvalidConfigException If the $config is invalid.
      */
     public function __construct($config = BaseConfig::DEFAULT_CONFIG)
     {
@@ -101,7 +103,7 @@ class BaseConfig implements ConfigInterface
      */
     public function getTemplatesPath(): string
     {
-        return __DIR__ . '/../../template';
+        return realpath(__DIR__ . '/../../template');
     }
 
     /**

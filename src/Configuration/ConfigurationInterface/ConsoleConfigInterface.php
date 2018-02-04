@@ -26,18 +26,12 @@ interface ConsoleConfigInterface extends ConfigInterface
     /**
      * @return string A regex to describe file that should be parsed.
      */
-    public function getIncludeRegex(): string;
+    public function getIncludeRegex(): ?string;
 
     /**
      * @return string A regex to describe file that should not be parsed.
      */
-    public function getExcludeRegex(): string;
-
-    /**
-     * @param string $sourceDirectory The source directory to add as an array key.
-     * @param string $targetDirectory The target directory to add as an array value.
-     */
-    public function addDirectory(string $sourceDirectory, string $targetDirectory): void;
+    public function getExcludeRegex(): ?string;
 
     /**
      * Get directories to use.
@@ -46,12 +40,6 @@ interface ConsoleConfigInterface extends ConfigInterface
      * @return string[] The directories to parse.
      */
     public function getDirectories(): array;
-
-    /**
-     * @param string $sourceFile The source file to add as an array key.
-     * @param string $targetFile The target file to add as an array value.
-     */
-    public function addFile(string $sourceFile, string $targetFile): void;
 
     /**
      * Get files to use.

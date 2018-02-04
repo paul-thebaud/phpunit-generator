@@ -3,6 +3,8 @@
 namespace PhpUnitGen\Annotation;
 
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
+use PhpUnitGen\Model\PropertyTrait\NodeTrait;
 
 /**
  * Class AbstractAnnotation.
@@ -13,8 +15,10 @@ use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-abstract class AbstractAnnotation implements AnnotationInterface
+abstract class AbstractAnnotation implements AnnotationInterface, NodeInterface
 {
+    use NodeTrait;
+
     /**
      * @var string $name The annotation name (such as "@PhpUnitGen\AssertTrue()").
      */

@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Model\ModelInterface;
 
 use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
+use PhpUnitGen\Model\PropertyInterface\DocumentationInterface;
 use PhpUnitGen\Model\PropertyInterface\NameInterface;
 
 /**
@@ -14,6 +15,6 @@ use PhpUnitGen\Model\PropertyInterface\NameInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface InterfaceModelInterface extends NameInterface, ClassLikeInterface
+interface InterfaceModelInterface extends NameInterface, ClassLikeInterface, DocumentationInterface
 {
 }

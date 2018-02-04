@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
+use PhpUnitGen\Exception\AnnotationParseException;
 use PhpUnitGen\Model\ClassModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
@@ -21,17 +22,25 @@ class ClassNodeParser extends AbstractNodeParser
     use ClassLikeNameTrait;
 
     /**
+     * @var DocumentationNodeParser $documentationNodeParser The documentation node parser to use.
+     */
+    private $documentationNodeParser;
+
+    /**
      * ClassNodeParser constructor.
      *
-     * @param MethodNodeParser    $methodNodeParser    The method node parser to use.
-     * @param AttributeNodeParser $attributeNodeParser The attribute node parser to use.
+     * @param MethodNodeParser        $methodNodeParser        The method node parser to use.
+     * @param AttributeNodeParser     $attributeNodeParser     The attribute node parser to use.
+     * @param DocumentationNodeParser $documentationNodeParser The documentation node parser to use.
      */
     public function __construct(
         MethodNodeParser $methodNodeParser,
-        AttributeNodeParser $attributeNodeParser
+        AttributeNodeParser $attributeNodeParser,
+        DocumentationNodeParser $documentationNodeParser
     ) {
         $this->nodeParsers[Node\Stmt\ClassMethod::class] = $methodNodeParser;
         $this->nodeParsers[Node\Stmt\Property::class]    = $attributeNodeParser;
+        $this->documentationNodeParser                   = $documentationNodeParser;
     }
 
     /**
@@ -41,6 +50,8 @@ class ClassNodeParser extends AbstractNodeParser
      * @param PhpFileModelInterface $parent The parent node.
      *
      * @return PhpFileModelInterface The updated parent.
+     *
+     * @throws AnnotationParseException If an annotation can not be parsed.
      */
     public function invoke(Node\Stmt\Class_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
     {
@@ -50,6 +61,10 @@ class ClassNodeParser extends AbstractNodeParser
         $class->setIsAbstract($node->isAbstract());
         $class->setIsFinal($node->isFinal());
         $parent->addConcreteUse($parent->getFullNameFor($class->getName()), $class->getName());
+
+        if (($documentation = $node->getDocComment()) !== null) {
+            $class = $this->documentationNodeParser->invoke($documentation, $class);
+        }
 
         $class = $this->parseSubNodes($node->stmts, $class);
 

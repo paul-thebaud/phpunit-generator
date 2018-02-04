@@ -142,7 +142,7 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
     /**
      * {@inheritdoc}
      */
-    public function getIncludeRegex(): string
+    public function getIncludeRegex(): ?string
     {
         return $this->config['include'];
     }
@@ -150,7 +150,7 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
     /**
      * {@inheritdoc}
      */
-    public function getExcludeRegex(): string
+    public function getExcludeRegex(): ?string
     {
         return $this->config['exclude'];
     }
@@ -166,30 +166,8 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
     /**
      * {@inheritdoc}
      */
-    public function addDirectory(string $sourceDirectory, string $targetDirectory): void
-    {
-        if (! Validator::arrayType()->validate($this->config['dirs'])) {
-            $this->config['dirs'] = [];
-        }
-        $this->config['dirs'][$sourceDirectory] = $targetDirectory;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getFiles(): array
     {
         return $this->config['files'];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addFile(string $sourceFile, string $targetFile): void
-    {
-        if (! Validator::arrayType()->validate($this->config['files'])) {
-            $this->config['files'] = [];
-        }
-        $this->config['files'][$sourceFile] = $targetFile;
     }
 }

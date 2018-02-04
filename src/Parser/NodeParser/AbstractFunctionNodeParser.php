@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node\FunctionLike;
+use PhpUnitGen\Exception\AnnotationParseException;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ReturnModel;
 
@@ -56,6 +57,8 @@ abstract class AbstractFunctionNodeParser extends AbstractNodeParser
      * @param FunctionModelInterface $function The model to update.
      *
      * @return FunctionModelInterface The updated function model.
+     *
+     * @throws AnnotationParseException If an annotation can not be parsed.
      */
     protected function parseFunction(FunctionLike $node, FunctionModelInterface $function): FunctionModelInterface
     {

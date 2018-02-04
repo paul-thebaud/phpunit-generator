@@ -9,7 +9,7 @@
 
 [![Total Downloads][ico-downloads]][link-downloads]
 
-PhpUnitGen is a development tool which will help you writing your unit tests:
+PhpUnitGen is a development tool which will help you writing your unit tests for PHPUnit 6 / 7:
 * Generate unit skeleton for all php files.
 * Automatically generate a few simple unit tests (like getter / setter methods tests).
 
@@ -35,6 +35,8 @@ $ composer require --dev paulthebaud/phpunit-generator ~2.0
 `--dev` option is used to install this package only in development environment.
 
 ## Basic usage
+
+A detailed documentation is available [here](DOCUMENTATION.md), but here is a simple description of usages.
 
 PhpUnitGenerator basic usage is from command line with the following command.
 
@@ -62,8 +64,6 @@ $ php ./vendor/bin/phpunitgen gen-one-def <source-file-path> <target-file-path>
 * __gen-one__: To generate unit tests skeleton for only one file.
 * __gen-def__: To generate unit tests skeletons of a repository with the default configuration.
 * __gen-one-def__: To generate unit tests skeleton for only one file with the default configuration.
-
-Check them on the [Usage section](DOCUMENTATION.md#console-usage) of documentation for more details.
 
 PhpUnitGenerator can also be used online on [this website](https://phpunitgen.heroku.com)
 

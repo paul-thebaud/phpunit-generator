@@ -4,6 +4,7 @@ namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
+use PhpUnitGen\Exception\AnnotationParseException;
 use PhpUnitGen\Model\InterfaceModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
@@ -27,16 +28,24 @@ class InterfaceNodeParser extends AbstractNodeParser
     private $config;
 
     /**
+     * @var DocumentationNodeParser $documentationNodeParser The documentation node parser to use.
+     */
+    private $documentationNodeParser;
+
+    /**
      * InterfaceNodeParser constructor.
      *
-     * @param ConfigInterface           $config           The configuration to use.
-     * @param MethodNodeParser $methodNodeParser The method node parser to use.
+     * @param ConfigInterface         $config                  The configuration to use.
+     * @param MethodNodeParser        $methodNodeParser        The method node parser to use.
+     * @param DocumentationNodeParser $documentationNodeParser The documentation node parser to use.
      */
     public function __construct(
         ConfigInterface $config,
-        MethodNodeParser $methodNodeParser
+        MethodNodeParser $methodNodeParser,
+        DocumentationNodeParser $documentationNodeParser
     ) {
-        $this->config = $config;
+        $this->config                  = $config;
+        $this->documentationNodeParser = $documentationNodeParser;
 
         $this->nodeParsers[Node\Stmt\ClassMethod::class] = $methodNodeParser;
     }
@@ -48,6 +57,8 @@ class InterfaceNodeParser extends AbstractNodeParser
      * @param PhpFileModelInterface $parent The parent node.
      *
      * @return PhpFileModelInterface The updated parent.
+     *
+     * @throws AnnotationParseException If an annotation can not be parsed.
      */
     public function invoke(Node\Stmt\Interface_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
     {
@@ -56,6 +67,10 @@ class InterfaceNodeParser extends AbstractNodeParser
             $interface->setParentNode($parent);
             $interface->setName($this->getName($node));
             $parent->addConcreteUse($parent->getFullNameFor($interface->getName()), $interface->getName());
+
+            if (($documentation = $node->getDocComment()) !== null) {
+                $interface = $this->documentationNodeParser->invoke($documentation, $interface);
+            }
 
             $interface = $this->parseSubNodes($node->stmts, $interface);
 

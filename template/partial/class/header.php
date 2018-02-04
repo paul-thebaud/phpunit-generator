@@ -20,6 +20,7 @@ foreach ($phpFile->getConcreteUses() as $use => $alias) {
 ?>
 
 /**
+ * Class <?= $phpFile->getName() ?>.
 <?php foreach ($config->getPhpDoc() as $annotation => $content) {
     echo sprintf(' * @%s %s', $annotation, $content);
     echo "\n";

@@ -5,6 +5,7 @@ namespace PhpUnitGen\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
 use PhpUnitGen\Model\PropertyTrait\ClassLikeTrait;
+use PhpUnitGen\Model\PropertyTrait\DocumentationTrait;
 use PhpUnitGen\Model\PropertyTrait\NameTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
 
@@ -22,12 +23,14 @@ class InterfaceModel implements InterfaceModelInterface
     use NameTrait;
     use NodeTrait;
     use ClassLikeTrait;
+    use DocumentationTrait;
 
     /**
      * InterfaceModel constructor.
      */
     public function __construct()
     {
-        $this->functions = new ArrayCollection();
+        $this->functions   = new ArrayCollection();
+        $this->annotations = new ArrayCollection();
     }
 }

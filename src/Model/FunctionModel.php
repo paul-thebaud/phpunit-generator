@@ -54,7 +54,8 @@ class FunctionModel implements FunctionModelInterface
      */
     public function __construct()
     {
-        $this->parameters = new ArrayCollection();
+        $this->parameters  = new ArrayCollection();
+        $this->annotations = new ArrayCollection();
     }
 
     /**

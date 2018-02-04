@@ -36,6 +36,11 @@ interface AnnotationInterface
     public const TYPE_MOCK = 3;
 
     /**
+     * @var int TYPE_CONSTRUCTOR The annotation type "constructor", such as "@PhpUnitGen\construct([])".
+     */
+    public const TYPE_CONSTRUCTOR = 4;
+
+    /**
      * @return int The annotation type.
      */
     public function getType(): int;

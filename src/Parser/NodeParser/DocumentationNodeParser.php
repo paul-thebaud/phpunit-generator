@@ -7,8 +7,7 @@ use PhpUnitGen\Annotation\AbstractAnnotation;
 use PhpUnitGen\Annotation\AnnotationFactory;
 use PhpUnitGen\Annotation\Lexer;
 use PhpUnitGen\Exception\AnnotationParseException;
-use PhpUnitGen\Exception\ParseException;
-use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
+use PhpUnitGen\Model\PropertyInterface\DocumentationInterface;
 
 /**
  * Class DocumentationNodeParser.
@@ -82,13 +81,13 @@ class DocumentationNodeParser
      * Parse a node to update the parent node model.
      *
      * @param Doc                    $node   The node to parse.
-     * @param FunctionModelInterface $parent The parent node.
+     * @param DocumentationInterface $parent The parent node.
      *
-     * @return FunctionModelInterface The updated parent.
+     * @return DocumentationInterface The updated parent.
      *
      * @throws AnnotationParseException If an annotation is invalid.
      */
-    public function invoke(Doc $node, FunctionModelInterface $parent): FunctionModelInterface
+    public function invoke(Doc $node, DocumentationInterface $parent): DocumentationInterface
     {
         $documentation = $node->getText();
         $parent->setDocumentation($documentation);
@@ -121,12 +120,11 @@ class DocumentationNodeParser
 
             foreach ($this->parsedAnnotations as $annotation) {
                 $annotation->compile();
-                /** @todo add to parent */
+                $annotation->setParentNode($parent);
+                $parent->addAnnotation($annotation);
             }
         } catch (AnnotationParseException $exception) {
-            throw new AnnotationParseException(
-                sprintf('On function "%s": %s', $parent->getName(), $exception->getMessage())
-            );
+            throw new AnnotationParseException($exception->getMessage());
         }
 
         return $parent;
@@ -138,7 +136,7 @@ class DocumentationNodeParser
     private function initialize(): void
     {
         $this->parsedAnnotations = [];
-        $this->currentLine = 0;
+        $this->currentLine       = 0;
         $this->reset();
     }
 
@@ -170,12 +168,12 @@ class DocumentationNodeParser
                 $this->consumeAnnotationToken($value);
                 break;
             case Lexer::T_O_PARENTHESIS:
-                $this->addTokenToContent($value);
                 $this->consumeOpeningParenthesisToken();
+                $this->addTokenToContent($value);
                 break;
             case Lexer::T_C_PARENTHESIS:
-                $this->consumeClosingParenthesisToken();
                 $this->addTokenToContent($value);
+                $this->consumeClosingParenthesisToken();
                 break;
             case Lexer::T_SINGLE_QUOTE:
             case Lexer::T_DOUBLE_QUOTE:
@@ -203,6 +201,11 @@ class DocumentationNodeParser
         $this->afterConsume($type);
     }
 
+    /**
+     * Add a token content to the current annotation content.
+     *
+     * @param string $value The token value to add.
+     */
     private function addTokenToContent(string $value)
     {
         if ($this->currentAnnotationContent !== null) {
@@ -210,6 +213,13 @@ class DocumentationNodeParser
         }
     }
 
+    /**
+     * Consume an annotation token ("@PhpUnitGen" for example).
+     *
+     * @param string $value The annotation token value.
+     *
+     * @throws AnnotationParseException If the annotation is unknown.
+     */
     private function consumeAnnotationToken(string $value): void
     {
         if ($this->currentAnnotation === null) {
@@ -232,6 +242,9 @@ class DocumentationNodeParser
         }
     }
 
+    /**
+     * Consume an opening parenthesis token.
+     */
     private function consumeOpeningParenthesisToken(): void
     {
         if ($this->currentAnnotation !== null && $this->openedStringToken === null) {
@@ -242,10 +255,15 @@ class DocumentationNodeParser
                     $this->currentAnnotationContent = '';
                     $this->openedParenthesis++;
                 }
+            } else {
+                $this->openedParenthesis++;
             }
         }
     }
 
+    /**
+     * Consume an closing parenthesis token.
+     */
     private function consumeClosingParenthesisToken(): void
     {
         if ($this->currentAnnotationContent !== null && $this->openedStringToken === null) {
@@ -254,7 +272,11 @@ class DocumentationNodeParser
                 $this->openedParenthesis--;
                 if ($this->openedParenthesis === 0) {
                     // Annotation content is finished.
-                    $this->currentAnnotation->setStringContent($this->currentAnnotationContent);
+                    $this->currentAnnotation->setStringContent(substr(
+                        $this->currentAnnotationContent,
+                        1,
+                        strlen($this->currentAnnotationContent) - 2
+                    ));
                     $this->parsedAnnotations[] = $this->currentAnnotation;
                     $this->reset();
                 }
@@ -262,6 +284,9 @@ class DocumentationNodeParser
         }
     }
 
+    /**
+     * Consume a quote token (" or ').
+     */
     private function consumeQuoteToken(int $type): void
     {
         if ($this->currentAnnotationContent !== null) {
@@ -281,7 +306,7 @@ class DocumentationNodeParser
     /**
      * A method that is executed after consuming a token.
      *
-     * @param int    $type  The token type (an integer from the Lexer class constant).
+     * @param int $type The token type (an integer from the Lexer class constant).
      */
     private function afterConsume(int $type): void
     {

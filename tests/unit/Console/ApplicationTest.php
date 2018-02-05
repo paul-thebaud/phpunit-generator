@@ -25,13 +25,6 @@ use Symfony\Component\Stopwatch\Stopwatch;
 class ApplicationTest extends TestCase
 {
     /**
-     * {@inheritdoc}
-     */
-    protected function setUp(): void
-    {
-    }
-
-    /**
      * @covers \PhpUnitGen\Console\Application::__construct()
      */
     public function testConstruct(): void
@@ -101,7 +94,7 @@ class ApplicationTest extends TestCase
         $output->expects($this->once())->method('isQuiet')
             ->willReturn(false);
         $output->expects($this->once())->method('writeln')
-            ->with("PhpUnitGen by Paul Thébaud.\n");
+            ->with("PhpUnitGen by Paul Thébaud (version <info>2.0.0</info>).\n");
 
         $app->expects($this->once())->method('doRunParent')
             ->with($input, $output)->willReturn(0);

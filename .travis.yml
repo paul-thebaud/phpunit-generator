@@ -16,4 +16,4 @@ script:
   - composer test
 # Upload results on Coveralls
 after_success:
-  - sh -c 'php vendor/bin/coveralls -v;'
+  - sh -c 'php vendor/bin/php-coveralls -v;'

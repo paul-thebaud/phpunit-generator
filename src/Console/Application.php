@@ -49,7 +49,7 @@ class Application extends AbstractApplication
             $output->writeln(sprintf(
                 "PhpUnitGen by Paul Thébaud (version <info>%s</info>).\n",
                 $this->getVersion()
-        ));
+            ));
         }
 
         return $this->doRunParent($input, $output);

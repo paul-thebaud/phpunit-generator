@@ -26,8 +26,8 @@ class PhpFileRenderer implements PhpFileRendererInterface
     /**
      * AbstractRender constructor.
      *
-     * @param ConfigInterface $config     The configuration.
-     * @param PhpRenderer     $renderer   The php renderer.
+     * @param ConfigInterface $config   The configuration.
+     * @param PhpRenderer     $renderer The php renderer.
      */
     public function __construct(
         ConfigInterface $config,

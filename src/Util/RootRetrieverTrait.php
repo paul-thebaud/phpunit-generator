@@ -4,7 +4,6 @@ namespace PhpUnitGen\Util;
 
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
-use Respect\Validation\Validator;
 
 /**
  * Trait RootRetrieverTrait.

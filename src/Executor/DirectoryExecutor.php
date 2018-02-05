@@ -104,7 +104,7 @@ class DirectoryExecutor implements DirectoryExecutorInterface
      * @param string $targetPath The directory target path.
      * @param string $filePath   The file path.
      *
-     * @throws ExecutorException If there was an error during the process.
+     * @throws Exception If there was an error during the process.
      */
     private function executeFileExecutor(string $sourcePath, string $targetPath, string $filePath): void
     {

@@ -6,7 +6,6 @@ use PhpParser\Node;
 use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Parser\NodeParserUtil\UsePreParseTrait;
-use Respect\Validation\Validator;
 
 /**
  * Class NamespaceNodeParser.

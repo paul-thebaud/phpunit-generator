@@ -4,7 +4,6 @@ namespace PhpUnitGen\Exception;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
-use Respect\Validation\Validator;
 use Symfony\Component\Console\Style\StyleInterface;
 
 /**

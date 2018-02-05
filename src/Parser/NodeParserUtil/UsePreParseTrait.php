@@ -7,7 +7,6 @@ use PhpParser\Node\Stmt\Use_;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Parser\NodeParser\GroupUseNodeParser;
 use PhpUnitGen\Parser\NodeParser\UseNodeParser;
-use Respect\Validation\Validator;
 
 /**
  * Trait UsePreParseTrait.

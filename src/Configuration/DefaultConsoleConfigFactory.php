@@ -23,7 +23,7 @@ class DefaultConsoleConfigFactory
      *
      * @return ConsoleConfigInterface The created configuration.
      */
-    public function invoke(string $sourceDirectory, string $targetDirectory): ConsoleConfigInterface
+    public function invokeDir(string $sourceDirectory, string $targetDirectory): ConsoleConfigInterface
     {
         $configArray         = require __DIR__ . '/../../config/default.phpunitgen.config.php';
         $configArray['dirs'] = [
@@ -41,7 +41,7 @@ class DefaultConsoleConfigFactory
      *
      * @return ConsoleConfigInterface The created configuration.
      */
-    public function invokeOneFile(string $sourceFile, string $targetFile): ConsoleConfigInterface
+    public function invokeFile(string $sourceFile, string $targetFile): ConsoleConfigInterface
     {
         $configArray          = require __DIR__ . '/../../config/default.phpunitgen.config.php';
         $configArray['files'] = [

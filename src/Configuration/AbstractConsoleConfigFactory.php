@@ -2,7 +2,6 @@
 
 namespace PhpUnitGen\Configuration;
 
-use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigFactoryInterface;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Exception\InvalidConfigException;
 
@@ -15,7 +14,7 @@ use PhpUnitGen\Exception\InvalidConfigException;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-abstract class AbstractConsoleConfigFactory implements ConsoleConfigFactoryInterface
+abstract class AbstractConsoleConfigFactory
 {
     /**
      * {@inheritdoc}
@@ -28,7 +27,21 @@ abstract class AbstractConsoleConfigFactory implements ConsoleConfigFactoryInter
     /**
      * {@inheritdoc}
      */
-    public function invokeOneFile(string $configPath, string $sourceFile, string $targetFile): ConsoleConfigInterface
+    public function invokeDir(string $configPath, string $sourceDir, string $targetDir): ConsoleConfigInterface
+    {
+        $configArray          = $this->decode($configPath);
+        $configArray['dirs']  = [
+            $sourceDir => $targetDir
+        ];
+        $configArray['files'] = [];
+
+        return new ConsoleConfig($configArray);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function invokeFile(string $configPath, string $sourceFile, string $targetFile): ConsoleConfigInterface
     {
         $configArray          = $this->decode($configPath);
         $configArray['dirs']  = [];

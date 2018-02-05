@@ -56,9 +56,9 @@ class AbstractConsoleConfigFactoryTest extends TestCase
     }
 
     /**
-     * @covers \PhpUnitGen\Configuration\AbstractConsoleConfigFactory::invokeOneFile()
+     * @covers \PhpUnitGen\Configuration\AbstractConsoleConfigFactory::invokeFile()
      */
-    public function testInvokeOneFile(): void
+    public function testInvokeFile(): void
     {
         $config = __DIR__ . '/../../../examples/phpunitgen.config.json';
 
@@ -66,7 +66,23 @@ class AbstractConsoleConfigFactoryTest extends TestCase
         $expected['dirs']  = [];
         $expected['files'] = ['input.php' => 'output.php'];
 
-        $result = $this->configFactory->invokeOneFile($config, 'input.php', 'output.php');
+        $result = $this->configFactory->invokeFile($config, 'input.php', 'output.php');
+
+        $this->assertEquals($expected, $this->configProperty->getValue($result));
+    }
+
+    /**
+     * @covers \PhpUnitGen\Configuration\AbstractConsoleConfigFactory::invokeDir()
+     */
+    public function testInvokeDir(): void
+    {
+        $config = __DIR__ . '/../../../examples/phpunitgen.config.json';
+
+        $expected          = require __DIR__ . '/../../../examples/phpunitgen.config.php';
+        $expected['dirs']  = ['input' => 'output'];
+        $expected['files'] = [];
+
+        $result = $this->configFactory->invokeDir($config, 'input', 'output');
 
         $this->assertEquals($expected, $this->configProperty->getValue($result));
     }

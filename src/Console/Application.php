@@ -33,12 +33,11 @@ class Application extends AbstractApplication
         parent::__construct('phpunitgen', static::VERSION);
 
         $containerFactory = new ConsoleContainerFactory(new ContainerFactory());
-        $stopwatch = new Stopwatch();
+        $stopwatch        = new Stopwatch();
 
         $this->add(new GenerateCommand($containerFactory, $stopwatch));
-        $this->add(new GenerateOneCommand($containerFactory, $stopwatch));
-        $this->add(new GenerateDefaultCommand($containerFactory, $stopwatch));
-        $this->add(new GenerateOneDefaultCommand($containerFactory, $stopwatch));
+
+        $this->setDefaultCommand('generate', true);
     }
 
     /**
@@ -47,7 +46,10 @@ class Application extends AbstractApplication
     public function doRun(InputInterface $input, OutputInterface $output): int
     {
         if (! $output->isQuiet()) {
-            $output->writeln("PhpUnitGen by Paul Thébaud.\n");
+            $output->writeln(sprintf(
+                "PhpUnitGen by Paul Thébaud (version <info>%s</info>).\n",
+                $this->getVersion()
+        ));
         }
 
         return $this->doRunParent($input, $output);

@@ -18,9 +18,44 @@ If you find any issue, please report them [here](https://github.com/paul-thebaud
 
 When you install this package, you can use the command line to generate your unit tests skeleton.
 
-#### Console command using a custom configuration
+```bash
+$ php ./vendor/bin/phpunitgen
+```
 
-The two following commands will need a configuration file that need to be a `.yml`, `.json` or `.php` file.
+For this command, you will need a configuration file written in `Yaml`, `Json` or `Php`.
+
+* `Yaml` example is available [here](examples/phpunitgen.config.yml).
+* `Json` example is available [here](examples/phpunitgen.config.json).
+* `Php` example is available [here](examples/phpunitgen.config.php).
+
+By default, PhpUnitGen search for a configuration file named `./phpunitgen.yml`.
+
+But if you want to use a custom configuration path, you can use an option:
+
+```php
+$ php ./vendor/bin/phpunitgen --config=my/custom/config.json
+```
+
+Use PhpUnitGen on one file only:
+
+```php
+$ php ./vendor/bin/phpunitgen --file source/file.php target/file.php
+```
+
+Use PhpUnitGen on one directory only:
+
+```php
+$ php ./vendor/bin/phpunitgen --dir source/dir target/dir
+```
+
+Use PhpUnitGen with default configuration:
+
+```php
+$ php ./vendor/bin/phpunitgen --default --file source/file.php target/file.php
+$ php ./vendor/bin/phpunitgen --default --dir source/dir target/dir
+```
+
+### Console configuration
 
 A configuration file needs the following parameters :
 
@@ -28,50 +63,12 @@ A configuration file needs the following parameters :
 * __interface__ [*boolean*]: Set *true* if you want to generate unit tests skeletons for interface too.
 * __auto__ [*boolean*]: Set *true* if you want to automatically generate `getter` / `setter` unit tests.
 * __ignore__ [*boolean*]: Set *true* if you want to ignore errors that are not fatal.
-* __exclude__ [*string*]: A php regex to filter files that have not to be parsed. Set as *null* if you do not want to use an exclude regex.
-* __include__ [*string*]: A php regex to filter files that have to be parsed. Set as *null* if you do not want to use an include regex.
+* __exclude__ [*string* or *null*]: A php regex to filter files that have not to be parsed. Set as *null* if you do not want to use an exclude regex.
+* __include__ [*string* or *null*]: A php regex to filter files that have to be parsed. Set as *null* if you do not want to use an include regex.
 * __dirs__ [*array*]: An array of `source: target` directories. PhpUnitGen will parse each files in your source directory (an array key)
 and put the generated unit tests skeletons in your target directory (an array value).
 * __files__ [*array*]: An array of `source: target` files. PhpUnitGen will parse each files in your source file (an array key)
 and put the generated unit tests skeletons in your target file (an array value).
-
-To help you configuring PhpUnitGen, you can use the following configuration file examples, written in `Yaml`, `Json` and `Php`:
-
-* `Yaml` example is available [here](examples/phpunitgen.config.yml).
-* `Json` example is available [here](examples/phpunitgen.config.json).
-* `Php` example is available [here](examples/phpunitgen.config.php).
-
-Notice that if don't give a `config-path`, it will use the default path: `./phpunitgen.yml`.
-
-The following command generate unit tests skeletons for a given configuration.
-
-```bash
-$ php ./vendor/bin/phpunitgen gen [<config-path>]
-```
-
-The following command generate unit tests skeletons for a given configuration, but only for the given source file to the target file.
-
-```bash
-$ php ./vendor/bin/phpunitgen gen-one <source-file-path> <target-file-path> [<config-path>]
-```
-
-#### Console command using the default configuration
-
-The two following command will use the default configuration file (available [here](config/default.phpunitgen.config.php)).
-
-Because of you are not giving any configuration, you need to give a source directory path and a target directory path.
-
-This one generate unit tests skeletons for a source directory to a target directory.
-
-```bash
-$ php ./vendor/bin/phpunitgen gen-def <source-path> <target-path>
-```
-
-This one generate unit tests skeletons for a source file to a target file.
-
-```bash
-$ php ./vendor/bin/phpunitgen gen-one-def <source-file-path> <target-file-path>
-```
 
 ### Website usage
 

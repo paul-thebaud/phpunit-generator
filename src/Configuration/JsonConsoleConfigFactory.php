@@ -5,7 +5,6 @@ namespace PhpUnitGen\Configuration;
 use PhpUnitGen\Exception\InvalidConfigException;
 use PhpUnitGen\Exception\JsonException;
 use PhpUnitGen\Util\Json;
-use Respect\Validation\Validator;
 
 /**
  * Class JsonConsoleConfigFactory.

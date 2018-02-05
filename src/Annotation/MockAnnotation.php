@@ -3,8 +3,6 @@
 namespace PhpUnitGen\Annotation;
 
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
-use PhpUnitGen\Exception\AnnotationParseException;
-use Respect\Validation\Validator;
 
 /**
  * Class MockAnnotation.

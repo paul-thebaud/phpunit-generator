@@ -41,29 +41,41 @@ A detailed documentation is available [here](DOCUMENTATION.md), but here is a si
 PhpUnitGenerator basic usage is from command line with the following command.
 
 ```bash
-$ php ./vendor/bin/phpunitgen gen [<config-path>]
+$ php ./vendor/bin/phpunitgen
 ```
+
 For this command, you will need a configuration file written in `Yaml`, `Json` or `Php`.
 
 * `Yaml` example is available [here](examples/phpunitgen.config.yml).
 * `Json` example is available [here](examples/phpunitgen.config.json).
 * `Php` example is available [here](examples/phpunitgen.config.php).
 
-Notice that if don't give a `config-path`, it will use the default path: `./phpunitgen.yml`.
+By default, PhpUnitGen search for a configuration file named `./phpunitgen.yml`.
 
-3 other commands are available:
+But if you want to use a custom configuration path, you can use an option:
 
-```bash
-$ php ./vendor/bin/phpunitgen gen-one <source-file-path> <target-file-path> [<config-path>]
-
-$ php ./vendor/bin/phpunitgen gen-def <source-path> <target-path>
-
-$ php ./vendor/bin/phpunitgen gen-one-def <source-file-path> <target-file-path>
+```php
+$ php ./vendor/bin/phpunitgen --config=my/custom/config.json
 ```
 
-* __gen-one__: To generate unit tests skeleton for only one file.
-* __gen-def__: To generate unit tests skeletons of a repository with the default configuration.
-* __gen-one-def__: To generate unit tests skeleton for only one file with the default configuration.
+Use PhpUnitGen on one file only:
+
+```php
+$ php ./vendor/bin/phpunitgen --file source/file.php target/file.php
+```
+
+Use PhpUnitGen on one directory only:
+
+```php
+$ php ./vendor/bin/phpunitgen --dir source/dir target/dir
+```
+
+Use PhpUnitGen with default configuration:
+
+```php
+$ php ./vendor/bin/phpunitgen --default --file source/file.php target/file.php
+$ php ./vendor/bin/phpunitgen --default --dir source/dir target/dir
+```
 
 PhpUnitGenerator can also be used online on [this website](https://phpunitgen.heroku.com)
 

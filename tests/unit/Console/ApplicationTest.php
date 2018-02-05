@@ -3,12 +3,8 @@
 namespace UnitTests\PhpUnitGen\Console;
 
 use PHPUnit\Framework\TestCase;
-use PhpUnitGen\Console\AbstractGenerateCommand;
 use PhpUnitGen\Console\Application;
 use PhpUnitGen\Console\GenerateCommand;
-use PhpUnitGen\Console\GenerateDefaultCommand;
-use PhpUnitGen\Console\GenerateOneCommand;
-use PhpUnitGen\Console\GenerateOneDefaultCommand;
 use PhpUnitGen\Container\ConsoleContainerFactory;
 use Symfony\Component\Console\Application as AbstractApplication;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,19 +24,11 @@ use Symfony\Component\Stopwatch\Stopwatch;
  */
 class ApplicationTest extends TestCase
 {
-    private $containerFactoryProperty;
-    private $stopwatchProperty;
-
     /**
      * {@inheritdoc}
      */
     protected function setUp(): void
     {
-        $reflection                     = new \ReflectionClass(AbstractGenerateCommand::class);
-        $this->containerFactoryProperty = $reflection->getProperty('containerFactory');
-        $this->containerFactoryProperty->setAccessible(true);
-        $this->stopwatchProperty = $reflection->getProperty('stopwatch');
-        $this->stopwatchProperty->setAccessible(true);
     }
 
     /**
@@ -48,6 +36,18 @@ class ApplicationTest extends TestCase
      */
     public function testConstruct(): void
     {
+        $reflection = new \ReflectionClass(GenerateCommand::class);
+
+        $containerFactoryProperty = $reflection->getProperty('containerFactory');
+        $containerFactoryProperty->setAccessible(true);
+
+        $stopwatchProperty = $reflection->getProperty('stopwatch');
+        $stopwatchProperty->setAccessible(true);
+
+        $defaultCommandProperty = (new \ReflectionClass(AbstractApplication::class))
+            ->getProperty('defaultCommand');
+        $defaultCommandProperty->setAccessible(true);
+
         $app = new Application();
 
         $this->assertInstanceOf(AbstractApplication::class, $app);
@@ -55,33 +55,13 @@ class ApplicationTest extends TestCase
         $this->assertEquals('phpunitgen', $app->getName());
         $this->assertEquals('2.0.0', $app->getVersion());
 
-        $generate = $app->get('gen');
+        $generate = $app->get('generate');
         $this->assertInstanceOf(GenerateCommand::class, $generate);
-        $this->assertInstanceOf(ConsoleContainerFactory::class, $this->containerFactoryProperty
+        $this->assertInstanceOf(ConsoleContainerFactory::class, $containerFactoryProperty
             ->getValue($generate));
-        $this->assertInstanceOf(Stopwatch::class, $this->stopwatchProperty
+        $this->assertInstanceOf(Stopwatch::class, $stopwatchProperty
             ->getValue($generate));
-
-        $generateDefault = $app->get('gen-def');
-        $this->assertInstanceOf(GenerateDefaultCommand::class, $generateDefault);
-        $this->assertInstanceOf(ConsoleContainerFactory::class, $this->containerFactoryProperty
-            ->getValue($generateDefault));
-        $this->assertInstanceOf(Stopwatch::class, $this->stopwatchProperty
-            ->getValue($generateDefault));
-
-        $generateOne = $app->get('gen-one');
-        $this->assertInstanceOf(GenerateOneCommand::class, $generateOne);
-        $this->assertInstanceOf(ConsoleContainerFactory::class, $this->containerFactoryProperty
-            ->getValue($generateOne));
-        $this->assertInstanceOf(Stopwatch::class, $this->stopwatchProperty
-            ->getValue($generateOne));
-
-        $generateOneDefault = $app->get('gen-one-def');
-        $this->assertInstanceOf(GenerateOneDefaultCommand::class, $generateOneDefault);
-        $this->assertInstanceOf(ConsoleContainerFactory::class, $this->containerFactoryProperty
-            ->getValue($generateOneDefault));
-        $this->assertInstanceOf(Stopwatch::class, $this->stopwatchProperty
-            ->getValue($generateOneDefault));
+        $this->assertEquals('generate', $defaultCommandProperty->getValue($app));
     }
 
     /**

@@ -22,7 +22,7 @@ class PhpConsoleConfigFactory extends AbstractConsoleConfigFactory
     {
         $configArray = require $configPath;
         if (! is_array($configArray)) {
-            throw new InvalidConfigException('Unable to parse PHP config');
+            throw new InvalidConfigException('Invalid PHP config');
         }
         return $configArray;
     }

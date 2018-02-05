@@ -30,6 +30,9 @@ class YamlConsoleConfigFactory extends AbstractConsoleConfigFactory
                 $exception->getMessage()
             ));
         }
+        if (! is_array($configArray)) {
+            throw new InvalidConfigException('Invalid YAML config');
+        }
         return $configArray;
     }
 }

@@ -32,7 +32,7 @@ class Json
 
         $array = json_decode($string, true);
 
-        if ($array !== null) {
+        if ($array === null) {
             $error = error_get_last();
             throw new JsonException($error['message']);
         }

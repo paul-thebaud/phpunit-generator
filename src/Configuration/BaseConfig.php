@@ -80,6 +80,12 @@ class BaseConfig implements ConfigInterface
         if (! Validator::key('phpdoc', Validator::arrayType())->validate($config)) {
             throw new InvalidConfigException('"phpdoc" parameter is not an array.');
         }
+        // Validate each phpdoc
+        if (! Validator::arrayVal()
+            ->each(Validator::stringType(), Validator::stringType())->validate($config['phpdoc'])
+        ) {
+            throw new InvalidConfigException('Some annotation in "phpdoc" parameter are not strings.');
+        }
     }
 
     /**

@@ -117,7 +117,7 @@ class BaseConfigTest extends TestCase
     /**
      * @covers \PhpUnitGen\Configuration\BaseConfig::validatePhpdoc()
      */
-    public function testPhpdocInvalidConfig(): void
+    public function testPhpdocMissingConfig(): void
     {
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"phpdoc" parameter is not an array.');
@@ -125,6 +125,23 @@ class BaseConfigTest extends TestCase
         new BaseConfig([
             'interface' => false,
             'auto'      => false
+        ]);
+    }
+
+    /**
+     * @covers \PhpUnitGen\Configuration\BaseConfig::validatePhpdoc()
+     */
+    public function testPhpdocInvalidConfig(): void
+    {
+        $this->expectException(InvalidConfigException::class);
+        $this->expectExceptionMessage('Some annotation in "phpdoc" parameter are not strings.');
+
+        new BaseConfig([
+            'interface' => false,
+            'auto'      => false,
+            'phpdoc'     => [
+                'invalid' => true
+            ]
         ]);
     }
 

@@ -43,12 +43,12 @@ class YamlConsoleConfigFactoryTest extends TestCase
     /**
      * @covers \PhpUnitGen\Configuration\YamlConsoleConfigFactory::decode()
      */
-    public function testInvalidTextConfig(): void
+    public function testInvalidYamlConfig(): void
     {
-        $config = __DIR__ . '/invalid_yml_config.txt';
+        $config = __DIR__ . '/invalid_config.txt';
 
         $this->expectException(InvalidConfigException::class);
-        $this->expectExceptionMessage('Unable to parse YAML config: Unable to parse at line 1 (near "{").');
+        $this->expectExceptionMessage('Invalid YAML config');
 
         $this->configFactory->invoke($config);
     }
@@ -56,12 +56,12 @@ class YamlConsoleConfigFactoryTest extends TestCase
     /**
      * @covers \PhpUnitGen\Configuration\YamlConsoleConfigFactory::decode()
      */
-    public function testInvalidYamlConfig(): void
+    public function testInvalidTextConfig(): void
     {
-        $config = __DIR__ . '/invalid_config.txt';
+        $config = __DIR__ . '/invalid_yml_config.txt';
 
         $this->expectException(InvalidConfigException::class);
-        $this->expectExceptionMessage('Invalid YAML config');
+        $this->expectExceptionMessage('Unable to parse YAML config: Unable to parse at line 1 (near "{").');
 
         $this->configFactory->invoke($config);
     }

@@ -20,11 +20,11 @@ class Json
      *
      * @param mixed $string The string to decode.
      *
-     * @return array The decoded array.
+     * @return mixed The decoded json.
      *
      * @throws JsonException If the string can not be decoded.
      */
-    public static function decode($string): array
+    public static function decode($string)
     {
         if (! is_string($string)) {
             throw new JsonException('Json decode parameter must be a string');

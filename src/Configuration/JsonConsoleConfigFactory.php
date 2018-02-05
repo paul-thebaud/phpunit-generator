@@ -28,6 +28,9 @@ class JsonConsoleConfigFactory extends AbstractConsoleConfigFactory
         } catch (JsonException $exception) {
             throw new InvalidConfigException('Unable to parse JSON config');
         }
+        if (! is_array($configArray)) {
+            throw new InvalidConfigException('Invalid JSON config');
+        }
         return $configArray;
     }
 }

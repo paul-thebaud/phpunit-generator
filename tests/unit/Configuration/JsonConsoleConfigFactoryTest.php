@@ -53,4 +53,17 @@ class JsonConsoleConfigFactoryTest extends TestCase
 
         $this->configFactory->invoke($config);
     }
+
+    /**
+     * @covers \PhpUnitGen\Configuration\JsonConsoleConfigFactory::decode()
+     */
+    public function testInvalidTextConfig(): void
+    {
+        $config = __DIR__ . '/invalid_json_config.txt';
+
+        $this->expectException(InvalidConfigException::class);
+        $this->expectExceptionMessage('Invalid JSON config');
+
+        $this->configFactory->invoke($config);
+    }
 }

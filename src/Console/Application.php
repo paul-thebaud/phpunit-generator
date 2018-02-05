@@ -7,6 +7,7 @@ use PhpUnitGen\Container\ContainerFactory;
 use Symfony\Component\Console\Application as AbstractApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * Class Application.
@@ -32,30 +33,38 @@ class Application extends AbstractApplication
         parent::__construct('phpunitgen', static::VERSION);
 
         $containerFactory = new ConsoleContainerFactory(new ContainerFactory());
+        $stopwatch = new Stopwatch();
 
-        $this->add(new GenerateCommand($containerFactory));
-        $this->add(new GenerateOneCommand($containerFactory));
-        $this->add(new GenerateDefaultCommand($containerFactory));
-        $this->add(new GenerateOneDefaultCommand($containerFactory));
+        $this->add(new GenerateCommand($containerFactory, $stopwatch));
+        $this->add(new GenerateOneCommand($containerFactory, $stopwatch));
+        $this->add(new GenerateDefaultCommand($containerFactory, $stopwatch));
+        $this->add(new GenerateOneDefaultCommand($containerFactory, $stopwatch));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function doRun(InputInterface $input, OutputInterface $output)
+    public function doRun(InputInterface $input, OutputInterface $output): int
     {
         if (! $output->isQuiet()) {
-            $output->writeln(sprintf(
-                "phpunitgen %s by Paul Thébaud.\n\n",
-                $this->getVersion()
-            ));
+            $output->writeln("PhpUnitGen by Paul Thébaud.\n");
         }
 
-        if ($input->hasParameterOption('--version') ||
-            $input->hasParameterOption('-V')) {
-            return 0;
-        }
+        return $this->doRunParent($input, $output);
+    }
 
-        parent::doRun($input, $output);
+    /**
+     * Run the "doRun" from parent.
+     *
+     * @param InputInterface  $input  An input interface.
+     * @param OutputInterface $output An output interface.
+     *
+     * @return int 0 if everything went fine, or an error code.
+     *
+     * @throws \Throwable If there is an exception during application run.
+     */
+    protected function doRunParent(InputInterface $input, OutputInterface $output): int
+    {
+        return parent::doRun($input, $output);
     }
 }

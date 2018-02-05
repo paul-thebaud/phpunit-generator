@@ -55,23 +55,24 @@ abstract class AbstractGenerateCommand extends Command
      * GenerateCommand constructor.
      *
      * @param ConsoleContainerFactoryInterface $containerFactory A container factory to create container.
+     * @param Stopwatch                        $stopwatch        The stopwatch component for execution stats.
      */
-    public function __construct(ConsoleContainerFactoryInterface $containerFactory)
+    public function __construct(ConsoleContainerFactoryInterface $containerFactory, Stopwatch $stopwatch)
     {
         parent::__construct();
 
         $this->containerFactory = $containerFactory;
-
-        $this->stopwatch = new Stopwatch(true);
-        $this->stopwatch->start('command');
+        $this->stopwatch        = $stopwatch;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $styledOutput = new SymfonyStyle($input, $output);
+        $this->stopwatch->start('command');
+
+        $styledOutput = $this->getSymfonyStyle($input, $output);
         try {
             $config = $this->getConfiguration($input);
 
@@ -85,7 +86,20 @@ abstract class AbstractGenerateCommand extends Command
             return -1;
         }
 
-        return 1;
+        return 0;
+    }
+
+    /**
+     * Build a new instance of SymfonyStyle.
+     *
+     * @param InputInterface  $input  The input.
+     * @param OutputInterface $output The output.
+     *
+     * @return SymfonyStyle The created symfony style i/o.
+     */
+    protected function getSymfonyStyle(InputInterface $input, OutputInterface $output): SymfonyStyle
+    {
+        return new SymfonyStyle($input, $output);
     }
 
     /**

@@ -19,6 +19,9 @@ use PhpUnitGen\Exception\InvalidConfigException;
  */
 class BaseConfigTest extends TestCase
 {
+    /**
+     * @var \ReflectionProperty $configProperty
+     */
     private $configProperty;
 
     /**
@@ -48,7 +51,7 @@ class BaseConfigTest extends TestCase
     /**
      * @covers \PhpUnitGen\Configuration\BaseConfig::validate()
      */
-    public function testStringConfig(): void
+    public function testInvalidStringConfig(): void
     {
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('The config must be an array.');
@@ -139,7 +142,7 @@ class BaseConfigTest extends TestCase
         new BaseConfig([
             'interface' => false,
             'auto'      => false,
-            'phpdoc'     => [
+            'phpdoc'    => [
                 'invalid' => true
             ]
         ]);

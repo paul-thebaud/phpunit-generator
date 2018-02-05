@@ -3,7 +3,6 @@
 namespace UnitTests\PhpUnitGen\Configuration;
 
 use PHPUnit\Framework\TestCase;
-use PhpUnitGen\Configuration\BaseConfig;
 use PhpUnitGen\Configuration\ConsoleConfig;
 use PhpUnitGen\Configuration\PhpConsoleConfigFactory;
 use PhpUnitGen\Exception\InvalidConfigException;
@@ -21,6 +20,9 @@ use PhpUnitGen\Exception\InvalidConfigException;
  */
 class PhpConsoleConfigFactoryTest extends TestCase
 {
+    /**
+     * @var \ReflectionProperty $configFactory
+     */
     private $configFactory;
 
     /**

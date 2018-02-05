@@ -3,7 +3,6 @@
 namespace UnitTests\PhpUnitGen\Configuration;
 
 use PHPUnit\Framework\TestCase;
-use PhpUnitGen\Configuration\AbstractConsoleConfigFactory;
 use PhpUnitGen\Configuration\BaseConfig;
 use PhpUnitGen\Configuration\JsonConsoleConfigFactory;
 
@@ -20,8 +19,14 @@ use PhpUnitGen\Configuration\JsonConsoleConfigFactory;
  */
 class AbstractConsoleConfigFactoryTest extends TestCase
 {
+    /**
+     * @var JsonConsoleConfigFactory $configFactory
+     */
     private $configFactory;
 
+    /**
+     * @var \ReflectionProperty $configProperty
+     */
     private $configProperty;
 
     /**

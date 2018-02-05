@@ -20,6 +20,9 @@ use PhpUnitGen\Exception\InvalidConfigException;
  */
 class YamlConsoleConfigFactoryTest extends TestCase
 {
+    /**
+     * @var \ReflectionProperty $configFactory
+     */
     private $configFactory;
 
     /**

@@ -2,6 +2,8 @@
 
 namespace PhpUnitGen\Executor\ExecutorInterface;
 
+use PhpUnitGen\Exception\Exception;
+
 /**
  * Interface FileExecutorInterface.
  *
@@ -21,6 +23,8 @@ interface FileExecutorInterface
      * @param string $name       The php tests class name (optional, default is 'Generated').
      *
      * @return bool True if tasks were correctly executed.
+     *
+     * @throws Exception If an error occurred during process.
      */
     public function invoke(string $sourcePath, string $targetPath, string $name = 'GeneratedTest'): bool;
 }

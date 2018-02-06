@@ -2,6 +2,8 @@
 
 namespace PhpUnitGen\Executor\ExecutorInterface;
 
+use PhpUnitGen\Exception\Exception;
+
 /**
  * Interface DirectoryExecutorInterface.
  *
@@ -18,6 +20,8 @@ interface DirectoryExecutorInterface
      *
      * @param string $sourcePath The source directory path.
      * @param string $targetPath The target directory path.
+     *
+     * @throws Exception If an error occurred during process.
      */
     public function invoke(string $sourcePath, string $targetPath): void;
 }

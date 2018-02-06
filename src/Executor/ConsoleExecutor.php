@@ -128,6 +128,8 @@ class ConsoleExecutor implements ConsoleExecutorInterface
 
     /**
      * Execute PhpUnitGen tasks on directories.
+     *
+     * @throws Exception If an error occurred during process.
      */
     private function executeOnDirectories(): void
     {
@@ -143,6 +145,8 @@ class ConsoleExecutor implements ConsoleExecutorInterface
 
     /**
      * Execute PhpUnitGen tasks on files.
+     *
+     * @throws Exception If an error occurred during process.
      */
     private function executeOnFiles(): void
     {

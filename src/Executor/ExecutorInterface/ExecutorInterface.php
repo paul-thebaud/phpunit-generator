@@ -2,6 +2,8 @@
 
 namespace PhpUnitGen\Executor\ExecutorInterface;
 
+use PhpUnitGen\Exception\Exception;
+
 /**
  * Interface ExecutorInterface.
  *
@@ -21,6 +23,8 @@ interface ExecutorInterface
      *
      * @return string|null The generated unit tests skeleton, null if the code does not contain any testable block (or
      *                     only interface and config does not require interface parsing).
+     *
+     * @throws Exception If an error occurred during process.
      */
     public function invoke(string $code, string $name = 'GeneratedTest'): ?string;
 }

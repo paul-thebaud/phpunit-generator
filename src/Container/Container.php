@@ -153,7 +153,7 @@ class Container implements ContainerInterface
                     $reflection->getName()
                 ));
             }
-            $constructorParameters[] = $this->get($parameter->getClass()->getName());
+            $constructorParameters[] = $this->get($parameterClass->getName());
         }
         return $reflection->newInstanceArgs($constructorParameters);
     }

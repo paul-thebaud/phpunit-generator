@@ -2,6 +2,8 @@
 
 namespace PhpUnitGen\Executor\ExecutorInterface;
 
+use PhpUnitGen\Exception\Exception;
+
 /**
  * Interface ConsoleExecutorInterface.
  *
@@ -15,6 +17,8 @@ interface ConsoleExecutorInterface
 {
     /**
      * Execute all PhpUnitGen tasks from parsing to code generation for a configuration (retrieved from the container).
+     *
+     * @throws Exception If an error occurred during process.
      */
     public function invoke(): void;
 }

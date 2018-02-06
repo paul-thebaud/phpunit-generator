@@ -34,26 +34,42 @@ But if you want to use a custom configuration path, you can use an option:
 
 ```php
 $ php ./vendor/bin/phpunitgen --config=my/custom/config.json
+
+$ php ./vendor/bin/phpunitgen -c=my/custom/config.json
 ```
 
-Use PhpUnitGen on one file only:
+Use PhpUnitGen on one file only (use of `file` option need a source and a target):
 
 ```php
 $ php ./vendor/bin/phpunitgen --file source/file.php target/file.php
+
+$ php ./vendor/bin/phpunitgen -f source/file.php target/file.php
 ```
 
-Use PhpUnitGen on one directory only:
+Use PhpUnitGen on one directory only (use of `dir` option need a source and a target):
 
 ```php
 $ php ./vendor/bin/phpunitgen --dir source/dir target/dir
+
+$ php ./vendor/bin/phpunitgen -d source/dir target/dir
 ```
 
-Use PhpUnitGen with default configuration:
+Use PhpUnitGen with default configuration (use of default configuration need a source and a target):
 
 ```php
 $ php ./vendor/bin/phpunitgen --default --file source/file.php target/file.php
 $ php ./vendor/bin/phpunitgen --default --dir source/dir target/dir
+
+$ php ./vendor/bin/phpunitgen -D -f source/file.php target/file.php
+$ php ./vendor/bin/phpunitgen -D -d source/dir target/dir
 ```
+
+__Note:__
+
+* If you use the `default` option with the `--config` option, configuration will
+be ignored and default configuration will be needed.
+* If you use the `default` option, and you don't provide the `dir` or the `file`
+option, PhpUnitGen will consider that source and target paths are directories.
 
 ### Console configuration
 

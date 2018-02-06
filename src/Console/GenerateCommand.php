@@ -85,7 +85,7 @@ class GenerateCommand extends Command
             ->addOption('config', 'c', InputOption::VALUE_REQUIRED, 'The configuration file path.', 'phpunitgen.yml')
             ->addOption('file', 'f', InputOption::VALUE_NONE, 'If you want file parsing.')
             ->addOption('dir', 'd', InputOption::VALUE_NONE, 'If you want directory parsing.')
-            ->addOption('default', 'D', InputOption::VALUE_NONE, 'If it should use a file.')
+            ->addOption('default', 'D', InputOption::VALUE_NONE, 'If you want to use the default configuration.')
             ->addArgument('source', InputArgument::OPTIONAL, 'The source path (directory if "dir" option set).')
             ->addArgument('target', InputArgument::OPTIONAL, 'The target path (directory if "dir" option set).');
     }
@@ -140,7 +140,7 @@ class GenerateCommand extends Command
     {
         // If the configuration to use is the default.
         if ($input->getOption('default')) {
-            $this->validatePaths($input);
+            $this->validatePathsExist($input);
             // If it is a directory.
             if ($input->getOption('dir')) {
                 return (new DefaultConsoleConfigFactory())
@@ -155,7 +155,7 @@ class GenerateCommand extends Command
         $factory = $this->getConfigurationFactory($path);
 
         if ($input->getOption('dir')) {
-            $this->validatePaths($input);
+            $this->validatePathsExist($input);
             return $factory->invokeDir(
                 $path,
                 $input->getArgument('source'),
@@ -163,7 +163,7 @@ class GenerateCommand extends Command
             );
         }
         if ($input->getOption('file')) {
-            $this->validatePaths($input);
+            $this->validatePathsExist($input);
             return $factory->invokeFile(
                 $path,
                 $input->getArgument('source'),
@@ -207,7 +207,7 @@ class GenerateCommand extends Command
      *
      * @throws Exception If the source or the target path is missing.
      */
-    protected function validatePaths(InputInterface $input): void
+    protected function validatePathsExist(InputInterface $input): void
     {
         if (! is_string($input->getArgument('source'))) {
             throw new Exception('Missing the source path');

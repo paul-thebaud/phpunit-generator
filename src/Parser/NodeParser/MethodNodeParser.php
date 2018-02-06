@@ -5,7 +5,7 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
-use PhpUnitGen\Parser\NodeParserUtil\MethodVisibilityTrait;
+use PhpUnitGen\Parser\NodeParserUtil\MethodVisibilityHelper;
 
 /**
  * Class MethodNodeParser.
@@ -18,8 +18,6 @@ use PhpUnitGen\Parser\NodeParserUtil\MethodVisibilityTrait;
  */
 class MethodNodeParser extends AbstractFunctionNodeParser
 {
-    use MethodVisibilityTrait;
-
     /**
      * Parse a node to update the parent node model.
      *
@@ -36,7 +34,7 @@ class MethodNodeParser extends AbstractFunctionNodeParser
         $function->setIsFinal($node->isFinal());
         $function->setIsStatic($node->isStatic());
         $function->setIsAbstract($node->isAbstract());
-        $function->setVisibility($this->getMethodVisibility($node));
+        $function->setVisibility(MethodVisibilityHelper::getMethodVisibility($node));
 
         $function = $this->parseFunction($node, $function);
 

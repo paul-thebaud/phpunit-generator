@@ -7,7 +7,7 @@ use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Exception\AnnotationParseException;
 use PhpUnitGen\Model\InterfaceModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
-use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
+use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameHelper;
 
 /**
  * Class InterfaceNodeParser.
@@ -20,8 +20,6 @@ use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
  */
 class InterfaceNodeParser extends AbstractNodeParser
 {
-    use ClassLikeNameTrait;
-
     /**
      * @var ConfigInterface $config The configuration to use.
      */
@@ -65,7 +63,7 @@ class InterfaceNodeParser extends AbstractNodeParser
         if ($this->config->hasInterfaceParsing()) {
             $interface = new InterfaceModel();
             $interface->setParentNode($parent);
-            $interface->setName($this->getName($node));
+            $interface->setName(ClassLikeNameHelper::getName($node));
             $parent->addConcreteUse($parent->getFullNameFor($interface->getName()), $interface->getName());
 
             if (($documentation = $node->getDocComment()) !== null) {

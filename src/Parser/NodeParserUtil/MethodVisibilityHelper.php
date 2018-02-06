@@ -6,7 +6,7 @@ use PhpParser\Node;
 use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
 
 /**
- * Trait AttributeVisibilityTrait.
+ * Class MethodVisibilityHelper.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -14,23 +14,23 @@ use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-trait AttributeVisibilityTrait
+class MethodVisibilityHelper
 {
     /**
-     * Get the visibility of a property.
+     * Get the visibility of a method.
      *
-     * @param Node\Stmt\Property $property The property.
+     * @param Node\Stmt\ClassMethod $method The method.
      *
-     * @return int The visibility property.
+     * @return int The visibility method.
      *
      * @see VisibilityInterface For different constants of visibility.
      */
-    public function getPropertyVisibility(Node\Stmt\Property $property): int
+    public static function getMethodVisibility(Node\Stmt\ClassMethod $method): int
     {
-        if ($property->isPrivate()) {
+        if ($method->isPrivate()) {
             return VisibilityInterface::PRIVATE;
         }
-        if ($property->isProtected()) {
+        if ($method->isProtected()) {
             return VisibilityInterface::PROTECTED;
         }
         return VisibilityInterface::PUBLIC;

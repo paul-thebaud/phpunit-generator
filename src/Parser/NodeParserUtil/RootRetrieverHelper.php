@@ -1,12 +1,12 @@
 <?php
 
-namespace PhpUnitGen\Util;
+namespace PhpUnitGen\Parser\NodeParserUtil;
 
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 
 /**
- * Trait RootRetrieverTrait.
+ * Class RootRetrieverHelper.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -14,7 +14,7 @@ use PhpUnitGen\Model\PropertyInterface\NodeInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-trait RootRetrieverTrait
+class RootRetrieverHelper
 {
     /**
      * Get the root of the node.
@@ -23,7 +23,7 @@ trait RootRetrieverTrait
      *
      * @return PhpFileModelInterface|null The root if it is found, else null.
      */
-    public function getRoot(NodeInterface $node): ?PhpFileModelInterface
+    public static function getRoot(NodeInterface $node): ?PhpFileModelInterface
     {
         $parent = $node;
         while ($parent !== null) {

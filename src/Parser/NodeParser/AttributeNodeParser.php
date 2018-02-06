@@ -5,7 +5,7 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\AttributeModel;
 use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
-use PhpUnitGen\Parser\NodeParserUtil\AttributeVisibilityTrait;
+use PhpUnitGen\Parser\NodeParserUtil\AttributeVisibilityHelper;
 
 /**
  * Class AttributeNodeParser.
@@ -18,8 +18,6 @@ use PhpUnitGen\Parser\NodeParserUtil\AttributeVisibilityTrait;
  */
 class AttributeNodeParser extends AbstractNodeParser
 {
-    use AttributeVisibilityTrait;
-
     /**
      * @var ValueNodeParser $valueNodeParser The value node parser.
      */
@@ -46,7 +44,7 @@ class AttributeNodeParser extends AbstractNodeParser
     public function invoke(Node\Stmt\Property $node, TraitModelInterface $parent): TraitModelInterface
     {
         $isStatic   = $node->isStatic();
-        $visibility = $this->getPropertyVisibility($node);
+        $visibility = AttributeVisibilityHelper::getPropertyVisibility($node);
 
         foreach ($node->props as $property) {
             $attribute = new AttributeModel();

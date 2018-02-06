@@ -6,7 +6,7 @@ use PhpParser\Node;
 use PhpUnitGen\Exception\AnnotationParseException;
 use PhpUnitGen\Model\ClassModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
-use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
+use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameHelper;
 
 /**
  * Class ClassNodeParser.
@@ -19,8 +19,6 @@ use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameTrait;
  */
 class ClassNodeParser extends AbstractNodeParser
 {
-    use ClassLikeNameTrait;
-
     /**
      * @var DocumentationNodeParser $documentationNodeParser The documentation node parser to use.
      */
@@ -57,7 +55,7 @@ class ClassNodeParser extends AbstractNodeParser
     {
         $class = new ClassModel();
         $class->setParentNode($parent);
-        $class->setName($this->getName($node));
+        $class->setName(ClassLikeNameHelper::getName($node));
         $class->setIsAbstract($node->isAbstract());
         $class->setIsFinal($node->isFinal());
         $parent->addConcreteUse($parent->getFullNameFor($class->getName()), $class->getName());

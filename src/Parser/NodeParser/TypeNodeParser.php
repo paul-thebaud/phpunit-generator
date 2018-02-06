@@ -5,7 +5,7 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\PropertyInterface\TypeInterface;
-use PhpUnitGen\Util\RootRetrieverTrait;
+use PhpUnitGen\Parser\NodeParserUtil\RootRetrieverHelper;
 use Respect\Validation\Validator;
 
 /**
@@ -19,8 +19,6 @@ use Respect\Validation\Validator;
  */
 class TypeNodeParser extends AbstractNodeParser
 {
-    use RootRetrieverTrait;
-
     /**
      * Parse a node to update the parent node model.
      *
@@ -64,7 +62,7 @@ class TypeNodeParser extends AbstractNodeParser
      */
     private function getClassType(Node\Name $node, TypeInterface $parent): string
     {
-        $phpFile = $this->getRoot($parent);
+        $phpFile = RootRetrieverHelper::getRoot($parent);
 
         switch (true) {
             case $node->isFullyQualified():

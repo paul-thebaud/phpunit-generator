@@ -1,4 +1,4 @@
-# PhpUnitGenerator
+# phpunit-generator (PhpUnitGen)
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -10,7 +10,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 
 PhpUnitGen is a development tool which will help you writing your unit tests for PHPUnit 6 / 7:
-* Generate unit skeleton for all php files.
+* Generate unit skeleton for all PHP files.
 * Automatically generate a few simple unit tests (like getter / setter methods tests).
 
 ## Package structure
@@ -38,7 +38,7 @@ $ composer require --dev paulthebaud/phpunit-generator ~2.0
 
 A detailed documentation is available [here](DOCUMENTATION.md), but here is a simple description of usages.
 
-PhpUnitGenerator basic usage is from command line with the following command.
+PhpUnitGen basic usage is from command line with the following command.
 
 ```bash
 $ php ./vendor/bin/phpunitgen
@@ -54,30 +54,30 @@ By default, PhpUnitGen search for a configuration file named `./phpunitgen.yml`.
 
 But if you want to use a custom configuration path, you can use an option:
 
-```php
+```bash
 $ php ./vendor/bin/phpunitgen --config=my/custom/config.json
 ```
 
 Use PhpUnitGen on one file only:
 
-```php
+```bash
 $ php ./vendor/bin/phpunitgen --file source/file.php target/file.php
 ```
 
 Use PhpUnitGen on one directory only:
 
-```php
+```bash
 $ php ./vendor/bin/phpunitgen --dir source/dir target/dir
 ```
 
 Use PhpUnitGen with default configuration:
 
-```php
+```bash
 $ php ./vendor/bin/phpunitgen --default --file source/file.php target/file.php
 $ php ./vendor/bin/phpunitgen --default --dir source/dir target/dir
 ```
 
-PhpUnitGenerator can also be used online on [this website](https://phpunitgen.heroku.com)
+PhpUnitGen can also be used online on [this website](https://phpunitgen.heroku.com)
 
 ## Testing
 

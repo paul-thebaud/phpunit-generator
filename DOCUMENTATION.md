@@ -8,7 +8,7 @@ __DO NOT USE THIS PACKAGE WITHOUT CHECKING GENERATED TESTS!__
 
 All generated unit tests must be checked completely before implementing them.
 
-Php files can have multiple patterns (containing namespaces, interfaces, class, traits, php functions ...).
+PHP files can have multiple patterns (containing namespaces, interfaces, class, traits, php functions ...).
 
 If you find any issue, please report them [here](https://github.com/paul-thebaud/phpunit-generator/issues).
 
@@ -22,17 +22,17 @@ When you install this package, you can use the command line to generate your uni
 $ php ./vendor/bin/phpunitgen
 ```
 
-For this command, you will need a configuration file written in `Yaml`, `Json` or `Php`.
+For this command, you will need a configuration file written in `YAML`, `JSON` or `PHP`.
 
-* `Yaml` example is available [here](examples/phpunitgen.config.yml).
-* `Json` example is available [here](examples/phpunitgen.config.json).
-* `Php` example is available [here](examples/phpunitgen.config.php).
+* `YAML` example is available [here](examples/phpunitgen.config.yml).
+* `JSON` example is available [here](examples/phpunitgen.config.json).
+* `PHP` example is available [here](examples/phpunitgen.config.php).
 
 By default, PhpUnitGen search for a configuration file named `./phpunitgen.yml`.
 
 But if you want to use a custom configuration path, you can use an option:
 
-```php
+```bash
 $ php ./vendor/bin/phpunitgen --config=my/custom/config.json
 
 $ php ./vendor/bin/phpunitgen -c=my/custom/config.json
@@ -40,7 +40,7 @@ $ php ./vendor/bin/phpunitgen -c=my/custom/config.json
 
 Use PhpUnitGen on one file only (use of `file` option need a source and a target):
 
-```php
+```bash
 $ php ./vendor/bin/phpunitgen --file source/file.php target/file.php
 
 $ php ./vendor/bin/phpunitgen -f source/file.php target/file.php
@@ -48,7 +48,7 @@ $ php ./vendor/bin/phpunitgen -f source/file.php target/file.php
 
 Use PhpUnitGen on one directory only (use of `dir` option need a source and a target):
 
-```php
+```bash
 $ php ./vendor/bin/phpunitgen --dir source/dir target/dir
 
 $ php ./vendor/bin/phpunitgen -d source/dir target/dir
@@ -56,7 +56,7 @@ $ php ./vendor/bin/phpunitgen -d source/dir target/dir
 
 Use PhpUnitGen with default configuration (use of default configuration need a source and a target):
 
-```php
+```bash
 $ php ./vendor/bin/phpunitgen --default --file source/file.php target/file.php
 $ php ./vendor/bin/phpunitgen --default --dir source/dir target/dir
 
@@ -79,10 +79,11 @@ A configuration file needs the following parameters :
 * __interface__ [*boolean*]: Set *true* if you want to generate unit tests skeletons for interface too.
 * __auto__ [*boolean*]: Set *true* if you want to automatically generate `getter` / `setter` unit tests.
 * __ignore__ [*boolean*]: Set *true* if you want to ignore errors that are not fatal.
-* __exclude__ [*string* or *null*]: A php regex to filter files that have not to be parsed. Set as *null* if you do not want to use an exclude regex.
-* __include__ [*string* or *null*]: A php regex to filter files that have to be parsed. Set as *null* if you do not want to use an include regex.
+* __exclude__ [*string* or *null*]: A PHP regex to filter files that have not to be parsed. Set as *null* if you do not want to use an exclude regex.
+* __include__ [*string* or *null*]: A PHP regex to filter files that have to be parsed. Set as *null* if you do not want to use an include regex.
 * __dirs__ [*array*]: An array of `source: target` directories. PhpUnitGen will parse each files in your source directory (an array key)
 and put the generated unit tests skeletons in your target directory (an array value).
+It will also parse sub-directories.
 * __files__ [*array*]: An array of `source: target` files. PhpUnitGen will parse each files in your source file (an array key)
 and put the generated unit tests skeletons in your target file (an array value).
 
@@ -92,9 +93,9 @@ PhpUnitGen is available online on an Heroku server:
 
 [https://phpunitgen.herokuapp.com/](https://phpunitgen.herokuapp.com/)
 
-### Php code usage
+### PHP code usage
 
-Here is an example of using PhpUnitGen in a php script.
+Here is an example of using PhpUnitGen in a PHP script.
 
 ```php
 <?php
@@ -113,7 +114,7 @@ $config = new BaseConfig();
 $container = (new ContainerFactory())->invoke($config);
 
 $myTestClass = 'MyClassTest';
-$myCode = "<?php class MyClass { /* ... some php code ... */ }";
+$myCode = "<?php class MyClass { /* ... some PHP code ... */ }";
 
 // Execute PhpUnitGen on your code to get the tests file content
 $myUnitTestsSkeleton = $container->get(ExecutorInterface::class)->invoke($myCode, $myTestClass);
@@ -122,14 +123,14 @@ $myUnitTestsSkeleton = $container->get(ExecutorInterface::class)->invoke($myCode
 ## Annotations
 
 Beyond using a configuration for your tests skeletons generation, PhpUnitGen provides
-Phpdoc annotation that you can use in your files:
+PHPDoc annotation that you can use in your files:
 
 * Class instantiation information: `@PhpUnitGen\constructor`.
 * Automatic assertion for getter / setter methods: `@PhpUnitGen\getter` or `@PhpUnitGen\setter`.
 * PHPUnit assertion on functions / methods results: `@PhpUnitGen\` with a PHPUnit assertion (`@PhpUnitGen\assertTrue`).
 * Mock creation for methods call: `@PhpUnitGen\mock`.
 
-These annotations __MUST__ be written in a Phpdoc block.
+These annotations __MUST__ be written in a PHPDoc block.
 They all start with `@PhpUnitGen` or `@Pug`
 (which is not case sensitive, so you can write `@phpunitgen` for example).
 

@@ -394,7 +394,8 @@ class GenerateCommandTest extends TestCase
     {
         $command = new GenerateCommand($this->containerFactory, $this->stopwatch);
 
-        $getConfigurationFactoryMethod = (new \ReflectionClass(GenerateCommand::class))->getMethod('getConfigurationFactory');
+        $getConfigurationFactoryMethod = (new \ReflectionClass(GenerateCommand::class))
+            ->getMethod('getConfigurationFactory');
         $getConfigurationFactoryMethod->setAccessible(true);
 
         $this->expectException(InvalidConfigException::class);
@@ -410,10 +411,11 @@ class GenerateCommandTest extends TestCase
     {
         $command = new GenerateCommand($this->containerFactory, $this->stopwatch);
 
-        $getConfigurationFactoryMethod = (new \ReflectionClass(GenerateCommand::class))->getMethod('getConfigurationFactory');
+        $getConfigurationFactoryMethod = (new \ReflectionClass(GenerateCommand::class))
+            ->getMethod('getConfigurationFactory');
         $getConfigurationFactoryMethod->setAccessible(true);
 
-        $path = realpath(__DIR__ . '/../Configuration/invalid_config.txt');
+        $path = realpath(__DIR__ . '/../resource/invalid_config.txt');
 
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage(sprintf('Config file "%s" must have .yml, .json or .php extension', $path));
@@ -430,7 +432,8 @@ class GenerateCommandTest extends TestCase
 
         $command = new GenerateCommand($this->containerFactory, $this->stopwatch);
 
-        $validatePathsExistMethod = (new \ReflectionClass(GenerateCommand::class))->getMethod('validatePathsExist');
+        $validatePathsExistMethod = (new \ReflectionClass(GenerateCommand::class))
+            ->getMethod('validatePathsExist');
         $validatePathsExistMethod->setAccessible(true);
 
         $input->expects($this->once())->method('getArgument')
@@ -451,7 +454,8 @@ class GenerateCommandTest extends TestCase
 
         $command = new GenerateCommand($this->containerFactory, $this->stopwatch);
 
-        $validatePathsExistMethod = (new \ReflectionClass(GenerateCommand::class))->getMethod('validatePathsExist');
+        $validatePathsExistMethod = (new \ReflectionClass(GenerateCommand::class))
+            ->getMethod('validatePathsExist');
         $validatePathsExistMethod->setAccessible(true);
 
         $input->expects($this->exactly(2))->method('getArgument')
@@ -472,7 +476,8 @@ class GenerateCommandTest extends TestCase
 
         $command = new GenerateCommand($this->containerFactory, $this->stopwatch);
 
-        $validatePathsExistMethod = (new \ReflectionClass(GenerateCommand::class))->getMethod('validatePathsExist');
+        $validatePathsExistMethod = (new \ReflectionClass(GenerateCommand::class))
+            ->getMethod('validatePathsExist');
         $validatePathsExistMethod->setAccessible(true);
 
         $input->expects($this->exactly(2))->method('getArgument')

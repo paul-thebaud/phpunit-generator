@@ -52,15 +52,15 @@ class ConsoleContainerFactory implements ConsoleContainerFactoryInterface
      */
     public function invoke(
         ConsoleConfigInterface $config,
-        StyleInterface $output,
+        StyleInterface $styledIO,
         Stopwatch $stopwatch
     ): ContainerInterface {
         /** @var Container $container */
         $container = $this->containerFactory->invoke($config);
 
-        $container->setInstance(FilesystemInterface::class, new Filesystem(new Local('./')));
-        $container->setInstance(StyleInterface::class, $output);
+        $container->setInstance(StyleInterface::class, $styledIO);
         $container->setInstance(Stopwatch::class, $stopwatch);
+        $container->setInstance(FilesystemInterface::class, new Filesystem(new Local('./')));
 
         $container->set(ExceptionCatcherInterface::class, ExceptionCatcher::class);
         $container->set(FileValidatorInterface::class, FileValidator::class);

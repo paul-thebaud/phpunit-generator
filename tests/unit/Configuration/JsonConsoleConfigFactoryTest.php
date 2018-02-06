@@ -48,7 +48,7 @@ class JsonConsoleConfigFactoryTest extends TestCase
      */
     public function testInvalidConfig(): void
     {
-        $config = __DIR__ . '/invalid_config.txt';
+        $config = __DIR__ . '/../resource/invalid_config.txt';
 
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('Unable to parse JSON config');
@@ -61,7 +61,7 @@ class JsonConsoleConfigFactoryTest extends TestCase
      */
     public function testInvalidTextConfig(): void
     {
-        $config = __DIR__ . '/invalid_json_config.txt';
+        $config = __DIR__ . '/../resource/invalid_json_config.txt';
 
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('Invalid JSON config');

@@ -21,12 +21,12 @@ class Container implements ContainerInterface
     /**
      * @var string[] $autoResolvable All objects resolvable automatically.
      */
-    private static $autoResolvable = [];
+    private $autoResolvable = [];
 
     /**
      * @var object[] $instances All objects instances.
      */
-    private static $instances = [];
+    private $instances = [];
 
     /**
      * Add to available services an instance of an object.
@@ -36,7 +36,7 @@ class Container implements ContainerInterface
      */
     public function setInstance(string $id, object $instance): void
     {
-        self::$instances[$id] = $instance;
+        $this->instances[$id] = $instance;
     }
 
     /**
@@ -47,18 +47,7 @@ class Container implements ContainerInterface
      */
     public function set(string $id, string $class = null): void
     {
-        self::$autoResolvable[$id] = $class ?? $id;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function get($id): object
-    {
-        if (! Validator::stringType()->validate($id)) {
-            throw new ContainerException('Identifier is not a string.');
-        }
-        return $this->resolveInstance($id);
+        $this->autoResolvable[$id] = $class ?? $id;
     }
 
     /**
@@ -68,12 +57,21 @@ class Container implements ContainerInterface
     {
         try {
             $this->get($id);
-        } catch (NotFoundException $exception) {
-            return false;
         } catch (ContainerException $exception) {
             return false;
         }
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get($id): object
+    {
+        if (! Validator::stringType()->validate($id)) {
+            throw new ContainerException('Identifier is not a string');
+        }
+        return $this->resolveInstance($id);
     }
 
     /**
@@ -87,8 +85,8 @@ class Container implements ContainerInterface
      */
     private function resolveInstance(string $id): object
     {
-        if (Validator::key($id)->validate(self::$instances)) {
-            return self::$instances[$id];
+        if (Validator::key($id)->validate($this->instances)) {
+            return $this->instances[$id];
         }
         return $this->resolveAutomaticResolvable($id);
     }
@@ -104,8 +102,8 @@ class Container implements ContainerInterface
      */
     private function resolveAutomaticResolvable(string $id): object
     {
-        if (Validator::key($id)->validate(self::$autoResolvable)) {
-            return self::$instances[$id] = $this->autoResolve(self::$autoResolvable[$id]);
+        if (Validator::key($id)->validate($this->autoResolvable)) {
+            return $this->instances[$id] = $this->autoResolve($this->autoResolvable[$id]);
         }
         return $this->autoResolve($id);
     }
@@ -121,14 +119,14 @@ class Container implements ContainerInterface
      */
     private function autoResolve(string $class): object
     {
-        if (! class_exists($class)) {
-            throw new ContainerException(sprintf('Class "%s" does not exists.', $class));
+        try {
+            $reflection = new \ReflectionClass($class);
+        } catch (\ReflectionException $exception) {
+            throw new ContainerException(sprintf('Class "%s" does not exists', $class));
         }
 
-        $reflection = new \ReflectionClass($class);
-
         if (! $reflection->isInstantiable()) {
-            throw new ContainerException(sprintf('Class "%s" is not instantiable.', $class));
+            throw new ContainerException(sprintf('Class "%s" is not instantiable', $class));
         }
         return $this->buildInstance($reflection);
     }
@@ -147,13 +145,14 @@ class Container implements ContainerInterface
         if (($constructor = $reflection->getConstructor()) === null) {
             return $reflection->newInstance();
         }
-        if (! $constructor->isPublic()) {
-            throw new ContainerException(
-                sprintf('Class "%s" has no public constructor.', $reflection->getName())
-            );
-        }
         $constructorParameters = [];
         foreach ($constructor->getParameters() as $parameter) {
+            if (($parameterClass = $parameter->getClass()) === null) {
+                throw new ContainerException(sprintf(
+                    'Class "%s" constructor has a scalar / callable / array type parameter',
+                    $reflection->getName()
+                ));
+            }
             $constructorParameters[] = $this->get($parameter->getClass()->getName());
         }
         return $reflection->newInstanceArgs($constructorParameters);

@@ -48,7 +48,7 @@ class PhpConsoleConfigFactoryTest extends TestCase
      */
     public function testInvalidConfig(): void
     {
-        $config = __DIR__ . '/invalid_php_config.php';
+        $config = __DIR__ . '/../resource/invalid_php_config.php';
 
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('Invalid PHP config');

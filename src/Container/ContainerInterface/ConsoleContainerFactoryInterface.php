@@ -22,14 +22,14 @@ interface ConsoleContainerFactoryInterface
      * Build a new instance of the container.
      *
      * @param ConsoleConfigInterface $config    A configuration instance.
-     * @param StyleInterface         $output    An output to display messages.
+     * @param StyleInterface         $styledIO  The styled I/O interface implementation.
      * @param Stopwatch              $stopwatch The stopwatch instance to measure duration and memory usage.
      *
      * @return ContainerInterface The created container.
      */
     public function invoke(
         ConsoleConfigInterface $config,
-        StyleInterface $output,
+        StyleInterface $styledIO,
         Stopwatch $stopwatch
     ): ContainerInterface;
 }

@@ -48,7 +48,7 @@ class YamlConsoleConfigFactoryTest extends TestCase
      */
     public function testInvalidYamlConfig(): void
     {
-        $config = __DIR__ . '/invalid_config.txt';
+        $config = __DIR__ . '/../resource/invalid_config.txt';
 
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('Invalid YAML config');
@@ -61,7 +61,7 @@ class YamlConsoleConfigFactoryTest extends TestCase
      */
     public function testInvalidTextConfig(): void
     {
-        $config = __DIR__ . '/invalid_yml_config.txt';
+        $config = __DIR__ . '/../resource/invalid_yml_config.txt';
 
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('Unable to parse YAML config: Unable to parse at line 1 (near "{").');

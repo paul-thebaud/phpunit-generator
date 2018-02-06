@@ -7,7 +7,7 @@ php:
 - 7.2
 # Composer install
 install:
-  - travis_retry composer install --no-interaction
+  - travis_retry composer install --no-dev --no-interaction
 # Make unit tests log directory
 before_script:
   - mkdir -p build/logs

@@ -20,6 +20,7 @@ build/      ==> Build results (code coverage ...) [only after running composer t
 config/     ==> Default PhpUnitGen configurations.
 examples/   ==> Examples about this package (configuration, parsing examples).
 src/        ==> Package source files.
+template/   ==> Package template for generated tests skeletons.
 tests/      ==> Package unit tests.
 vendor/     ==> Composer dependencies [only after running composer install].
 ```

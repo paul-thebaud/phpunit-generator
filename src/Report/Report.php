@@ -33,7 +33,7 @@ class Report implements ReportInterface
     /**
      * {@inheritdoc}
      */
-    public function increaseParsedFilesNumber(): void
+    public function increaseParsedFileNumber(): void
     {
         $this->parsedFilesNumber++;
     }
@@ -49,7 +49,7 @@ class Report implements ReportInterface
     /**
      * {@inheritdoc}
      */
-    public function increaseParsedDirectoriesNumber(): void
+    public function increaseParsedDirectoryNumber(): void
     {
         $this->parsedDirectoriesNumber++;
     }

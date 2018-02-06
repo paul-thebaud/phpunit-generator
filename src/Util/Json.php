@@ -30,12 +30,12 @@ class Json
             throw new JsonException('Json decode parameter must be a string');
         }
 
-        $array = json_decode($string, true);
+        $result = json_decode($string, true);
 
-        if ($array === null) {
+        if ($result === null) {
             $error = error_get_last();
-            throw new JsonException($error['message']);
+            throw new JsonException('Json decode fail');
         }
-        return $array;
+        return $result;
     }
 }

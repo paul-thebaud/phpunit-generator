@@ -33,29 +33,4 @@ interface DocumentationInterface extends NodeInterface
      * @param AnnotationInterface $annotation The annotation to add.
      */
     public function addAnnotation(AnnotationInterface $annotation): void;
-
-    /**
-     * @return ConstructorAnnotation|null The constructor annotation, null if none.
-     */
-    public function getConstructorAnnotation(): ?ConstructorAnnotation;
-
-    /**
-     * @return GetterAnnotation|null The getter annotation, null if none.
-     */
-    public function getGetterAnnotation(): ?GetterAnnotation;
-
-    /**
-     * @return SetterAnnotation|null The setter annotation, null if none.
-     */
-    public function getSetterAnnotation(): ?SetterAnnotation;
-
-    /**
-     * @return Collection|AnnotationInterface[] The mock annotations.
-     */
-    public function getMockAnnotations(): Collection;
-
-    /**
-     * @return Collection|AnnotationInterface[] The assertion annotations.
-     */
-    public function getAssertAnnotations(): Collection;
 }

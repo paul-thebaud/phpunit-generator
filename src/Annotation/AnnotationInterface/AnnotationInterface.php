@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Annotation\AnnotationInterface;
 
 use PhpUnitGen\Exception\AnnotationParseException;
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 
 /**
  * Interface AnnotationInterface.
@@ -13,7 +14,7 @@ use PhpUnitGen\Exception\AnnotationParseException;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface AnnotationInterface
+interface AnnotationInterface extends NodeInterface
 {
     /**
      * @var int TYPE_ASSERT The annotation type "assert", such as "@PhpUnitGen\AssertTrue".
@@ -39,6 +40,11 @@ interface AnnotationInterface
      * @var int TYPE_CONSTRUCTOR The annotation type "constructor", such as "@PhpUnitGen\construct([])".
      */
     public const TYPE_CONSTRUCTOR = 4;
+
+    /**
+     * @var int TYPE_PARAMS The annotation type "params", such as "@PhpUnitGen\params()".
+     */
+    public const TYPE_PARAMS = 5;
 
     /**
      * @return int The annotation type.

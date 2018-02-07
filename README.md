@@ -45,6 +45,8 @@ PhpUnitGen basic usage is from command line with the following command.
 $ php ./vendor/bin/phpunitgen
 ```
 
+__Note__: All across your generated tests skeletons, you will find `@todo` PHP annotations to complete them.
+
 For this command, you will need a configuration file written in `Yaml`, `Json` or `Php`.
 
 * `Yaml` example is available [here](examples/phpunitgen.config.yml).

@@ -52,7 +52,7 @@ class AbstractConsoleConfigFactoryTest extends TestCase
 
         $result = $this->configFactory->invoke($config);
 
-        $this->assertEquals($expected, $this->configProperty->getValue($result));
+        $this->assertSame($expected, $this->configProperty->getValue($result));
     }
 
     /**
@@ -68,7 +68,7 @@ class AbstractConsoleConfigFactoryTest extends TestCase
 
         $result = $this->configFactory->invokeFile($config, 'input.php', 'output.php');
 
-        $this->assertEquals($expected, $this->configProperty->getValue($result));
+        $this->assertSame($expected, $this->configProperty->getValue($result));
     }
 
     /**
@@ -84,6 +84,6 @@ class AbstractConsoleConfigFactoryTest extends TestCase
 
         $result = $this->configFactory->invokeDir($config, 'input', 'output');
 
-        $this->assertEquals($expected, $this->configProperty->getValue($result));
+        $this->assertSame($expected, $this->configProperty->getValue($result));
     }
 }

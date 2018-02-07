@@ -151,6 +151,8 @@ class GenerateCommand extends Command
         }
 
         $path = $input->getOption('config');
+        // If we have a "=" at the beginning of the option value
+        $path = preg_replace('/^\=/', '', $path);
 
         $factory = $this->getConfigurationFactory($path);
 

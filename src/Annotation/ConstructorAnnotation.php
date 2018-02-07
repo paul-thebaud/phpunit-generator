@@ -3,6 +3,10 @@
 namespace PhpUnitGen\Annotation;
 
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
+use PhpUnitGen\Exception\AnnotationParseException;
+use PhpUnitGen\Exception\JsonException;
+use PhpUnitGen\Util\Json;
+use Respect\Validation\Validator;
 
 /**
  * Class ConstructorAnnotation.
@@ -16,6 +20,16 @@ use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
 class ConstructorAnnotation extends AbstractAnnotation
 {
     /**
+     * @var string|null $class The class name to use to construct the instance, null if none.
+     */
+    private $class;
+
+    /**
+     * @var string[] $parameters The constructor parameters.
+     */
+    private $parameters;
+
+    /**
      * {@inheritdoc}
      */
     public function getType(): int
@@ -28,16 +42,73 @@ class ConstructorAnnotation extends AbstractAnnotation
      */
     public function compile(): void
     {
-        /*
-        if ($this->getStringContent() !== null
-            && ! Validator::regex('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/')
-                ->validate($this->getStringContent())
-        ) {
-            throw new AnnotationParseException(sprintf(
-                'The annotation at line %d of documentation contains an invalid property name.',
-                $this->getLine()
-            ));
+        // Decode JSON content
+        try {
+            $decoded = Json::decode('[' . $this->getStringContent() . ']');
+        } catch (JsonException $exception) {
+            throw new AnnotationParseException('"construct" annotation content is invalid (invalid JSON content)');
         }
-        */
+        $this->validate($decoded);
+
+        $index = 0;
+        // If there is a custom constructor class
+        if (Validator::stringType()->validate($decoded[$index])) {
+            // Get the last name part
+            $nameArray = explode('\\', $decoded[$index]);
+            $lastPart  = end($nameArray);
+            // Add use to PhpFile
+            $this->getParentNode()->getParentNode()->addConcreteUse($decoded[$index], $lastPart);
+            $this->class = $lastPart;
+            $index++;
+        }
+        $this->parameters = $decoded[$index];
+    }
+
+    /**
+     * Validate the content of annotation.
+     *
+     * @param mixed $decoded The annotation content.
+     *
+     * @throws AnnotationParseException If the content is invalid.
+     */
+    private function validate($decoded): void
+    {
+        // Validate it is an array
+        if (! Validator::arrayType()->length(1, 2)->validate($decoded)) {
+            throw new AnnotationParseException(
+                '"construct" annotation content is invalid (must contains parameters array, and maybe a class)'
+            );
+        }
+
+        $size = count($decoded);
+
+        // Validate that if size is 2, first value is a string
+        if ($size === 2 && ! Validator::stringType()->validate($decoded[0])) {
+            throw new AnnotationParseException(
+                '"construct" annotation content is invalid (constructor class must be a string)'
+            );
+        }
+        // Validate that last value is an array
+        if (! Validator::arrayVal()->each(Validator::stringType(), Validator::intType())->validate($decoded[$size-1])) {
+            throw new AnnotationParseException(
+                '"construct" annotation content is invalid (constructor parameters must be a array of string)'
+            );
+        }
+    }
+
+    /**
+     * @return string|null The class name, null if none.
+     */
+    public function getClass(): ?string
+    {
+        return $this->class;
+    }
+
+    /**
+     * @return array The constructor parameters.
+     */
+    public function getParameters(): array
+    {
+        return $this->parameters;
     }
 }

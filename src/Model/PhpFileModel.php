@@ -4,12 +4,15 @@ namespace PhpUnitGen\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
+use PhpUnitGen\Annotation\MockAnnotation;
 use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Model\ModelInterface\ClassModelInterface;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
 use PhpUnitGen\Model\PropertyTrait\ClassLikeTrait;
+use PhpUnitGen\Model\PropertyTrait\DocumentationTrait;
 use PhpUnitGen\Model\PropertyTrait\NamespaceTrait;
 use PhpUnitGen\Model\PropertyTrait\NameTrait;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
@@ -30,6 +33,7 @@ class PhpFileModel implements PhpFileModelInterface
     use NamespaceTrait;
     use NodeTrait;
     use ClassLikeTrait;
+    use DocumentationTrait;
 
     /**
      * This array is constructed with the full name as key, and the class name as a value.
@@ -62,10 +66,11 @@ class PhpFileModel implements PhpFileModelInterface
      */
     public function __construct()
     {
-        $this->functions  = new ArrayCollection();
-        $this->classes    = new ArrayCollection();
-        $this->traits     = new ArrayCollection();
-        $this->interfaces = new ArrayCollection();
+        $this->functions   = new ArrayCollection();
+        $this->classes     = new ArrayCollection();
+        $this->traits      = new ArrayCollection();
+        $this->interfaces  = new ArrayCollection();
+        $this->annotations = new ArrayCollection();
     }
 
     /**
@@ -216,5 +221,27 @@ class PhpFileModel implements PhpFileModelInterface
     public function getInterfaces(): Collection
     {
         return $this->interfaces;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getClassLikeCollection(): Collection
+    {
+        return new ArrayCollection(array_merge(
+            $this->classes->toArray(),
+            $this->traits->toArray(),
+            $this->interfaces->toArray()
+        ));
+    }
+
+    /**
+     * @return Collection|MockAnnotation[] The mock annotations.
+     */
+    public function getMockAnnotations(): Collection
+    {
+        return $this->annotations->filter(function (AnnotationInterface $annotation) {
+            return $annotation->getType() === AnnotationInterface::TYPE_MOCK;
+        });
     }
 }

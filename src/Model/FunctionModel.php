@@ -4,6 +4,11 @@ namespace PhpUnitGen\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
+use PhpUnitGen\Annotation\AssertionAnnotation;
+use PhpUnitGen\Annotation\GetterAnnotation;
+use PhpUnitGen\Annotation\MockAnnotation;
+use PhpUnitGen\Annotation\SetterAnnotation;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\ParameterModelInterface;
 use PhpUnitGen\Model\ModelInterface\ReturnModelInterface;
@@ -104,5 +109,53 @@ class FunctionModel implements FunctionModelInterface
     public function isGlobal(): bool
     {
         return $this->isGlobal;
+    }
+
+    /**
+     * @return GetterAnnotation|null The getter annotation, null if none.
+     */
+    public function getGetterAnnotation(): ?GetterAnnotation
+    {
+        $annotations = $this->annotations->filter(function (AnnotationInterface $annotation) {
+            return $annotation->getType() === AnnotationInterface::TYPE_GETTER;
+        });
+        if ($annotations->isEmpty()) {
+            return null;
+        }
+        return $annotations->first();
+    }
+
+    /**
+     * @return SetterAnnotation|null The setter annotation, null if none.
+     */
+    public function getSetterAnnotation(): ?SetterAnnotation
+    {
+        $annotations = $this->annotations->filter(function (AnnotationInterface $annotation) {
+            return $annotation->getType() === AnnotationInterface::TYPE_SETTER;
+        });
+        if ($annotations->isEmpty()) {
+            return null;
+        }
+        return $annotations->first();
+    }
+
+    /**
+     * @return Collection|AssertionAnnotation[] The assertion annotations.
+     */
+    public function getAssertAnnotations(): Collection
+    {
+        return $this->annotations->filter(function (AnnotationInterface $annotation) {
+            return $annotation->getType() === AnnotationInterface::TYPE_ASSERT;
+        });
+    }
+
+    /**
+     * @return Collection|MockAnnotation[] The mock annotations.
+     */
+    public function getMockAnnotations(): Collection
+    {
+        return $this->annotations->filter(function (AnnotationInterface $annotation) {
+            return $annotation->getType() === AnnotationInterface::TYPE_MOCK;
+        });
     }
 }

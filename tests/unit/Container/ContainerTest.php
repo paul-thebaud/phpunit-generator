@@ -47,7 +47,7 @@ class ContainerTest extends TestCase
 
         $this->container->setInstance('report_obj', $report);
 
-        $this->assertEquals($report, $this->container->get('report_obj'));
+        $this->assertSame($report, $this->container->get('report_obj'));
     }
 
     /**

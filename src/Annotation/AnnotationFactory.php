@@ -42,6 +42,9 @@ class AnnotationFactory
             case strcasecmp($name, 'mock') === 0:
                 $annotation = new MockAnnotation();
                 break;
+            case strcasecmp($name, 'params') === 0:
+                $annotation = new ParamsAnnotation();
+                break;
             case strcasecmp(substr($name, 0, 6), 'assert') === 0:
                 $annotation = new AssertionAnnotation();
                 break;

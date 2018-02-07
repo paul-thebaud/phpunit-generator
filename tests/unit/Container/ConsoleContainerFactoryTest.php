@@ -65,14 +65,14 @@ class ConsoleContainerFactoryTest extends TestCase
         $this->assertInstanceOf(Container::class, $container);
 
         // Check ContainerFactory invoke is called
-        $this->assertEquals($config, $container->get(ConfigInterface::class));
-        $this->assertEquals($config, $container->get(ConsoleConfigInterface::class));
+        $this->assertSame($config, $container->get(ConfigInterface::class));
+        $this->assertSame($config, $container->get(ConsoleConfigInterface::class));
 
         $this->assertInstanceOf(Parser\Multiple::class, $container->get(Parser::class));
 
         $phpRenderer = $container->get(PhpRenderer::class);
         $this->assertInstanceOf(PhpRenderer::class, $phpRenderer);
-        $this->assertEquals('templates/path/', $phpRenderer->getTemplatePath());
+        $this->assertSame('templates/path/', $phpRenderer->getTemplatePath());
 
         $this->assertInstanceOf(PhpParser::class, $container->get(PhpParserInterface::class));
         $this->assertInstanceOf(Executor::class, $container->get(ExecutorInterface::class));
@@ -80,8 +80,8 @@ class ConsoleContainerFactoryTest extends TestCase
         $this->assertInstanceOf(PhpFileRenderer::class, $container->get(PhpFileRendererInterface::class));
 
         // Check additional dependencies are added
-        $this->assertEquals($styledIO, $container->get(StyleInterface::class));
-        $this->assertEquals($stopwatch, $container->get(Stopwatch::class));
+        $this->assertSame($styledIO, $container->get(StyleInterface::class));
+        $this->assertSame($stopwatch, $container->get(Stopwatch::class));
 
         $fileSystem = $container->get(FilesystemInterface::class);
         $this->assertInstanceOf(Filesystem::class, $fileSystem);

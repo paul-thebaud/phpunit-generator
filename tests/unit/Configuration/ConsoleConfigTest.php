@@ -308,11 +308,11 @@ class ConsoleConfigTest extends TestCase
             'phpdoc'    => []
         ]);
 
-        $this->assertEquals(false, $config->hasOverwrite());
-        $this->assertEquals(false, $config->hasIgnore());
-        $this->assertEquals('/.*config\.php$/', $config->getExcludeRegex());
-        $this->assertEquals('/.*\.php$/', $config->getIncludeRegex());
-        $this->assertEquals([], $config->getDirectories());
-        $this->assertEquals([], $config->getFiles());
+        $this->assertSame(false, $config->hasOverwrite());
+        $this->assertSame(false, $config->hasIgnore());
+        $this->assertSame('/.*config\.php$/', $config->getExcludeRegex());
+        $this->assertSame('/.*\.php$/', $config->getIncludeRegex());
+        $this->assertSame([], $config->getDirectories());
+        $this->assertSame([], $config->getFiles());
     }
 }

@@ -45,8 +45,8 @@ class ApplicationTest extends TestCase
 
         $this->assertInstanceOf(AbstractApplication::class, $app);
 
-        $this->assertEquals('phpunitgen', $app->getName());
-        $this->assertEquals('2.0.0', $app->getVersion());
+        $this->assertSame('phpunitgen', $app->getName());
+        $this->assertSame('2.0.0', $app->getVersion());
 
         $generate = $app->get('generate');
         $this->assertInstanceOf(GenerateCommand::class, $generate);
@@ -54,7 +54,7 @@ class ApplicationTest extends TestCase
             ->getValue($generate));
         $this->assertInstanceOf(Stopwatch::class, $stopwatchProperty
             ->getValue($generate));
-        $this->assertEquals('generate', $defaultCommandProperty->getValue($app));
+        $this->assertSame('generate', $defaultCommandProperty->getValue($app));
     }
 
     /**
@@ -76,7 +76,7 @@ class ApplicationTest extends TestCase
         $app->expects($this->once())->method('doRunParent')
             ->with($input, $output);
 
-        $this->assertEquals(0, $app->doRun($input, $output));
+        $this->assertSame(0, $app->doRun($input, $output));
     }
 
     /**
@@ -99,6 +99,6 @@ class ApplicationTest extends TestCase
         $app->expects($this->once())->method('doRunParent')
             ->with($input, $output)->willReturn(0);
 
-        $this->assertEquals(0, $app->doRun($input, $output));
+        $this->assertSame(0, $app->doRun($input, $output));
     }
 }

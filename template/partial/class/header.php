@@ -5,6 +5,7 @@ $namespace = sprintf('namespace Test%s;', ($namespace === null? '' : '\\' . $nam
 <?= $namespace ?>
 
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 <?php
 foreach ($phpFile->getConcreteUses() as $use => $alias) {
@@ -21,11 +22,11 @@ foreach ($phpFile->getConcreteUses() as $use => $alias) {
 
 /**
  * Class <?= $phpFile->getName() ?>.
+ *
 <?php foreach ($config->getPhpDoc() as $annotation => $content) {
     echo sprintf(' * @%s %s', $annotation, $content);
     echo "\n";
-} ?>
- *
+} ?><?= count($config->getPhpDoc()) > 0 ? " *\n" : '' ?>
 <?php foreach ($phpFile->getClasses() as $class) {
     echo sprintf(' * @covers \\%s', $phpFile->getFullNameFor($class->getName()));
     echo "\n";

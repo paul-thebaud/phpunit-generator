@@ -4,6 +4,7 @@ namespace PhpUnitGen\Renderer;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
+use PhpUnitGen\Renderer\Helper\ParametersHelper;
 use PhpUnitGen\Renderer\RendererInterface\PhpFileRendererInterface;
 use Slim\Views\PhpRenderer;
 
@@ -35,6 +36,7 @@ class PhpFileRenderer implements PhpFileRendererInterface
     ) {
         $this->renderer = $renderer;
         $this->renderer->addAttribute('config', $config);
+        $this->renderer->addAttribute('parametersHelper', new ParametersHelper());
     }
 
     /**

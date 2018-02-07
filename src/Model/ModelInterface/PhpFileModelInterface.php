@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Model\ModelInterface;
 
 use Doctrine\Common\Collections\Collection;
+use PhpUnitGen\Annotation\MockAnnotation;
 use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\NameInterface;
 use PhpUnitGen\Model\PropertyInterface\NamespaceInterface;
@@ -105,4 +106,16 @@ interface PhpFileModelInterface extends NameInterface, NamespaceInterface, Class
      * @return InterfaceModelInterface[]|Collection All interfaces contained in the file.
      */
     public function getInterfaces(): Collection;
+
+    /**
+     * @return InterfaceModelInterface[]|TraitModelInterface[]|ClassModelInterface[]|Collection All interfaces, traits
+     *                                                                                          and classes in the
+     *                                                                                          file.
+     */
+    public function getClassLikeCollection(): Collection;
+
+    /**
+     * @return Collection|MockAnnotation[] The mock annotations.
+     */
+    public function getMockAnnotations(): Collection;
 }

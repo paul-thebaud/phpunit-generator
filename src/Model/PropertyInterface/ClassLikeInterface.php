@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Model\PropertyInterface;
 
 use Doctrine\Common\Collections\Collection;
+use PhpUnitGen\Annotation\ConstructorAnnotation;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 
 /**
@@ -14,7 +15,7 @@ use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-interface ClassLikeInterface extends NodeInterface
+interface ClassLikeInterface extends NodeInterface, DocumentationInterface
 {
     /**
      * @param FunctionModelInterface $function The function to add on this parent.

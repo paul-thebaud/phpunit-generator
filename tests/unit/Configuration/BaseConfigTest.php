@@ -41,7 +41,7 @@ class BaseConfigTest extends TestCase
     {
         $config = new BaseConfig();
 
-        $this->assertEquals([
+        $this->assertSame([
             'interface' => false,
             'auto'      => false,
             'phpdoc'    => []
@@ -158,12 +158,12 @@ class BaseConfigTest extends TestCase
     {
         $config = new BaseConfig();
 
-        $this->assertEquals(false, $config->hasInterfaceParsing());
-        $this->assertEquals(false, $config->hasAuto());
-        $this->assertEquals(
+        $this->assertSame(false, $config->hasInterfaceParsing());
+        $this->assertSame(false, $config->hasAuto());
+        $this->assertSame(
             realpath(__DIR__ . '/../../../template'),
             $config->getTemplatesPath()
         );
-        $this->assertEquals([], $config->getPhpDoc());
+        $this->assertSame([], $config->getPhpDoc());
     }
 }

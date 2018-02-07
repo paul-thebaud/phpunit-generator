@@ -3,6 +3,11 @@
 namespace PhpUnitGen\Model\ModelInterface;
 
 use Doctrine\Common\Collections\Collection;
+use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
+use PhpUnitGen\Annotation\AssertionAnnotation;
+use PhpUnitGen\Annotation\GetterAnnotation;
+use PhpUnitGen\Annotation\MockAnnotation;
+use PhpUnitGen\Annotation\SetterAnnotation;
 use PhpUnitGen\Model\PropertyInterface\AbstractInterface;
 use PhpUnitGen\Model\PropertyInterface\DocumentationInterface;
 use PhpUnitGen\Model\PropertyInterface\FinalInterface;
@@ -58,4 +63,24 @@ interface FunctionModelInterface extends
      * @return bool True if the function is global.
      */
     public function isGlobal(): bool;
+
+    /**
+     * @return GetterAnnotation|null The getter annotation, null if none.
+     */
+    public function getGetterAnnotation(): ?GetterAnnotation;
+
+    /**
+     * @return SetterAnnotation|null The setter annotation, null if none.
+     */
+    public function getSetterAnnotation(): ?SetterAnnotation;
+
+    /**
+     * @return Collection|AssertionAnnotation[] The assertion annotations.
+     */
+    public function getAssertAnnotations(): Collection;
+
+    /**
+     * @return Collection|MockAnnotation[] The mock annotations.
+     */
+    public function getMockAnnotations(): Collection;
 }

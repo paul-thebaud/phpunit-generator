@@ -15,7 +15,7 @@ use PhpUnitGen\Model\PropertyTrait\NodeTrait;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-abstract class AbstractAnnotation implements AnnotationInterface, NodeInterface
+abstract class AbstractAnnotation implements AnnotationInterface
 {
     use NodeTrait;
 

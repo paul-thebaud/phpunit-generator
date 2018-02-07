@@ -76,8 +76,8 @@ class GenerateCommandTest extends TestCase
             ->getProperty('stopwatch');
         $stopwatchProperty->setAccessible(true);
 
-        $this->assertEquals($this->containerFactory, $containerFactoryProperty->getValue($command));
-        $this->assertEquals($this->stopwatch, $stopwatchProperty->getValue($command));
+        $this->assertSame($this->containerFactory, $containerFactoryProperty->getValue($command));
+        $this->assertSame($this->stopwatch, $stopwatchProperty->getValue($command));
     }
 
     /**
@@ -85,40 +85,40 @@ class GenerateCommandTest extends TestCase
      */
     public function testConfigure(): void
     {
-        $this->assertEquals('generate', $this->command->getName());
-        $this->assertEquals(['gen'], $this->command->getAliases());
-        $this->assertEquals('Generate unit tests skeletons.', $this->command->getDescription());
-        $this->assertEquals('Use it to generate your unit tests skeletons. See documentation on ' .
+        $this->assertSame('generate', $this->command->getName());
+        $this->assertSame(['gen'], $this->command->getAliases());
+        $this->assertSame('Generate unit tests skeletons.', $this->command->getDescription());
+        $this->assertSame('Use it to generate your unit tests skeletons. See documentation on ' .
             'https://github.com/paul-thebaud/phpunit-generator/blob/master/DOCUMENTATION.md', $this->command->getHelp());
 
         $configOption = $this->command->getDefinition()->getOption('config');
-        $this->assertEquals('c', $configOption->getShortcut());
+        $this->assertSame('c', $configOption->getShortcut());
         $this->assertTrue($configOption->isValueRequired());
-        $this->assertEquals('The configuration file path.', $configOption->getDescription());
-        $this->assertEquals('phpunitgen.yml', $configOption->getDefault());
+        $this->assertSame('The configuration file path.', $configOption->getDescription());
+        $this->assertSame('phpunitgen.yml', $configOption->getDefault());
 
         $fileOption = $this->command->getDefinition()->getOption('file');
-        $this->assertEquals('f', $fileOption->getShortcut());
+        $this->assertSame('f', $fileOption->getShortcut());
         $this->assertFalse($fileOption->acceptValue());
-        $this->assertEquals('If you want file parsing.', $fileOption->getDescription());
+        $this->assertSame('If you want file parsing.', $fileOption->getDescription());
 
         $dirOption = $this->command->getDefinition()->getOption('dir');
-        $this->assertEquals('d', $dirOption->getShortcut());
+        $this->assertSame('d', $dirOption->getShortcut());
         $this->assertFalse($dirOption->acceptValue());
-        $this->assertEquals('If you want directory parsing.', $dirOption->getDescription());
+        $this->assertSame('If you want directory parsing.', $dirOption->getDescription());
 
         $defaultOption = $this->command->getDefinition()->getOption('default');
-        $this->assertEquals('D', $defaultOption->getShortcut());
+        $this->assertSame('D', $defaultOption->getShortcut());
         $this->assertFalse($defaultOption->acceptValue());
-        $this->assertEquals('If you want to use the default configuration.', $defaultOption->getDescription());
+        $this->assertSame('If you want to use the default configuration.', $defaultOption->getDescription());
 
         $sourceParameter = $this->command->getDefinition()->getArgument('source');
         $this->assertFalse($sourceParameter->isRequired());
-        $this->assertEquals('The source path (directory if "dir" option set).', $sourceParameter->getDescription());
+        $this->assertSame('The source path (directory if "dir" option set).', $sourceParameter->getDescription());
 
         $targetParameter = $this->command->getDefinition()->getArgument('target');
         $this->assertFalse($targetParameter->isRequired());
-        $this->assertEquals('The target path (directory if "dir" option set).', $targetParameter->getDescription());
+        $this->assertSame('The target path (directory if "dir" option set).', $targetParameter->getDescription());
     }
 
     /**
@@ -152,7 +152,7 @@ class GenerateCommandTest extends TestCase
 
         $styledIO->expects($this->never())->method('error');
 
-        $this->assertEquals(0, $executeMethod->invoke($this->command, $input, $output));
+        $this->assertSame(0, $executeMethod->invoke($this->command, $input, $output));
     }
 
     /**
@@ -187,7 +187,7 @@ class GenerateCommandTest extends TestCase
         $styledIO->expects($this->once())->method('error')
             ->with('Exception in executor');
 
-        $this->assertEquals(-1, $executeMethod->invoke($this->command, $input, $output));
+        $this->assertSame(-1, $executeMethod->invoke($this->command, $input, $output));
     }
 
     /**
@@ -233,7 +233,7 @@ class GenerateCommandTest extends TestCase
         $config = $getConfigurationMethod->invoke($command, $input);
 
         $this->assertEmpty($config->getFiles());
-        $this->assertEquals(['source' => 'target'], $config->getDirectories());
+        $this->assertSame(['source' => 'target'], $config->getDirectories());
     }
 
     /**
@@ -263,7 +263,7 @@ class GenerateCommandTest extends TestCase
         $config = $getConfigurationMethod->invoke($command, $input);
 
         $this->assertEmpty($config->getDirectories());
-        $this->assertEquals(['source' => 'target'], $config->getFiles());
+        $this->assertSame(['source' => 'target'], $config->getFiles());
     }
 
     /**
@@ -297,7 +297,7 @@ class GenerateCommandTest extends TestCase
         $getConfigurationMethod = (new \ReflectionClass(GenerateCommand::class))->getMethod('getConfiguration');
         $getConfigurationMethod->setAccessible(true);
 
-        $this->assertEquals($config, $getConfigurationMethod->invoke($command, $input));
+        $this->assertSame($config, $getConfigurationMethod->invoke($command, $input));
     }
 
     /**
@@ -331,7 +331,40 @@ class GenerateCommandTest extends TestCase
         $getConfigurationMethod = (new \ReflectionClass(GenerateCommand::class))->getMethod('getConfiguration');
         $getConfigurationMethod->setAccessible(true);
 
-        $this->assertEquals($config, $getConfigurationMethod->invoke($command, $input));
+        $this->assertSame($config, $getConfigurationMethod->invoke($command, $input));
+    }
+
+    /**
+     * @covers \PhpUnitGen\Console\GenerateCommand::getConfiguration()
+     */
+    public function testGetConfigurationWithEqualSymbol(): void
+    {
+        $input = $this->createMock(InputInterface::class);
+        $configFactory = $this->createMock(AbstractConsoleConfigFactory::class);
+        $config = $this->createMock(ConsoleConfigInterface::class);
+
+        $command = $this->getMockBuilder(GenerateCommand::class)
+            ->setConstructorArgs([$this->containerFactory, $this->stopwatch])
+            ->setMethods(['getConfigurationFactory', 'validatePathsExist'])
+            ->getMock();
+
+        $command->expects($this->never())->method('validatePathsExist')
+            ->with($input);
+        $command->expects($this->once())->method('getConfigurationFactory')
+            ->with('config.php')->willReturn($configFactory);
+
+        $input->expects($this->exactly(4))->method('getOption')
+            ->withConsecutive(['default'], ['config'], ['dir'], ['file'])
+            ->willReturnOnConsecutiveCalls(false, '=config.php', false, false);
+        $input->expects($this->never(2))->method('getArgument');
+
+        $configFactory->expects($this->once())->method('invoke')
+            ->with('config.php')->willReturn($config);
+
+        $getConfigurationMethod = (new \ReflectionClass(GenerateCommand::class))->getMethod('getConfiguration');
+        $getConfigurationMethod->setAccessible(true);
+
+        $this->assertSame($config, $getConfigurationMethod->invoke($command, $input));
     }
 
     /**
@@ -364,7 +397,7 @@ class GenerateCommandTest extends TestCase
         $getConfigurationMethod = (new \ReflectionClass(GenerateCommand::class))->getMethod('getConfiguration');
         $getConfigurationMethod->setAccessible(true);
 
-        $this->assertEquals($config, $getConfigurationMethod->invoke($command, $input));
+        $this->assertSame($config, $getConfigurationMethod->invoke($command, $input));
     }
 
     /**

@@ -46,14 +46,14 @@ class ContainerFactoryTest extends TestCase
 
         $this->assertInstanceOf(Container::class, $container);
 
-        $this->assertEquals($config, $container->get(ConfigInterface::class));
-        $this->assertEquals($config, $container->get(ConsoleConfigInterface::class));
+        $this->assertSame($config, $container->get(ConfigInterface::class));
+        $this->assertSame($config, $container->get(ConsoleConfigInterface::class));
 
         $this->assertInstanceOf(Parser\Multiple::class, $container->get(Parser::class));
 
         $phpRenderer = $container->get(PhpRenderer::class);
         $this->assertInstanceOf(PhpRenderer::class, $phpRenderer);
-        $this->assertEquals('templates/path/', $phpRenderer->getTemplatePath());
+        $this->assertSame('templates/path/', $phpRenderer->getTemplatePath());
 
         $this->assertInstanceOf(PhpParser::class, $container->get(PhpParserInterface::class));
         $this->assertInstanceOf(Executor::class, $container->get(ExecutorInterface::class));

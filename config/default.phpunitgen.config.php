@@ -6,7 +6,7 @@ return [
     // If you want to generate tests for Interface too
     'interface' => false,
     // Automatically generate tests for getter / setter method
-    'auto'      => true,
+    'auto'      => false,
     // Ignore errors that can be ignored
     'ignore'    => true,
     // Regex (/.*config.php/ for example) that files must not match to have a tests generation

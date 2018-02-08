@@ -2,6 +2,7 @@
 
 namespace PhpUnitGen\Renderer\Helper;
 
+use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\PropertyInterface\TypeInterface;
 
 /**
@@ -22,11 +23,16 @@ class ValueHelper
      * @param string|null $customType The custom type as a string if exists.
      *
      * @return string The generated PHP value string.
+     *
+     * @throws Exception If a custom type does not have a custom string type (to create the mock).
      */
     public function invoke(?int $type = null, ?string $customType = null): string
     {
         switch (true) {
             case TypeInterface::CUSTOM === $type:
+                if ($customType === null) {
+                    throw new Exception('Custom type must have a custom class to mock');
+                }
                 return sprintf('$this->createMock(%s::class)', $customType);
             case TypeInterface::OBJECT === $type:
                 return '$this->createMock(\\DateTime::class)';
@@ -45,7 +51,7 @@ class ValueHelper
             case TypeInterface::MIXED === $type:
                 return '"a string to test"';
             default:
-                return '/** @todo Insert a value matching type here */';
+                return '/** @todo Insert a value with a correct type here */';
         }
     }
 }

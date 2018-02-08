@@ -128,9 +128,10 @@ $myUnitTestsSkeleton = $container->get(ExecutorInterface::class)->invoke($myCode
 Beyond using a configuration for your tests skeletons generation, PhpUnitGen provides
 PHPDoc annotation that you can use in your files:
 
-* Class instantiation information: `@PhpUnitGen\constructor`.
-* Automatic assertion for getter / setter methods: `@PhpUnitGen\getter` or `@PhpUnitGen\setter`.
-* PHPUnit assertion on functions / methods results: `@PhpUnitGen\` with a PHPUnit assertion (`@PhpUnitGen\assertTrue`).
+* Class instantiation information: `@PhpUnitGen\construct`.
+* Automatic assertion for getter / setter methods: `@PhpUnitGen\get` or `@PhpUnitGen\set`.
+* Method parameters: `@PhpUnitGen\params`.
+* PHPUnit assertion on functions / methods results: `@PhpUnitGen\...` with a PHPUnit assertion (like `@PhpUnitGen\assertTrue`).
 * Mock creation for methods call: `@PhpUnitGen\mock`.
 
 These annotations __MUST__ be written in a PHPDoc block.
@@ -152,6 +153,8 @@ They all start with `@PhpUnitGen` or `@Pug`
 function doSomething() {}
 ```
 
+You can find basic examples on using annotations [here](examples) with input class, and output tests class.
+
 __Note__: PhpUnitGen annotations are __made to generate simple tests__.
 If you want to test complex methods, you should write your assertions yourself.
 
@@ -170,7 +173,8 @@ of the return type of the getter or of the argument type of the setter.
 
 Some annotations will need parameters. When generating tests skeletons, PhpUnitGen parse
 these annotations like JSON content, so all string must be quoted with `"`.
-So do not forget to escape the backslash `\` or the `"` chars.
+
+So __do not forget__ to escape the backslash `\` or the `"` chars with a backslash `\`.
 
 ### Class instantiation information
 
@@ -183,7 +187,7 @@ If you provide this annotation on your class documentation, it will instantiate 
 namespace Company;
 /**
  * Construct the instance to tests by calling 'new Employee("John", "0123456789")'
- * @PhpUnitGen\constructor(["'John'", "'012-345-6789'"])
+ * @PhpUnitGen\construct(["'John'", "'012-345-6789'"])
  */
 class Employee extends AbstractPerson
 {
@@ -200,7 +204,7 @@ can provide it to PhpUnitGen by adding the class absolute name:
 namespace Company;
 /**
  * Construct the instance to tests by calling 'new \Company\Employee("John", "0123456789")'
- * @PhpUnitGen\constructor("\Company\Employee", ["'John'", "'0123456789'"])
+ * @PhpUnitGen\construct("\Company\Employee", ["'John'", "'0123456789'"])
  */
 abstract class AbstractPerson {}
 ```
@@ -214,7 +218,7 @@ simple annotations.
 <?php
 /**
  * Assert that when calling this method the property $name is get.
- * @PhpUnitGen\getter
+ * @PhpUnitGen\get
  */
 public function getName(): string
 {
@@ -222,7 +226,7 @@ public function getName(): string
 }
 /**
  * Assert that when calling this method the property $name is set.
- * @PhpUnitGen\setter
+ * @PhpUnitGen\set
  */
 public function setName(string $name): void
 {
@@ -237,7 +241,7 @@ just add a string to describe the name of the property.
 <?php
 /**
  * Assert that when calling this method the property $phone is get.
- * @PhpUnitGen\getter("phone")
+ * @PhpUnitGen\get("phone")
  */
 public function getCellphone(): string
 {
@@ -245,7 +249,7 @@ public function getCellphone(): string
 }
 /**
  * Assert that when calling this method the property $phone is set.
- * @PhpUnitGen\setter("phone")
+ * @PhpUnitGen\set("phone")
  */
 public function setCellphone(string $phone): void
 {
@@ -253,9 +257,9 @@ public function setCellphone(string $phone): void
 }
 ```
 
-__Note__: `getter` and `setter` annotations support static and not static method in classes, traits or interfaces,
+__Note__: `get` and `set` annotations support static and not static method in classes, traits or interfaces,
 but do not support global functions (out of classes, traits or interfaces).
-Also, a `getter` or a `setter` is a public method.
+Also, for PhpUnitGen, a `getter` or a `setter` is a public method.
 
 ### Method result assertions
 
@@ -309,7 +313,7 @@ namespace Company;
  * @PhpUnitGen\mock("\\Company\\Employee", "employee")
  * 
  * Use the class property "$employee" with $this in the constructor.
- * @PhpUnitGen\constructor(["$this->employee"])
+ * @PhpUnitGen\construct(["$this->employee"])
  */
 class EmployeeCard {
     public function __construct(Employee $employee) {}

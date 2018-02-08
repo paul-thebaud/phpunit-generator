@@ -8,7 +8,7 @@ namespace Company\Entity;
  * @PhpUnitGen\mock("Employee", "employeeMock")
  * @PhpUnitGen\mock("\\DateTime", "dateMock")
  *
- * @PhpUnitGen\constructor([
+ * @PhpUnitGen\construct([
  *     "$this->employeeMock",
  *     "$this->dateMock"
  * ])
@@ -24,7 +24,7 @@ class EmployeeCard
     }
 
     /**
-     * @PhpUnitGen\getter
+     * @PhpUnitGen\get
      */
     public function getOwner(): Employee
     {
@@ -32,7 +32,7 @@ class EmployeeCard
     }
 
     /**
-     * @PhpUnitGen\setter
+     * @PhpUnitGen\set
      */
     public function setOwner(Employee $owner): void
     {
@@ -40,7 +40,7 @@ class EmployeeCard
     }
 
     /**
-     * @PhpUnitGen\getter
+     * @PhpUnitGen\get
      */
     public function getExpirationDate(): \DateTime
     {
@@ -48,7 +48,7 @@ class EmployeeCard
     }
 
     /**
-     * @PhpUnitGen\setter
+     * @PhpUnitGen\set
      */
     public function setExpirationDate(\DateTime $expirationDate): void
     {

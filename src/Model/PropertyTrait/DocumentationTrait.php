@@ -4,10 +4,10 @@ namespace PhpUnitGen\Model\PropertyTrait;
 
 use Doctrine\Common\Collections\Collection;
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
-use PhpUnitGen\Annotation\AssertionAnnotation;
-use PhpUnitGen\Annotation\ConstructorAnnotation;
-use PhpUnitGen\Annotation\GetterAnnotation;
-use PhpUnitGen\Annotation\SetterAnnotation;
+use PhpUnitGen\Annotation\AssertAnnotation;
+use PhpUnitGen\Annotation\ConstructAnnotation;
+use PhpUnitGen\Annotation\GetAnnotation;
+use PhpUnitGen\Annotation\SetAnnotation;
 
 /**
  * Trait DocumentationTrait.

@@ -8,7 +8,7 @@ use PhpUnitGen\Exception\JsonException;
 use PhpUnitGen\Util\Json;
 
 /**
- * Class SetterAnnotation.
+ * Class AssertAnnotation.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -16,19 +16,19 @@ use PhpUnitGen\Util\Json;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class SetterAnnotation extends AbstractAnnotation
+class AssertAnnotation extends AbstractAnnotation
 {
     /**
-     * @var string $property The name of the property to get.
+     * @var string|null $expected The expected value, null if none.
      */
-    private $property;
+    private $expected;
 
     /**
      * {@inheritdoc}
      */
     public function getType(): int
     {
-        return AnnotationInterface::TYPE_SETTER;
+        return AnnotationInterface::TYPE_ASSERT;
     }
 
     /**
@@ -41,25 +41,22 @@ class SetterAnnotation extends AbstractAnnotation
             try {
                 $decoded = Json::decode($this->getStringContent());
             } catch (JsonException $exception) {
-                throw new AnnotationParseException('"setter" annotation content is invalid (invalid JSON content)');
+                throw new AnnotationParseException('"assertion" annotation content is invalid (invalid JSON content)');
             }
             if (! is_string($decoded)) {
                 throw new AnnotationParseException(
-                    '"setter" annotation content is invalid (property name must be a string)'
+                    '"assertion" annotation content is invalid (expected value must be a string)'
                 );
             }
-            $this->property = $decoded;
-        } else {
-            $this->property = preg_replace('/^set/', '', $this->getParentNode()->getName());
-            $this->property = lcfirst($this->property);
+            $this->expected = $decoded;
         }
     }
 
     /**
-     * @return string The name of the property to get.
+     * @return string The expected value, null if none.
      */
-    public function getProperty(): string
+    public function getExpected(): ?string
     {
-        return $this->property;
+        return $this->expected;
     }
 }

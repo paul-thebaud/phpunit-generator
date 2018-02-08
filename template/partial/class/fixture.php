@@ -16,7 +16,7 @@ if (count($phpFile->getMockAnnotations()) > 0) {
 foreach($phpFile->getClassLikeCollection() as $classLike) {
     $parameters = [];
     $hasCustomConstructor = false;
-    $constructorAnnotation = $classLike->getConstructorAnnotation();
+    $constructorAnnotation = $classLike->getConstructAnnotation();
 
     if ($constructorAnnotation !== null) {
         if ($constructorAnnotation->getClass() !== null) {

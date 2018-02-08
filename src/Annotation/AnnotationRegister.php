@@ -60,7 +60,7 @@ class AnnotationRegister
     {
         if (! $parent->isGlobal() && $parent->isPublic()) {
             // For public or not global function, all annotation except constructor
-            if ($annotation->getType() !== AnnotationInterface::TYPE_CONSTRUCTOR) {
+            if ($annotation->getType() !== AnnotationInterface::TYPE_CONSTRUCT) {
                 $annotation->setParentNode($parent);
                 $parent->addAnnotation($annotation);
                 $annotation->compile();
@@ -94,7 +94,7 @@ class AnnotationRegister
             $annotation->compile();
         } else {
             // If it is a constructor, register in the current $parent
-            if ($annotation->getType() === AnnotationInterface::TYPE_CONSTRUCTOR) {
+            if ($annotation->getType() === AnnotationInterface::TYPE_CONSTRUCT) {
                 $annotation->setParentNode($parent);
                 $parent->addAnnotation($annotation);
                 $annotation->compile();

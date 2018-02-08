@@ -3,7 +3,7 @@
 namespace PhpUnitGen\Model\PropertyInterface;
 
 use Doctrine\Common\Collections\Collection;
-use PhpUnitGen\Annotation\ConstructorAnnotation;
+use PhpUnitGen\Annotation\ConstructAnnotation;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 
 /**

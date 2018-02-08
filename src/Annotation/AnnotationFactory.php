@@ -30,14 +30,14 @@ class AnnotationFactory
     {
         $name = preg_replace('/@(?i)(PhpUnitGen|Pug)\\\\/', '', $name);
         switch (true) {
-            case strcasecmp($name, 'getter') === 0:
-                $annotation = new GetterAnnotation();
+            case strcasecmp($name, 'get') === 0:
+                $annotation = new GetAnnotation();
                 break;
-            case strcasecmp($name, 'setter') === 0:
-                $annotation = new SetterAnnotation();
+            case strcasecmp($name, 'set') === 0:
+                $annotation = new SetAnnotation();
                 break;
-            case strcasecmp($name, 'constructor') === 0:
-                $annotation = new ConstructorAnnotation();
+            case strcasecmp($name, 'construct') === 0:
+                $annotation = new ConstructAnnotation();
                 break;
             case strcasecmp($name, 'mock') === 0:
                 $annotation = new MockAnnotation();
@@ -46,7 +46,7 @@ class AnnotationFactory
                 $annotation = new ParamsAnnotation();
                 break;
             case strcasecmp(substr($name, 0, 6), 'assert') === 0:
-                $annotation = new AssertionAnnotation();
+                $annotation = new AssertAnnotation();
                 break;
             default:
                 throw new AnnotationParseException(

@@ -4,11 +4,11 @@ namespace PhpUnitGen\Model\ModelInterface;
 
 use Doctrine\Common\Collections\Collection;
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
-use PhpUnitGen\Annotation\AssertionAnnotation;
-use PhpUnitGen\Annotation\GetterAnnotation;
+use PhpUnitGen\Annotation\AssertAnnotation;
+use PhpUnitGen\Annotation\GetAnnotation;
 use PhpUnitGen\Annotation\MockAnnotation;
 use PhpUnitGen\Annotation\ParamsAnnotation;
-use PhpUnitGen\Annotation\SetterAnnotation;
+use PhpUnitGen\Annotation\SetAnnotation;
 use PhpUnitGen\Model\PropertyInterface\AbstractInterface;
 use PhpUnitGen\Model\PropertyInterface\DocumentationInterface;
 use PhpUnitGen\Model\PropertyInterface\FinalInterface;
@@ -71,17 +71,17 @@ interface FunctionModelInterface extends
     public function getParamsAnnotation(): ?ParamsAnnotation;
 
     /**
-     * @return GetterAnnotation|null The getter annotation, null if none.
+     * @return GetAnnotation|null The getter annotation, null if none.
      */
-    public function getGetterAnnotation(): ?GetterAnnotation;
+    public function getGetAnnotation(): ?GetAnnotation;
 
     /**
-     * @return SetterAnnotation|null The setter annotation, null if none.
+     * @return SetAnnotation|null The set annotation, null if none.
      */
-    public function getSetterAnnotation(): ?SetterAnnotation;
+    public function getSetAnnotation(): ?SetAnnotation;
 
     /**
-     * @return Collection|AssertionAnnotation[] The assertion annotations.
+     * @return Collection|AssertAnnotation[] The assertion annotations.
      */
     public function getAssertAnnotations(): Collection;
 

@@ -5,7 +5,7 @@ namespace Company\Entity;
 /**
  * Class Employee.
  *
- * @PhpUnitGen\constructor(["1", "'John'", "1234567890"])
+ * @PhpUnitGen\construct(["1", "'John'", "1234567890"])
  */
 class Employee extends AbstractEntity
 {
@@ -19,7 +19,7 @@ class Employee extends AbstractEntity
     }
 
     /**
-     * @PhpUnitGen\getter()
+     * @PhpUnitGen\get()
      */
     public function getName(): string
     {
@@ -27,7 +27,7 @@ class Employee extends AbstractEntity
     }
 
     /**
-     * @PhpUnitGen\setter()
+     * @PhpUnitGen\set()
      */
     public function setName(string $name): void
     {
@@ -35,7 +35,7 @@ class Employee extends AbstractEntity
     }
 
     /**
-     * @PhpUnitGen\getter("phone")
+     * @PhpUnitGen\get("phone")
      */
     public function getCellPhone(): int
     {
@@ -43,7 +43,7 @@ class Employee extends AbstractEntity
     }
 
     /**
-     * @PhpUnitGen\setter("phone")
+     * @PhpUnitGen\set("phone")
      */
     public function setCellphonePhone(int $phone): void
     {
@@ -51,6 +51,7 @@ class Employee extends AbstractEntity
     }
 
     /**
+     * @PhpUnitGen\assertNotNull()
      * @PhpUnitGen\assertInternalType("'string'")
      * @PhpUnitGen\assertSame("'John: 1234567890'")
      */

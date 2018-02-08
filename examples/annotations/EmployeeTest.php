@@ -101,6 +101,7 @@ class EmployeeTest extends TestCase
     public function testToString(): void
     {
         $result = $this->employee->toString();
+        $this->assertNotNull($result);
         $this->assertInternalType('string', $result);
         $this->assertSame('John: 1234567890', $result);
     }

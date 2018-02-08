@@ -5,11 +5,11 @@ namespace PhpUnitGen\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
-use PhpUnitGen\Annotation\AssertionAnnotation;
-use PhpUnitGen\Annotation\GetterAnnotation;
+use PhpUnitGen\Annotation\AssertAnnotation;
+use PhpUnitGen\Annotation\GetAnnotation;
 use PhpUnitGen\Annotation\MockAnnotation;
 use PhpUnitGen\Annotation\ParamsAnnotation;
-use PhpUnitGen\Annotation\SetterAnnotation;
+use PhpUnitGen\Annotation\SetAnnotation;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\ParameterModelInterface;
 use PhpUnitGen\Model\ModelInterface\ReturnModelInterface;
@@ -129,10 +129,10 @@ class FunctionModel implements FunctionModelInterface
     /**
      * {@inheritdoc}
      */
-    public function getGetterAnnotation(): ?GetterAnnotation
+    public function getGetAnnotation(): ?GetAnnotation
     {
         $annotations = $this->annotations->filter(function (AnnotationInterface $annotation) {
-            return $annotation->getType() === AnnotationInterface::TYPE_GETTER;
+            return $annotation->getType() === AnnotationInterface::TYPE_GET;
         });
         if ($annotations->isEmpty()) {
             return null;
@@ -143,10 +143,10 @@ class FunctionModel implements FunctionModelInterface
     /**
      * {@inheritdoc}
      */
-    public function getSetterAnnotation(): ?SetterAnnotation
+    public function getSetAnnotation(): ?SetAnnotation
     {
         $annotations = $this->annotations->filter(function (AnnotationInterface $annotation) {
-            return $annotation->getType() === AnnotationInterface::TYPE_SETTER;
+            return $annotation->getType() === AnnotationInterface::TYPE_SET;
         });
         if ($annotations->isEmpty()) {
             return null;

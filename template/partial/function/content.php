@@ -6,9 +6,9 @@ if (count($function->getMockAnnotations()) > 0) {
     echo "\n";
 }
 
-if (($getter = $function->getGetterAnnotation()) !== null) {
+if (($getter = $function->getGetAnnotation()) !== null) {
     echo $this->fetch('annotation/getter.php', ['function' => $function, 'getterAnnotation' => $getter]);
-} else if (($setter = $function->getSetterAnnotation()) !== null) {
+} else if (($setter = $function->getSetAnnotation()) !== null) {
     echo $this->fetch('annotation/setter.php', ['function' => $function, 'setterAnnotation' => $setter]);
 } else if (count($function->getAssertAnnotations()) > 0) {
     echo $this->fetch('partial/function/call.php', ['function' => $function]);

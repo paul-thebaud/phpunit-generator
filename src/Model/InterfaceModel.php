@@ -4,7 +4,7 @@ namespace PhpUnitGen\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
-use PhpUnitGen\Annotation\ConstructorAnnotation;
+use PhpUnitGen\Annotation\ConstructAnnotation;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
 use PhpUnitGen\Model\PropertyTrait\ClassLikeTrait;
 use PhpUnitGen\Model\PropertyTrait\DocumentationTrait;
@@ -37,12 +37,12 @@ class InterfaceModel implements InterfaceModelInterface
     }
 
     /**
-     * @return ConstructorAnnotation|null The constructor annotation, null if none.
+     * @return ConstructAnnotation|null The construct annotation, null if none.
      */
-    public function getConstructorAnnotation(): ?ConstructorAnnotation
+    public function getConstructAnnotation(): ?ConstructAnnotation
     {
         $annotations = $this->annotations->filter(function (AnnotationInterface $annotation) {
-            return $annotation->getType() === AnnotationInterface::TYPE_CONSTRUCTOR;
+            return $annotation->getType() === AnnotationInterface::TYPE_CONSTRUCT;
         });
         if ($annotations->isEmpty()) {
             return null;

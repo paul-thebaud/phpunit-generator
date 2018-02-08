@@ -8,7 +8,7 @@ use PhpUnitGen\Exception\JsonException;
 use PhpUnitGen\Util\Json;
 
 /**
- * Class GetterAnnotation.
+ * Class SetAnnotation.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -16,7 +16,7 @@ use PhpUnitGen\Util\Json;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class GetterAnnotation extends AbstractAnnotation
+class SetAnnotation extends AbstractAnnotation
 {
     /**
      * @var string $property The name of the property to get.
@@ -28,7 +28,7 @@ class GetterAnnotation extends AbstractAnnotation
      */
     public function getType(): int
     {
-        return AnnotationInterface::TYPE_GETTER;
+        return AnnotationInterface::TYPE_SET;
     }
 
     /**
@@ -41,16 +41,16 @@ class GetterAnnotation extends AbstractAnnotation
             try {
                 $decoded = Json::decode($this->getStringContent());
             } catch (JsonException $exception) {
-                throw new AnnotationParseException('"getter" annotation content is invalid (invalid JSON content)');
+                throw new AnnotationParseException('"setter" annotation content is invalid (invalid JSON content)');
             }
             if (! is_string($decoded)) {
                 throw new AnnotationParseException(
-                    '"getter" annotation content is invalid (property name must be a string)'
+                    '"setter" annotation content is invalid (property name must be a string)'
                 );
             }
             $this->property = $decoded;
         } else {
-            $this->property = preg_replace('/^get/', '', $this->getParentNode()->getName());
+            $this->property = preg_replace('/^set/', '', $this->getParentNode()->getName());
             $this->property = lcfirst($this->property);
         }
     }

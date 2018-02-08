@@ -5,7 +5,7 @@ namespace Company\Entity;
 /**
  * Class AbstractEntity.
  *
- * @PhpUnitGen\constructor(["1"])
+ * @PhpUnitGen\construct(["1"])
  */
 abstract class AbstractEntity
 {
@@ -17,7 +17,7 @@ abstract class AbstractEntity
     }
 
     /**
-     * @PhpUnitGen\getter
+     * @PhpUnitGen\get
      */
     public function getId(): int
     {

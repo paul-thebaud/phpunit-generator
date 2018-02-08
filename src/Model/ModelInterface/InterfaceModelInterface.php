@@ -2,7 +2,7 @@
 
 namespace PhpUnitGen\Model\ModelInterface;
 
-use PhpUnitGen\Annotation\ConstructorAnnotation;
+use PhpUnitGen\Annotation\ConstructAnnotation;
 use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\NameInterface;
 
@@ -18,7 +18,7 @@ use PhpUnitGen\Model\PropertyInterface\NameInterface;
 interface InterfaceModelInterface extends NameInterface, ClassLikeInterface
 {
     /**
-     * @return ConstructorAnnotation|null The constructor annotation, null if none.
+     * @return ConstructAnnotation|null The construct annotation, null if none.
      */
-    public function getConstructorAnnotation(): ?ConstructorAnnotation;
+    public function getConstructAnnotation(): ?ConstructAnnotation;
 }

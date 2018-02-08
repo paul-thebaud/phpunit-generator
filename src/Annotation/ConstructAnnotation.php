@@ -10,7 +10,7 @@ use PhpUnitGen\Util\Json;
 use Respect\Validation\Validator;
 
 /**
- * Class ConstructorAnnotation.
+ * Class ConstructAnnotation.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -18,7 +18,7 @@ use Respect\Validation\Validator;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class ConstructorAnnotation extends AbstractAnnotation
+class ConstructAnnotation extends AbstractAnnotation
 {
     /**
      * @var string|null $class The class name to use to construct the instance, null if none.
@@ -35,7 +35,7 @@ class ConstructorAnnotation extends AbstractAnnotation
      */
     public function getType(): int
     {
-        return AnnotationInterface::TYPE_CONSTRUCTOR;
+        return AnnotationInterface::TYPE_CONSTRUCT;
     }
 
     /**

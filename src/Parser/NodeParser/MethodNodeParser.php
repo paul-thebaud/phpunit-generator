@@ -3,8 +3,8 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
-use PhpUnitGen\Annotation\GetterAnnotation;
-use PhpUnitGen\Annotation\SetterAnnotation;
+use PhpUnitGen\Annotation\GetAnnotation;
+use PhpUnitGen\Annotation\SetAnnotation;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
 use PhpUnitGen\Parser\NodeParserUtil\MethodVisibilityHelper;
@@ -67,7 +67,7 @@ class MethodNodeParser extends AbstractFunctionNodeParser
             // Check if property exists
             $property = lcfirst($matches[1]);
             if ($function->getParentNode()->hasAttribute($property, $function->isStatic())) {
-                $annotation = new GetterAnnotation();
+                $annotation = new GetAnnotation();
                 $annotation->setName('@PhpUnitGen\\getter');
                 $function->addAnnotation($annotation);
                 $annotation->setParentNode($function);
@@ -89,7 +89,7 @@ class MethodNodeParser extends AbstractFunctionNodeParser
             // Check if property exists
             $property = lcfirst($matches[1]);
             if ($function->getParentNode()->hasAttribute($property, $function->isStatic())) {
-                $annotation = new SetterAnnotation();
+                $annotation = new SetAnnotation();
                 $annotation->setName('@PhpUnitGen\\setter');
                 $annotation->setParentNode($function);
                 $function->addAnnotation($annotation);

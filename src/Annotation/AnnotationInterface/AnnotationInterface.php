@@ -17,29 +17,29 @@ use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 interface AnnotationInterface extends NodeInterface
 {
     /**
-     * @var int TYPE_ASSERT The annotation type "assert", such as "@PhpUnitGen\AssertTrue".
+     * @var int TYPE_ASSERT The annotation type "assert", such as "@PhpUnitGen\assertTrue()".
      */
     public const TYPE_ASSERT = 0;
 
     /**
-     * @var int TYPE_GETTER The annotation type "getter", such as "@PhpUnitGen\Getter".
+     * @var int TYPE_GET The annotation type "get", such as "@PhpUnitGen\get()".
      */
-    public const TYPE_GETTER = 1;
+    public const TYPE_GET = 1;
 
     /**
-     * @var int TYPE_SETTER The annotation type "setter", such as "@PhpUnitGen\Setter".
+     * @var int TYPE_SET The annotation type "set", such as "@PhpUnitGen\set()".
      */
-    public const TYPE_SETTER = 2;
+    public const TYPE_SET = 2;
 
     /**
-     * @var int TYPE_MOCK The annotation type "mock", such as "@PhpUnitGen\Mock(MyObject)".
+     * @var int TYPE_MOCK The annotation type "mock", such as "@PhpUnitGen\mock(MyObject)".
      */
     public const TYPE_MOCK = 3;
 
     /**
-     * @var int TYPE_CONSTRUCTOR The annotation type "constructor", such as "@PhpUnitGen\construct([])".
+     * @var int TYPE_CONSTRUCT The annotation type "construct", such as "@PhpUnitGen\construct([])".
      */
-    public const TYPE_CONSTRUCTOR = 4;
+    public const TYPE_CONSTRUCT = 4;
 
     /**
      * @var int TYPE_PARAMS The annotation type "params", such as "@PhpUnitGen\params()".

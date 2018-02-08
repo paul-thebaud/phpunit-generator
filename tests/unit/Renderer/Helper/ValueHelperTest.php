@@ -28,7 +28,7 @@ class ValueHelperTest extends TestCase
     /**
      * @covers \PhpUnitGen\Renderer\Helper\ValueHelper::invoke()
      */
-    public function testInvokeOnParameters(): void
+    public function testInvokeOnMultipleTypes(): void
     {
         $parametersHelper = new ValueHelper();
 

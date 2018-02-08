@@ -6,6 +6,7 @@ use PHPUnit\Framework\TestCase;
 use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Model\PhpFileModel;
 use PhpUnitGen\Renderer\Helper\ParametersHelper;
+use PhpUnitGen\Renderer\Helper\ValueHelper;
 use PhpUnitGen\Renderer\PhpFileRenderer;
 use Slim\Views\PhpRenderer;
 
@@ -31,10 +32,11 @@ class PhpFileRendererTest extends TestCase
         $phpRenderer = $this->createMock(PhpRenderer::class);
         $phpFile = $this->createMock(PhpFileModel::class);
 
-        $phpRenderer->expects($this->exactly(2))->method('addAttribute')
+        $phpRenderer->expects($this->exactly(3))->method('addAttribute')
             ->withConsecutive(
                 ['config', $config],
-                ['parametersHelper', $this->isInstanceOf(ParametersHelper::class)]
+                ['parametersHelper', $this->isInstanceOf(ParametersHelper::class)],
+                ['valueHelper', $this->isInstanceOf(ValueHelper::class)]
             );
         $phpRenderer->expects($this->once())->method('fetch')
             ->with('class.php', ['phpFile' => $phpFile])

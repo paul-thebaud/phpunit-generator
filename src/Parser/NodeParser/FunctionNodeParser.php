@@ -34,6 +34,10 @@ class FunctionNodeParser extends AbstractFunctionNodeParser
 
         $function = $this->parseFunction($node, $function);
 
+        if (($documentation = $node->getDocComment()) !== null) {
+            $function = $this->documentationNodeParser->invoke($documentation, $function);
+        }
+
         $parent->addFunction($function);
 
         return $parent;

@@ -8,6 +8,7 @@ use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
 use PhpUnitGen\Annotation\AssertionAnnotation;
 use PhpUnitGen\Annotation\GetterAnnotation;
 use PhpUnitGen\Annotation\MockAnnotation;
+use PhpUnitGen\Annotation\ParamsAnnotation;
 use PhpUnitGen\Annotation\SetterAnnotation;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\ParameterModelInterface;
@@ -112,7 +113,21 @@ class FunctionModel implements FunctionModelInterface
     }
 
     /**
-     * @return GetterAnnotation|null The getter annotation, null if none.
+     * {@inheritdoc}
+     */
+    public function getParamsAnnotation(): ?ParamsAnnotation
+    {
+        $annotations = $this->annotations->filter(function (AnnotationInterface $annotation) {
+            return $annotation->getType() === AnnotationInterface::TYPE_PARAMS;
+        });
+        if ($annotations->isEmpty()) {
+            return null;
+        }
+        return $annotations->first();
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getGetterAnnotation(): ?GetterAnnotation
     {
@@ -126,7 +141,7 @@ class FunctionModel implements FunctionModelInterface
     }
 
     /**
-     * @return SetterAnnotation|null The setter annotation, null if none.
+     * {@inheritdoc}
      */
     public function getSetterAnnotation(): ?SetterAnnotation
     {
@@ -140,7 +155,7 @@ class FunctionModel implements FunctionModelInterface
     }
 
     /**
-     * @return Collection|AssertionAnnotation[] The assertion annotations.
+     * {@inheritdoc}
      */
     public function getAssertAnnotations(): Collection
     {
@@ -150,7 +165,7 @@ class FunctionModel implements FunctionModelInterface
     }
 
     /**
-     * @return Collection|MockAnnotation[] The mock annotations.
+     * {@inheritdoc}
      */
     public function getMockAnnotations(): Collection
     {

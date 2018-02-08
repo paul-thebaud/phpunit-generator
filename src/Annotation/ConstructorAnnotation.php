@@ -105,7 +105,7 @@ class ConstructorAnnotation extends AbstractAnnotation
     }
 
     /**
-     * @return array The constructor parameters.
+     * @return string[] The constructor parameters.
      */
     public function getParameters(): array
     {

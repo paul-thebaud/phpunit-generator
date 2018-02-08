@@ -35,4 +35,13 @@ trait VisibilityTrait
     {
         return $this->visibility;
     }
+
+    /**
+     * @return bool True if the function is not protected or private.
+     */
+    public function isPublic(): bool
+    {
+        return $this->visibility !== VisibilityInterface::PRIVATE
+            && $this->visibility !== VisibilityInterface::PROTECTED;
+    }
 }

@@ -3,7 +3,7 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node\FunctionLike;
-use PhpUnitGen\Exception\AnnotationParseException;
+use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ReturnModel;
 
@@ -18,6 +18,11 @@ use PhpUnitGen\Model\ReturnModel;
  */
 abstract class AbstractFunctionNodeParser extends AbstractNodeParser
 {
+    /**
+     * @var ConfigInterface $config The configuration.
+     */
+    protected $config;
+
     /**
      * @var ParameterNodeParser $parameterNodeParser The parameter node parser.
      */
@@ -36,15 +41,18 @@ abstract class AbstractFunctionNodeParser extends AbstractNodeParser
     /**
      * FunctionNodeParser constructor.
      *
+     * @param ConfigInterface         $config                  The configuration.
      * @param ParameterNodeParser     $parameterNodeParser     The parameter node parser.
      * @param TypeNodeParser          $typeNodeParser          The type node parser.
      * @param DocumentationNodeParser $documentationNodeParser The documentation node parser.
      */
     public function __construct(
+        ConfigInterface $config,
         ParameterNodeParser $parameterNodeParser,
         TypeNodeParser $typeNodeParser,
         DocumentationNodeParser $documentationNodeParser
     ) {
+        $this->config                  = $config;
         $this->parameterNodeParser     = $parameterNodeParser;
         $this->typeNodeParser          = $typeNodeParser;
         $this->documentationNodeParser = $documentationNodeParser;
@@ -57,15 +65,9 @@ abstract class AbstractFunctionNodeParser extends AbstractNodeParser
      * @param FunctionModelInterface $function The model to update.
      *
      * @return FunctionModelInterface The updated function model.
-     *
-     * @throws AnnotationParseException If an annotation can not be parsed.
      */
     protected function parseFunction(FunctionLike $node, FunctionModelInterface $function): FunctionModelInterface
     {
-        if (($documentation = $node->getDocComment()) !== null) {
-            $function = $this->documentationNodeParser->invoke($documentation, $function);
-        }
-
         foreach ($node->getParams() as $param) {
             $function = $this->parameterNodeParser->invoke($param, $function);
         }

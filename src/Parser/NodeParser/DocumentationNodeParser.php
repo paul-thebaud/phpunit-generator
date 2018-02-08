@@ -5,11 +5,9 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Comment\Doc;
 use PhpUnitGen\Annotation\AbstractAnnotation;
 use PhpUnitGen\Annotation\AnnotationFactory;
-use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
+use PhpUnitGen\Annotation\AnnotationRegister;
 use PhpUnitGen\Annotation\Lexer;
 use PhpUnitGen\Exception\AnnotationParseException;
-use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
-use PhpUnitGen\Model\PropertyInterface\ClassLikeInterface;
 use PhpUnitGen\Model\PropertyInterface\DocumentationInterface;
 
 /**
@@ -32,6 +30,11 @@ class DocumentationNodeParser
      * @var AnnotationFactory $annotationFactory The annotation factory to use.
      */
     private $annotationFactory;
+
+    /**
+     * @var AnnotationRegister $annotationRegister The annotation register to use.
+     */
+    private $annotationRegister;
 
     /**
      * @var AbstractAnnotation[] $parsedAnnotations The parsed annotation list.
@@ -71,13 +74,18 @@ class DocumentationNodeParser
     /**
      * DocumentationNodeParser constructor.
      *
-     * @param Lexer             $lexer             The lexer to use.
-     * @param AnnotationFactory $annotationFactory The annotation factory to use.
+     * @param Lexer              $lexer              The lexer to use.
+     * @param AnnotationFactory  $annotationFactory  The annotation factory to use.
+     * @param AnnotationRegister $annotationRegister The annotation register to use.
      */
-    public function __construct(Lexer $lexer, AnnotationFactory $annotationFactory)
-    {
-        $this->lexer             = $lexer;
-        $this->annotationFactory = $annotationFactory;
+    public function __construct(
+        Lexer $lexer,
+        AnnotationFactory $annotationFactory,
+        AnnotationRegister $annotationRegister
+    ) {
+        $this->lexer              = $lexer;
+        $this->annotationFactory  = $annotationFactory;
+        $this->annotationRegister = $annotationRegister;
     }
 
     /**
@@ -121,7 +129,7 @@ class DocumentationNodeParser
                 }
             }
 
-            $parent = $this->saveAnnotations($parent);
+            $this->annotationRegister->invoke($parent, $this->parsedAnnotations);
         } catch (AnnotationParseException $exception) {
             throw new AnnotationParseException($exception->getMessage());
         }
@@ -315,62 +323,5 @@ class DocumentationNodeParser
         } else {
             $this->currentlyEscaping = false;
         }
-    }
-
-    /**
-     * Save each annotations in the parent depending on type.
-     *
-     * @param DocumentationInterface $parent The parent node.
-     *
-     * @return DocumentationInterface The updated parent.
-     */
-    private function saveAnnotations(DocumentationInterface $parent): DocumentationInterface
-    {
-        foreach ($this->parsedAnnotations as $annotation) {
-            if ($parent instanceof FunctionModelInterface) {
-                // Parent is a function, save assert and mock annotations.
-                $parent = $this->saveFunctionAnnotation($parent, $annotation);
-            }
-            if ($parent instanceof ClassLikeInterface) {
-                // Parent is a class like, save mock and constructor annotations.
-                $parent = $this->saveClassLikeAnnotation($parent, $annotation);
-            }
-        }
-
-        return $parent;
-    }
-
-    private function saveFunctionAnnotation(
-        FunctionModelInterface $function,
-        AnnotationInterface $annotation
-    ): FunctionModelInterface {
-        if ($annotation->getType() === AnnotationInterface::TYPE_ASSERT
-            || $annotation->getType() === AnnotationInterface::TYPE_GETTER
-            || $annotation->getType() === AnnotationInterface::TYPE_SETTER
-            || $annotation->getType() === AnnotationInterface::TYPE_MOCK
-        ) {
-            $annotation->setParentNode($function);
-            $function->addAnnotation($annotation);
-            $annotation->compile();
-        }
-        return $function;
-    }
-
-    private function saveClassLikeAnnotation(
-        ClassLikeInterface $classLike,
-        AnnotationInterface $annotation
-    ): ClassLikeInterface {
-        if ($annotation->getType() === AnnotationInterface::TYPE_MOCK) {
-            $parent = $classLike->getParentNode();
-            $annotation->setParentNode($parent);
-            $parent->addAnnotation($annotation);
-            $annotation->compile();
-        }
-        if ($annotation->getType() === AnnotationInterface::TYPE_CONSTRUCTOR) {
-            $annotation->setParentNode($classLike);
-            $classLike->addAnnotation($annotation);
-            $annotation->compile();
-        }
-        return $classLike;
     }
 }

@@ -3,9 +3,12 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
+use PhpUnitGen\Annotation\GetterAnnotation;
+use PhpUnitGen\Annotation\SetterAnnotation;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
 use PhpUnitGen\Parser\NodeParserUtil\MethodVisibilityHelper;
+use Respect\Validation\Validator;
 
 /**
  * Class MethodNodeParser.
@@ -40,6 +43,60 @@ class MethodNodeParser extends AbstractFunctionNodeParser
 
         $parent->addFunction($function);
 
+        if ($this->config->hasAuto()) {
+            if ($this->getter($function)) {
+                return $parent;
+            }
+            if ($this->setter($function)) {
+                return $parent;
+            }
+        }
+        if (($documentation = $node->getDocComment()) !== null) {
+            $this->documentationNodeParser->invoke($documentation, $function);
+        }
+
         return $parent;
+    }
+
+    private function getter(FunctionModel $function): bool
+    {
+        // Check if function name matches
+        preg_match('/^get(.+)$/', $function->getName(), $matches);
+
+        if (Validator::arrayType()->length(2, 2)->validate($matches)) {
+            // Check if property exists
+            $property = lcfirst($matches[1]);
+            if ($function->getParentNode()->hasAttribute($property, $function->isStatic())) {
+                $annotation = new GetterAnnotation();
+                $annotation->setName('@PhpUnitGen\\getter');
+                $annotation->compile();
+                $function->addAnnotation($annotation);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function setter(FunctionModel $function): bool
+    {
+        // Check if function name matches
+        preg_match('/^set(.+)$/', $function->getName(), $matches);
+
+        if (Validator::arrayType()->length(2, 2)->validate($matches)) {
+            // Check if property exists
+            $property = lcfirst($matches[1]);
+            if ($function->getParentNode()->hasAttribute($property, $function->isStatic())) {
+                $annotation = new SetterAnnotation();
+                $annotation->setName('@PhpUnitGen\\setter');
+                $annotation->compile();
+                $function->addAnnotation($annotation);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

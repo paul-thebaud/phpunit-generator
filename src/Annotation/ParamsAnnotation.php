@@ -3,6 +3,10 @@
 namespace PhpUnitGen\Annotation;
 
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
+use PhpUnitGen\Exception\AnnotationParseException;
+use PhpUnitGen\Exception\JsonException;
+use PhpUnitGen\Util\Json;
+use Respect\Validation\Validator;
 
 /**
  * Class ParamsAnnotation.
@@ -16,6 +20,11 @@ use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
 class ParamsAnnotation extends AbstractAnnotation
 {
     /**
+     * @var string[] $parameters The method call parameters.
+     */
+    private $parameters;
+
+    /**
      * {@inheritdoc}
      */
     public function getType(): int
@@ -28,16 +37,23 @@ class ParamsAnnotation extends AbstractAnnotation
      */
     public function compile(): void
     {
-        /*
-        if ($this->getStringContent() !== null
-            && ! Validator::regex('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/')
-                ->validate($this->getStringContent())
-        ) {
-            throw new AnnotationParseException(sprintf(
-                'The annotation at line %d of documentation contains an invalid property name.',
-                $this->getLine()
-            ));
+        // Decode JSON content
+        try {
+            $decoded = Json::decode('[' . $this->getStringContent() . ']');
+        } catch (JsonException $exception) {
+            throw new AnnotationParseException('"params" annotation content is invalid (invalid JSON content)');
         }
-        */
+        if (! Validator::arrayVal()->each(Validator::stringType(), Validator::intType())->validate($decoded)) {
+            throw new AnnotationParseException('"params" annotation content is invalid (must contains strings only)');
+        }
+        $this->parameters = $decoded;
+    }
+
+    /**
+     * @return string[] The constructor parameters.
+     */
+    public function getParameters(): array
+    {
+        return $this->parameters;
     }
 }

@@ -43,10 +43,10 @@ class TraitModel extends InterfaceModel implements TraitModelInterface
     /**
      * {@inheritdoc}
      */
-    public function hasAttribute(string $name): bool
+    public function hasAttribute(string $name, bool $static = false): bool
     {
-        return $this->attributes->exists(function (AttributeModelInterface $attribute) use ($name) {
-            return $attribute->getName() === $name;
+        return $this->attributes->exists(function (int $key, AttributeModelInterface $attribute) use ($name, $static) {
+            return $attribute->getName() === $name && $attribute->isStatic() === $static;
         });
     }
 

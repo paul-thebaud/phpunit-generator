@@ -7,6 +7,7 @@ use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
 use PhpUnitGen\Annotation\AssertionAnnotation;
 use PhpUnitGen\Annotation\GetterAnnotation;
 use PhpUnitGen\Annotation\MockAnnotation;
+use PhpUnitGen\Annotation\ParamsAnnotation;
 use PhpUnitGen\Annotation\SetterAnnotation;
 use PhpUnitGen\Model\PropertyInterface\AbstractInterface;
 use PhpUnitGen\Model\PropertyInterface\DocumentationInterface;
@@ -63,6 +64,11 @@ interface FunctionModelInterface extends
      * @return bool True if the function is global.
      */
     public function isGlobal(): bool;
+
+    /**
+     * @return ParamsAnnotation|null The params annotation, null if none.
+     */
+    public function getParamsAnnotation(): ?ParamsAnnotation;
 
     /**
      * @return GetterAnnotation|null The getter annotation, null if none.

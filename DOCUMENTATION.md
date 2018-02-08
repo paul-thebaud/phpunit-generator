@@ -253,6 +253,9 @@ public function setCellphone(string $phone): void
 }
 ```
 
+__Note__: `getter` and `setter` annotations support static and not static method in classes, traits or interfaces,
+but do not support global functions (out of classes, traits or interfaces).
+
 ### Method result assertions
 
 PhpUnitGen also provide annotations to generate simple:

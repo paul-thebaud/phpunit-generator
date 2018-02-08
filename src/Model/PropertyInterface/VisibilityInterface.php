@@ -42,4 +42,9 @@ interface VisibilityInterface
      * @return int|null The current visibility.
      */
     public function getVisibility(): ?int;
+
+    /**
+     * @return bool True if the function is not protected or private.
+     */
+    public function isPublic(): bool;
 }

@@ -23,11 +23,12 @@ interface TraitModelInterface extends InterfaceModelInterface
     /**
      * Check if an attribute exists.
      *
-     * @param string $name The name of the attribute.
+     * @param string $name   The name of the attribute.
+     * @param bool   $static If the attribute needs to be static or not.
      *
      * @return bool True if it exists.
      */
-    public function hasAttribute(string $name): bool;
+    public function hasAttribute(string $name, bool $static = false): bool;
 
     /**
      * Get an attribute if exists.

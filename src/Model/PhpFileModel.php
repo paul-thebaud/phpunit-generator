@@ -114,6 +114,9 @@ class PhpFileModel implements PhpFileModelInterface
      */
     public function addConcreteUse(string $fullName, string $name): void
     {
+        // Remove the backslash at beginning of full name
+        $fullName = preg_replace('/^\\\\/', '', $fullName);
+
         // Full name exists and concrete use correspond to this one
         if (Validator::key($fullName)->validate($this->concreteUses)
             && $name === $this->concreteUses[$fullName]

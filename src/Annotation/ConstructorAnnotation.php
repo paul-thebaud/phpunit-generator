@@ -5,6 +5,7 @@ namespace PhpUnitGen\Annotation;
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
 use PhpUnitGen\Exception\AnnotationParseException;
 use PhpUnitGen\Exception\JsonException;
+use PhpUnitGen\Parser\NodeParserUtil\RootRetrieverHelper;
 use PhpUnitGen\Util\Json;
 use Respect\Validation\Validator;
 
@@ -53,11 +54,18 @@ class ConstructorAnnotation extends AbstractAnnotation
         $index = 0;
         // If there is a custom constructor class
         if (Validator::stringType()->validate($decoded[$index])) {
+            $phpFile = RootRetrieverHelper::getRoot($this);
+            // If class to use is not from global namespace
+            if (! Validator::regex('/^\\\\/')->validate($decoded[$index])) {
+                // Add the current namespace to it
+                $namespace = $phpFile->getNamespaceString();
+                $decoded[$index] = ($namespace !== null ? ($namespace . '\\') : '') . $decoded[$index];
+            }
             // Get the last name part
             $nameArray = explode('\\', $decoded[$index]);
             $lastPart  = end($nameArray);
             // Add use to PhpFile
-            $this->getParentNode()->getParentNode()->addConcreteUse($decoded[$index], $lastPart);
+            $phpFile->addConcreteUse($decoded[$index], $lastPart);
             $this->class = $lastPart;
             $index++;
         }

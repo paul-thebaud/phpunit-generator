@@ -3,8 +3,8 @@
   "interface": false,
   "auto": true,
   "ignore": true,
-  "exclude": "/.*config\\.php$/",
-  "include": "/.*\\.php$/",
+  "exclude": "/^.*config\\.php$/",
+  "include": "/^.*\\.php$/",
   "dirs": {
     "source/dir/to/parse": "target/dir/to/put/generated/files"
   },

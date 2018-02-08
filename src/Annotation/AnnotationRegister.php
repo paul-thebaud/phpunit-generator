@@ -7,6 +7,7 @@ use PhpUnitGen\Exception\AnnotationParseException;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
 use PhpUnitGen\Model\PropertyInterface\DocumentationInterface;
+use Respect\Validation\Validator;
 
 /**
  * Class AnnotationRegister.
@@ -19,6 +20,12 @@ use PhpUnitGen\Model\PropertyInterface\DocumentationInterface;
  */
 class AnnotationRegister
 {
+    private const ALLOWED_ON_GLOBAL_OR_PRIVATE = [
+        AnnotationInterface::TYPE_ASSERT,
+        AnnotationInterface::TYPE_MOCK,
+        AnnotationInterface::TYPE_PARAMS
+    ];
+
     /**
      * Register all annotations in the parent depending on annotation type.
      *
@@ -51,16 +58,21 @@ class AnnotationRegister
      */
     private function saveFunctionAnnotation(FunctionModelInterface $parent, AnnotationInterface $annotation): void
     {
-        // Register only if it is an assert, getter, setter, mock or params annotation
-        if ($annotation->getType() === AnnotationInterface::TYPE_ASSERT
-            || $annotation->getType() === AnnotationInterface::TYPE_GETTER
-            || $annotation->getType() === AnnotationInterface::TYPE_SETTER
-            || $annotation->getType() === AnnotationInterface::TYPE_MOCK
-            || $annotation->getType() === AnnotationInterface::TYPE_PARAMS
-        ) {
-            $annotation->setParentNode($parent);
-            $parent->addAnnotation($annotation);
-            $annotation->compile();
+        if (! $parent->isGlobal() && $parent->isPublic()) {
+            // For public or not global function, all annotation except constructor
+            if ($annotation->getType() !== AnnotationInterface::TYPE_CONSTRUCTOR) {
+                $annotation->setParentNode($parent);
+                $parent->addAnnotation($annotation);
+                $annotation->compile();
+            }
+        } else {
+            // Restricted annotation on global or private functions.
+            if (Validator::contains($annotation->getType())
+                ->validate(AnnotationRegister::ALLOWED_ON_GLOBAL_OR_PRIVATE)) {
+                $annotation->setParentNode($parent);
+                $parent->addAnnotation($annotation);
+                $annotation->compile();
+            }
         }
     }
 

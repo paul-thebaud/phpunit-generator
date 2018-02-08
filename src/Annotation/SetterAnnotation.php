@@ -41,16 +41,16 @@ class SetterAnnotation extends AbstractAnnotation
             try {
                 $decoded = Json::decode($this->getStringContent());
             } catch (JsonException $exception) {
-                throw new AnnotationParseException('"getter" annotation content is invalid (invalid JSON content)');
+                throw new AnnotationParseException('"setter" annotation content is invalid (invalid JSON content)');
             }
             if (! is_string($decoded)) {
                 throw new AnnotationParseException(
-                    '"getter" annotation content is invalid (property name must be a string)'
+                    '"setter" annotation content is invalid (property name must be a string)'
                 );
             }
             $this->property = $decoded;
         } else {
-            $this->property = preg_replace('/^get/', '', $this->getParentNode()->getName());
+            $this->property = preg_replace('/^set/', '', $this->getParentNode()->getName());
             $this->property = lcfirst($this->property);
         }
     }

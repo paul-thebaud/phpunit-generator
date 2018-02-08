@@ -52,11 +52,18 @@ class MockAnnotation extends AbstractAnnotation
         }
         $this->validate($decoded);
 
+        $phpFile = RootRetrieverHelper::getRoot($this);
+        // If class to use is not from global namespace
+        if (! Validator::regex('/^\\\\/')->validate($decoded[0])) {
+            // Add the current namespace to it
+            $namespace = $phpFile->getNamespaceString();
+            $decoded[0] = ($namespace !== null ? ($namespace . '\\') : '') . $decoded[0];
+        }
         // Get the last name part
         $nameArray = explode('\\', $decoded[0]);
         $lastPart  = end($nameArray);
         // Add use to PhpFile
-        RootRetrieverHelper::getRoot($this)->addConcreteUse($decoded[0], $lastPart);
+        $phpFile->addConcreteUse($decoded[0], $lastPart);
         $this->class = $lastPart;
         $this->property = $decoded[1];
     }

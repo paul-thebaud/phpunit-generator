@@ -10,9 +10,9 @@ return [
     // Ignore errors that can be ignored
     'ignore'    => true,
     // Regex (/.*config.php/ for example) that files must not match to have a tests generation
-    'exclude'   => '/.*config.php/',
+    'exclude'   => '/^.*config.php$/',
     // Regex (/.*.php/ for example) that files should match to have a tests generation
-    'include'   => '/.*.php/',
+    'include'   => '/^.*.php$/',
     // Directories and files to generate tests for
     'dirs'      => [],
     // Files to generate tests for

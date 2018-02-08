@@ -8,7 +8,7 @@
 
 <?php endif; ?>
      */
-    public function test<?= ucfirst($function->getName()) ?>(): void
+    public function test<?= ucfirst(str_replace('_', '', $function->getName())) ?>(): void
     {
 <?= $this->fetch('partial/function/content.php', ['function' => $function]) ?>
     }

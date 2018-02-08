@@ -3,6 +3,9 @@
 namespace PhpUnitGen\Annotation;
 
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
+use PhpUnitGen\Exception\AnnotationParseException;
+use PhpUnitGen\Exception\JsonException;
+use PhpUnitGen\Util\Json;
 
 /**
  * Class AssertionAnnotation.
@@ -16,6 +19,11 @@ use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
 class AssertionAnnotation extends AbstractAnnotation
 {
     /**
+     * @var string|null $expected The expected value, null if none.
+     */
+    private $expected;
+
+    /**
      * {@inheritdoc}
      */
     public function getType(): int
@@ -28,16 +36,27 @@ class AssertionAnnotation extends AbstractAnnotation
      */
     public function compile(): void
     {
-        /*
-        if ($this->getStringContent() !== null
-            && ! Validator::regex('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/')
-                ->validate($this->getStringContent())
-        ) {
-            throw new AnnotationParseException(sprintf(
-                'The annotation at line %d of documentation contains an invalid property name.',
-                $this->getLine()
-            ));
+        if (strlen($this->getStringContent()) > 0) {
+            // Decode JSON content
+            try {
+                $decoded = Json::decode($this->getStringContent());
+            } catch (JsonException $exception) {
+                throw new AnnotationParseException('"assertion" annotation content is invalid (invalid JSON content)');
+            }
+            if (! is_string($decoded)) {
+                throw new AnnotationParseException(
+                    '"assertion" annotation content is invalid (expected value must be a string)'
+                );
+            }
+            $this->expected = $decoded;
         }
-        */
+    }
+
+    /**
+     * @return string The expected value, null if none.
+     */
+    public function getExpected(): ?string
+    {
+        return $this->expected;
     }
 }

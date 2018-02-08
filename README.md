@@ -6,7 +6,6 @@
 [![Build Status][ico-travis]][link-travis]
 [![Coverage Status][ico-coveralls]][link-coveralls]
 [![Scrutinizer][ico-scrutinizer]][link-scrutinizer]
-
 [![Total Downloads][ico-downloads]][link-downloads]
 
 PhpUnitGen is a development tool which will help you writing your unit tests for PHPUnit 6 / 7:
@@ -30,7 +29,7 @@ vendor/     ==> Composer dependencies [only after running composer install].
 Best way to install this package is with composer dependency manager.
 
 ```bash
-$ composer require --dev paulthebaud/phpunit-generator ~2.0
+$ composer require --dev paulthebaud/phpunit-generator ^2.0
 ```
 
 `--dev` option is used to install this package only in development environment.

@@ -1,6 +1,6 @@
         $expected = <?= $this->getAttribute('valueHelper')->invoke($function->getReturn()->getType(), $function->getReturn()->getCustomType()) ?>;
 
-        $property = (new \ReflectionClass(<?= $function->getParentNode()->getName() ?>::class))
+        $property = (new \ReflectionClass($this-><?= lcfirst($function->getParentNode()->getName()) ?>))
             ->getProperty('<?= $getterAnnotation->getProperty() ?>');
         $property->setAccessible(true);
 <?php if ($function->isStatic()) { ?>

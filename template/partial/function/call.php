@@ -23,9 +23,9 @@ if ($function->isGlobal()) {
     // Private or protected method
     if (! $function->isPublic()) {
         echo sprintf(
-            "%s\$method = (new \ReflectionClass(%s::class))\n%s->getMethod('%s');\n%s\$method->setAccessible(true);\n",
+            "%s\$method = (new \ReflectionClass(\$this->%s::class))\n%s->getMethod('%s');\n%s\$method->setAccessible(true);\n",
             str_repeat(' ', 8),
-            $function->getParentNode()->getName(),
+            lcfirst($function->getParentNode()->getName()),
             str_repeat(' ', 12),
             $function->getName(),
             str_repeat(' ', 8)

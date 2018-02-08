@@ -7,7 +7,7 @@ if ($parameter !== false) {
 }
 ?>        $expected = <?= $expected ?>;
 
-        $property = (new \ReflectionClass(<?= $function->getParentNode()->getName() ?>::class))
+        $property = (new \ReflectionClass($this-><?= lcfirst($function->getParentNode()->getName()) ?>))
             ->getProperty('<?= $setterAnnotation->getProperty() ?>');
         $property->setAccessible(true);
 <?php if ($function->isStatic()) { ?>

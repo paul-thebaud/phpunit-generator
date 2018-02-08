@@ -69,8 +69,9 @@ class MethodNodeParser extends AbstractFunctionNodeParser
             if ($function->getParentNode()->hasAttribute($property, $function->isStatic())) {
                 $annotation = new GetterAnnotation();
                 $annotation->setName('@PhpUnitGen\\getter');
-                $annotation->compile();
                 $function->addAnnotation($annotation);
+                $annotation->setParentNode($function);
+                $annotation->compile();
 
                 return true;
             }
@@ -90,8 +91,9 @@ class MethodNodeParser extends AbstractFunctionNodeParser
             if ($function->getParentNode()->hasAttribute($property, $function->isStatic())) {
                 $annotation = new SetterAnnotation();
                 $annotation->setName('@PhpUnitGen\\setter');
-                $annotation->compile();
+                $annotation->setParentNode($function);
                 $function->addAnnotation($annotation);
+                $annotation->compile();
 
                 return true;
             }

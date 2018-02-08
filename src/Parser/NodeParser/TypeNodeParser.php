@@ -86,7 +86,7 @@ class TypeNodeParser extends AbstractNodeParser
 
         $phpFile->addConcreteUse($name, $lastPart);
 
-        return $name;
+        return $lastPart;
     }
 
     /**

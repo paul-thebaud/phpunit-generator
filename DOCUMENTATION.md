@@ -255,6 +255,7 @@ public function setCellphone(string $phone): void
 
 __Note__: `getter` and `setter` annotations support static and not static method in classes, traits or interfaces,
 but do not support global functions (out of classes, traits or interfaces).
+Also, a `getter` or a `setter` is a public method.
 
 ### Method result assertions
 

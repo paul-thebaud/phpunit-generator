@@ -84,6 +84,10 @@ class DirectoryExecutor implements DirectoryExecutorInterface
      */
     public function invoke(string $sourcePath, string $targetPath): void
     {
+        // Remove last '/' from paths
+        $sourcePath = preg_replace('#/+#', '', $sourcePath);
+        $targetPath = preg_replace('#/+#', '', $targetPath);
+
         $this->output->section(sprintf('Directory "%s" parsing begins.', $sourcePath));
 
         // Check if source directory exists

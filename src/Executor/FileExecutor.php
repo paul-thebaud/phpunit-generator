@@ -89,7 +89,7 @@ class FileExecutor implements FileExecutorInterface
         $code = $this->executor->invoke($content, $name);
 
         if ($code === null) {
-            $this->output->note(sprintf('Parsing file "%s" completed: no functions in code.', $sourcePath));
+            $this->output->note(sprintf('Parsing file "%s" completed: no testable functions in code.', $sourcePath));
             return false;
         }
 

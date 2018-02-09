@@ -54,11 +54,9 @@ class InterfaceNodeParser extends AbstractNodeParser
      * @param Node\Stmt\Interface_  $node   The node to parse.
      * @param PhpFileModelInterface $parent The parent node.
      *
-     * @return PhpFileModelInterface The updated parent.
-     *
      * @throws AnnotationParseException If an annotation can not be parsed.
      */
-    public function invoke(Node\Stmt\Interface_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
+    public function invoke(Node\Stmt\Interface_ $node, PhpFileModelInterface $parent): void
     {
         if ($this->config->hasInterfaceParsing()) {
             $interface = new InterfaceModel();
@@ -67,14 +65,12 @@ class InterfaceNodeParser extends AbstractNodeParser
             $parent->addConcreteUse($parent->getFullNameFor($interface->getName()), $interface->getName());
 
             if (($documentation = $node->getDocComment()) !== null) {
-                $interface = $this->documentationNodeParser->invoke($documentation, $interface);
+                $this->documentationNodeParser->invoke($documentation, $interface);
             }
 
-            $interface = $this->parseSubNodes($node->stmts, $interface);
+            $this->parseSubNodes($node->stmts, $interface);
 
             $parent->addInterface($interface);
         }
-
-        return $parent;
     }
 }

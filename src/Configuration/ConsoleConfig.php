@@ -44,6 +44,9 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
         if (! Validator::key('overwrite', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"overwrite" parameter must be set as a boolean.');
         }
+        if (! Validator::key('backup', Validator::boolType())->validate($config)) {
+            throw new InvalidConfigException('"backup" parameter must be set as a boolean.');
+        }
         if (! Validator::key('ignore', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"ignore" parameter must be set as a boolean.');
         }
@@ -129,6 +132,14 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
     public function hasOverwrite(): bool
     {
         return $this->config['overwrite'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasBackup(): bool
+    {
+        return $this->config['backup'];
     }
 
     /**

@@ -52,25 +52,15 @@ class NamespaceNodeParser extends AbstractNodeParser
      *
      * @param Node\Stmt\Namespace_  $node   The node to parse.
      * @param PhpFileModelInterface $parent The parent node.
-     *
-     * @return PhpFileModelInterface The updated parent.
-     *
-     * @throws ParseException If the method parseSubNodes does not return a valid instance.
      */
-    public function invoke(Node\Stmt\Namespace_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
+    public function invoke(Node\Stmt\Namespace_ $node, PhpFileModelInterface $parent): void
     {
         if ($node->name instanceof Node\Name) {
             $parent->setNamespace($node->name->parts);
         }
 
-        $parent = $this->preParseUses($node->stmts, $parent);
+        $this->preParseUses($node->stmts, $parent);
 
-        $parent = $this->parseSubNodes($node->stmts, $parent);
-        if ($parent instanceof PhpFileModelInterface) {
-            return $parent;
-        }
-        throw new ParseException(
-            '"parseSubNodes" should return an instance of "PhpFileModelInterface" in "NamespaceNodeParser"'
-        );
+        $this->parseSubNodes($node->stmts, $parent);
     }
 }

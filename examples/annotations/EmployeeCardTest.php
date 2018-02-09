@@ -57,7 +57,7 @@ class EmployeeCardTest extends TestCase
     {
         $expected = $this->createMock(Employee::class);
 
-        $property = (new \ReflectionClass(EmployeeCard::class))
+        $property = (new \ReflectionClass($this->employeeCard))
             ->getProperty('owner');
         $property->setAccessible(true);
         $property->setValue($this->employeeCard, $expected);
@@ -72,7 +72,7 @@ class EmployeeCardTest extends TestCase
     {
         $expected = $this->createMock(Employee::class);
 
-        $property = (new \ReflectionClass(EmployeeCard::class))
+        $property = (new \ReflectionClass($this->employeeCard))
             ->getProperty('owner');
         $property->setAccessible(true);
         $this->employeeCard->setOwner($expected);
@@ -87,7 +87,7 @@ class EmployeeCardTest extends TestCase
     {
         $expected = $this->createMock(DateTime::class);
 
-        $property = (new \ReflectionClass(EmployeeCard::class))
+        $property = (new \ReflectionClass($this->employeeCard))
             ->getProperty('expirationDate');
         $property->setAccessible(true);
         $property->setValue($this->employeeCard, $expected);
@@ -102,7 +102,7 @@ class EmployeeCardTest extends TestCase
     {
         $expected = $this->createMock(DateTime::class);
 
-        $property = (new \ReflectionClass(EmployeeCard::class))
+        $property = (new \ReflectionClass($this->employeeCard))
             ->getProperty('expirationDate');
         $property->setAccessible(true);
         $this->employeeCard->setExpirationDate($expected);

@@ -26,10 +26,8 @@ class MethodNodeParser extends AbstractFunctionNodeParser
      *
      * @param Node\Stmt\ClassMethod   $node   The node to parse.
      * @param InterfaceModelInterface $parent The parent node.
-     *
-     * @return InterfaceModelInterface The updated parent.
      */
-    public function invoke(Node\Stmt\ClassMethod $node, InterfaceModelInterface $parent): InterfaceModelInterface
+    public function invoke(Node\Stmt\ClassMethod $node, InterfaceModelInterface $parent): void
     {
         $function = new FunctionModel();
         $function->setParentNode($parent);
@@ -39,23 +37,21 @@ class MethodNodeParser extends AbstractFunctionNodeParser
         $function->setIsAbstract($node->isAbstract());
         $function->setVisibility(MethodVisibilityHelper::getMethodVisibility($node));
 
-        $function = $this->parseFunction($node, $function);
+        $this->parseFunction($node, $function);
 
         $parent->addFunction($function);
 
         if ($this->config->hasAuto()) {
             if ($this->getter($function)) {
-                return $parent;
+                return;
             }
             if ($this->setter($function)) {
-                return $parent;
+                return;
             }
         }
         if (($documentation = $node->getDocComment()) !== null) {
             $this->documentationNodeParser->invoke($documentation, $function);
         }
-
-        return $parent;
     }
 
     private function getter(FunctionModel $function): bool

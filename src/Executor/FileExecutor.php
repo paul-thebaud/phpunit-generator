@@ -119,6 +119,9 @@ class FileExecutor implements FileExecutorInterface
         }
 
         if ($targetPathExists) {
+            if ($this->config->hasBackup()) {
+                $this->fileSystem->copy($targetPath, $targetPath . '.backup');
+            }
             $this->fileSystem->delete($targetPath);
         }
     }

@@ -57,10 +57,9 @@ class PhpParser implements PhpParserInterface
         }
 
         $phpFileModel = new PhpFileModel();
-        $phpFileModel = $this->phpFileNodeParser->preParseUses($nodes, $phpFileModel);
+        $this->phpFileNodeParser->preParseUses($nodes, $phpFileModel);
 
-        /** @var PhpFileModelInterface $phpFileModel */
-        $phpFileModel = $this->phpFileNodeParser->parseSubNodes($nodes, $phpFileModel);
+        $this->phpFileNodeParser->parseSubNodes($nodes, $phpFileModel);
 
         return $phpFileModel;
     }

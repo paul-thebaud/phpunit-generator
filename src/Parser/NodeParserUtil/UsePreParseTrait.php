@@ -34,19 +34,17 @@ trait UsePreParseTrait
      *
      * @param array                 $nodes  The nodes to parse to find uses.
      * @param PhpFileModelInterface $parent The parent to update.
-     *
-     * @return PhpFileModelInterface The updated parent.
      */
-    public function preParseUses(array $nodes, PhpFileModelInterface $parent): PhpFileModelInterface
+    public function preParseUses(array $nodes, PhpFileModelInterface $parent): void
     {
         foreach ($nodes as $node) {
             if ($node instanceof Use_) {
-                $parent = $this->useNodeParser->invoke($node, $parent);
-            }
-            if ($node instanceof GroupUse) {
-                $parent = $this->groupUseNodeParser->invoke($node, $parent);
+                $this->useNodeParser->invoke($node, $parent);
+            } else {
+                if ($node instanceof GroupUse) {
+                    $this->groupUseNodeParser->invoke($node, $parent);
+                }
             }
         }
-        return $parent;
     }
 }

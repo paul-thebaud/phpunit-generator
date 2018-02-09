@@ -26,8 +26,7 @@ class ValueNodeParser extends AbstractNodeParser
      *
      * This method do nothing because parsing expr is hard and useless for PhpUnitGen.
      */
-    public function invoke(Node\Expr $node, VariableLikeInterface $parent): VariableLikeInterface
+    public function invoke(Node\Expr $node, VariableLikeInterface $parent): void
     {
-        return $parent;
     }
 }

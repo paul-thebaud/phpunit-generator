@@ -63,22 +63,18 @@ abstract class AbstractFunctionNodeParser extends AbstractNodeParser
      *
      * @param FunctionLike           $node     The node to parse.
      * @param FunctionModelInterface $function The model to update.
-     *
-     * @return FunctionModelInterface The updated function model.
      */
-    protected function parseFunction(FunctionLike $node, FunctionModelInterface $function): FunctionModelInterface
+    protected function parseFunction(FunctionLike $node, FunctionModelInterface $function): void
     {
         foreach ($node->getParams() as $param) {
-            $function = $this->parameterNodeParser->invoke($param, $function);
+            $this->parameterNodeParser->invoke($param, $function);
         }
 
         $return = new ReturnModel();
         $return->setParentNode($function);
         if ($node->getReturnType() !== null) {
-            $return = $this->typeNodeParser->invoke($node->getReturnType(), $return);
+            $this->typeNodeParser->invoke($node->getReturnType(), $return);
         }
         $function->setReturn($return);
-
-        return $function;
     }
 }

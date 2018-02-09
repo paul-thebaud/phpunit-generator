@@ -21,17 +21,13 @@ class UseNodeParser extends AbstractNodeParser
      *
      * @param Node\Stmt\Use_        $node   The node to parse.
      * @param PhpFileModelInterface $parent The parent node.
-     *
-     * @return PhpFileModelInterface The updated parent.
      */
-    public function invoke(Node\Stmt\Use_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
+    public function invoke(Node\Stmt\Use_ $node, PhpFileModelInterface $parent): void
     {
         if ($node->type === Node\Stmt\Use_::TYPE_NORMAL) {
             foreach ($node->uses as $use) {
                 $parent->addUse($use->alias, $use->name->toString());
             }
         }
-
-        return $parent;
     }
 }

@@ -31,7 +31,7 @@ abstract class AbstractNodeParser implements NodeParserInterface
      * invoke method from them.
      * If the invoke method does not exists, or if the parameter class does not match, it is an implementation error.
      */
-    public function parse(Node $node, NodeInterface $parent): NodeInterface
+    public function parse(Node $node, NodeInterface $parent): void
     {
         if (! method_exists($this, 'invoke')) {
             throw new ParseException(sprintf(
@@ -39,13 +39,13 @@ abstract class AbstractNodeParser implements NodeParserInterface
                 get_class($this)
             ));
         }
-        return $this->invoke($node, $parent);
+        $this->invoke($node, $parent);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function parseSubNodes(array $nodes, NodeInterface $parent): NodeInterface
+    public function parseSubNodes(array $nodes, NodeInterface $parent): void
     {
         foreach ($nodes as $node) {
             // Get the node class
@@ -54,10 +54,9 @@ abstract class AbstractNodeParser implements NodeParserInterface
             // If a node parser exists
             if ($this->hasNodeParser($class)) {
                 // Parse the node
-                $parent = $this->getNodeParser($class)->parse($node, $parent);
+                $this->getNodeParser($class)->parse($node, $parent);
             }
         }
-        return $parent;
     }
 
     /**

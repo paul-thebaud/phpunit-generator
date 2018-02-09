@@ -2,6 +2,8 @@
 
 # Erase old target files with new one
 overwrite: false
+# If overwrite is enabled, set to true to backup erased files
+backup: false
 # If you want to generate tests for Interface too
 interface: false
 # Automatically generate tests for getter / setter method

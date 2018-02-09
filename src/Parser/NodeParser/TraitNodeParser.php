@@ -47,11 +47,9 @@ class TraitNodeParser extends AbstractNodeParser
      * @param Node\Stmt\Trait_      $node   The node to parse.
      * @param PhpFileModelInterface $parent The parent node.
      *
-     * @return PhpFileModelInterface The updated parent.
-     *
      * @throws AnnotationParseException If an annotation can not be parsed.
      */
-    public function invoke(Node\Stmt\Trait_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
+    public function invoke(Node\Stmt\Trait_ $node, PhpFileModelInterface $parent): void
     {
         $trait = new TraitModel();
         $trait->setParentNode($parent);
@@ -59,13 +57,11 @@ class TraitNodeParser extends AbstractNodeParser
         $parent->addConcreteUse($parent->getFullNameFor($trait->getName()), $trait->getName());
 
         if (($documentation = $node->getDocComment()) !== null) {
-            $trait = $this->documentationNodeParser->invoke($documentation, $trait);
+            $this->documentationNodeParser->invoke($documentation, $trait);
         }
 
-        $trait = $this->parseSubNodes($node->stmts, $trait);
+        $this->parseSubNodes($node->stmts, $trait);
 
         $parent->addTrait($trait);
-
-        return $parent;
     }
 }

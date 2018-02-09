@@ -24,32 +24,26 @@ class TypeNodeParser extends AbstractNodeParser
      *
      * @param mixed         $node   The node to parse.
      * @param TypeInterface $parent The parent node.
-     *
-     * @return TypeInterface  The updated parent.
      */
-    public function invoke($node, TypeInterface $parent): TypeInterface
+    public function invoke($node, TypeInterface $parent): void
     {
         // If it is a nullable type
         if ($node instanceof Node\NullableType) {
             $parent->setNullable(true);
 
-            return $this->invoke($node->type, $parent);
+            $this->invoke($node->type, $parent);
+        } else {
+            // If it is a class like type
+            if ($node instanceof Node\Name) {
+                $parent->setType(TypeInterface::CUSTOM);
+                $parent->setCustomType($this->getClassType($node, $parent));
+            } else {
+                // If it is a scalar type
+                if (Validator::stringType()->validate($node)) {
+                    $parent->setType(constant(TypeInterface::class . '::' . strtoupper($node)));
+                }
+            }
         }
-
-        // If it is a class like type
-        if ($node instanceof Node\Name) {
-            $parent->setType(TypeInterface::CUSTOM);
-            $parent->setCustomType($this->getClassType($node, $parent));
-
-            return $parent;
-        }
-
-        // If it is a scalar type
-        if (Validator::stringType()->validate($node)) {
-            $parent->setType(constant(TypeInterface::class . '::' . strtoupper($node)));
-        }
-
-        return $parent;
     }
 
     /**

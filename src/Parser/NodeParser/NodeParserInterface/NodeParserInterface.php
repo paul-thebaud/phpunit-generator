@@ -27,18 +27,14 @@ interface NodeParserInterface
      *
      * @param Node          $node   The node to parse.
      * @param NodeInterface $parent The parent node.
-     *
-     * @return NodeInterface The updated parent.
      */
-    public function parse(Node $node, NodeInterface $parent): NodeInterface;
+    public function parse(Node $node, NodeInterface $parent): void;
 
     /**
      * Parse the node sub nodes to update parent.
      *
      * @param Node[]        $nodes  The nodes to parse.
      * @param NodeInterface $parent The parent.
-     *
-     * @return NodeInterface The updated parent.
      */
-    public function parseSubNodes(array $nodes, NodeInterface $parent): NodeInterface;
+    public function parseSubNodes(array $nodes, NodeInterface $parent): void;
 }

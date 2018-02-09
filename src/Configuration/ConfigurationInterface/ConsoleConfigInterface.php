@@ -19,6 +19,11 @@ interface ConsoleConfigInterface extends ConfigInterface
     public function hasOverwrite(): bool;
 
     /**
+     * @return bool True if existing files need to be backed up before erase them.
+     */
+    public function hasBackup(): bool;
+
+    /**
      * @return bool True if errors need to be ignored.
      */
     public function hasIgnore(): bool;

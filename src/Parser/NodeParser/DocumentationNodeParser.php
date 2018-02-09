@@ -94,11 +94,9 @@ class DocumentationNodeParser
      * @param Doc                    $node   The node to parse.
      * @param DocumentationInterface $parent The parent node.
      *
-     * @return DocumentationInterface The updated parent.
-     *
      * @throws AnnotationParseException If an annotation is invalid.
      */
-    public function invoke(Doc $node, DocumentationInterface $parent): DocumentationInterface
+    public function invoke(Doc $node, DocumentationInterface $parent): void
     {
         $documentation = $node->getText();
         $parent->setDocumentation($documentation);
@@ -133,8 +131,6 @@ class DocumentationNodeParser
         } catch (AnnotationParseException $exception) {
             throw new AnnotationParseException($exception->getMessage());
         }
-
-        return $parent;
     }
 
     /**

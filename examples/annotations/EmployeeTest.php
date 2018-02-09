@@ -42,7 +42,7 @@ class EmployeeTest extends TestCase
     {
         $expected = "a string to test";
 
-        $property = (new \ReflectionClass(Employee::class))
+        $property = (new \ReflectionClass($this->employee))
             ->getProperty('name');
         $property->setAccessible(true);
         $property->setValue($this->employee, $expected);
@@ -57,7 +57,7 @@ class EmployeeTest extends TestCase
     {
         $expected = "a string to test";
 
-        $property = (new \ReflectionClass(Employee::class))
+        $property = (new \ReflectionClass($this->employee))
             ->getProperty('name');
         $property->setAccessible(true);
         $this->employee->setName($expected);
@@ -72,7 +72,7 @@ class EmployeeTest extends TestCase
     {
         $expected = 42;
 
-        $property = (new \ReflectionClass(Employee::class))
+        $property = (new \ReflectionClass($this->employee))
             ->getProperty('phone');
         $property->setAccessible(true);
         $property->setValue($this->employee, $expected);
@@ -87,7 +87,7 @@ class EmployeeTest extends TestCase
     {
         $expected = 42;
 
-        $property = (new \ReflectionClass(Employee::class))
+        $property = (new \ReflectionClass($this->employee))
             ->getProperty('phone');
         $property->setAccessible(true);
         $this->employee->setCellphonePhone($expected);

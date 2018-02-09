@@ -44,10 +44,8 @@ class ParameterNodeParser extends AbstractNodeParser
      *
      * @param Node\Param             $node   The node to parse.
      * @param FunctionModelInterface $parent The parent node.
-     *
-     * @return FunctionModelInterface The updated parent.
      */
-    public function invoke(Node\Param $node, FunctionModelInterface $parent): FunctionModelInterface
+    public function invoke(Node\Param $node, FunctionModelInterface $parent): void
     {
         $parameter = new ParameterModel();
         $parameter->setParentNode($parent);
@@ -55,14 +53,12 @@ class ParameterNodeParser extends AbstractNodeParser
         $parameter->setIsVariadic($node->variadic);
 
         if ($node->type !== null) {
-            $parameter = $this->typeNodeParser->invoke($node->type, $parameter);
+            $this->typeNodeParser->invoke($node->type, $parameter);
         }
         if ($node->default !== null) {
-            $parameter = $this->valueNodeParser->invoke($node->default, $parameter);
+            $this->valueNodeParser->invoke($node->default, $parameter);
         }
 
         $parent->addParameter($parameter);
-
-        return $parent;
     }
 }

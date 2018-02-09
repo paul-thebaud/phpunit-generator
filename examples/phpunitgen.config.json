@@ -1,5 +1,6 @@
 {
   "overwrite": false,
+  "backup": false,
   "interface": false,
   "auto": true,
   "ignore": true,

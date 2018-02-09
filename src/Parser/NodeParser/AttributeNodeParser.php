@@ -38,10 +38,8 @@ class AttributeNodeParser extends AbstractNodeParser
      *
      * @param Node\Stmt\Property  $node   The node to parse.
      * @param TraitModelInterface $parent The parent node.
-     *
-     * @return TraitModelInterface The updated parent.
      */
-    public function invoke(Node\Stmt\Property $node, TraitModelInterface $parent): TraitModelInterface
+    public function invoke(Node\Stmt\Property $node, TraitModelInterface $parent): void
     {
         $isStatic   = $node->isStatic();
         $visibility = AttributeVisibilityHelper::getPropertyVisibility($node);
@@ -54,12 +52,10 @@ class AttributeNodeParser extends AbstractNodeParser
             $attribute->setVisibility($visibility);
 
             if ($property->default !== null) {
-                $attribute = $this->valueNodeParser->invoke($property->default, $attribute);
+                $this->valueNodeParser->invoke($property->default, $attribute);
             }
 
             $parent->addAttribute($attribute);
         }
-
-        return $parent;
     }
 }

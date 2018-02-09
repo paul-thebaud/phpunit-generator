@@ -47,11 +47,9 @@ class ClassNodeParser extends AbstractNodeParser
      * @param Node\Stmt\Class_      $node   The node to parse.
      * @param PhpFileModelInterface $parent The parent node.
      *
-     * @return PhpFileModelInterface The updated parent.
-     *
      * @throws AnnotationParseException If an annotation can not be parsed.
      */
-    public function invoke(Node\Stmt\Class_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
+    public function invoke(Node\Stmt\Class_ $node, PhpFileModelInterface $parent): void
     {
         $class = new ClassModel();
         $class->setParentNode($parent);
@@ -61,13 +59,11 @@ class ClassNodeParser extends AbstractNodeParser
         $parent->addConcreteUse($parent->getFullNameFor($class->getName()), $class->getName());
 
         if (($documentation = $node->getDocComment()) !== null) {
-            $class = $this->documentationNodeParser->invoke($documentation, $class);
+            $this->documentationNodeParser->invoke($documentation, $class);
         }
 
-        $class = $this->parseSubNodes($node->stmts, $class);
+        $this->parseSubNodes($node->stmts, $class);
 
         $parent->addClass($class);
-
-        return $parent;
     }
 }

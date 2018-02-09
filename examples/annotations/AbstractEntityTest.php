@@ -44,7 +44,7 @@ class AbstractEntityTest extends TestCase
     {
         $expected = 42;
 
-        $property = (new \ReflectionClass(AbstractEntity::class))
+        $property = (new \ReflectionClass($this->abstractEntity))
             ->getProperty('id');
         $property->setAccessible(true);
         $property->setValue($this->abstractEntity, $expected);

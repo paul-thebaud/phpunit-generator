@@ -22,24 +22,20 @@ class FunctionNodeParser extends AbstractFunctionNodeParser
      *
      * @param Node\Stmt\Function_   $node   The node to parse.
      * @param PhpFileModelInterface $parent The parent node.
-     *
-     * @return PhpFileModelInterface The updated parent.
      */
-    public function invoke(Node\Stmt\Function_ $node, PhpFileModelInterface $parent): PhpFileModelInterface
+    public function invoke(Node\Stmt\Function_ $node, PhpFileModelInterface $parent): void
     {
         $function = new FunctionModel();
         $function->setParentNode($parent);
         $function->setName($node->name);
         $function->setIsGlobal(true);
 
-        $function = $this->parseFunction($node, $function);
+        $this->parseFunction($node, $function);
 
         if (($documentation = $node->getDocComment()) !== null) {
-            $function = $this->documentationNodeParser->invoke($documentation, $function);
+            $this->documentationNodeParser->invoke($documentation, $function);
         }
 
         $parent->addFunction($function);
-
-        return $parent;
     }
 }

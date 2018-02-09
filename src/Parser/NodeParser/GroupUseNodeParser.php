@@ -21,10 +21,8 @@ class GroupUseNodeParser extends AbstractNodeParser
      *
      * @param Node\Stmt\GroupUse    $node   The node to parse.
      * @param PhpFileModelInterface $parent The parent node.
-     *
-     * @return PhpFileModelInterface The updated parent.
      */
-    public function invoke(Node\Stmt\GroupUse $node, PhpFileModelInterface $parent): PhpFileModelInterface
+    public function invoke(Node\Stmt\GroupUse $node, PhpFileModelInterface $parent): void
     {
         if ($this->validateType($node->type)) {
             $prefix = $node->prefix->toString();
@@ -34,8 +32,6 @@ class GroupUseNodeParser extends AbstractNodeParser
                 }
             }
         }
-
-        return $parent;
     }
 
     /**

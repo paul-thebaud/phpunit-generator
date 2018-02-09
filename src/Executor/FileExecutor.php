@@ -120,7 +120,14 @@ class FileExecutor implements FileExecutorInterface
 
         if ($targetPathExists) {
             if ($this->config->hasBackup()) {
-                $this->fileSystem->copy($targetPath, $targetPath . '.backup');
+                $backupTarget = $targetPath . '.bak';
+                if ($this->fileSystem->has($backupTarget)) {
+                    throw new FileExistsException(sprintf(
+                        'The backup target file "%s" already exists.',
+                        $backupTarget
+                    ));
+                }
+                $this->fileSystem->copy($targetPath, $backupTarget);
             }
             $this->fileSystem->delete($targetPath);
         }

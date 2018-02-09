@@ -79,8 +79,10 @@ option, PhpUnitGen will consider that source and target paths are directories.
 A configuration file needs the following parameters :
 
 * __overwrite__ [*boolean*]: Set *true* if you want to erase old files with the new ones.
+* __backup__ [*boolean*]: Set *true* if you want to backup old files before erase them when `overwrite` is set to *true*.
+Backup files while be named as following: `your_file.php.bak`
 * __interface__ [*boolean*]: Set *true* if you want to generate unit tests skeletons for interface too.
-* __auto__ [*boolean*]: Set *true* if you want to automatically generate `getter` / `setter` unit tests.
+* __auto__ [*boolean*]: Set *true* if you want to automatically generate `getter` / `setter` unit tests, and class or trait instantiation.
 * __ignore__ [*boolean*]: Set *true* if you want to ignore errors that are not fatal.
 * __exclude__ [*string* or *null*]: A PHP regex to filter files that have not to be parsed. Set as *null* if you do not want to use an exclude regex.
 * __include__ [*string* or *null*]: A PHP regex to filter files that have to be parsed. Set as *null* if you do not want to use an include regex.
@@ -168,6 +170,9 @@ a setter method is called `setName`, and the class must have the property `$name
 
 PhpUnitGen will test these methods with an auto-generated parameter
 of the return type of the getter or of the argument type of the setter.
+
+PhpUnitGen will also generate instantiation for class or trait if they have a `__construct` method.
+It will use simple value to call the constructor method, so be careful with the generated instantiation.
 
 ### Argument of annotations
 

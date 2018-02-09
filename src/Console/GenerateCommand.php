@@ -32,6 +32,8 @@ use Symfony\Component\Stopwatch\Stopwatch;
  */
 class GenerateCommand extends Command
 {
+    public const STOPWATCH_EVENT = 'command';
+
     /**
      * @var string[] CONSOLE_CONFIG_FACTORIES Mapping array between file extension and configuration factories.
      */
@@ -95,7 +97,7 @@ class GenerateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->stopwatch->start('command');
+        $this->stopwatch->start(GenerateCommand::STOPWATCH_EVENT);
 
         $styledIO = $this->getStyledIO($input, $output);
         try {

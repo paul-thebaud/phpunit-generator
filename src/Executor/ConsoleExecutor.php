@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Executor;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
+use PhpUnitGen\Console\GenerateCommand;
 use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
 use PhpUnitGen\Executor\ExecutorInterface\ConsoleExecutorInterface;
@@ -94,17 +95,17 @@ class ConsoleExecutor implements ConsoleExecutorInterface
     {
         if (count($this->config->getDirectories()) > 0) {
             $this->output->section('Directories parsing begins.');
-        }
 
-        $this->executeOnDirectories();
+            $this->executeOnDirectories();
+        }
 
         if (count($this->config->getFiles()) > 0) {
             $this->output->section('Global files parsing begins.');
+
+            $this->executeOnFiles();
         }
 
-        $this->executeOnFiles();
-
-        $event = $this->stopwatch->stop('command');
+        $event = $this->stopwatch->stop(GenerateCommand::STOPWATCH_EVENT);
 
         $this->output->section('PhpUnitGen finished all tasks.');
         $this->output->text(sprintf(
@@ -136,10 +137,10 @@ class ConsoleExecutor implements ConsoleExecutorInterface
         foreach ($this->config->getDirectories() as $source => $target) {
             try {
                 $this->directoryExecutor->invoke($source, $target);
+                $this->report->increaseParsedDirectoryNumber();
             } catch (Exception $exception) {
                 $this->exceptionCatcher->catch($exception, $source);
             }
-            $this->report->increaseParsedDirectoryNumber();
         }
     }
 

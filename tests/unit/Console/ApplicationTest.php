@@ -8,6 +8,7 @@ use PhpUnitGen\Console\GenerateCommand;
 use PhpUnitGen\Container\ConsoleContainerFactory;
 use Symfony\Component\Console\Application as AbstractApplication;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
 
@@ -100,5 +101,24 @@ class ApplicationTest extends TestCase
             ->with($input, $output)->willReturn(0);
 
         $this->assertSame(0, $app->doRun($input, $output));
+    }
+
+    /**
+     * @covers \PhpUnitGen\Console\Application::doRunParent()
+     */
+    public function testDoRunParent(): void
+    {
+        $input  = $this->createMock(InputInterface::class);
+        $input->expects($this->once())->method('hasParameterOption')
+            ->with(array('--version', '-V'), true)->willReturn(true);
+        $output = new NullOutput();
+
+        $app = new Application();
+
+        $doRunParentMethod = (new \ReflectionClass($app))
+            ->getMethod('doRunParent');
+        $doRunParentMethod->setAccessible(true);
+
+        $this->assertSame(0, $doRunParentMethod->invoke($app, $input, $output));
     }
 }

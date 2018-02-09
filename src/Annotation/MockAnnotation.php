@@ -5,7 +5,6 @@ namespace PhpUnitGen\Annotation;
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
 use PhpUnitGen\Exception\AnnotationParseException;
 use PhpUnitGen\Exception\JsonException;
-use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Parser\NodeParserUtil\RootRetrieverHelper;
 use PhpUnitGen\Util\Json;
 use Respect\Validation\Validator;
@@ -56,15 +55,15 @@ class MockAnnotation extends AbstractAnnotation
         // If class to use is not from global namespace
         if (! Validator::regex('/^\\\\/')->validate($decoded[0])) {
             // Add the current namespace to it
-            $namespace = $phpFile->getNamespaceString();
-            $decoded[0] = ($namespace !== null ? ($namespace . '\\') : '') . $decoded[0];
+            $namespace  = $phpFile->getNamespaceString();
+            $decoded[0] = ($namespace !== null? ($namespace . '\\') : '') . $decoded[0];
         }
         // Get the last name part
         $nameArray = explode('\\', $decoded[0]);
         $lastPart  = end($nameArray);
         // Add use to PhpFile
         $phpFile->addConcreteUse($decoded[0], $lastPart);
-        $this->class = $lastPart;
+        $this->class    = $lastPart;
         $this->property = $decoded[1];
     }
 

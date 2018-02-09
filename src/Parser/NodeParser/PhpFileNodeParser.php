@@ -3,6 +3,8 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
+use PhpUnitGen\Exception\Exception;
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Parser\NodeParserUtil\UsePreParseTrait;
 
 /**
@@ -49,6 +51,10 @@ class PhpFileNodeParser extends AbstractNodeParser
     }
 
     /**
-     * A php file is the root of each nodes, so it does not have a invoke method.
+     * {@inheritdoc}
      */
+    public function invoke($node, NodeInterface $parent): void
+    {
+        throw new Exception('A PhpFile is the root of parsing, so only sub-statements can be parsed.');
+    }
 }

@@ -2,11 +2,7 @@
 
 namespace PhpUnitGen\Model\PropertyInterface;
 
-use Doctrine\Common\Collections\Collection;
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
-use PhpUnitGen\Annotation\ConstructAnnotation;
-use PhpUnitGen\Annotation\GetAnnotation;
-use PhpUnitGen\Annotation\SetAnnotation;
 
 /**
  * Interface DocumentationInterface.

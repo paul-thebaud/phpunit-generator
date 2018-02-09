@@ -25,10 +25,10 @@ interface NodeParserInterface
     /**
      * Parse a node to update the parent node.
      *
-     * @param Node          $node   The node to parse.
+     * @param mixed         $node   The node to parse.
      * @param NodeInterface $parent The parent node.
      */
-    public function parse(Node $node, NodeInterface $parent): void;
+    public function invoke($node, NodeInterface $parent): void;
 
     /**
      * Parse the node sub nodes to update parent.

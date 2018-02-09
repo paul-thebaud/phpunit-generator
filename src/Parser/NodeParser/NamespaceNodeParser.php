@@ -3,8 +3,9 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
-use PhpUnitGen\Exception\ParseException;
+use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Parser\NodeParserUtil\UsePreParseTrait;
 
 /**
@@ -50,11 +51,15 @@ class NamespaceNodeParser extends AbstractNodeParser
     /**
      * Parse a node to update the parent node model.
      *
-     * @param Node\Stmt\Namespace_  $node   The node to parse.
-     * @param PhpFileModelInterface $parent The parent node.
+     * @param mixed         $node   The node to parse.
+     * @param NodeInterface $parent The parent node.
      */
-    public function invoke(Node\Stmt\Namespace_ $node, PhpFileModelInterface $parent): void
+    public function invoke($node, NodeInterface $parent): void
     {
+        if (! $node instanceof Node\Stmt\Namespace_ || ! $parent instanceof PhpFileModelInterface) {
+            throw new Exception('NamespaceNodeParser is made to parse a namespace node');
+        }
+
         if ($node->name instanceof Node\Name) {
             $parent->setNamespace($node->name->parts);
         }

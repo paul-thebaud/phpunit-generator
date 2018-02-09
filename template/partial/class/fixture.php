@@ -18,12 +18,23 @@ foreach($phpFile->getClassLikeCollection() as $classLike) {
     $hasCustomConstructor = false;
     $constructorAnnotation = $classLike->getConstructAnnotation();
 
+    // If the class has a construct annotation
     if ($constructorAnnotation !== null) {
         if ($constructorAnnotation->getClass() !== null) {
             $hasCustomConstructor = true;
             echo $this->fetch('annotation/constructor.php', ['classLike' => $classLike, 'constructorAnnotation' => $constructorAnnotation]);
         } else {
             $parameters = $constructorAnnotation->getParameters();
+        }
+    } else {
+        // If the class is a class or trait, which has a __construct method and configuration auto parameter is set to true
+        if ($this->getAttribute('config')->hasAuto()
+            && $classLike instanceof \PhpUnitGen\Model\ModelInterface\TraitModelInterface
+            && ($construct = $classLike->getFunction('__construct')) !== null
+        ) {
+            foreach ($construct->getParameters() as $parameter) {
+                $parameters[] = $this->getAttribute('valueHelper')->invoke($parameter->getType(), $parameter->getCustomType());
+            }
         }
     }
 

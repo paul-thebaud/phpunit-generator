@@ -26,6 +26,7 @@ class ConsoleConfigTest extends TestCase
     {
         $config = new ConsoleConfig([
             'overwrite' => false,
+            'backup'    => false,
             'interface' => false,
             'auto'      => false,
             'ignore'    => false,
@@ -47,6 +48,7 @@ class ConsoleConfigTest extends TestCase
         $this->expectExceptionMessage('"overwrite" parameter must be set as a boolean.');
 
         new ConsoleConfig([
+            'backup'    => false,
             'interface' => false,
             'auto'      => false,
             'ignore'    => false,
@@ -68,6 +70,50 @@ class ConsoleConfigTest extends TestCase
 
         new ConsoleConfig([
             'overwrite' => 'Invalid parameter',
+            'backup'    => false,
+            'interface' => false,
+            'auto'      => false,
+            'ignore'    => false,
+            'exclude'   => '/.*config\.php$/',
+            'include'   => '/.*\.php$/',
+            'dirs'      => [],
+            'files'     => [],
+            'phpdoc'    => []
+        ]);
+    }
+
+    /**
+     * @covers \PhpUnitGen\Configuration\ConsoleConfig::validateBooleans()
+     */
+    public function testBackupMissingConfig(): void
+    {
+        $this->expectException(InvalidConfigException::class);
+        $this->expectExceptionMessage('"backup" parameter must be set as a boolean.');
+
+        new ConsoleConfig([
+            'overwrite' => false,
+            'interface' => false,
+            'auto'      => false,
+            'ignore'    => false,
+            'exclude'   => '/.*config\.php$/',
+            'include'   => '/.*\.php$/',
+            'dirs'      => [],
+            'files'     => [],
+            'phpdoc'    => []
+        ]);
+    }
+
+    /**
+     * @covers \PhpUnitGen\Configuration\ConsoleConfig::validateBooleans()
+     */
+    public function testBackupInvalidConfig(): void
+    {
+        $this->expectException(InvalidConfigException::class);
+        $this->expectExceptionMessage('"backup" parameter must be set as a boolean.');
+
+        new ConsoleConfig([
+            'overwrite' => false,
+            'backup'    => 'Invalid parameter',
             'interface' => false,
             'auto'      => false,
             'ignore'    => false,
@@ -89,6 +135,7 @@ class ConsoleConfigTest extends TestCase
 
         new ConsoleConfig([
             'overwrite' => false,
+            'backup'    => false,
             'interface' => false,
             'auto'      => false,
             'exclude'   => '/.*config\.php$/',
@@ -109,6 +156,7 @@ class ConsoleConfigTest extends TestCase
 
         new ConsoleConfig([
             'overwrite' => false,
+            'backup'    => false,
             'interface' => false,
             'auto'      => false,
             'ignore'    => 'Invalid parameter',
@@ -130,6 +178,7 @@ class ConsoleConfigTest extends TestCase
 
         new ConsoleConfig([
             'overwrite' => false,
+            'backup'    => false,
             'interface' => false,
             'auto'      => false,
             'ignore'    => false,
@@ -150,6 +199,7 @@ class ConsoleConfigTest extends TestCase
 
         new ConsoleConfig([
             'overwrite' => false,
+            'backup'    => false,
             'interface' => false,
             'auto'      => false,
             'ignore'    => false,
@@ -171,6 +221,7 @@ class ConsoleConfigTest extends TestCase
 
         new ConsoleConfig([
             'overwrite' => false,
+            'backup'    => false,
             'interface' => false,
             'auto'      => false,
             'ignore'    => false,
@@ -191,6 +242,7 @@ class ConsoleConfigTest extends TestCase
 
         new ConsoleConfig([
             'overwrite' => false,
+            'backup'    => false,
             'interface' => false,
             'auto'      => false,
             'ignore'    => false,
@@ -212,6 +264,7 @@ class ConsoleConfigTest extends TestCase
 
         new ConsoleConfig([
             'overwrite' => false,
+            'backup'    => false,
             'interface' => false,
             'auto'      => false,
             'ignore'    => false,
@@ -232,6 +285,7 @@ class ConsoleConfigTest extends TestCase
 
         new ConsoleConfig([
             'overwrite' => false,
+            'backup'    => false,
             'interface' => false,
             'auto'      => false,
             'ignore'    => false,
@@ -255,6 +309,7 @@ class ConsoleConfigTest extends TestCase
 
         new ConsoleConfig([
             'overwrite' => false,
+            'backup'    => false,
             'interface' => false,
             'auto'      => false,
             'ignore'    => false,
@@ -275,6 +330,7 @@ class ConsoleConfigTest extends TestCase
 
         new ConsoleConfig([
             'overwrite' => false,
+            'backup'    => false,
             'interface' => false,
             'auto'      => false,
             'ignore'    => false,
@@ -298,6 +354,7 @@ class ConsoleConfigTest extends TestCase
     {
         $config = new ConsoleConfig([
             'overwrite' => false,
+            'backup'    => false,
             'interface' => false,
             'auto'      => false,
             'ignore'    => false,
@@ -309,6 +366,7 @@ class ConsoleConfigTest extends TestCase
         ]);
 
         $this->assertSame(false, $config->hasOverwrite());
+        $this->assertSame(false, $config->hasBackup());
         $this->assertSame(false, $config->hasIgnore());
         $this->assertSame('/.*config\.php$/', $config->getExcludeRegex());
         $this->assertSame('/.*\.php$/', $config->getIncludeRegex());

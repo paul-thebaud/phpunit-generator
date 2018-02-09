@@ -3,7 +3,6 @@
 namespace PhpUnitGen\Model\PropertyInterface;
 
 use Doctrine\Common\Collections\Collection;
-use PhpUnitGen\Annotation\ConstructAnnotation;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 
 /**
@@ -34,7 +33,16 @@ interface ClassLikeInterface extends NodeInterface, DocumentationInterface
      *
      * @return bool True if it exists.
      */
-    public function hasMethod(string $name): bool;
+    public function hasFunction(string $name): bool;
+
+    /**
+     * Get a function if the function exists.
+     *
+     * @param string $name The name of the function.
+     *
+     * @return FunctionModelInterface|null The retrieved function, null if it does not exist.
+     */
+    public function getFunction(string $name): ?FunctionModelInterface;
 
     /**
      * @return int The number of testable (not abstract) function in this parent.

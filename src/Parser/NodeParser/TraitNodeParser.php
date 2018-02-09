@@ -4,7 +4,9 @@ namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
 use PhpUnitGen\Exception\AnnotationParseException;
+use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Model\TraitModel;
 use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameHelper;
 
@@ -44,13 +46,17 @@ class TraitNodeParser extends AbstractNodeParser
     /**
      * Parse a node to update the parent node model.
      *
-     * @param Node\Stmt\Trait_      $node   The node to parse.
-     * @param PhpFileModelInterface $parent The parent node.
+     * @param mixed         $node   The node to parse.
+     * @param NodeInterface $parent The parent node.
      *
      * @throws AnnotationParseException If an annotation can not be parsed.
      */
-    public function invoke(Node\Stmt\Trait_ $node, PhpFileModelInterface $parent): void
+    public function invoke($node, NodeInterface $parent): void
     {
+        if (! $node instanceof Node\Stmt\Trait_ || ! $parent instanceof PhpFileModelInterface) {
+            throw new Exception('TraitNodeParser is made to parse a trait node');
+        }
+
         $trait = new TraitModel();
         $trait->setParentNode($parent);
         $trait->setName(ClassLikeNameHelper::getName($node));

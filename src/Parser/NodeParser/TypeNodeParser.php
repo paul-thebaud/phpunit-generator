@@ -3,7 +3,9 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
+use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Model\PropertyInterface\TypeInterface;
 use PhpUnitGen\Parser\NodeParserUtil\RootRetrieverHelper;
 use Respect\Validation\Validator;
@@ -23,27 +25,35 @@ class TypeNodeParser extends AbstractNodeParser
      * Parse a node to update the parent node model.
      *
      * @param mixed         $node   The node to parse.
-     * @param TypeInterface $parent The parent node.
+     * @param NodeInterface $parent The parent node.
      */
-    public function invoke($node, TypeInterface $parent): void
+    public function invoke($node, NodeInterface $parent): void
     {
+        if (! $parent instanceof TypeInterface) {
+            throw new Exception('TypeNodeParser is made to parse a type node');
+        }
+
         // If it is a nullable type
         if ($node instanceof Node\NullableType) {
             $parent->setNullable(true);
 
             $this->invoke($node->type, $parent);
-        } else {
-            // If it is a class like type
-            if ($node instanceof Node\Name) {
-                $parent->setType(TypeInterface::CUSTOM);
-                $parent->setCustomType($this->getClassType($node, $parent));
-            } else {
-                // If it is a scalar type
-                if (Validator::stringType()->validate($node)) {
-                    $parent->setType(constant(TypeInterface::class . '::' . strtoupper($node)));
-                }
-            }
+            return;
         }
+        // If it is a class like type
+        if ($node instanceof Node\Name) {
+            $parent->setType(TypeInterface::CUSTOM);
+            $parent->setCustomType($this->getClassType($node, $parent));
+            return;
+        }
+        // If it is a scalar type
+        if (Validator::stringType()->validate($node)) {
+            $parent->setType(constant(TypeInterface::class . '::' . strtoupper($node)));
+            return;
+        }
+
+
+        throw new Exception('TypeNodeParser is made to parse a type node');
     }
 
     /**

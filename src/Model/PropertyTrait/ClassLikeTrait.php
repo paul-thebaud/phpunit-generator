@@ -44,11 +44,29 @@ trait ClassLikeTrait
      *
      * @return bool True if it exists.
      */
-    public function hasMethod(string $name): bool
+    public function hasFunction(string $name): bool
     {
         return $this->functions->exists(function (FunctionModelInterface $function) use ($name) {
             return $function->getName() === $name;
         });
+    }
+
+    /**
+     * Get a function if the function exists.
+     *
+     * @param string $name The name of the function.
+     *
+     * @return FunctionModelInterface|null The retrieved function, null if it does not exist.
+     */
+    public function getFunction(string $name): ?FunctionModelInterface
+    {
+        $functions = $this->functions->filter(function (FunctionModelInterface $function) use ($name) {
+            return $function->getName() === $name;
+        });
+        if ($functions->isEmpty()) {
+            return null;
+        }
+        return $functions->first();
     }
 
     /**

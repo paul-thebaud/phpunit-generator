@@ -3,8 +3,10 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
+use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\AttributeModel;
 use PhpUnitGen\Model\ModelInterface\TraitModelInterface;
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Parser\NodeParserUtil\AttributeVisibilityHelper;
 
 /**
@@ -36,11 +38,14 @@ class AttributeNodeParser extends AbstractNodeParser
     /**
      * Parse a node to update the parent node model.
      *
-     * @param Node\Stmt\Property  $node   The node to parse.
-     * @param TraitModelInterface $parent The parent node.
+     * @param mixed         $node   The node to parse.
+     * @param NodeInterface $parent The parent node.
      */
-    public function invoke(Node\Stmt\Property $node, TraitModelInterface $parent): void
+    public function invoke($node, NodeInterface $parent): void
     {
+        if (! $node instanceof Node\Stmt\Property || ! $parent instanceof TraitModelInterface) {
+            throw new Exception('AttributeNodeParser is made to parse a property node');
+        }
         $isStatic   = $node->isStatic();
         $visibility = AttributeVisibilityHelper::getPropertyVisibility($node);
 

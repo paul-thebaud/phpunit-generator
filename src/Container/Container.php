@@ -3,7 +3,6 @@
 namespace PhpUnitGen\Container;
 
 use PhpUnitGen\Exception\ContainerException;
-use PhpUnitGen\Exception\NotFoundException;
 use Psr\Container\ContainerInterface;
 use Respect\Validation\Validator;
 

@@ -3,7 +3,6 @@
 namespace PhpUnitGen\Model\ModelInterface;
 
 use Doctrine\Common\Collections\Collection;
-use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
 use PhpUnitGen\Annotation\AssertAnnotation;
 use PhpUnitGen\Annotation\GetAnnotation;
 use PhpUnitGen\Annotation\MockAnnotation;

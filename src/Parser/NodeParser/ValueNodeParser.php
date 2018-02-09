@@ -3,6 +3,8 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
+use PhpUnitGen\Exception\Exception;
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Model\PropertyInterface\VariableLikeInterface;
 
 /**
@@ -19,14 +21,15 @@ class ValueNodeParser extends AbstractNodeParser
     /**
      * Parse a node to update the parent node model.
      *
-     * @param Node\Expr             $node   The node to parse.
-     * @param VariableLikeInterface $parent The parent node.
-     *
-     * @return VariableLikeInterface The updated parent.
+     * @param mixed         $node   The node to parse.
+     * @param NodeInterface $parent The parent node.
      *
      * This method do nothing because parsing expr is hard and useless for PhpUnitGen.
      */
-    public function invoke(Node\Expr $node, VariableLikeInterface $parent): void
+    public function invoke($node, NodeInterface $parent): void
     {
+        if (! $node instanceof Node\Expr || ! $parent instanceof VariableLikeInterface) {
+            throw new Exception('ValueNodeParser is made to parse a expression node');
+        }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace PhpUnitGen\Parser\NodeParser;
 
-use PhpParser\Node;
 use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Parser\NodeParser\NodeParserInterface\NodeParserInterface;
@@ -26,24 +25,6 @@ abstract class AbstractNodeParser implements NodeParserInterface
 
     /**
      * {@inheritdoc}
-     *
-     * The abstract node parser is used with implementation of <NodeName>NodeParserInterface, so it must have the
-     * invoke method from them.
-     * If the invoke method does not exists, or if the parameter class does not match, it is an implementation error.
-     */
-    public function parse(Node $node, NodeInterface $parent): void
-    {
-        if (! method_exists($this, 'invoke')) {
-            throw new ParseException(sprintf(
-                'Class "%s" must implements method "invoke" described in AbstractNodeParser',
-                get_class($this)
-            ));
-        }
-        $this->invoke($node, $parent);
-    }
-
-    /**
-     * {@inheritdoc}
      */
     public function parseSubNodes(array $nodes, NodeInterface $parent): void
     {
@@ -54,7 +35,7 @@ abstract class AbstractNodeParser implements NodeParserInterface
             // If a node parser exists
             if ($this->hasNodeParser($class)) {
                 // Parse the node
-                $this->getNodeParser($class)->parse($node, $parent);
+                $this->getNodeParser($class)->invoke($node, $parent);
             }
         }
     }

@@ -58,8 +58,8 @@ class ConstructAnnotation extends AbstractAnnotation
             // If class to use is not from global namespace
             if (! Validator::regex('/^\\\\/')->validate($decoded[$index])) {
                 // Add the current namespace to it
-                $namespace = $phpFile->getNamespaceString();
-                $decoded[$index] = ($namespace !== null ? ($namespace . '\\') : '') . $decoded[$index];
+                $namespace       = $phpFile->getNamespaceString();
+                $decoded[$index] = ($namespace !== null? ($namespace . '\\') : '') . $decoded[$index];
             }
             // Get the last name part
             $nameArray = explode('\\', $decoded[$index]);
@@ -97,7 +97,8 @@ class ConstructAnnotation extends AbstractAnnotation
             );
         }
         // Validate that last value is an array
-        if (! Validator::arrayVal()->each(Validator::stringType(), Validator::intType())->validate($decoded[$size-1])) {
+        if (! Validator::arrayVal()
+            ->each(Validator::stringType(), Validator::intType())->validate($decoded[$size - 1])) {
             throw new AnnotationParseException(
                 '"construct" annotation content is invalid (constructor parameters must be a array of string)'
             );

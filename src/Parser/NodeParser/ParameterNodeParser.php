@@ -3,8 +3,10 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
+use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ParameterModel;
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 
 /**
  * Class ParameterNodeParser.
@@ -42,11 +44,15 @@ class ParameterNodeParser extends AbstractNodeParser
     /**
      * Parse a node to update the parent node model.
      *
-     * @param Node\Param             $node   The node to parse.
-     * @param FunctionModelInterface $parent The parent node.
+     * @param mixed         $node   The node to parse.
+     * @param NodeInterface $parent The parent node.
      */
-    public function invoke(Node\Param $node, FunctionModelInterface $parent): void
+    public function invoke($node, NodeInterface $parent): void
     {
+        if (! $node instanceof Node\Param || ! $parent instanceof FunctionModelInterface) {
+            throw new Exception('ParameterNodeParser is made to parse a function parameter node');
+        }
+
         $parameter = new ParameterModel();
         $parameter->setParentNode($parent);
         $parameter->setName($node->name);

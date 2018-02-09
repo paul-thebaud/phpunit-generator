@@ -8,7 +8,9 @@ use PhpUnitGen\Annotation\AnnotationFactory;
 use PhpUnitGen\Annotation\AnnotationRegister;
 use PhpUnitGen\Annotation\Lexer;
 use PhpUnitGen\Exception\AnnotationParseException;
+use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\PropertyInterface\DocumentationInterface;
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 
 /**
  * Class DocumentationNodeParser.
@@ -91,13 +93,17 @@ class DocumentationNodeParser
     /**
      * Parse a node to update the parent node model.
      *
-     * @param Doc                    $node   The node to parse.
-     * @param DocumentationInterface $parent The parent node.
+     * @param mixed         $node   The node to parse.
+     * @param NodeInterface $parent The parent node.
      *
      * @throws AnnotationParseException If an annotation is invalid.
      */
-    public function invoke(Doc $node, DocumentationInterface $parent): void
+    public function invoke($node, NodeInterface $parent): void
     {
+        if (! $node instanceof Doc || ! $parent instanceof DocumentationInterface) {
+            throw new Exception('DocumentationNodeParser is made to parse a documentation node');
+        }
+
         $documentation = $node->getText();
         $parent->setDocumentation($documentation);
 

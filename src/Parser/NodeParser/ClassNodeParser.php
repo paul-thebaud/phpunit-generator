@@ -4,8 +4,10 @@ namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
 use PhpUnitGen\Exception\AnnotationParseException;
+use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\ClassModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Parser\NodeParserUtil\ClassLikeNameHelper;
 
 /**
@@ -44,13 +46,16 @@ class ClassNodeParser extends AbstractNodeParser
     /**
      * Parse a node to update the parent node model.
      *
-     * @param Node\Stmt\Class_      $node   The node to parse.
-     * @param PhpFileModelInterface $parent The parent node.
+     * @param mixed         $node   The node to parse.
+     * @param NodeInterface $parent The parent node.
      *
      * @throws AnnotationParseException If an annotation can not be parsed.
      */
-    public function invoke(Node\Stmt\Class_ $node, PhpFileModelInterface $parent): void
+    public function invoke($node, NodeInterface $parent): void
     {
+        if (! $node instanceof Node\Stmt\Class_ || ! $parent instanceof PhpFileModelInterface) {
+            throw new Exception('ClassNodeParser is made to parse a class node');
+        }
         $class = new ClassModel();
         $class->setParentNode($parent);
         $class->setName(ClassLikeNameHelper::getName($node));

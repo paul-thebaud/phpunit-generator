@@ -3,8 +3,10 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Node;
+use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 
 /**
  * Class FunctionNodeParser.
@@ -20,11 +22,15 @@ class FunctionNodeParser extends AbstractFunctionNodeParser
     /**
      * Parse a node to update the parent node model.
      *
-     * @param Node\Stmt\Function_   $node   The node to parse.
-     * @param PhpFileModelInterface $parent The parent node.
+     * @param mixed         $node   The node to parse.
+     * @param NodeInterface $parent The parent node.
      */
-    public function invoke(Node\Stmt\Function_ $node, PhpFileModelInterface $parent): void
+    public function invoke($node, NodeInterface $parent): void
     {
+        if (! $node instanceof Node\Stmt\Function_ || ! $parent instanceof PhpFileModelInterface) {
+            throw new Exception('FunctionNodeParser is made to parse a function node');
+        }
+
         $function = new FunctionModel();
         $function->setParentNode($parent);
         $function->setName($node->name);

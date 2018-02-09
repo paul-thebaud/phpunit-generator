@@ -7,6 +7,7 @@ use PhpUnitGen\Annotation\GetAnnotation;
 use PhpUnitGen\Annotation\SetAnnotation;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
+use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Parser\NodeParserUtil\MethodVisibilityHelper;
 use Respect\Validation\Validator;
 
@@ -24,11 +25,15 @@ class MethodNodeParser extends AbstractFunctionNodeParser
     /**
      * Parse a node to update the parent node model.
      *
-     * @param Node\Stmt\ClassMethod   $node   The node to parse.
-     * @param InterfaceModelInterface $parent The parent node.
+     * @param mixed         $node   The node to parse.
+     * @param NodeInterface $parent The parent node.
      */
-    public function invoke(Node\Stmt\ClassMethod $node, InterfaceModelInterface $parent): void
+    public function invoke($node, NodeInterface $parent): void
     {
+        if (! $node instanceof Node\Stmt\ClassMethod || ! $parent instanceof InterfaceModelInterface) {
+            throw new Exception('MethodNodeParser is made to parse a method node');
+        }
+
         $function = new FunctionModel();
         $function->setParentNode($parent);
         $function->setName($node->name);

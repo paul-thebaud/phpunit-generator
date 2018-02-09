@@ -3,7 +3,6 @@
 namespace PhpUnitGen\Annotation;
 
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
-use PhpUnitGen\Model\PropertyInterface\NodeInterface;
 use PhpUnitGen\Model\PropertyTrait\NodeTrait;
 
 /**

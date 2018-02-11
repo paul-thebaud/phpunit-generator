@@ -99,7 +99,7 @@ class FunctionModel implements FunctionModelInterface
      */
     public function setIsGlobal(bool $isGlobal): void
     {
-        $this->isGlobal = true;
+        $this->isGlobal = $isGlobal;
     }
 
     /**

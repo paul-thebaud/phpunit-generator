@@ -3,6 +3,7 @@
 namespace PhpUnitGen\Annotation;
 
 use Doctrine\Common\Lexer\AbstractLexer;
+use PhpUnitGen\Exception\Exception;
 
 /**
  * Class AnnotationLexer.
@@ -84,6 +85,6 @@ class AnnotationLexer extends AbstractLexer
                 return $token;
             }
         }
-        return AnnotationLexer::T_OTHER;
+        throw new Exception('Invalid value given to lexer');
     }
 }

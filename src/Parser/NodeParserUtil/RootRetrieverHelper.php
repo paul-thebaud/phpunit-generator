@@ -19,13 +19,12 @@ class RootRetrieverHelper
     /**
      * Get the root of the node.
      *
-     * @param NodeInterface $node The node to search on.
+     * @param NodeInterface $parent The node to search in.
      *
      * @return PhpFileModelInterface|null The root if it is found, else null.
      */
-    public static function getRoot(NodeInterface $node): ?PhpFileModelInterface
+    public static function getRoot(NodeInterface $parent): ?PhpFileModelInterface
     {
-        $parent = $node;
         while ($parent !== null) {
             if ($parent instanceof PhpFileModelInterface) {
                 return $parent;

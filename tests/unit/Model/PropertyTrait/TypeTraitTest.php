@@ -3,7 +3,6 @@
 namespace UnitTests\PhpUnitGen\Model\PropertyTrait;
 
 use PHPUnit\Framework\TestCase;
-use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\ParameterModel;
 use PhpUnitGen\Model\PropertyInterface\TypeInterface;
 

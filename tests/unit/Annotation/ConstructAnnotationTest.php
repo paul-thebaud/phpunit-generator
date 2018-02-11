@@ -5,11 +5,9 @@ namespace UnitTests\PhpUnitGen\Annotation;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
-use PhpUnitGen\Annotation\GetAnnotation;
 use PhpUnitGen\Annotation\ConstructAnnotation;
 use PhpUnitGen\Exception\AnnotationParseException;
 use PhpUnitGen\Model\ModelInterface\ClassModelInterface;
-use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 
 /**
@@ -45,7 +43,7 @@ class ConstructAnnotationTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->class = $this->createMock(ClassModelInterface::class);
+        $this->class   = $this->createMock(ClassModelInterface::class);
         $this->phpFile = $this->createMock(PhpFileModelInterface::class);
 
         $this->annotation = new ConstructAnnotation();

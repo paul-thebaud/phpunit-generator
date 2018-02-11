@@ -14,7 +14,7 @@ use PhpUnitGen\Model\ClassModel;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  *
- * @covers \PhpUnitGen\Model\PropertyTrait\NameTrait
+ * @covers     \PhpUnitGen\Model\PropertyTrait\NameTrait
  */
 class NameTraitTest extends TestCase
 {

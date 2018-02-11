@@ -10,11 +10,9 @@ use PhpUnitGen\Annotation\AnnotationParser;
 use PhpUnitGen\Annotation\AnnotationRegister;
 use PhpUnitGen\Annotation\TokenConsumer;
 use PhpUnitGen\Exception\AnnotationParseException;
-use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\ClassModel;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\PhpFileModel;
-use PhpUnitGen\Model\PropertyInterface\VisibilityInterface;
 
 /**
  * Class AnnotationParserTest.

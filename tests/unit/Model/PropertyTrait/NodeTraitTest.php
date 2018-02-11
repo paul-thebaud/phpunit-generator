@@ -15,7 +15,7 @@ use PhpUnitGen\Model\PhpFileModel;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  *
- * @covers \PhpUnitGen\Model\PropertyTrait\NodeTrait
+ * @covers     \PhpUnitGen\Model\PropertyTrait\NodeTrait
  */
 class NodeTraitTest extends TestCase
 {

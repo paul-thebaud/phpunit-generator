@@ -3,7 +3,6 @@
 namespace UnitTests\PhpUnitGen\Model\PropertyTrait;
 
 use PHPUnit\Framework\TestCase;
-use PhpUnitGen\Model\ClassModel;
 use PhpUnitGen\Model\ParameterModel;
 
 /**
@@ -15,7 +14,7 @@ use PhpUnitGen\Model\ParameterModel;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  *
- * @covers \PhpUnitGen\Model\PropertyTrait\ValueTrait
+ * @covers     \PhpUnitGen\Model\PropertyTrait\ValueTrait
  */
 class ValueTraitTest extends TestCase
 {

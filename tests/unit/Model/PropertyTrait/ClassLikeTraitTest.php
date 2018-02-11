@@ -15,7 +15,7 @@ use PhpUnitGen\Model\FunctionModel;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  *
- * @covers \PhpUnitGen\Model\PropertyTrait\ClassLikeTrait
+ * @covers     \PhpUnitGen\Model\PropertyTrait\ClassLikeTrait
  */
 class ClassLikeTraitTest extends TestCase
 {

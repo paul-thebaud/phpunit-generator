@@ -5,10 +5,8 @@ namespace UnitTests\PhpUnitGen\Annotation;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use PhpUnitGen\Annotation\AnnotationInterface\AnnotationInterface;
-use PhpUnitGen\Annotation\GetAnnotation;
 use PhpUnitGen\Annotation\MockAnnotation;
 use PhpUnitGen\Exception\AnnotationParseException;
-use PhpUnitGen\Model\ModelInterface\FunctionModelInterface;
 use PhpUnitGen\Model\ModelInterface\PhpFileModelInterface;
 
 /**

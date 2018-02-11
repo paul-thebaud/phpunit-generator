@@ -15,7 +15,7 @@ use PhpUnitGen\Annotation\AssertAnnotation;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  *
- * @covers \PhpUnitGen\Annotation\AbstractAnnotation
+ * @covers     \PhpUnitGen\Annotation\AbstractAnnotation
  */
 class AbstractAnnotationTest extends TestCase
 {

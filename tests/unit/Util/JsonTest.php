@@ -15,7 +15,7 @@ use PhpUnitGen\Util\Json;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  *
- * @covers \PhpUnitGen\Util\Json
+ * @covers     \PhpUnitGen\Util\Json
  */
 class JsonTest extends TestCase
 {

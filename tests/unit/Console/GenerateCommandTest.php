@@ -29,7 +29,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  *
- * @covers \PhpUnitGen\Console\GenerateCommand
+ * @covers     \PhpUnitGen\Console\GenerateCommand
  */
 class GenerateCommandTest extends TestCase
 {
@@ -89,7 +89,8 @@ class GenerateCommandTest extends TestCase
         $this->assertSame(['gen'], $this->command->getAliases());
         $this->assertSame('Generate unit tests skeletons.', $this->command->getDescription());
         $this->assertSame('Use it to generate your unit tests skeletons. See documentation on ' .
-            'https://github.com/paul-thebaud/phpunit-generator/blob/master/DOCUMENTATION.md', $this->command->getHelp());
+            'https://github.com/paul-thebaud/phpunit-generator/blob/master/DOCUMENTATION.md',
+            $this->command->getHelp());
 
         $configOption = $this->command->getDefinition()->getOption('config');
         $this->assertSame('c', $configOption->getShortcut());
@@ -126,12 +127,12 @@ class GenerateCommandTest extends TestCase
      */
     public function testExecute(): void
     {
-        $input = $this->createMock(InputInterface::class);
-        $output = new NullOutput();
-        $styledIO = $this->createMock(SymfonyStyle::class);
-        $config = $this->createMock(ConsoleConfigInterface::class);
+        $input     = $this->createMock(InputInterface::class);
+        $output    = new NullOutput();
+        $styledIO  = $this->createMock(SymfonyStyle::class);
+        $config    = $this->createMock(ConsoleConfigInterface::class);
         $container = $this->createMock(ContainerInterface::class);
-        $executor = $this->createMock(ConsoleExecutorInterface::class);
+        $executor  = $this->createMock(ConsoleExecutorInterface::class);
 
         $executeMethod = (new \ReflectionClass(GenerateCommand::class))->getMethod('execute');
         $executeMethod->setAccessible(true);
@@ -160,12 +161,12 @@ class GenerateCommandTest extends TestCase
      */
     public function testExecuteThrowException(): void
     {
-        $input = $this->createMock(InputInterface::class);
-        $output = new NullOutput();
-        $styledIO = $this->createMock(SymfonyStyle::class);
-        $config = $this->createMock(ConsoleConfigInterface::class);
+        $input     = $this->createMock(InputInterface::class);
+        $output    = new NullOutput();
+        $styledIO  = $this->createMock(SymfonyStyle::class);
+        $config    = $this->createMock(ConsoleConfigInterface::class);
         $container = $this->createMock(ContainerInterface::class);
-        $executor = $this->createMock(ConsoleExecutorInterface::class);
+        $executor  = $this->createMock(ConsoleExecutorInterface::class);
 
         $executeMethod = (new \ReflectionClass(GenerateCommand::class))->getMethod('execute');
         $executeMethod->setAccessible(true);
@@ -195,7 +196,7 @@ class GenerateCommandTest extends TestCase
      */
     public function testGetStyledIO(): void
     {
-        $input = $this->createMock(InputInterface::class);
+        $input  = $this->createMock(InputInterface::class);
         $output = new NullOutput();
 
         $command = new GenerateCommand($this->containerFactory, $this->stopwatch);
@@ -271,9 +272,9 @@ class GenerateCommandTest extends TestCase
      */
     public function testGetConfigurationDir(): void
     {
-        $input = $this->createMock(InputInterface::class);
+        $input         = $this->createMock(InputInterface::class);
         $configFactory = $this->createMock(AbstractConsoleConfigFactory::class);
-        $config = $this->createMock(ConsoleConfigInterface::class);
+        $config        = $this->createMock(ConsoleConfigInterface::class);
 
         $command = $this->getMockBuilder(GenerateCommand::class)
             ->setConstructorArgs([$this->containerFactory, $this->stopwatch])
@@ -305,9 +306,9 @@ class GenerateCommandTest extends TestCase
      */
     public function testGetConfigurationFile(): void
     {
-        $input = $this->createMock(InputInterface::class);
+        $input         = $this->createMock(InputInterface::class);
         $configFactory = $this->createMock(AbstractConsoleConfigFactory::class);
-        $config = $this->createMock(ConsoleConfigInterface::class);
+        $config        = $this->createMock(ConsoleConfigInterface::class);
 
         $command = $this->getMockBuilder(GenerateCommand::class)
             ->setConstructorArgs([$this->containerFactory, $this->stopwatch])
@@ -339,9 +340,9 @@ class GenerateCommandTest extends TestCase
      */
     public function testGetConfigurationWithEqualSymbol(): void
     {
-        $input = $this->createMock(InputInterface::class);
+        $input         = $this->createMock(InputInterface::class);
         $configFactory = $this->createMock(AbstractConsoleConfigFactory::class);
-        $config = $this->createMock(ConsoleConfigInterface::class);
+        $config        = $this->createMock(ConsoleConfigInterface::class);
 
         $command = $this->getMockBuilder(GenerateCommand::class)
             ->setConstructorArgs([$this->containerFactory, $this->stopwatch])
@@ -372,9 +373,9 @@ class GenerateCommandTest extends TestCase
      */
     public function testGetConfiguration(): void
     {
-        $input = $this->createMock(InputInterface::class);
+        $input         = $this->createMock(InputInterface::class);
         $configFactory = $this->createMock(AbstractConsoleConfigFactory::class);
-        $config = $this->createMock(ConsoleConfigInterface::class);
+        $config        = $this->createMock(ConsoleConfigInterface::class);
 
         $command = $this->getMockBuilder(GenerateCommand::class)
             ->setConstructorArgs([$this->containerFactory, $this->stopwatch])

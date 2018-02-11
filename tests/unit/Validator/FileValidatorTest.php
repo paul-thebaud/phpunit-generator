@@ -19,7 +19,7 @@ use PhpUnitGen\Validator\FileValidator;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  *
- * @covers \PhpUnitGen\Validator\FileValidator
+ * @covers     \PhpUnitGen\Validator\FileValidator
  */
 class FileValidatorTest extends TestCase
 {
@@ -43,7 +43,7 @@ class FileValidatorTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->config = $this->createMock(ConsoleConfigInterface::class);
+        $this->config     = $this->createMock(ConsoleConfigInterface::class);
         $this->fileSystem = $this->createMock(FilesystemInterface::class);
 
         $this->fileValidator = new FileValidator($this->config, $this->fileSystem);

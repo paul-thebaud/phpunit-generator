@@ -108,9 +108,9 @@ class ApplicationTest extends TestCase
      */
     public function testDoRunParent(): void
     {
-        $input  = $this->createMock(InputInterface::class);
+        $input = $this->createMock(InputInterface::class);
         $input->expects($this->once())->method('hasParameterOption')
-            ->with(array('--version', '-V'), true)->willReturn(true);
+            ->with(['--version', '-V'], true)->willReturn(true);
         $output = new NullOutput();
 
         $app = new Application();

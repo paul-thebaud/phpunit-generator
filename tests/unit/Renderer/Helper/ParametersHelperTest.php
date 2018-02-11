@@ -3,12 +3,7 @@
 namespace UnitTests\PhpUnitGen\Renderer;
 
 use PHPUnit\Framework\TestCase;
-use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
-use PhpUnitGen\Model\PhpFileModel;
 use PhpUnitGen\Renderer\Helper\ParametersHelper;
-use PhpUnitGen\Renderer\Helper\ValueHelper;
-use PhpUnitGen\Renderer\PhpFileRenderer;
-use Slim\Views\PhpRenderer;
 
 /**
  * Class ParametersHelperTest.

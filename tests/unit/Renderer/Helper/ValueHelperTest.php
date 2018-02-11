@@ -3,14 +3,9 @@
 namespace UnitTests\PhpUnitGen\Renderer;
 
 use PHPUnit\Framework\TestCase;
-use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Exception\Exception;
-use PhpUnitGen\Model\PhpFileModel;
 use PhpUnitGen\Model\PropertyInterface\TypeInterface;
-use PhpUnitGen\Renderer\Helper\ParametersHelper;
 use PhpUnitGen\Renderer\Helper\ValueHelper;
-use PhpUnitGen\Renderer\PhpFileRenderer;
-use Slim\Views\PhpRenderer;
 
 /**
  * Class ValueHelperTest.
@@ -45,7 +40,8 @@ class ValueHelperTest extends TestCase
 
         $this->assertSame('/** @todo Insert a value with a correct type here */', $parametersHelper->invoke(-10));
 
-        $this->assertSame('$this->createMock(MyClass::class)', $parametersHelper->invoke(TypeInterface::CUSTOM, 'MyClass'));
+        $this->assertSame('$this->createMock(MyClass::class)',
+            $parametersHelper->invoke(TypeInterface::CUSTOM, 'MyClass'));
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Custom type must have a custom class to mock');

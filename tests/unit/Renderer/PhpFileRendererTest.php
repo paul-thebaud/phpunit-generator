@@ -28,9 +28,9 @@ class PhpFileRendererTest extends TestCase
      */
     public function testRender(): void
     {
-        $config = $this->createMock(ConfigInterface::class);
+        $config      = $this->createMock(ConfigInterface::class);
         $phpRenderer = $this->createMock(PhpRenderer::class);
-        $phpFile = $this->createMock(PhpFileModel::class);
+        $phpFile     = $this->createMock(PhpFileModel::class);
 
         $phpRenderer->expects($this->exactly(3))->method('addAttribute')
             ->withConsecutive(

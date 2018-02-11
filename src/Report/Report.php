@@ -21,11 +21,6 @@ class Report implements ReportInterface
     private $parsedFilesNumber = 0;
 
     /**
-     * @var int $parsedFilesFromDirectoriesNumber The number of parsed files from directories.
-     */
-    private $parsedFilesFromDirectoriesNumber = 0;
-
-    /**
      * @var int $parsedDirectoriesNumber The number of parsed directories.
      */
     private $parsedDirectoriesNumber = 0;
@@ -36,14 +31,6 @@ class Report implements ReportInterface
     public function increaseParsedFileNumber(): void
     {
         $this->parsedFilesNumber++;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function increaseParsedFileFromDirectoryNumber(): void
-    {
-        $this->parsedFilesFromDirectoriesNumber++;
     }
 
     /**
@@ -60,14 +47,6 @@ class Report implements ReportInterface
     public function getParsedFileNumber(): int
     {
         return $this->parsedFilesNumber;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getParsedFileFromDirectoryNumber(): int
-    {
-        return $this->parsedFilesFromDirectoriesNumber;
     }
 
     /**

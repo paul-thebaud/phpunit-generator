@@ -19,11 +19,6 @@ interface ReportInterface
     public function increaseParsedFileNumber(): void;
 
     /**
-     * Increase the number of parsed files from directories.
-     */
-    public function increaseParsedFileFromDirectoryNumber(): void;
-
-    /**
      * Increase the number of parsed directories.
      */
     public function increaseParsedDirectoryNumber(): void;
@@ -32,11 +27,6 @@ interface ReportInterface
      * @return int The number of parsed files.
      */
     public function getParsedFileNumber(): int;
-
-    /**
-     * @return int The number of parsed files from directories.
-     */
-    public function getParsedFileFromDirectoryNumber(): int;
 
     /**
      * @return int The number of parsed directories.

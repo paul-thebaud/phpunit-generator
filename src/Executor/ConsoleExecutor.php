@@ -118,7 +118,7 @@ class ConsoleExecutor implements ConsoleExecutorInterface
         ));
         $this->output->text(sprintf(
             '<options=bold,underscore>Parsed files number:</> %d files',
-            ($this->report->getParsedFileNumber() + $this->report->getParsedFileFromDirectoryNumber())
+            $this->report->getParsedFileNumber()
         ));
         $this->output->text(sprintf(
             '<options=bold,underscore>Parsed directories number:</> %d directories',
@@ -155,7 +155,6 @@ class ConsoleExecutor implements ConsoleExecutorInterface
             try {
                 $name = pathinfo($target)['filename'];
                 $this->fileExecutor->invoke($source, $target, $name);
-                $this->report->increaseParsedFileNumber();
             } catch (Exception $exception) {
                 $this->exceptionCatcher->catch($exception, $source);
             }

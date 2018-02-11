@@ -45,19 +45,6 @@ class ReportTest extends TestCase
     }
 
     /**
-     * @covers \PhpUnitGen\Report\Report::increaseParsedFileFromDirectoryNumber()
-     * @covers \PhpUnitGen\Report\Report::getParsedFileFromDirectoryNumber()
-     */
-    public function testParsedFileFromDirectoryNumber(): void
-    {
-        $this->assertSame(0, $this->report->getParsedFileFromDirectoryNumber());
-        $this->report->increaseParsedFileFromDirectoryNumber();
-        $this->assertSame(1, $this->report->getParsedFileFromDirectoryNumber());
-        $this->report->increaseParsedFileFromDirectoryNumber();
-        $this->assertSame(2, $this->report->getParsedFileFromDirectoryNumber());
-    }
-
-    /**
      * @covers \PhpUnitGen\Report\Report::increaseParsedDirectoryNumber()
      * @covers \PhpUnitGen\Report\Report::getParsedDirectoryNumber()
      */

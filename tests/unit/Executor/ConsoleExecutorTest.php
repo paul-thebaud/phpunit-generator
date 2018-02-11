@@ -103,8 +103,6 @@ class ConsoleExecutorTest extends TestCase
 
         $this->report->expects($this->once())->method('getParsedFileNumber')
             ->with()->willReturn(10);
-        $this->report->expects($this->once())->method('getParsedFileFromDirectoryNumber')
-            ->with()->willReturn(5);
         $this->report->expects($this->once())->method('getParsedDirectoryNumber')
             ->with()->willReturn(2);
 
@@ -112,7 +110,7 @@ class ConsoleExecutorTest extends TestCase
             ->withConsecutive(
                 ['<options=bold,underscore>Duration:</> 500 milliseconds'],
                 ['<options=bold,underscore>Memory usage:</> 100000 bytes'],
-                ['<options=bold,underscore>Parsed files number:</> 15 files'],
+                ['<options=bold,underscore>Parsed files number:</> 10 files'],
                 ['<options=bold,underscore>Parsed directories number:</> 2 directories']
             );
     }
@@ -216,9 +214,6 @@ class ConsoleExecutorTest extends TestCase
         $this->config->expects($this->once())->method('getDirectories')
             ->with()->willReturn([]);
 
-        $this->report->expects($this->exactly(2))->method('increaseParsedFileNumber')
-            ->with();
-
         $this->consoleExecutor->invoke();
     }
 
@@ -242,8 +237,6 @@ class ConsoleExecutorTest extends TestCase
             ]);
         $this->config->expects($this->once())->method('getDirectories')
             ->with()->willReturn([]);
-
-        $this->report->expects($this->never())->method('increaseParsedFileNumber');
 
         $this->exceptionCatcher->expects($this->once())->method('catch')
             ->with($exception);

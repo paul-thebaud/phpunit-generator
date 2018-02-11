@@ -8,6 +8,7 @@ use PhpUnitGen\Exception\FileExistsException;
 use PhpUnitGen\Exception\ParseException;
 use PhpUnitGen\Executor\ExecutorInterface\ExecutorInterface;
 use PhpUnitGen\Executor\ExecutorInterface\FileExecutorInterface;
+use PhpUnitGen\Report\ReportInterface\ReportInterface;
 use PhpUnitGen\Validator\ValidatorInterface\FileValidatorInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
@@ -48,6 +49,11 @@ class FileExecutor implements FileExecutorInterface
     private $fileValidator;
 
     /**
+     * @var ReportInterface $report The report to use.
+     */
+    private $report;
+
+    /**
      * DirectoryParser constructor.
      *
      * @param ConsoleConfigInterface $config        A config instance.
@@ -55,19 +61,22 @@ class FileExecutor implements FileExecutorInterface
      * @param ExecutorInterface      $executor      A PhpUnitGen executor.
      * @param FilesystemInterface    $fileSystem    A file system instance.
      * @param FileValidatorInterface $fileValidator A file validator.
+     * @param ReportInterface        $report        The report to use.
      */
     public function __construct(
         ConsoleConfigInterface $config,
         StyleInterface $output,
         ExecutorInterface $executor,
         FilesystemInterface $fileSystem,
-        FileValidatorInterface $fileValidator
+        FileValidatorInterface $fileValidator,
+        ReportInterface $report
     ) {
         $this->config        = $config;
         $this->output        = $output;
         $this->executor      = $executor;
         $this->fileSystem    = $fileSystem;
         $this->fileValidator = $fileValidator;
+        $this->report        = $report;
     }
 
     /**
@@ -99,6 +108,8 @@ class FileExecutor implements FileExecutorInterface
 
         // Output that a file is parsed
         $this->output->text(sprintf('Parsing file "%s" completed.', $sourcePath));
+
+        $this->report->increaseParsedFileNumber();
 
         return true;
     }

@@ -1,4 +1,6 @@
-# phpunit-generator (PhpUnitGen)
+<img src="https://raw.github.com/paul-thebaud/phpunit-generator-assets/master/logos/logo.svg?sanitize=true" width="200px">
+
+...
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -8,7 +10,7 @@
 [![Scrutinizer][ico-scrutinizer]][link-scrutinizer]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-PhpUnitGen is a development tool which will help you writing your unit tests for PHPUnit 6 / 7:
+PhpUnitGen is an open source development tool which will help you writing your unit tests for PHPUnit 6 / 7:
 * Generate unit skeleton for all PHP files.
 * Automatically generate a few simple unit tests (like getter / setter methods tests).
 

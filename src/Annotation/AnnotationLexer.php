@@ -5,7 +5,7 @@ namespace PhpUnitGen\Annotation;
 use Doctrine\Common\Lexer\AbstractLexer;
 
 /**
- * Class Lexer.
+ * Class AnnotationLexer.
  *
  * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
  * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
@@ -13,7 +13,7 @@ use Doctrine\Common\Lexer\AbstractLexer;
  * @link       https://github.com/paul-thebaud/phpunit-generator
  * @since      Class available since Release 2.0.0.
  */
-class Lexer extends AbstractLexer
+class AnnotationLexer extends AbstractLexer
 {
     /**
      * All possible tokens.
@@ -33,16 +33,16 @@ class Lexer extends AbstractLexer
      * @var array PATTERNS_TOKENS Matching array between regex pattern and token.
      */
     public const PATTERNS_TOKENS = [
-        '(@(?i)(PhpUnitGen|Pug)\\\\[a-zA-Z0-9]+)' => Lexer::T_ANNOTATION,
-        '(\()'                                    => Lexer::T_O_PARENTHESIS,
-        '(\))'                                    => Lexer::T_C_PARENTHESIS,
-        '(\\\\)'                                  => Lexer::T_BACKSLASH,
-        '(\')'                                    => Lexer::T_SINGLE_QUOTE,
-        '(")'                                     => Lexer::T_DOUBLE_QUOTE,
-        '(\*)'                                    => Lexer::T_ASTERISK,
-        '(\r|\n|\r\n|\n\r)'                       => Lexer::T_LINE_BREAK,
-        '(\s)'                                    => Lexer::T_WHITESPACE,
-        '([^\\\\"\'\(\)\*\s]+)'                   => Lexer::T_OTHER,
+        '(@(?i)(PhpUnitGen|Pug)\\\\[a-zA-Z0-9]+)' => AnnotationLexer::T_ANNOTATION,
+        '(\()'                                    => AnnotationLexer::T_O_PARENTHESIS,
+        '(\))'                                    => AnnotationLexer::T_C_PARENTHESIS,
+        '(\\\\)'                                  => AnnotationLexer::T_BACKSLASH,
+        '(\')'                                    => AnnotationLexer::T_SINGLE_QUOTE,
+        '(")'                                     => AnnotationLexer::T_DOUBLE_QUOTE,
+        '(\*)'                                    => AnnotationLexer::T_ASTERISK,
+        '(\r|\n|\r\n|\n\r)'                       => AnnotationLexer::T_LINE_BREAK,
+        '(\s)'                                    => AnnotationLexer::T_WHITESPACE,
+        '([^\\\\"\'\(\)\*\s]+)'                   => AnnotationLexer::T_OTHER,
     ];
 
     /**
@@ -55,7 +55,7 @@ class Lexer extends AbstractLexer
      */
     public function __construct()
     {
-        $this->patterns = array_keys(Lexer::PATTERNS_TOKENS);
+        $this->patterns = array_keys(AnnotationLexer::PATTERNS_TOKENS);
     }
 
     /**
@@ -79,11 +79,11 @@ class Lexer extends AbstractLexer
      */
     protected function getType(&$value): int
     {
-        foreach (Lexer::PATTERNS_TOKENS as $pattern => $token) {
+        foreach (AnnotationLexer::PATTERNS_TOKENS as $pattern => $token) {
             if (preg_match($pattern, $value)) {
                 return $token;
             }
         }
-        return Lexer::T_OTHER;
+        return AnnotationLexer::T_OTHER;
     }
 }

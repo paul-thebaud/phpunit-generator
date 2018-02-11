@@ -50,7 +50,11 @@ class GetAnnotation extends AbstractAnnotation
             }
             $this->property = $decoded;
         } else {
-            $this->property = preg_replace('/^get/', '', $this->getParentNode()->getName());
+            $this->property = preg_replace(
+                '/^get/',
+                '',
+                $this->getParentNode()->/** @scrutinizer ignore-call */ getName()
+            );
             $this->property = lcfirst($this->property);
         }
     }

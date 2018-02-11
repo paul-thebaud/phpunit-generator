@@ -46,7 +46,7 @@ trait ClassLikeTrait
      */
     public function hasFunction(string $name): bool
     {
-        return $this->functions->exists(function (FunctionModelInterface $function) use ($name) {
+        return $this->functions->exists(function (int $key, FunctionModelInterface $function) use ($name) {
             return $function->getName() === $name;
         });
     }

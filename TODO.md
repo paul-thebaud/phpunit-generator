@@ -4,6 +4,4 @@
 
 * Parsed files count instead of files from dir + global files
 
-* Unit tests of annotations
-* Unit tests of models
 * Unit tests of parsers

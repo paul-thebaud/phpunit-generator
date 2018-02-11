@@ -3,12 +3,7 @@
 namespace PhpUnitGen\Parser\NodeParser;
 
 use PhpParser\Comment\Doc;
-use PhpUnitGen\Annotation\AbstractAnnotation;
-use PhpUnitGen\Annotation\AnnotationFactory;
 use PhpUnitGen\Annotation\AnnotationParser;
-use PhpUnitGen\Annotation\AnnotationRegister;
-use PhpUnitGen\Annotation\AnnotationLexer;
-use PhpUnitGen\Exception\AnnotationParseException;
 use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\PropertyInterface\DocumentationInterface;
 use PhpUnitGen\Model\PropertyInterface\NodeInterface;

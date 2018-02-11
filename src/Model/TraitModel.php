@@ -43,6 +43,14 @@ class TraitModel extends InterfaceModel implements TraitModelInterface
     /**
      * {@inheritdoc}
      */
+    public function getAttributes(): Collection
+    {
+        return $this->attributes;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function hasAttribute(string $name, bool $static = false): bool
     {
         return $this->attributes->exists(function (int $key, AttributeModelInterface $attribute) use ($name, $static) {
@@ -61,13 +69,5 @@ class TraitModel extends InterfaceModel implements TraitModelInterface
             }
         }
         return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAttributes(): Collection
-    {
-        return $this->attributes;
     }
 }

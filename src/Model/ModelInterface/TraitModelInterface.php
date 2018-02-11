@@ -21,6 +21,11 @@ interface TraitModelInterface extends InterfaceModelInterface
     public function addAttribute(AttributeModelInterface $attribute): void;
 
     /**
+     * @return AttributeModelInterface[]|Collection All attributes contained.
+     */
+    public function getAttributes(): Collection;
+
+    /**
      * Check if an attribute exists.
      *
      * @param string $name   The name of the attribute.
@@ -38,9 +43,4 @@ interface TraitModelInterface extends InterfaceModelInterface
      * @return AttributeModelInterface|null The attribute if exists, else null.
      */
     public function getAttribute(string $name): ?AttributeModelInterface;
-
-    /**
-     * @return AttributeModelInterface[]|Collection All attributes contained.
-     */
-    public function getAttributes(): Collection;
 }

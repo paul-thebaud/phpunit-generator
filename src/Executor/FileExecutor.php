@@ -82,7 +82,7 @@ class FileExecutor implements FileExecutorInterface
     /**
      * {@inheritdoc}
      */
-    public function invoke(string $sourcePath, string $targetPath, string $name = 'GeneratedTest'): bool
+    public function invoke(string $sourcePath, string $targetPath, string $name): bool
     {
         if (! $this->fileValidator->validate($sourcePath)) {
             return false;
@@ -91,14 +91,14 @@ class FileExecutor implements FileExecutorInterface
         $content = $this->fileSystem->read($sourcePath);
 
         if ($content === false) {
-            throw new ParseException(sprintf('The file "%s" is not readable.', $sourcePath));
+            throw new ParseException(sprintf('The file "%s" is not readable', $sourcePath));
         }
 
         // We ignore the type checked because we already check the readability
         $code = $this->executor->invoke($content, $name);
 
         if ($code === null) {
-            $this->output->note(sprintf('Parsing file "%s" completed: no testable functions in code.', $sourcePath));
+            $this->output->note(sprintf('Parsing file "%s" completed: no testable functions in code', $sourcePath));
             return false;
         }
 
@@ -107,7 +107,7 @@ class FileExecutor implements FileExecutorInterface
         $this->fileSystem->write($targetPath, $code);
 
         // Output that a file is parsed
-        $this->output->text(sprintf('Parsing file "%s" completed.', $sourcePath));
+        $this->output->text(sprintf('Parsing file "%s" completed', $sourcePath));
 
         $this->report->increaseParsedFileNumber();
 
@@ -123,18 +123,15 @@ class FileExecutor implements FileExecutorInterface
      */
     public function checkTargetPath(string $targetPath): void
     {
-        $targetPathExists = $this->fileSystem->has($targetPath);
-
-        if ($targetPathExists && ! $this->config->hasOverwrite()) {
-            throw new FileExistsException(sprintf('The target file "%s" already exists.', $targetPath));
-        }
-
-        if ($targetPathExists) {
+        if ($this->fileSystem->has($targetPath)) {
+            if (! $this->config->hasOverwrite()) {
+                throw new FileExistsException(sprintf('The target file "%s" already exists', $targetPath));
+            }
             if ($this->config->hasBackup()) {
                 $backupTarget = $targetPath . '.bak';
                 if ($this->fileSystem->has($backupTarget)) {
                     throw new FileExistsException(sprintf(
-                        'The backup target file "%s" already exists.',
+                        'The backup target file "%s" already exists',
                         $backupTarget
                     ));
                 }

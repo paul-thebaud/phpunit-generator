@@ -50,7 +50,7 @@ class JsonTest extends TestCase
         $json = new Json();
 
         $this->expectException(JsonException::class);
-        $this->expectExceptionMessage('Json decode fail');
+        $this->expectExceptionMessage('Json decode error');
 
         $json->decode('invalid json');
     }

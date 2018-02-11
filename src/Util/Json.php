@@ -33,8 +33,7 @@ class Json
         $result = json_decode($string, true);
 
         if ($result === null) {
-            $error = error_get_last();
-            throw new JsonException('Json decode fail');
+            throw new JsonException('Json decode error');
         }
         return $result;
     }

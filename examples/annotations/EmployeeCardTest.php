@@ -21,12 +21,12 @@ class EmployeeCardTest extends TestCase
     private $employeeCard;
 
     /**
-    * @var Employee|MockObject $employeeMock An mock of "Employee" to use in unit tests.
+    * @var Employee|MockObject $employeeMock A mock of "Employee" to use in unit tests.
     */
     private $employeeMock;
 
     /**
-    * @var DateTime|MockObject $dateMock An mock of "DateTime" to use in unit tests.
+    * @var DateTime|MockObject $dateMock A mock of "DateTime" to use in unit tests.
     */
     private $dateMock;
 

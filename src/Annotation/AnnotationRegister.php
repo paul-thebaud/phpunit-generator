@@ -90,7 +90,7 @@ class AnnotationRegister
         if ($annotation->getType() === AnnotationInterface::TYPE_MOCK) {
             $parent = $parent->getParentNode();
             $annotation->setParentNode($parent);
-            $parent->addAnnotation($annotation);
+            $parent->/** @scrutinizer ignore-call */  addAnnotation($annotation);
             $annotation->compile();
         } else {
             // If it is a constructor, register in the current $parent

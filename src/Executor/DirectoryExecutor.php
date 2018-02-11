@@ -91,8 +91,11 @@ class DirectoryExecutor implements DirectoryExecutorInterface
         $this->output->section(sprintf('Directory "%s" parsing begins.', $sourcePath));
 
         // Check if source directory exists
-        if (! $this->fileSystem->has($sourcePath) || ! $this->fileSystem->getMimetype($sourcePath) === 'directory') {
-            throw new FileNotFoundException(sprintf('The source directory "%s" does not exist.', $sourcePath));
+        if (! $this->fileSystem->has($sourcePath)) {
+            throw new FileNotFoundException(sprintf('The source directory "%s" does not exist', $sourcePath));
+        }
+        if ($this->fileSystem->get($sourcePath)->getType() !== 'dir') {
+            throw new FileNotFoundException(sprintf('The source path "%s" is not a directory', $sourcePath));
         }
 
         // List content of directory
@@ -115,7 +118,7 @@ class DirectoryExecutor implements DirectoryExecutorInterface
         try {
             $name       = pathinfo($filePath)['filename'] . 'Test';
             $targetPath = str_replace($sourcePath, $targetPath, $filePath);
-            $targetPath = str_replace('.php', 'Test.php', $targetPath);
+            $targetPath = preg_replace('/(.php|.phtml)/', 'Test.php', $targetPath);
             // Execute file executor
             $this->fileExecutor->invoke($filePath, $targetPath, $name);
         } catch (Exception $exception) {

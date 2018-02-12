@@ -53,7 +53,7 @@ class PhpParser implements PhpParserInterface
         try {
             $nodes = $this->phpParser->parse($code);
         } catch (Error $error) {
-            throw new ParseException("Unable to parse given php code (maybe your code contains errors).");
+            throw new ParseException('Unable to parse given php code (maybe your code contains errors)');
         }
 
         $phpFileModel = new PhpFileModel();

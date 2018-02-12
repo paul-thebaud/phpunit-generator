@@ -42,7 +42,7 @@ class MethodNodeParser extends AbstractFunctionNodeParser
         $function->setIsFinal($node->isFinal());
         $function->setIsStatic($node->isStatic());
         $function->setIsAbstract($node->isAbstract());
-        $function->setVisibility(MethodVisibilityHelper::getMethodVisibility($node));
+        $function->setVisibility(MethodVisibilityHelper::getVisibility($node));
 
         $this->parseFunction($node, $function);
 

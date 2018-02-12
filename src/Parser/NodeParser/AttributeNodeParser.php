@@ -47,7 +47,7 @@ class AttributeNodeParser extends AbstractNodeParser
             throw new Exception('AttributeNodeParser is made to parse a property node');
         }
         $isStatic   = $node->isStatic();
-        $visibility = AttributeVisibilityHelper::getPropertyVisibility($node);
+        $visibility = AttributeVisibilityHelper::getVisibility($node);
 
         foreach ($node->props as $property) {
             $attribute = new AttributeModel();

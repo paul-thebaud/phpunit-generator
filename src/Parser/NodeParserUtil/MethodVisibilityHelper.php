@@ -25,7 +25,7 @@ class MethodVisibilityHelper
      *
      * @see VisibilityInterface For different constants of visibility.
      */
-    public static function getMethodVisibility(Node\Stmt\ClassMethod $method): int
+    public static function getVisibility(Node\Stmt\ClassMethod $method): int
     {
         if ($method->isPrivate()) {
             return VisibilityInterface::PRIVATE;

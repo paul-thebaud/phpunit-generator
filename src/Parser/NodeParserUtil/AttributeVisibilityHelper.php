@@ -25,7 +25,7 @@ class AttributeVisibilityHelper
      *
      * @see VisibilityInterface For different constants of visibility.
      */
-    public static function getPropertyVisibility(Node\Stmt\Property $property): int
+    public static function getVisibility(Node\Stmt\Property $property): int
     {
         if ($property->isPrivate()) {
             return VisibilityInterface::PRIVATE;

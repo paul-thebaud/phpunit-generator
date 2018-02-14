@@ -284,4 +284,16 @@ class AnnotationParserTest extends TestCase
         $this->assertSame('params', $annotations->get(6)->getName());
         $this->assertSame(['param1'], $annotations->get(6)->getParameters());
     }
+
+    public function testParseInvalidToken(): void
+    {
+        $parseMethod = (new \ReflectionClass($this->annotationParser))
+            ->getMethod('parse');
+        $parseMethod->setAccessible(true);
+
+        $this->expectException(AnnotationParseException::class);
+        $this->expectExceptionMessage('A token of value "my_invalid_value" has an invalid type');
+
+        $parseMethod->invoke($this->annotationParser, -10, 'my_invalid_value');
+    }
 }

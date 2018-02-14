@@ -52,7 +52,6 @@ class TypeNodeParser extends AbstractNodeParser
             return;
         }
 
-
         throw new Exception('TypeNodeParser is made to parse a type node');
     }
 
@@ -80,8 +79,7 @@ class TypeNodeParser extends AbstractNodeParser
                 $name = $this->getQualifiedClassType($node, $phpFile);
                 break;
             default:
-                $name = TypeInterface::UNKNOWN_CUSTOM;
-                break;
+                return TypeInterface::UNKNOWN_CUSTOM;
         }
 
         // Get the last name part
@@ -130,10 +128,11 @@ class TypeNodeParser extends AbstractNodeParser
         if ($phpFile->hasUse($firstPart)) {
             return str_replace($firstPart, $phpFile->getUse($firstPart), $path);
         }
-        if ($firstPart === $phpFile->getNamespaceLast()) {
+        if ($phpFile->getNamespace() !== null
+            && $firstPart === $phpFile->getNamespace()[count($phpFile->getNamespace()) - 1]
+        ) {
             return str_replace($firstPart, $phpFile->getNamespaceString(), $path);
         }
-
-        return $path;
+        return $phpFile->getNamespaceString() . '\\' . $path;
     }
 }

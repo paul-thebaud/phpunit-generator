@@ -70,6 +70,6 @@ abstract class AbstractNodeParser implements NodeParserInterface
         if ($this->hasNodeParser($class)) {
             return $this->nodeParsers[$class];
         }
-        throw new ParseException(sprintf('The node parser for "%s" cannot be found.', $class));
+        throw new ParseException(sprintf('The node parser for "%s" cannot be found', $class));
     }
 }

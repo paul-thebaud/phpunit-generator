@@ -2,6 +2,7 @@
   "overwrite": false,
   "backup": false,
   "interface": false,
+  "private": true,
   "auto": true,
   "ignore": true,
   "exclude": "/^.*config\\.php$/",

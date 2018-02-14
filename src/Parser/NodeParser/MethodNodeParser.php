@@ -5,6 +5,7 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Annotation\GetAnnotation;
 use PhpUnitGen\Annotation\SetAnnotation;
+use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
@@ -36,13 +37,20 @@ class MethodNodeParser extends AbstractFunctionNodeParser
             throw new Exception('MethodNodeParser is made to parse a method node');
         }
 
+        // Retrieve visibility
         $function = new FunctionModel();
+        $function->setVisibility(MethodVisibilityHelper::getVisibility($node));
+
+        // If no private / protected methods parsing is required
+        if (! $function->isPublic() && ! $this->config->hasPrivateParsing()) {
+            return;
+        }
+
         $function->setParentNode($parent);
         $function->setName($node->name);
         $function->setIsFinal($node->isFinal());
         $function->setIsStatic($node->isStatic());
         $function->setIsAbstract($node->isAbstract());
-        $function->setVisibility(MethodVisibilityHelper::getVisibility($node));
 
         $this->parseFunction($node, $function);
 

@@ -82,6 +82,7 @@ A configuration file needs the following parameters :
 * __backup__ [*boolean*]: Set *true* if you want to backup old files before erase them when `overwrite` is set to *true*.
 Backup files while be named as following: `your_file.php.bak`
 * __interface__ [*boolean*]: Set *true* if you want to generate unit tests skeletons for interface too.
+* __private__ [*boolean*]: Set *true* if you want to generate unit tests skeletons for private / protected methods too.
 * __auto__ [*boolean*]: Set *true* if you want to automatically generate `getter` / `setter` unit tests, and class or trait instantiation.
 * __ignore__ [*boolean*]: Set *true* if you want to ignore errors that are not fatal.
 * __exclude__ [*string* or *null*]: A PHP regex to filter files that have not to be parsed. Set as *null* if you do not want to use an exclude regex.

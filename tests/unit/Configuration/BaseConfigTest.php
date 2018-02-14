@@ -20,6 +20,11 @@ use PhpUnitGen\Exception\InvalidConfigException;
 class BaseConfigTest extends TestCase
 {
     /**
+     * @var array $config
+     */
+    private $config;
+
+    /**
      * @var \ReflectionProperty $configProperty
      */
     private $configProperty;
@@ -32,6 +37,13 @@ class BaseConfigTest extends TestCase
         $this->configProperty = (new \ReflectionClass(BaseConfig::class))
             ->getProperty('config');
         $this->configProperty->setAccessible(true);
+
+        $this->config = [
+            'interface' => false,
+            'private'   => true,
+            'auto'      => false,
+            'phpdoc'    => []
+        ];
     }
 
     /**
@@ -43,6 +55,7 @@ class BaseConfigTest extends TestCase
 
         $this->assertSame([
             'interface' => false,
+            'private'   => true,
             'auto'      => false,
             'phpdoc'    => []
         ], $this->configProperty->getValue($config));
@@ -67,10 +80,8 @@ class BaseConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"interface" parameter must be set as a boolean.');
 
-        new BaseConfig([
-            'auto'   => false,
-            'phpdoc' => []
-        ]);
+        unset($this->config['interface']);
+        new BaseConfig($this->config);
     }
 
     /**
@@ -81,11 +92,8 @@ class BaseConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"interface" parameter must be set as a boolean.');
 
-        new BaseConfig([
-            'interface' => 'Invalid parameter',
-            'auto'      => false,
-            'phpdoc'    => []
-        ]);
+        $this->config['interface'] = 'Invalid parameter';
+        new BaseConfig($this->config);
     }
 
     /**
@@ -96,10 +104,8 @@ class BaseConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"auto" parameter must be set as a boolean.');
 
-        new BaseConfig([
-            'interface' => false,
-            'phpdoc'    => []
-        ]);
+        unset($this->config['auto']);
+        new BaseConfig($this->config);
     }
 
     /**
@@ -110,11 +116,32 @@ class BaseConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"auto" parameter must be set as a boolean.');
 
-        new BaseConfig([
-            'interface' => false,
-            'auto'      => 'Invalid parameter',
-            'phpdoc'    => []
-        ]);
+        $this->config['auto'] = 'Invalid parameter';
+        new BaseConfig($this->config);
+    }
+
+    /**
+     * @covers \PhpUnitGen\Configuration\BaseConfig::validate()
+     */
+    public function testPrivateMissingConfig(): void
+    {
+        $this->expectException(InvalidConfigException::class);
+        $this->expectExceptionMessage('"private" parameter must be set as a boolean.');
+
+        unset($this->config['private']);
+        new BaseConfig($this->config);
+    }
+
+    /**
+     * @covers \PhpUnitGen\Configuration\BaseConfig::validate()
+     */
+    public function testPrivateInvalidConfig(): void
+    {
+        $this->expectException(InvalidConfigException::class);
+        $this->expectExceptionMessage('"private" parameter must be set as a boolean.');
+
+        $this->config['private'] = 'Invalid parameter';
+        new BaseConfig($this->config);
     }
 
     /**
@@ -125,10 +152,8 @@ class BaseConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"phpdoc" parameter is not an array.');
 
-        new BaseConfig([
-            'interface' => false,
-            'auto'      => false
-        ]);
+        unset($this->config['phpdoc']);
+        new BaseConfig($this->config);
     }
 
     /**
@@ -139,13 +164,8 @@ class BaseConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('Some annotation in "phpdoc" parameter are not strings.');
 
-        new BaseConfig([
-            'interface' => false,
-            'auto'      => false,
-            'phpdoc'    => [
-                'invalid' => true
-            ]
-        ]);
+        $this->config['phpdoc'] = ['invalid' => true];
+        new BaseConfig($this->config);
     }
 
     /**
@@ -159,6 +179,7 @@ class BaseConfigTest extends TestCase
         $config = new BaseConfig();
 
         $this->assertSame(false, $config->hasInterfaceParsing());
+        $this->assertSame(true, $config->hasPrivateParsing());
         $this->assertSame(false, $config->hasAuto());
         $this->assertSame(
             realpath(__DIR__ . '/../../../template'),

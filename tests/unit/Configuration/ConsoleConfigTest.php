@@ -3,6 +3,7 @@
 namespace UnitTests\PhpUnitGen\Configuration;
 
 use PHPUnit\Framework\TestCase;
+use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Configuration\ConsoleConfig;
 use PhpUnitGen\Exception\InvalidConfigException;
 
@@ -20,14 +21,17 @@ use PhpUnitGen\Exception\InvalidConfigException;
 class ConsoleConfigTest extends TestCase
 {
     /**
-     * @covers \PhpUnitGen\Configuration\ConsoleConfig::validate()
+     * @var array $config
      */
-    public function testValidate(): void
+    private $config;
+
+    protected function setUp(): void
     {
-        $config = new ConsoleConfig([
+        $this->config = [
             'overwrite' => false,
             'backup'    => false,
             'interface' => false,
+            'private'   => true,
             'auto'      => false,
             'ignore'    => false,
             'exclude'   => '/.*config\.php$/',
@@ -35,8 +39,16 @@ class ConsoleConfigTest extends TestCase
             'dirs'      => [],
             'files'     => [],
             'phpdoc'    => []
-        ]);
-        $this->assertInstanceOf(ConsoleConfig::class, $config);
+        ];
+    }
+
+    /**
+     * @covers \PhpUnitGen\Configuration\ConsoleConfig::validate()
+     */
+    public function testValidate(): void
+    {
+        $config = new ConsoleConfig($this->config);
+        $this->assertInstanceOf(ConsoleConfigInterface::class, $config);
     }
 
     /**
@@ -47,17 +59,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"overwrite" parameter must be set as a boolean.');
 
-        new ConsoleConfig([
-            'backup'    => false,
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => false,
-            'exclude'   => '/.*config\.php$/',
-            'include'   => '/.*\.php$/',
-            'dirs'      => [],
-            'files'     => [],
-            'phpdoc'    => []
-        ]);
+        unset($this->config['overwrite']);
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -68,18 +71,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"overwrite" parameter must be set as a boolean.');
 
-        new ConsoleConfig([
-            'overwrite' => 'Invalid parameter',
-            'backup'    => false,
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => false,
-            'exclude'   => '/.*config\.php$/',
-            'include'   => '/.*\.php$/',
-            'dirs'      => [],
-            'files'     => [],
-            'phpdoc'    => []
-        ]);
+        $this->config['overwrite'] = 'Invalid parameter';
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -90,17 +83,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"backup" parameter must be set as a boolean.');
 
-        new ConsoleConfig([
-            'overwrite' => false,
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => false,
-            'exclude'   => '/.*config\.php$/',
-            'include'   => '/.*\.php$/',
-            'dirs'      => [],
-            'files'     => [],
-            'phpdoc'    => []
-        ]);
+        unset($this->config['backup']);
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -111,18 +95,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"backup" parameter must be set as a boolean.');
 
-        new ConsoleConfig([
-            'overwrite' => false,
-            'backup'    => 'Invalid parameter',
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => false,
-            'exclude'   => '/.*config\.php$/',
-            'include'   => '/.*\.php$/',
-            'dirs'      => [],
-            'files'     => [],
-            'phpdoc'    => []
-        ]);
+        $this->config['backup'] = 'Invalid parameter';
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -133,17 +107,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"ignore" parameter must be set as a boolean.');
 
-        new ConsoleConfig([
-            'overwrite' => false,
-            'backup'    => false,
-            'interface' => false,
-            'auto'      => false,
-            'exclude'   => '/.*config\.php$/',
-            'include'   => '/.*\.php$/',
-            'dirs'      => [],
-            'files'     => [],
-            'phpdoc'    => []
-        ]);
+        unset($this->config['ignore']);
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -154,18 +119,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"ignore" parameter must be set as a boolean.');
 
-        new ConsoleConfig([
-            'overwrite' => false,
-            'backup'    => false,
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => 'Invalid parameter',
-            'exclude'   => '/.*config\.php$/',
-            'include'   => '/.*\.php$/',
-            'dirs'      => [],
-            'files'     => [],
-            'phpdoc'    => []
-        ]);
+        $this->config['ignore'] = 'Invalid parameter';
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -176,17 +131,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"include" parameter must be set as a string or a null value.');
 
-        new ConsoleConfig([
-            'overwrite' => false,
-            'backup'    => false,
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => false,
-            'exclude'   => '/.*config\.php$/',
-            'dirs'      => [],
-            'files'     => [],
-            'phpdoc'    => []
-        ]);
+        unset($this->config['include']);
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -197,18 +143,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"include" parameter must be set as a string or a null value.');
 
-        new ConsoleConfig([
-            'overwrite' => false,
-            'backup'    => false,
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => false,
-            'exclude'   => '/.*config\.php$/',
-            'include'   => true,
-            'dirs'      => [],
-            'files'     => [],
-            'phpdoc'    => []
-        ]);
+        $this->config['include'] = ['invalid' => true];
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -219,17 +155,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"exclude" parameter must be set as a string or a null value.');
 
-        new ConsoleConfig([
-            'overwrite' => false,
-            'backup'    => false,
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => false,
-            'include'   => '/.*\.php$/',
-            'dirs'      => [],
-            'files'     => [],
-            'phpdoc'    => []
-        ]);
+        unset($this->config['exclude']);
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -240,18 +167,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"exclude" parameter must be set as a string or a null value.');
 
-        new ConsoleConfig([
-            'overwrite' => false,
-            'backup'    => false,
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => false,
-            'exclude'   => true,
-            'include'   => '/.*\.php$/',
-            'dirs'      => [],
-            'files'     => [],
-            'phpdoc'    => []
-        ]);
+        $this->config['exclude'] = ['invalid' => true];
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -262,17 +179,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"dirs" parameter is not an array.');
 
-        new ConsoleConfig([
-            'overwrite' => false,
-            'backup'    => false,
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => false,
-            'exclude'   => '/.*config\.php$/',
-            'include'   => '/.*\.php$/',
-            'files'     => [],
-            'phpdoc'    => []
-        ]);
+        unset($this->config['dirs']);
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -283,20 +191,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('Some directories in "dirs" parameter are not strings.');
 
-        new ConsoleConfig([
-            'overwrite' => false,
-            'backup'    => false,
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => false,
-            'exclude'   => '/.*config\.php$/',
-            'include'   => '/.*\.php$/',
-            'dirs'      => [
-                'invalid' => true
-            ],
-            'files'     => [],
-            'phpdoc'    => []
-        ]);
+        $this->config['dirs'] = ['invalid' => true];
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -307,17 +203,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('"files" parameter is not an array.');
 
-        new ConsoleConfig([
-            'overwrite' => false,
-            'backup'    => false,
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => false,
-            'exclude'   => '/.*config\.php$/',
-            'include'   => '/.*\.php$/',
-            'dirs'      => [],
-            'phpdoc'    => []
-        ]);
+        unset($this->config['files']);
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -328,20 +215,8 @@ class ConsoleConfigTest extends TestCase
         $this->expectException(InvalidConfigException::class);
         $this->expectExceptionMessage('Some files in "files" parameter are not strings.');
 
-        new ConsoleConfig([
-            'overwrite' => false,
-            'backup'    => false,
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => false,
-            'exclude'   => '/.*config\.php$/',
-            'include'   => '/.*\.php$/',
-            'dirs'      => [],
-            'files'     => [
-                'invalid' => true
-            ],
-            'phpdoc'    => []
-        ]);
+        $this->config['files'] = ['invalid' => true];
+        new ConsoleConfig($this->config);
     }
 
     /**
@@ -352,18 +227,7 @@ class ConsoleConfigTest extends TestCase
      */
     public function testGetters(): void
     {
-        $config = new ConsoleConfig([
-            'overwrite' => false,
-            'backup'    => false,
-            'interface' => false,
-            'auto'      => false,
-            'ignore'    => false,
-            'exclude'   => '/.*config\.php$/',
-            'include'   => '/.*\.php$/',
-            'dirs'      => [],
-            'files'     => [],
-            'phpdoc'    => []
-        ]);
+        $config = new ConsoleConfig($this->config);
 
         $this->assertSame(false, $config->hasOverwrite());
         $this->assertSame(false, $config->hasBackup());

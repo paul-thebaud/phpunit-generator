@@ -19,6 +19,11 @@ interface ConfigInterface
     public function hasInterfaceParsing(): bool;
 
     /**
+     * @return bool True if private / protected methods need to be parsed too.
+     */
+    public function hasPrivateParsing(): bool;
+
+    /**
      * @return bool True if it require auto generation.
      */
     public function hasAuto(): bool;

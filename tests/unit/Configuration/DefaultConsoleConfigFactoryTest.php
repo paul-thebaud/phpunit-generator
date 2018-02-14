@@ -26,6 +26,7 @@ class DefaultConsoleConfigFactoryTest extends TestCase
         'overwrite' => false,
         'backup'    => false,
         'interface' => false,
+        'private'   => true,
         'auto'      => false,
         'ignore'    => true,
         'exclude'   => '/^.*config.php$/',

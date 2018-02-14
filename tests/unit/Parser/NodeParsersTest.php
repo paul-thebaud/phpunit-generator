@@ -76,7 +76,12 @@ class NodeParsersTest extends TestCase
 
     public function testNodeParsersWithInterfacesAndAuto(): void
     {
-        $config = new BaseConfig(['auto' => true, 'interface' => true, 'phpdoc' => []]);
+        $config    = new BaseConfig([
+            'auto'      => true,
+            'interface' => true,
+            'private'   => true,
+            'phpdoc'    => []
+        ]);
         $container = (new ContainerFactory())->invoke($config);
 
         $code = file_get_contents(__DIR__ . '/resource/with_namespace.php');
@@ -411,6 +416,26 @@ class NodeParsersTest extends TestCase
         $this->assertNull($class->getFunction('setProperty')->getSetAnnotation());
     }
 
+    public function testNodeParsersWithoutPrivate(): void
+    {
+        $code = file_get_contents(__DIR__ . '/resource/without_private.php');
+
+        $container = (new ContainerFactory())->invoke(new BaseConfig([
+            'auto'      => true,
+            'interface' => true,
+            'private'   => false,
+            'phpdoc'    => []
+        ]));
+
+        /** @var PhpFileModelInterface $phpFileModel */
+        $phpFileModel = $container->get(PhpParserInterface::class)->invoke($code);
+
+        $class = $phpFileModel->getClasses()[0];
+        $this->assertSame(1, $class->getFunctions()->count());
+        $this->assertNotNull($class->getFunction('publicFunc'));
+        $this->assertNull($class->getFunction('privateFunc'));
+    }
+
     public function testNodeParsersWithoutInterface(): void
     {
         $code = file_get_contents(__DIR__ . '/resource/without_interface.php');
@@ -474,9 +499,10 @@ class NodeParsersTest extends TestCase
     public function testInterfaceNodeParserThrowException(): void
     {
         $container = (new ContainerFactory())->invoke(new BaseConfig([
-            'auto' => false,
+            'auto'      => false,
             'interface' => true,
-            'phpdoc' => []
+            'private'   => true,
+            'phpdoc'    => []
         ]));
 
         $interfaceNodeParser = $container->get(InterfaceNodeParser::class);
@@ -609,7 +635,7 @@ class NodeParsersTest extends TestCase
         $nameMock->expects($this->once())->method('isQualified')
             ->with()->willReturn(false);
 
-        $phpFile = new PhpFileModel();
+        $phpFile  = new PhpFileModel();
         $function = new FunctionModel();
         $function->setParentNode($phpFile);
         $return = new ReturnModel();

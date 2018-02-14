@@ -5,8 +5,10 @@ return [
     'overwrite' => false,
     // If overwrite is enabled, set to true to backup erased files
     'backup'    => false,
-    // If you want to generate tests for Interface too
+    // If you want to generate tests skeleton for Interface too
     'interface' => false,
+    // If you want to generate tests skeleton for protected / private methods
+    'private'   => true,
     // Automatically generate tests for getter / setter method
     'auto'      => false,
     // Ignore errors that can be ignored

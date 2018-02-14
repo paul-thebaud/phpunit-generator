@@ -17,8 +17,12 @@ use Respect\Validation\Validator;
  */
 class BaseConfig implements ConfigInterface
 {
+    /**
+     * @var mixed[] DEFAULT_CONFIG The default base configuration.
+     */
     protected const DEFAULT_CONFIG = [
         'interface' => false,
+        'private'   => true,
         'auto'      => false,
         'phpdoc'    => []
     ];
@@ -60,6 +64,9 @@ class BaseConfig implements ConfigInterface
         if (! Validator::key('interface', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"interface" parameter must be set as a boolean.');
         }
+        if (! Validator::key('private', Validator::boolType())->validate($config)) {
+            throw new InvalidConfigException('"private" parameter must be set as a boolean.');
+        }
         if (! Validator::key('auto', Validator::boolType())->validate($config)) {
             throw new InvalidConfigException('"auto" parameter must be set as a boolean.');
         }
@@ -94,6 +101,14 @@ class BaseConfig implements ConfigInterface
     public function hasInterfaceParsing(): bool
     {
         return $this->config['interface'];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hasPrivateParsing(): bool
+    {
+        return $this->config['private'];
     }
 
     /**

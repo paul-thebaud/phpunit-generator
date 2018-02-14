@@ -1,7 +1,7 @@
 <img src="https://raw.github.com/paul-thebaud/phpunit-generator-assets/master/logos/logo.svg?sanitize=true" width="200px">
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg)](https://php.net/)
 [![Build Status][ico-travis]][link-travis]
 [![Coverage Status][ico-coveralls]][link-coveralls]
 [![Scrutinizer][ico-scrutinizer]][link-scrutinizer]

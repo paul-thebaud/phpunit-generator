@@ -3,7 +3,6 @@
 namespace UnitTests\PhpUnitGen\Model;
 
 use PHPUnit\Framework\TestCase;
-use PhpUnitGen\Annotation\ConstructAnnotation;
 use PhpUnitGen\Model\ParameterModel;
 
 /**

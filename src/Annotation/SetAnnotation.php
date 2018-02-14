@@ -53,7 +53,8 @@ class SetAnnotation extends AbstractAnnotation
             $this->property = preg_replace(
                 '/^set/',
                 '',
-                $this->getParentNode()->/** @scrutinizer ignore-call */ getName()
+                $this->getParentNode()->/** @scrutinizer ignore-call */
+                getName()
             );
             $this->property = lcfirst($this->property);
         }

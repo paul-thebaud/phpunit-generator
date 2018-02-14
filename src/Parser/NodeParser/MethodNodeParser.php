@@ -5,7 +5,6 @@ namespace PhpUnitGen\Parser\NodeParser;
 use PhpParser\Node;
 use PhpUnitGen\Annotation\GetAnnotation;
 use PhpUnitGen\Annotation\SetAnnotation;
-use PhpUnitGen\Configuration\ConfigurationInterface\ConfigInterface;
 use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\ModelInterface\InterfaceModelInterface;
@@ -89,7 +88,7 @@ class MethodNodeParser extends AbstractFunctionNodeParser
      * Try to create a getter annotation for function.
      *
      * @param FunctionModel       $function The function to check for.
-     * @param TraitModelInterface $parent The parent to use.
+     * @param TraitModelInterface $parent   The parent to use.
      *
      * @return bool True if a getter annotation has been created.
      */
@@ -119,7 +118,7 @@ class MethodNodeParser extends AbstractFunctionNodeParser
      * Try to create a setter annotation for function.
      *
      * @param FunctionModel       $function The function to check for.
-     * @param TraitModelInterface $parent The parent to use.
+     * @param TraitModelInterface $parent   The parent to use.
      *
      * @return bool True if a setter annotation has been created.
      */

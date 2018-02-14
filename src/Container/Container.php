@@ -31,7 +31,7 @@ class Container implements ContainerInterface
      * Add to available services an instance of an object.
      *
      * @param string $id       The service identifier.
-     * @param mixed $instance An object instance.
+     * @param mixed  $instance An object instance.
      */
     public function setInstance(string $id, $instance): void
     {

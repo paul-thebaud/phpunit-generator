@@ -2,7 +2,11 @@
 
 class WithoutPrivate
 {
-    public function publicFunc() {}
+    public function publicFunc()
+    {
+    }
 
-    private function privateFunc() {}
+    private function privateFunc()
+    {
+    }
 }

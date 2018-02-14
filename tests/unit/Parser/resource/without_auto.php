@@ -4,7 +4,11 @@ class WithoutAuto
 {
     private $property;
 
-    public function getProperty() {}
+    public function getProperty()
+    {
+    }
 
-    public function setProperty() {}
+    public function setProperty()
+    {
+    }
 }

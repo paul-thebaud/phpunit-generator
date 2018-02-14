@@ -22,7 +22,7 @@
     "phpunitgen"
   ],
   "require": {
-    "php": "~7.2",
+    "php": "~7.1",
     "doctrine/collections": "^1.5",
     "doctrine/lexer": "^1.0",
     "league/flysystem": "^1.0",

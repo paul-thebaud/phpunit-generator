@@ -23,7 +23,7 @@ class Container implements ContainerInterface
     private $autoResolvable = [];
 
     /**
-     * @var object[] $instances All objects instances.
+     * @var mixed[] $instances All objects instances.
      */
     private $instances = [];
 
@@ -31,9 +31,9 @@ class Container implements ContainerInterface
      * Add to available services an instance of an object.
      *
      * @param string $id       The service identifier.
-     * @param object $instance An object instance.
+     * @param mixed $instance An object instance.
      */
-    public function setInstance(string $id, object $instance): void
+    public function setInstance(string $id, $instance): void
     {
         $this->instances[$id] = $instance;
     }
@@ -65,7 +65,7 @@ class Container implements ContainerInterface
     /**
      * {@inheritdoc}
      */
-    public function get($id): object
+    public function get($id)
     {
         if (! Validator::stringType()->validate($id)) {
             throw new ContainerException('Identifier is not a string');
@@ -78,11 +78,11 @@ class Container implements ContainerInterface
      *
      * @param string $id The service identifier.
      *
-     * @return object The service.
+     * @return mixed The service.
      *
      * @throws ContainerException If the service identifier is not a string.
      */
-    private function resolveInstance(string $id): object
+    private function resolveInstance(string $id)
     {
         if (Validator::key($id)->validate($this->instances)) {
             return $this->instances[$id];
@@ -95,11 +95,11 @@ class Container implements ContainerInterface
      *
      * @param string $id The service identifier.
      *
-     * @return object The service.
+     * @return mixed The service.
      *
      * @throws ContainerException If the service identifier is not a string.
      */
-    private function resolveAutomaticResolvable(string $id): object
+    private function resolveAutomaticResolvable(string $id)
     {
         if (Validator::key($id)->validate($this->autoResolvable)) {
             return $this->instances[$id] = $this->autoResolve($this->autoResolvable[$id]);
@@ -112,11 +112,11 @@ class Container implements ContainerInterface
      *
      * @param string $class The service class.
      *
-     * @return object The built instance.
+     * @return mixed The built instance.
      *
      * @throws ContainerException If the service cannot be constructed.
      */
-    private function autoResolve(string $class): object
+    private function autoResolve(string $class)
     {
         try {
             $reflection = new \ReflectionClass($class);
@@ -135,11 +135,11 @@ class Container implements ContainerInterface
      *
      * @param \ReflectionClass $reflection The reflection class.
      *
-     * @return object The built instance.
+     * @return mixed The built instance.
      *
      * @throws ContainerException If the class constructor is not public.
      */
-    private function buildInstance(\ReflectionClass $reflection): object
+    private function buildInstance(\ReflectionClass $reflection)
     {
         if (($constructor = $reflection->getConstructor()) === null) {
             return $reflection->newInstance();

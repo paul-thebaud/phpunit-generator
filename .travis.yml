@@ -4,6 +4,7 @@ sudo: false
 
 # PHP versions to tests
 php:
+- 7.1
 - 7.2
 # Composer install
 install:

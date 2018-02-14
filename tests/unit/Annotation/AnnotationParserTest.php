@@ -10,6 +10,7 @@ use PhpUnitGen\Annotation\AnnotationParser;
 use PhpUnitGen\Annotation\AnnotationRegister;
 use PhpUnitGen\Annotation\TokenConsumer;
 use PhpUnitGen\Exception\AnnotationParseException;
+use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Model\ClassModel;
 use PhpUnitGen\Model\FunctionModel;
 use PhpUnitGen\Model\PhpFileModel;
@@ -295,5 +296,33 @@ class AnnotationParserTest extends TestCase
         $this->expectExceptionMessage('A token of value "my_invalid_value" has an invalid type');
 
         $parseMethod->invoke($this->annotationParser, -10, 'my_invalid_value');
+    }
+
+    public function testNoPatternsCorrespond(): void
+    {
+        $annotationLexer = $this->getMockBuilder(AnnotationLexer::class)
+            ->setMethods(['getPatternsToken'])
+            ->getMock();
+        $annotationLexer->expects($this->once())->method('getPatternsToken')
+            ->with()->willReturn([]);
+
+        $getTypeMethod = (new \ReflectionClass($annotationLexer))->getMethod('getType');
+        $getTypeMethod->setAccessible(true);
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Invalid value given to lexer');
+
+        $value = 'my_value';
+        $getTypeMethod->invokeArgs($annotationLexer, [&$value]);
+    }
+
+    public function testGetPatternsTokenFromLexer(): void
+    {
+        $annotationLexer = new AnnotationLexer();
+
+        $getPatternsTokenMethod = (new \ReflectionClass($annotationLexer))->getMethod('getPatternsToken');
+        $getPatternsTokenMethod->setAccessible(true);
+
+        $this->assertSame(AnnotationLexer::PATTERNS_TOKENS, $getPatternsTokenMethod->invoke($annotationLexer));
     }
 }

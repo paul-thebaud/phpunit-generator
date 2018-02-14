@@ -80,11 +80,19 @@ class AnnotationLexer extends AbstractLexer
      */
     protected function getType(&$value): int
     {
-        foreach (AnnotationLexer::PATTERNS_TOKENS as $pattern => $token) {
+        foreach ($this->getPatternsToken() as $pattern => $token) {
             if (preg_match($pattern, $value)) {
                 return $token;
             }
         }
         throw new Exception('Invalid value given to lexer');
+    }
+
+    /**
+     * @return array All matchable patterns with corresponding tokens identifiers.
+     */
+    protected function getPatternsToken(): array
+    {
+        return AnnotationLexer::PATTERNS_TOKENS;
     }
 }

@@ -19,6 +19,7 @@ __Note__: All across your generated tests skeletons, you will find `@todo` PHP a
 ### Console usage
 
 When you install this package, you can use the command line to generate your unit tests skeleton.
+Use this command in project root directory.
 
 ```bash
 $ php ./vendor/bin/phpunitgen
@@ -30,14 +31,14 @@ For this command, you will need a configuration file written in `YAML`, `JSON` o
 * `JSON` example is available [here](examples/phpunitgen.config.json).
 * `PHP` example is available [here](examples/phpunitgen.config.php).
 
-By default, PhpUnitGen search for a configuration file named `./phpunitgen.yml`.
+By default, PhpUnitGen search for a configuration file named `phpunitgen.yml` at the project root.
 
 But if you want to use a custom configuration path, you can use an option:
 
 ```bash
-$ php ./vendor/bin/phpunitgen --config=my/custom/config.json
+$ php ./vendor/bin/phpunitgen --config=my/custom/config.yml
 
-$ php ./vendor/bin/phpunitgen -c=my/custom/config.json
+$ php ./vendor/bin/phpunitgen -c=my/custom/config.yml
 ```
 
 Use PhpUnitGen on one file only (use of `file` option need a source and a target):
@@ -68,13 +69,15 @@ $ php ./vendor/bin/phpunitgen -D -d source/dir target/dir
 
 __Note:__
 
-* `dir` and `file` options can be combined with the `config` option.
 * If you use the `default` option with the `config` option, configuration will
 be ignored and default configuration will be needed.
 * If you use the `default` option, and you don't provide the `dir` or the `file`
 option, PhpUnitGen will consider that source and target paths are directories.
+* As PhpUnitGen use the Symfony Console package, you can combine multiple option together:
+`$ php ./vendor/bin/phpunitgen -fc my/custom/config.yml source/file.php target/file.php` will parse one
+file with your custom configuration.
 
-### Console configuration
+### Configuration
 
 A configuration file needs the following parameters :
 
@@ -97,7 +100,7 @@ and put the generated unit tests skeletons in your target file (an array value).
 
 PhpUnitGen is available online on an Heroku server:
 
-[https://phpunitgen.herokuapp.com/](https://phpunitgen.herokuapp.com/)
+[https://phpunitgen.herokuapp.com/](https://phpunitgen.io/)
 
 ### PHP code usage
 
@@ -137,7 +140,7 @@ PHPDoc annotation that you can use in your files:
 * PHPUnit assertion on functions / methods results: `@PhpUnitGen\...` with a PHPUnit assertion (like `@PhpUnitGen\assertTrue`).
 * Mock creation for methods call: `@PhpUnitGen\mock`.
 
-These annotations __MUST__ be written in a PHPDoc block.
+Those annotations __MUST__ be written in a PHPDoc block.
 They all start with `@PhpUnitGen` or `@Pug`
 (which is not case sensitive, so you can write `@phpunitgen` for example).
 
@@ -153,7 +156,7 @@ They all start with `@PhpUnitGen` or `@Pug`
  * Not working:
  * @PhpUnitGenerator\assertTrue()
  */
-function doSomething() {}
+function validateSomething(): bool { /* some PHP code */ }
 ```
 
 You can find basic examples on using annotations [here](examples) with input class, and output tests class.
@@ -178,14 +181,14 @@ It will use simple value to call the constructor method, so be careful with the 
 ### Argument of annotations
 
 Some annotations will need parameters. When generating tests skeletons, PhpUnitGen parse
-these annotations like JSON content, so all string must be quoted with `"`.
+these annotations like JSON content, so all parameters must be quoted with `"`. In
+this parameter, you can write any PHP code, such as a mock creation: `"$this->createMock('MyClass')"`
 
-So __do not forget__ to escape the backslash `\` or the `"` chars with a backslash `\`.
+__Do not forget__ to escape the backslash `\` or the `"` chars with a backslash `\`.
 
 ### Class instantiation information
 
-When PhpUnitGen generate a tests skeleton, it can not instantiate the class
-because it does not know which parameters you want to use.
+When PhpUnitGen generate a tests skeleton, it can not always detect the constructor, because it just parse one file.
 If you provide this annotation on your class documentation, it will instantiate the class with your parameters:
 
 ```php
@@ -197,11 +200,11 @@ namespace Company;
  */
 class Employee extends AbstractPerson
 {
-    public function __construct(string $name, string $cellphone) {}
+    public function __construct(string $name, string $cellphone) { /* some PHP code */ }
 }
 ```
 
-If you want to use a to build the class instance to test from another class
+If you want to build the class instance to test from another class
 (when writing tests for an abstract class for example), you
 can provide it to PhpUnitGen by adding the class absolute name:
 
@@ -212,7 +215,7 @@ namespace Company;
  * Construct the instance to tests by calling 'new \Company\Employee("John", "0123456789")'
  * @PhpUnitGen\construct("\Company\Employee", ["'John'", "'0123456789'"])
  */
-abstract class AbstractPerson {}
+abstract class AbstractPerson { /* some PHP code */ }
 ```
 
 ### Getter and setter
@@ -222,21 +225,24 @@ simple annotations.
 
 ```php
 <?php
-/**
- * Assert that when calling this method the property $name is get.
- * @PhpUnitGen\get
- */
-public function getName(): string
-{
-    return $this->name;
-}
-/**
- * Assert that when calling this method the property $name is set.
- * @PhpUnitGen\set
- */
-public function setName(string $name): void
-{
-    $this->name = $name;
+class Employee {
+    private $name;
+    /**
+     * Assert that when calling this method the property $name is get.
+     * @PhpUnitGen\get
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+    /**
+     * Assert that when calling this method the property $name is set.
+     * @PhpUnitGen\set
+     */
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
 }
 ```
 
@@ -245,27 +251,30 @@ just add a string to describe the name of the property.
 
 ```php
 <?php
-/**
- * Assert that when calling this method the property $phone is get.
- * @PhpUnitGen\get("phone")
- */
-public function getCellphone(): string
-{
-    return $this->phone;
-}
-/**
- * Assert that when calling this method the property $phone is set.
- * @PhpUnitGen\set("phone")
- */
-public function setCellphone(string $phone): void
-{
-    $this->phone = $phone;
+class Employee {
+    private $phone;
+    /**
+     * Assert that when calling this method the property $phone is get.
+     * @PhpUnitGen\get("phone")
+     */
+    public function getCellphone(): string
+    {
+        return $this->phone;
+    }
+    /**
+     * Assert that when calling this method the property $phone is set.
+     * @PhpUnitGen\set("phone")
+     */
+    public function setCellphone(string $phone): void
+    {
+        $this->phone = $phone;
+    }
 }
 ```
 
 __Note__: `get` and `set` annotations support static and not static method in classes, traits or interfaces,
 but do not support global functions (out of classes, traits or interfaces).
-Also, for PhpUnitGen, a `getter` or a `setter` is a public method.
+PhpUnitGen allow `get` and `set` methods to be private and protected.
 
 ### Method result assertions
 
@@ -273,23 +282,25 @@ PhpUnitGen also provide annotations to generate simple:
 
 ```php
 <?php
-/**
- * Assert method call will return a not null result.
- * @PhpUnitGen\assertNotNull()
- * Assert method call will return '012-345-6789'.
- * @PhpUnitGen\assertEquals("'0123456789'")
- */
-public function getCellphone(): string
-{
-    return $this->phone;
+class Employee {
+    private $phone;
+    /**
+     * Assert method call will return a not null result.
+     * @PhpUnitGen\assertNotNull()
+     * Assert method call will return '012-345-6789'.
+     * @PhpUnitGen\assertEquals("'0123456789'")
+     */
+    public function getCellphone(): string
+    {
+        return $this->phone;
+    }
 }
 ```
 
-An assertion annotation is composed of the following parameters:
-
-* (optional) A string to describe the first parameter of assertion (generally it is the expected value):
-    * It could be any PHP expression.
-    * If not provided, PhpUnitGen will consider that assertion does not needs one, like `assertTrue`.
+An assertion annotation is composed of an optional string to describe 
+the first parameter of assertion (generally it is the expected value):
+* It could be any PHP expression.
+* If not provided, PhpUnitGen will consider that assertion does not needs one, like `assertTrue`.
     
 ### Method parameters
 
@@ -297,19 +308,26 @@ If the method you want to test needs parameters, you can use the `params` annota
 
 ```php
 <?php
-/**
- * Assert that when calling this method the property $phone is set.
- * @PhpUnitGen\params("'John'", "'0123456789'")
- * @PhpUnitGen\assertNotNull()
- * @PhpUnitGen\assertEquals("'John: 0123456789'")
- */
-public static function getEmployeeInfo(string $name, string $phone): string
-{
-    return $name . ': ' . $phone;
+class Employee {
+    /**
+     * Assert that when calling this method the property $phone is set.
+     * @PhpUnitGen\params("'John'", "'0123456789'")
+     * @PhpUnitGen\assertNotNull()
+     * @PhpUnitGen\assertEquals("'John: 0123456789'")
+     */
+    public static function getEmployeeInfo(string $name, string $phone): string
+    {
+        return $name . ': ' . $phone;
+    }
 }
 ```
 
+It works like the `construct` annotation, but parameters are not in a JSON array and, obviously, you
+can not provide a class to instantiate.
+
 ### Mocking objects
+
+The mock annotation allows you to mock an object, which can be defined as a class property or a method test variable.
 
 ```php
 <?php
@@ -322,7 +340,7 @@ namespace Company;
  * @PhpUnitGen\construct(["$this->employee"])
  */
 class EmployeeCard {
-    public function __construct(Employee $employee) {}
+    public function __construct(Employee $employee) { /* some PHP code */ }
     
     /**
      * Create a mock only in this function.
@@ -332,6 +350,6 @@ class EmployeeCard {
      * @PhpUnitGen\params("$date")
      * @PhpUnitGen\assertFalse()
      */
-    public function isExpired(\DateTime $date): bool {}
+    public function isExpired(\DateTime $date): bool { /* some PHP code */ }
 }
 ```

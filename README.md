@@ -9,8 +9,10 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 
 PhpUnitGen is an open source development tool which will help you writing your unit tests for PHPUnit 6 / 7:
-* Generate unit skeleton for all PHP files.
+* Generate unit skeleton for all PHP files including classes, traits, interfaces and global functions.
 * Automatically generate a few simple unit tests (like getter / setter methods tests, class instantiation).
+
+__Version 2 of PhpUnitGen is now available, but be careful, it breaks the PhpUnitGen 1.x.x API.__
 
 ## Package structure
 
@@ -34,17 +36,17 @@ $ composer require --dev paulthebaud/phpunit-generator ^2.0
 
 `--dev` option is used to install this package only in development environment.
 
-## Basic usage
+## Basic usages
 
 A detailed documentation is available [here](DOCUMENTATION.md), but here is a simple description of usages.
 
-PhpUnitGen basic usage is from command line with the following command.
+PhpUnitGen basic usage is from command line with the following command. Use this command in project root directory.
 
 ```bash
 $ php ./vendor/bin/phpunitgen
 ```
 
-__Note__: All across your generated tests skeletons, you will find `@todo` PHP annotations to complete them.
+__Note__: All across your generated tests skeletons, you will find `@todo` PHP annotations to complete your unit tests.
 
 For this command, you will need a configuration file written in `Yaml`, `Json` or `Php`.
 
@@ -52,12 +54,12 @@ For this command, you will need a configuration file written in `Yaml`, `Json` o
 * `Json` example is available [here](examples/phpunitgen.config.json).
 * `Php` example is available [here](examples/phpunitgen.config.php).
 
-By default, PhpUnitGen search for a configuration file named `./phpunitgen.yml`.
+By default, PhpUnitGen search for a configuration file named `phpunitgen.yml` at the project root.
 
 But if you want to use a custom configuration path, you can use an option:
 
 ```bash
-$ php ./vendor/bin/phpunitgen --config=my/custom/config.json
+$ php ./vendor/bin/phpunitgen --config=my/custom/config.yml
 ```
 
 Use PhpUnitGen on one file only:
@@ -72,16 +74,18 @@ Use PhpUnitGen on one directory only:
 $ php ./vendor/bin/phpunitgen --dir source/dir target/dir
 ```
 
-Use PhpUnitGen with default configuration:
+Use PhpUnitGen with default configuration on a file or on a directory:
 
 ```bash
 $ php ./vendor/bin/phpunitgen --default --file source/file.php target/file.php
 $ php ./vendor/bin/phpunitgen --default --dir source/dir target/dir
 ```
 
-PhpUnitGen can also be used online on [this website](https://phpunitgen.heroku.com)
+__Note__: When parsing a directory, PhpUnitGen will also parse sub-directories.
 
-## Testing
+PhpUnitGen can also be used online on [this website](https://phpunitgen.io)
+
+## Running tests
 
 ```bash
 $ composer test

@@ -92,9 +92,10 @@ Backup files while be named as following: `your_file.php.bak`
 * __include__ [*string* or *null*]: A PHP regex to filter files that have to be parsed. Set as *null* if you do not want to use an include regex.
 * __dirs__ [*array*]: An array of `source: target` directories. PhpUnitGen will parse each files in your source directory (an array key)
 and put the generated unit tests skeletons in your target directory (an array value).
-It will also parse sub-directories.
+It will also parse sub-directories. *null* if you have no directory to parse.
 * __files__ [*array*]: An array of `source: target` files. PhpUnitGen will parse each files in your source file (an array key)
 and put the generated unit tests skeletons in your target file (an array value).
+*null* if you have no file to parse.
 
 ### Website usage
 

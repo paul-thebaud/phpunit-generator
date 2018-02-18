@@ -103,8 +103,12 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
     private function validateDirs($config): void
     {
         // Check that dirs key exists
-        if (! Validator::key('dirs', Validator::arrayType())->validate($config)) {
+        if (! Validator::key('dirs')->validate($config)) {
             throw new InvalidConfigException('"dirs" parameter is not an array.');
+        }
+        // Clean dirs value
+        if ($config['dirs'] === null) {
+            $this->config['dirs'] = $config['dirs'] = [];
         }
         // Validate each dirs
         if (! Validator::arrayVal()
@@ -124,8 +128,12 @@ class ConsoleConfig extends BaseConfig implements ConsoleConfigInterface
     private function validateFiles($config): void
     {
         // Check that files key exists
-        if (! Validator::key('files', Validator::arrayType())->validate($config)) {
+        if (! Validator::key('files')->validate($config)) {
             throw new InvalidConfigException('"files" parameter is not an array.');
+        }
+        // Clean files value
+        if ($config['files'] === null) {
+            $this->config['files'] = $config['files'] = [];
         }
         // Validate each files
         if (! Validator::arrayVal()

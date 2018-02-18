@@ -50,9 +50,9 @@ class BaseConfig implements ConfigInterface
      */
     public function __construct($config = BaseConfig::DEFAULT_CONFIG)
     {
-        $this->validate($config);
-
         $this->config = $config;
+
+        $this->validate($config);
     }
 
     /**

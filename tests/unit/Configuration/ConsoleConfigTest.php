@@ -186,6 +186,17 @@ class ConsoleConfigTest extends TestCase
     /**
      * @covers \PhpUnitGen\Configuration\ConsoleConfig::validateDirs()
      */
+    public function testDirsNullConfig(): void
+    {
+        $this->config['dirs'] = null;
+        $config = new ConsoleConfig($this->config);
+
+        $this->assertSame([], $config->getDirectories());
+    }
+
+    /**
+     * @covers \PhpUnitGen\Configuration\ConsoleConfig::validateDirs()
+     */
     public function testDirsInvalidConfig(): void
     {
         $this->expectException(InvalidConfigException::class);
@@ -205,6 +216,17 @@ class ConsoleConfigTest extends TestCase
 
         unset($this->config['files']);
         new ConsoleConfig($this->config);
+    }
+
+    /**
+     * @covers \PhpUnitGen\Configuration\ConsoleConfig::validateFiles()
+     */
+    public function testFilesNullConfig(): void
+    {
+        $this->config['files'] = null;
+        $config = new ConsoleConfig($this->config);
+
+        $this->assertSame([], $config->getFiles());
     }
 
     /**

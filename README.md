@@ -38,8 +38,6 @@ $ composer require --dev paulthebaud/phpunit-generator ^2.0
 
 ## Basic usages
 
-A detailed documentation is available [here](DOCUMENTATION.md), but here is a simple description of usages.
-
 PhpUnitGen basic usage is from command line with the following command. Use this command in project root directory.
 
 ```bash
@@ -83,7 +81,11 @@ $ php ./vendor/bin/phpunitgen --default --dir source/dir target/dir
 
 __Note__: When parsing a directory, PhpUnitGen will also parse sub-directories.
 
-PhpUnitGen can also be used online on [this website](https://phpunitgen.io)
+PhpUnitGen can also be used online on [this website](https://phpunitgen.io).
+
+You can find documentation files in the `documentation` directory of this repository:
+* [Various usage: console, website, PHP code](documentation/USAGE.md).
+* [Annotations usage in your PHP files](documentation/ANNOTATIONS.md).
 
 ## Running tests
 

@@ -1,6 +1,6 @@
-# PhpUnitGen - Annotations
+#### PhpUnitGen - Annotations
 
-## Before using this package
+#### Before using this package
 
 __DO NOT USE THIS PACKAGE WITHOUT CHECKING GENERATED TESTS!__
 
@@ -11,7 +11,7 @@ PHP files can have multiple patterns (containing namespaces, interfaces, class, 
 If you find any issue, please report them [here](https://github.com/paul-thebaud/phpunit-generator/issues).
 
 
-## Annotations
+#### Annotations
 
 Beyond using a configuration for your tests skeletons generation, PhpUnitGen provides
 PHPDoc annotation that you can use in your files:
@@ -46,7 +46,7 @@ You can find basic examples on using annotations [here](examples) with input cla
 __Note__: PhpUnitGen annotations are __made to generate simple tests__.
 If you want to test complex methods, you should write your assertions yourself.
 
-### Automatic generation
+#### Automatic generation
 
 When using the `auto` parameter of configuration as `true`, PhpUnitGen will
 detect the getter / setter methods and generate basic tests for them.
@@ -60,7 +60,7 @@ of the return type of the getter or of the argument type of the setter.
 PhpUnitGen will also generate instantiation for class or trait if they have a `__construct` method.
 It will use simple value to call the constructor method, so be careful with the generated instantiation.
 
-### Argument of annotations
+#### Argument of annotations
 
 Some annotations will need parameters. When generating tests skeletons, PhpUnitGen parse
 these annotations like JSON content, so all parameters must be quoted with `"`. In
@@ -68,7 +68,7 @@ this parameter, you can write any PHP code, such as a mock creation: `"$this->cr
 
 __Do not forget__ to escape the backslash `\` or the `"` chars with a backslash `\`.
 
-### Class instantiation information
+#### Class instantiation information
 
 When PhpUnitGen generate a tests skeleton, it can not always detect the constructor, because it just parse one file.
 If you provide this annotation on your class documentation, it will instantiate the class with your parameters:
@@ -100,7 +100,7 @@ namespace Company;
 abstract class AbstractPerson { /* some PHP code */ }
 ```
 
-### Getter and setter
+#### Getter and setter
 
 To generate your tests for a getter or setter, PhpUnitGen provides
 simple annotations.
@@ -158,7 +158,7 @@ __Note__: `get` and `set` annotations support static and not static method in cl
 but do not support global functions (out of classes, traits or interfaces).
 PhpUnitGen allow `get` and `set` methods to be private and protected.
 
-### Method result assertions
+#### Method result assertions
 
 PhpUnitGen also provide annotations to generate simple:
 
@@ -184,7 +184,7 @@ the first parameter of assertion (generally it is the expected value):
 * It could be any PHP expression.
 * If not provided, PhpUnitGen will consider that assertion does not needs one, like `assertTrue`.
     
-### Method parameters
+#### Method parameters
 
 If the method you want to test needs parameters, you can use the `params` annotation.
 
@@ -207,7 +207,7 @@ class Employee {
 It works like the `construct` annotation, but parameters are not in a JSON array and, obviously, you
 can not provide a class to instantiate.
 
-### Mocking objects
+#### Mocking objects
 
 The mock annotation allows you to mock an object, which can be defined as a class property or a method test variable.
 

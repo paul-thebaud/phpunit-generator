@@ -1,6 +1,6 @@
-# PhpUnitGen - Usage
+#### PhpUnitGen - Usage
 
-## Before using this package
+#### Before using this package
 
 __DO NOT USE THIS PACKAGE WITHOUT CHECKING GENERATED TESTS!__
 
@@ -10,11 +10,11 @@ PHP files can have multiple patterns (containing namespaces, interfaces, class, 
 
 If you find any issue, please report them [here](https://github.com/paul-thebaud/phpunit-generator/issues).
 
-## Usage
+#### Usage
 
 __Note__: All across your generated tests skeletons, you will find `@todo` PHP annotations to complete them.
 
-### Console usage
+#### Console usage
 
 When you install this package, you can use the command line to generate your unit tests skeleton.
 Use this command in project root directory.
@@ -75,7 +75,7 @@ option, PhpUnitGen will consider that source and target paths are directories.
 `$ php ./vendor/bin/phpunitgen -fc my/custom/config.yml source/file.php target/file.php` will parse one
 file with your custom configuration.
 
-### Configuration
+#### Configuration
 
 A configuration file needs the following parameters :
 
@@ -95,13 +95,13 @@ It will also parse sub-directories. *null* if you have no directory to parse.
 and put the generated unit tests skeletons in your target file (an array value).
 *null* if you have no file to parse.
 
-### Website usage
+#### Website usage
 
 PhpUnitGen is available online on an Heroku server:
 
 [https://phpunitgen.herokuapp.com/](https://phpunitgen.io/)
 
-### PHP code usage
+#### PHP code usage
 
 Here is an example of using PhpUnitGen in a PHP script.
 

@@ -2,7 +2,7 @@
 
 #### Before using this package
 
-__DO NOT USE THIS PACKAGE WITHOUT CHECKING GENERATED TESTS!__
+__ALWAYS CHECK THE GENERATED UNIT TESTS SKELETONS!__
 
 All generated unit tests must be checked completely before implementing them.
 

@@ -2,7 +2,7 @@
 
 #### Before using this package
 
-__DO NOT USE THIS PACKAGE WITHOUT CHECKING GENERATED TESTS!__
+__ALWAYS CHECK THE GENERATED UNIT TESTS SKELETONS!__
 
 All generated unit tests must be checked completely before implementing them.
 
@@ -25,13 +25,13 @@ $ php ./vendor/bin/phpunitgen
 
 For this command, you will need a configuration file written in `YAML`, `JSON` or `PHP`.
 
-* `YAML` example is available [here](examples/phpunitgen.config.yml).
-* `JSON` example is available [here](examples/phpunitgen.config.json).
-* `PHP` example is available [here](examples/phpunitgen.config.php).
+* `YAML` example is available [here](../examples/phpunitgen.config.yml).
+* `JSON` example is available [here](../examples/phpunitgen.config.json).
+* `PHP` example is available [here](../examples/phpunitgen.config.php).
 
 By default, PhpUnitGen search for a configuration file named `phpunitgen.yml` at the project root.
 
-But if you want to use a custom configuration path, you can use an option:
+But if you want to use a __custom configuration path__, you can use an option:
 
 ```bash
 $ php ./vendor/bin/phpunitgen --config=my/custom/config.yml
@@ -39,7 +39,7 @@ $ php ./vendor/bin/phpunitgen --config=my/custom/config.yml
 $ php ./vendor/bin/phpunitgen -c=my/custom/config.yml
 ```
 
-Use PhpUnitGen on one file only (use of `file` option need a source and a target):
+Use PhpUnitGen __on one file__ only (use of `file` option need a source and a target):
 
 ```bash
 $ php ./vendor/bin/phpunitgen --file source/file.php target/file.php
@@ -47,7 +47,7 @@ $ php ./vendor/bin/phpunitgen --file source/file.php target/file.php
 $ php ./vendor/bin/phpunitgen -f source/file.php target/file.php
 ```
 
-Use PhpUnitGen on one directory only (use of `dir` option need a source and a target):
+Use PhpUnitGen __on one directory__ only (use of `dir` option need a source and a target):
 
 ```bash
 $ php ./vendor/bin/phpunitgen --dir source/dir target/dir
@@ -55,7 +55,7 @@ $ php ./vendor/bin/phpunitgen --dir source/dir target/dir
 $ php ./vendor/bin/phpunitgen -d source/dir target/dir
 ```
 
-Use PhpUnitGen with default configuration (use of default configuration need a source and a target):
+Use PhpUnitGen __with default configuration__ (use of default configuration need a source and a target):
 
 ```bash
 $ php ./vendor/bin/phpunitgen --default --file source/file.php target/file.php
@@ -127,3 +127,7 @@ $myCode = "<?php class MyClass { /* ... some PHP code ... */ }";
 // Execute PhpUnitGen on your code to get the tests file content
 $myUnitTestsSkeleton = $container->get(ExecutorInterface::class)->invoke($myCode, $myTestClass);
 ```
+
+#### Next step
+
+Now you know how to run PhpUnitGen, [learn more on PhpUnitGen annotations](ANNOTATIONS.md).

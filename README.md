@@ -54,25 +54,25 @@ For this command, you will need a configuration file written in `Yaml`, `Json` o
 
 By default, PhpUnitGen search for a configuration file named `phpunitgen.yml` at the project root.
 
-But if you want to use a custom configuration path, you can use an option:
+But if you want to use a __custom configuration path__, you can use an option:
 
 ```bash
 $ php ./vendor/bin/phpunitgen --config=my/custom/config.yml
 ```
 
-Use PhpUnitGen on one file only:
+Use PhpUnitGen __on one file__ only:
 
 ```bash
 $ php ./vendor/bin/phpunitgen --file source/file.php target/file.php
 ```
 
-Use PhpUnitGen on one directory only:
+Use PhpUnitGen __on one directory__ only:
 
 ```bash
 $ php ./vendor/bin/phpunitgen --dir source/dir target/dir
 ```
 
-Use PhpUnitGen with default configuration on a file or on a directory:
+Use PhpUnitGen __with default configuration__ on a file or on a directory:
 
 ```bash
 $ php ./vendor/bin/phpunitgen --default --file source/file.php target/file.php

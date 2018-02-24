@@ -35,6 +35,11 @@ class Report implements ReportInterface
     private $parsedDirectoriesNumber = 0;
 
     /**
+     * @var int $ignoredErrorsNumber The number of errors that occurred during process.
+     */
+    private $ignoredErrorsNumber = 0;
+
+    /**
      * {@inheritdoc}
      */
     public function increaseParsedFileNumber(): void
@@ -53,6 +58,14 @@ class Report implements ReportInterface
     /**
      * {@inheritdoc}
      */
+    public function increaseIgnoredErrorNumber(): void
+    {
+        $this->ignoredErrorsNumber++;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getParsedFileNumber(): int
     {
         return $this->parsedFilesNumber;
@@ -64,5 +77,13 @@ class Report implements ReportInterface
     public function getParsedDirectoryNumber(): int
     {
         return $this->parsedDirectoriesNumber;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIgnoredErrorNumber(): int
+    {
+        return $this->ignoredErrorsNumber;
     }
 }

@@ -133,6 +133,10 @@ class ConsoleExecutor implements ConsoleExecutorInterface
             '<options=bold,underscore>Parsed directories number:</> %d directories',
             $this->report->getParsedDirectoryNumber()
         ));
+        $this->output->text(sprintf(
+            '<options=bold,underscore>Errors during process:</> %d errors',
+            $this->report->getIgnoredErrorNumber()
+        ));
         $this->output->newLine();
     }
 

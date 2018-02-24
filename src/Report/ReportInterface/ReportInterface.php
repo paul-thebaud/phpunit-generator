@@ -33,6 +33,11 @@ interface ReportInterface
     public function increaseParsedDirectoryNumber(): void;
 
     /**
+     * Increase the number of ignored errors.
+     */
+    public function increaseIgnoredErrorNumber(): void;
+
+    /**
      * @return int The number of parsed files.
      */
     public function getParsedFileNumber(): int;
@@ -41,4 +46,9 @@ interface ReportInterface
      * @return int The number of parsed directories.
      */
     public function getParsedDirectoryNumber(): int;
+
+    /**
+     * @return int The number of ignored errors.
+     */
+    public function getIgnoredErrorNumber(): int;
 }

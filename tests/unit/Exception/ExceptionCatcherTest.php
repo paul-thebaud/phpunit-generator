@@ -8,6 +8,7 @@ use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Exception\Exception;
 use PhpUnitGen\Exception\ExceptionCatcher;
 use PhpUnitGen\Exception\IgnorableException;
+use PhpUnitGen\Report\ReportInterface\ReportInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
 /**
@@ -34,6 +35,11 @@ class ExceptionCatcherTest extends TestCase
     private $output;
 
     /**
+     * @var ReportInterface|MockObject $report
+     */
+    private $report;
+
+    /**
      * @var ExceptionCatcher $exceptionCatcher
      */
     private $exceptionCatcher;
@@ -45,8 +51,9 @@ class ExceptionCatcherTest extends TestCase
     {
         $this->config = $this->createMock(ConsoleConfigInterface::class);
         $this->output = $this->createMock(StyleInterface::class);
+        $this->report = $this->createMock(ReportInterface::class);
 
-        $this->exceptionCatcher = new ExceptionCatcher($this->config, $this->output);
+        $this->exceptionCatcher = new ExceptionCatcher($this->config, $this->output, $this->report);
     }
 
     /**
@@ -62,6 +69,9 @@ class ExceptionCatcherTest extends TestCase
         $this->output->expects($this->once())->method('note')
             ->with('On file "file.php": Ignorable exception');
 
+        $this->report->expects($this->once())->method('increaseIgnoredErrorNumber')
+            ->with();
+
         $this->exceptionCatcher->catch($exception, 'file.php');
     }
 
@@ -76,6 +86,8 @@ class ExceptionCatcherTest extends TestCase
             ->with()->willReturn(true);
 
         $this->output->expects($this->never())->method('note');
+
+        $this->report->expects($this->never())->method('increaseIgnoredErrorNumber');
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Not ignorable exception');
@@ -94,6 +106,8 @@ class ExceptionCatcherTest extends TestCase
             ->with()->willReturn(false);
 
         $this->output->expects($this->never())->method('note');
+
+        $this->report->expects($this->never())->method('increaseIgnoredErrorNumber');
 
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Not ignorable exception');

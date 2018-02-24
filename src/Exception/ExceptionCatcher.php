@@ -13,6 +13,7 @@ namespace PhpUnitGen\Exception;
 
 use PhpUnitGen\Configuration\ConfigurationInterface\ConsoleConfigInterface;
 use PhpUnitGen\Exception\ExceptionInterface\ExceptionCatcherInterface;
+use PhpUnitGen\Report\ReportInterface\ReportInterface;
 use Symfony\Component\Console\Style\StyleInterface;
 
 /**
@@ -37,17 +38,25 @@ class ExceptionCatcher implements ExceptionCatcherInterface
     private $output;
 
     /**
+     * @var ReportInterface $report The report to increase the number of ignored errors.
+     */
+    private $report;
+
+    /**
      * ExceptionCatcher constructor.
      *
      * @param ConsoleConfigInterface $config The config to use.
      * @param StyleInterface         $output The output to use.
+     * @param ReportInterface        $report The report to use.
      */
     public function __construct(
         ConsoleConfigInterface $config,
-        StyleInterface $output
+        StyleInterface $output,
+        ReportInterface $report
     ) {
         $this->config = $config;
         $this->output = $output;
+        $this->report = $report;
     }
 
     /**
@@ -59,6 +68,7 @@ class ExceptionCatcher implements ExceptionCatcherInterface
             && $exception instanceof IgnorableException
         ) {
             $this->output->note(sprintf('On file "%s": %s', $path, $exception->getMessage()));
+            $this->report->increaseIgnoredErrorNumber();
         } else {
             throw $exception;
         }

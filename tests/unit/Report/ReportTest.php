@@ -56,4 +56,17 @@ class ReportTest extends TestCase
         $this->report->increaseParsedDirectoryNumber();
         $this->assertSame(2, $this->report->getParsedDirectoryNumber());
     }
+
+    /**
+     * @covers \PhpUnitGen\Report\Report::increaseIgnoredErrorNumber()
+     * @covers \PhpUnitGen\Report\Report::getIgnoredErrorNumber()
+     */
+    public function testIgnoredErrorNumber(): void
+    {
+        $this->assertSame(0, $this->report->getIgnoredErrorNumber());
+        $this->report->increaseIgnoredErrorNumber();
+        $this->assertSame(1, $this->report->getIgnoredErrorNumber());
+        $this->report->increaseIgnoredErrorNumber();
+        $this->assertSame(2, $this->report->getIgnoredErrorNumber());
+    }
 }

@@ -105,13 +105,16 @@ class ConsoleExecutorTest extends TestCase
             ->with()->willReturn(10);
         $this->report->expects($this->once())->method('getParsedDirectoryNumber')
             ->with()->willReturn(2);
+        $this->report->expects($this->once())->method('getIgnoredErrorNumber')
+            ->with()->willReturn(3);
 
-        $this->output->expects($this->exactly(4))->method('text')
+        $this->output->expects($this->exactly(5))->method('text')
             ->withConsecutive(
                 ['<options=bold,underscore>Duration:</> 500 milliseconds'],
                 ['<options=bold,underscore>Memory usage:</> 100000 bytes'],
                 ['<options=bold,underscore>Parsed files number:</> 10 files'],
-                ['<options=bold,underscore>Parsed directories number:</> 2 directories']
+                ['<options=bold,underscore>Parsed directories number:</> 2 directories'],
+                ['<options=bold,underscore>Errors during process:</> 3 errors']
             );
     }
 

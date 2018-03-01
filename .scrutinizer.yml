@@ -1,0 +1,10 @@
+# .scrutinizer.yml
+checks:
+    php: true
+filter:
+    excluded_paths:
+        - config/*
+        - examples/*
+        - template/*
+        - tests/*
+        - vendor/*

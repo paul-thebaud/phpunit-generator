@@ -12,17 +12,18 @@
 >
     <testsuites>
         <testsuite name="test">
-            <directory>./test</directory>
+            <directory>tests/</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
             <directory suffix=".php">src/</directory>
             <exclude>
-                <directory>./examples</directory>
-                <directory>./template</directory>
-                <directory>./test</directory>
-                <directory>./vendor</directory>
+                <directory>config/</directory>
+                <directory>examples/</directory>
+                <directory>template/</directory>
+                <directory>test/</directory>
+                <directory>vendor/</directory>
             </exclude>
         </whitelist>
     </filter>

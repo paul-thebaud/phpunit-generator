@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * This file is part of PHPUnit Generator.
+ *
+ * (c) 2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.md
+ * file that was distributed with this source code.
+ */
+
+namespace PhpUnitGen\Configuration\ConfigurationInterface;
+
+/**
+ * Interface ConfigInterface.
+ *
+ * @author     Paul Thébaud <paul.thebaud29@gmail.com>.
+ * @copyright  2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>.
+ * @license    https://opensource.org/licenses/MIT The MIT license.
+ * @link       https://github.com/paul-thebaud/phpunit-generator
+ * @since      Class available since Release 2.0.0.
+ */
+interface ConfigInterface
+{
+    /**
+     * @return bool True if interfaces need to be parsed too.
+     */
+    public function hasInterfaceParsing(): bool;
+
+    /**
+     * @return bool True if private / protected methods need to be parsed too.
+     */
+    public function hasPrivateParsing(): bool;
+
+    /**
+     * @return bool True if it require auto generation.
+     */
+    public function hasAuto(): bool;
+
+    /**
+     * @return string The templates directory path.
+     */
+    public function getTemplatesPath(): string;
+
+    /**
+     * @return string[] The phpdoc array.
+     */
+    public function getPhpDoc(): array;
+}

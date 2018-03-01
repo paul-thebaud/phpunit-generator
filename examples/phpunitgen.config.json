@@ -1,0 +1,23 @@
+{
+  "overwrite": false,
+  "backup": false,
+  "interface": false,
+  "private": true,
+  "auto": true,
+  "ignore": true,
+  "exclude": "/^.*config\\.php$/",
+  "include": "/^.*\\.php$/",
+  "dirs": {
+    "source/dir/to/parse": "target/dir/to/put/generated/files"
+  },
+  "files": {
+    "source/file/to/parse": "target/file/to/put/generated/file"
+  },
+  "phpdoc": {
+    "author": "John Doe <john.doe@example.com>.",
+    "copyright": "2017-2018 John Doe <john.doe@example.com>.",
+    "license": "https://opensource.org/licenses/MIT The MIT license.",
+    "link": "https://github.com/john-doe/my-awesome-project",
+    "since": "File available since Release 1.0.0"
+  }
+}

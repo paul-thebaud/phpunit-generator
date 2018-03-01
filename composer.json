@@ -1,8 +1,7 @@
 {
   "name": "paulthebaud/phpunit-generator",
-  "description": "A PHPUnit6 tests skeletons generator",
+  "description": "A PHPUnit 6 / 7 tests skeletons generator",
   "homepage": "https://github.com/paul-thebaud/phpunit-generator",
-  "version": "1.1.5",
   "license": "MIT",
   "authors": [
     {
@@ -12,6 +11,7 @@
   ],
   "keywords": [
     "php",
+    "php7",
     "phpunit",
     "generator",
     "unit",
@@ -22,30 +22,39 @@
     "phpunitgen"
   ],
   "require": {
-    "php": "^7.0",
-    "twig/twig": "^2.0",
-    "nikic/php-parser": "^3.0"
+    "php": "~7.1",
+    "doctrine/collections": "^1.5",
+    "doctrine/lexer": "^1.0",
+    "league/flysystem": "^1.0",
+    "nikic/php-parser": "^3.0",
+    "psr/container": "^1.0.0",
+    "respect/validation": "^1.1",
+    "slim/php-view": "^2.2",
+    "symfony/console": "^4.0",
+    "symfony/stopwatch": "^4.0",
+    "symfony/yaml": "^4.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.0.8",
-    "squizlabs/php_codesniffer": "^2.8.1",
-    "satooshi/php-coveralls": "^1.0"
+    "phpunit/phpunit": "^7.0",
+    "squizlabs/php_codesniffer": "^3.0",
+    "satooshi/php-coveralls": "^2.0"
   },
   "autoload": {
     "psr-4": {
-      "PHPUnitGenerator\\": "src/PHPUnitGenerator/"
+      "PhpUnitGen\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "PHPUnitGenerator\\": "test/PHPUnitGenerator/"
+      "FunctionalTests\\PhpUnitGen\\": "tests/functional/",
+      "UnitTests\\PhpUnitGen\\": "tests/unit/"
     }
   },
   "scripts": {
     "cs-check": "php ./vendor/bin/phpcs",
     "cs-fix": "php ./vendor/bin/phpcbf",
-    "phpunit" : "php ./vendor/bin/phpunit",
-    "test" : [
+    "phpunit": "php ./vendor/bin/phpunit",
+    "test": [
       "@cs-check",
       "@phpunit"
     ]

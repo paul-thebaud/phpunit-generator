@@ -14,6 +14,12 @@ If you find any issue, please report them [here](https://github.com/paul-thebaud
 
 __Note__: All across your generated tests skeletons, you will find `@todo` PHP annotations to complete them.
 
+#### Website usage
+
+PhpUnitGen is available online:
+
+[https://phpunitgen.herokuapp.com/](https://phpunitgen.io/)
+
 #### Console usage
 
 When you install this package, you can use the command line to generate your unit tests skeleton.
@@ -94,12 +100,6 @@ It will also parse sub-directories. *null* if you have no directory to parse.
 * __files__ [*array*]: An array of `source: target` files. PhpUnitGen will parse each files in your source file (an array key)
 and put the generated unit tests skeletons in your target file (an array value).
 *null* if you have no file to parse.
-
-#### Website usage
-
-PhpUnitGen is available online on an Heroku server:
-
-[https://phpunitgen.herokuapp.com/](https://phpunitgen.io/)
 
 #### PHP code usage
 

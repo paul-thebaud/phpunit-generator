@@ -9,8 +9,11 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 
 PhpUnitGen is an open source development tool which will help you writing your unit tests for PHPUnit 6 / 7:
+
 * Generate unit skeleton for all PHP files including classes, traits, interfaces and global functions.
 * Automatically generate a few simple unit tests (like getter / setter methods tests, class instantiation).
+
+You can try this package on a web application, at [phpunitgen.io](https://phpunitgen.io)
 
 __Version 2 of PhpUnitGen is now available, but be careful, it breaks the PhpUnitGen 1.x.x API.__
 
@@ -38,7 +41,8 @@ $ composer require --dev paulthebaud/phpunit-generator ^2.0
 
 ## Basic usages
 
-PhpUnitGen basic usage is from command line with the following command. Use this command in project root directory.
+PhpUnitGen basic usage is from command line with the following command.
+Use this command in project root directory.
 
 ```bash
 $ php ./vendor/bin/phpunitgen
@@ -81,11 +85,11 @@ $ php ./vendor/bin/phpunitgen --default --dir source/dir target/dir
 
 __Note__: When parsing a directory, PhpUnitGen will also parse sub-directories.
 
-PhpUnitGen can also be used online on [this website](https://phpunitgen.io).
-
 You can find documentation files in the `documentation` directory of this repository:
 * [Various usage: console, website, PHP code](documentation/USAGE.md).
 * [Annotations usage in your PHP files](documentation/ANNOTATIONS.md).
+
+PhpUnitGen can also be used online on [this website (phpunitgen.io)](https://phpunitgen.io).
 
 ## Running tests
 

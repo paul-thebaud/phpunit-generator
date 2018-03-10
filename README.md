@@ -13,9 +13,11 @@ PhpUnitGen is an open source development tool which will help you writing your u
 * Generate unit skeleton for all PHP files including classes, traits, interfaces and global functions.
 * Automatically generate a few simple unit tests (like getter / setter methods tests, class instantiation).
 
-You can try this package on a web application, at [phpunitgen.io](https://phpunitgen.io)
+You can try this package on a web application, at [phpunitgen.io](https://phpunitgen.io).
 
 __Version 2 of PhpUnitGen is now available, but be careful, it breaks the PhpUnitGen 1.x.x API.__
+
+![Image of PhpUnitGen rendering](https://raw.github.com/paul-thebaud/phpunit-generator-assets/master/logos/example.png)
 
 ## Package structure
 

@@ -13,7 +13,7 @@ PhpUnitGen is an open source development tool which will help you writing your u
 * Generate unit skeleton for all PHP files including classes, traits, interfaces and global functions.
 * Automatically generate a few simple unit tests (like getter / setter methods tests, class instantiation).
 
-You can try this package on a web application, at [phpunitgen.io](https://phpunitgen.io).
+You can try and use this package on a web application, at [phpunitgen.io](https://phpunitgen.io).
 
 __Version 2 of PhpUnitGen is now available, but be careful, it breaks the PhpUnitGen 1.x.x API.__
 
@@ -78,7 +78,7 @@ Use PhpUnitGen __on one directory__ only:
 $ php ./vendor/bin/phpunitgen --dir source/dir target/dir
 ```
 
-Use PhpUnitGen __with default configuration__ on a file or on a directory:
+Use PhpUnitGen [__with default configuration__]() on a file or on a directory:
 
 ```bash
 $ php ./vendor/bin/phpunitgen --default --file source/file.php target/file.php
@@ -87,11 +87,9 @@ $ php ./vendor/bin/phpunitgen --default --dir source/dir target/dir
 
 __Note__: When parsing a directory, PhpUnitGen will also parse sub-directories.
 
-You can find documentation files in the `documentation` directory of this repository:
-* [Various usage: console, website, PHP code](documentation/USAGE.md).
-* [Annotations usage in your PHP files](documentation/ANNOTATIONS.md).
+A complete documentation of PhpUnitGen is available on [doc.phpunitgen.io](https://doc.phpunitgen.io).
 
-PhpUnitGen can also be used online on [this website (phpunitgen.io)](https://phpunitgen.io).
+PhpUnitGen can also be used online on [phpunitgen.io](https://phpunitgen.io).
 
 ## Running tests
 

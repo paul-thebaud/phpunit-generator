@@ -47,7 +47,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(AbstractApplication::class, $app);
 
         $this->assertSame('phpunitgen', $app->getName());
-        $this->assertSame('2.0.0', $app->getVersion());
+        $this->assertSame('2.1.0', $app->getVersion());
 
         $generate = $app->get('generate');
         $this->assertInstanceOf(GenerateCommand::class, $generate);

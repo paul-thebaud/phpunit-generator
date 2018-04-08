@@ -33,63 +33,21 @@ vendor/     ==> Composer dependencies [only after running composer install].
 
 ## Installation
 
-Best way to install this package is with composer dependency manager.
+PhpUnitGen is a Composer package.
 
 ```bash
 $ composer require --dev paulthebaud/phpunit-generator ^2.0
 ```
 
-`--dev` option is used to install this package only in development environment.
+## Documentation
 
-## Basic usages
+PhpUnitGen documentation is available online on [doc.phpunitgen.io](https://doc.phpunitgen.io).
 
-PhpUnitGen basic usage is from command line with the following command.
-Use this command in project root directory.
-
-```bash
-$ php ./vendor/bin/phpunitgen
-```
-
-__Note__: All across your generated tests skeletons, you will find `@todo` PHP annotations to complete your unit tests.
-
-For this command, you will need a configuration file written in `Yaml`, `Json` or `Php`.
-
-* `Yaml` example is available [here](examples/phpunitgen.config.yml).
-* `Json` example is available [here](examples/phpunitgen.config.json).
-* `Php` example is available [here](examples/phpunitgen.config.php).
-
-By default, PhpUnitGen search for a configuration file named `phpunitgen.yml` at the project root.
-
-But if you want to use a __custom configuration path__, you can use an option:
-
-```bash
-$ php ./vendor/bin/phpunitgen --config=my/custom/config.yml
-```
-
-Use PhpUnitGen __on one file__ only:
-
-```bash
-$ php ./vendor/bin/phpunitgen --file source/file.php target/file.php
-```
-
-Use PhpUnitGen __on one directory__ only:
-
-```bash
-$ php ./vendor/bin/phpunitgen --dir source/dir target/dir
-```
-
-Use PhpUnitGen [__with default configuration__]() on a file or on a directory:
-
-```bash
-$ php ./vendor/bin/phpunitgen --default --file source/file.php target/file.php
-$ php ./vendor/bin/phpunitgen --default --dir source/dir target/dir
-```
-
-__Note__: When parsing a directory, PhpUnitGen will also parse sub-directories.
-
-A complete documentation of PhpUnitGen is available on [doc.phpunitgen.io](https://doc.phpunitgen.io).
-
-PhpUnitGen can also be used online on [phpunitgen.io](https://phpunitgen.io).
+It give multiple information on PhpUnitGen:
+* Installation of the package.
+* Usage in web application or on command line.
+* Usage of annotations.
+* Communication around the PhpUnitGen project.
 
 ## Running tests
 

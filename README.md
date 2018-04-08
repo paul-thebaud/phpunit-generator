@@ -33,21 +33,26 @@ vendor/     ==> Composer dependencies [only after running composer install].
 
 ## Installation
 
-PhpUnitGen is a Composer package.
+
+Best way to install this package is with composer dependency manager.
 
 ```bash
 $ composer require --dev paulthebaud/phpunit-generator ^2.0
 ```
+
+`--dev` option is used to install this package only in development environment.
 
 ## Documentation
 
 PhpUnitGen documentation is available online on [doc.phpunitgen.io](https://doc.phpunitgen.io).
 
 It give multiple information on PhpUnitGen:
-* Installation of the package.
-* Usage in web application or on command line.
-* Usage of annotations.
-* Communication around the PhpUnitGen project.
+* [Installation of the package](https://doc.phpunitgen.io/en/installation.html).
+* [Usage of web application](https://doc.phpunitgen.io/en/website.html).
+* [Usage of command line](https://doc.phpunitgen.io/en/terminal.html).
+* [Usage of with PHP code](https://doc.phpunitgen.io/en/php.html).
+* [Usage of annotations](https://doc.phpunitgen.io/en/annotations.html).
+* [Communication around the PhpUnitGen project](https://doc.phpunitgen.io/en/about.html).
 
 ## Running tests
 

@@ -47,7 +47,7 @@ class ApplicationTest extends TestCase
         $this->assertInstanceOf(AbstractApplication::class, $app);
 
         $this->assertSame('phpunitgen', $app->getName());
-        $this->assertSame('2.1.1', $app->getVersion());
+        $this->assertSame('2.1.3', $app->getVersion());
 
         $generate = $app->get('generate');
         $this->assertInstanceOf(GenerateCommand::class, $generate);
@@ -95,7 +95,7 @@ class ApplicationTest extends TestCase
         $output->expects($this->once())->method('isQuiet')
             ->willReturn(false);
         $output->expects($this->once())->method('writeln')
-            ->with("PhpUnitGen by Paul Thébaud (version <info>2.1.1</info>).\n");
+            ->with("PhpUnitGen by Paul Thébaud (version <info>2.1.3</info>).\n");
 
         $app->expects($this->once())->method('doRunParent')
             ->with($input, $output)->willReturn(0);

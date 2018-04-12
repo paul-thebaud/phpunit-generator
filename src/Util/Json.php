@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of PHPUnit Generator.
+ * This file is part of PhpUnitGen.
  *
  * (c) 2017-2018 Paul Thébaud <paul.thebaud29@gmail.com>
  *

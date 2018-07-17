@@ -8,10 +8,9 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          stopOnFailure="false"
-         syntaxCheck="false"
 >
     <testsuites>
-        <testsuite name="test">
+        <testsuite name="PhpUnitGen tests suite">
             <directory>tests/</directory>
         </testsuite>
     </testsuites>

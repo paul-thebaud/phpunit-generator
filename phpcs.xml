@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="Expressive Skeleton coding standard">
-    <description>Expressive Skeleton coding standard</description>
+<ruleset name="PhpUnitGen PSR-2 validation">
+    <description>PhpUnitGen PSR-2 validation</description>
 
     <!-- display progress -->
     <arg value="p"/>

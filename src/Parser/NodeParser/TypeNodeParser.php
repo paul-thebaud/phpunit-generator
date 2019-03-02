@@ -49,8 +49,14 @@ class TypeNodeParser extends AbstractNodeParser
             $this->invoke($node->type, $parent);
             return;
         }
+        // Handle scalar type in identifier
+        if ($node instanceof Node\Identifier
+            && Validator::contains($node->name)->validate(TypeInterface::RESERVED_TYPE_IDENTIFIERS)
+        ) {
+            $node = $node->name;
+        }
         // If it is a class like type
-        if ($node instanceof Node\Name) {
+        if ($node instanceof Node\Name || $node instanceof Node\Identifier) {
             $parent->setType(TypeInterface::CUSTOM);
             $parent->setCustomType($this->getClassType($node, $parent));
             return;
@@ -67,22 +73,23 @@ class TypeNodeParser extends AbstractNodeParser
     /**
      * Get the class type hint as a string.
      *
-     * @param Node\Name     $node   The name node to parse.
-     * @param TypeInterface $parent The parent to update.
+     * @param Node\Name|Node\Identifier $node   The name node to parse.
+     * @param TypeInterface             $parent The parent to update.
      *
      * @return string The class type hint.
      */
-    private function getClassType(Node\Name $node, TypeInterface $parent): string
+    private function getClassType($node, TypeInterface $parent): string
     {
         $phpFile = RootRetrieverHelper::getRoot($parent);
 
         switch (true) {
-            case $node->isFullyQualified():
-                $name = $node->toString();
-                break;
+            case $node instanceof Node\Identifier:
             case $node->isRelative():
             case $node->isUnqualified():
                 $name = $this->getUnqualifiedClassType($node, $phpFile);
+                break;
+            case $node->isFullyQualified():
+                $name = $node->toString();
                 break;
             case $node->isQualified():
                 $name = $this->getQualifiedClassType($node, $phpFile);
@@ -101,14 +108,14 @@ class TypeNodeParser extends AbstractNodeParser
     }
 
     /**
-     * Retrieve the class type hint when it is qualified.
+     * Retrieve the class type hint when it is unqualified.
      *
-     * @param Node\Name             $node    The name node to parse.
-     * @param PhpFileModelInterface $phpFile The php file.
+     * @param Node\Name|Node\Identifier $node    The name node to parse.
+     * @param PhpFileModelInterface     $phpFile The php file.
      *
      * @return string The class type hint.
      */
-    private function getUnqualifiedClassType(Node\Name $node, PhpFileModelInterface $phpFile): string
+    private function getUnqualifiedClassType($node, PhpFileModelInterface $phpFile): string
     {
         $name = $node->toString();
         if ($phpFile->hasUse($name)) {

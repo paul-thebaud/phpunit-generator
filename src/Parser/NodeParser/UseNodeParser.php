@@ -41,7 +41,7 @@ class UseNodeParser extends AbstractNodeParser
 
         if ($node->type === Node\Stmt\Use_::TYPE_NORMAL) {
             foreach ($node->uses as $use) {
-                $parent->addUse($use->alias, $use->name->toString());
+                $parent->addUse($use->getAlias()->name, $use->name->toString());
             }
         }
     }

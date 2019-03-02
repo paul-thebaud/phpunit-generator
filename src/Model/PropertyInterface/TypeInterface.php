@@ -78,6 +78,20 @@ interface TypeInterface extends NodeInterface
     public const STRING = 8;
 
     /**
+     * @var string[] RESERVED_TYPE_IDENTIFIERS The reserved words for types.
+     */
+    public const RESERVED_TYPE_IDENTIFIERS = [
+        'object',
+        'bool',
+        'int',
+        'float',
+        'array',
+        'iterable',
+        'callable',
+        'string',
+    ];
+
+    /**
      * @var int VOID A void value (used for void return type).
      */
     public const VOID = 9;

@@ -43,7 +43,7 @@ class GroupUseNodeParser extends AbstractNodeParser
             $prefix = $node->prefix->toString();
             foreach ($node->uses as $use) {
                 if ($this->validateType($node->type)) {
-                    $parent->addUse($use->alias, $prefix . '\\' . $use->name->toString());
+                    $parent->addUse($use->getAlias()->name, $prefix . '\\' . $use->name->toString());
                 }
             }
         }

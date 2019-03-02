@@ -64,7 +64,7 @@ class ParameterNodeParser extends AbstractNodeParser
 
         $parameter = new ParameterModel();
         $parameter->setParentNode($parent);
-        $parameter->setName($node->name);
+        $parameter->setName($node->var->name);
         $parameter->setIsVariadic($node->variadic);
 
         if ($node->type !== null) {

@@ -7,3 +7,7 @@ vendor/
 
 # Development
 build/
+
+# Unit tests.
+\.phpunit\.result\.cache
+

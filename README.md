@@ -8,6 +8,14 @@
 [![Software License][ico-license]](LICENSE.md)
 [![Total Downloads][ico-downloads]][link-downloads]
 
+## :warning: Repository and package abandonned :warning:
+
+**This repository and the `paulthebaud/phpunit-generator` package are abandonned, in favor of the new version you can check out [here](https://phpunitgen.io). If you want to use as command line, use this package instead: [phpunitgen/console](https://github.com/paul-thebaud/phpunitgen-console).**
+
+---
+
+**Following remains for historical purpose.**
+
 PhpUnitGen is an open source development tool which will help you writing your unit tests for PHPUnit 6 / 7:
 
 * Generate unit skeleton for all PHP files including classes, traits, interfaces and global functions.
